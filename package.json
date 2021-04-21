@@ -36,9 +36,14 @@
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
+    "@react-native-community/eslint-config": "^2.0.0",
     "@types/react": "~16.9.35",
     "@types/react-native": "~0.63.2",
+    "eslint": "^7.24.0",
+    "eslint-plugin-prettier": "^3.4.0",
+    "eslint-plugin-react-hooks": "^4.2.0",
     "jest-expo": "~41.0.0",
+    "prettier": "^2.2.1",
     "typescript": "~4.0.0"
   },
   "private": true
