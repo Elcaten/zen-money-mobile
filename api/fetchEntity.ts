@@ -2,6 +2,7 @@ import {privateClient} from './client';
 
 export enum EntityType {
   Account = 'account',
+  Instrument = 'instrument',
   User = 'user',
 }
 

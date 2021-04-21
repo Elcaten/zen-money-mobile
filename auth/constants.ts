@@ -9,4 +9,5 @@ export const REFRESH_TOKEN_URL = (refreshToken: string) =>
 export const API_URL = 'https://api.zenmoney.ru';
 
 export const ACCOUNTS = 'accounts';
+export const INSTRUMENTS = 'instruments';
 export const USERS = 'users';

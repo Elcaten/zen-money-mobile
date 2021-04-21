@@ -3,7 +3,7 @@ import React from 'react';
 import {Button, Text} from 'react-native';
 import {login} from './auth';
 import useColorScheme from './hooks/useColorScheme';
-import {useMe} from './hooks/useMe';
+import {useMe} from './api-hooks';
 import Navigation from './navigation';
 
 export const Root: React.FC = () => {
