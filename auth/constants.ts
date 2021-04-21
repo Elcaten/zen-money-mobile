@@ -10,4 +10,6 @@ export const API_URL = 'https://api.zenmoney.ru';
 
 export const ACCOUNTS = 'accounts';
 export const INSTRUMENTS = 'instruments';
+export const TAGS = 'tags';
+export const TRANSACTIONS = 'transactions';
 export const USERS = 'users';

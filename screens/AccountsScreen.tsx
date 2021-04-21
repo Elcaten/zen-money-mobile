@@ -2,13 +2,11 @@ import * as React from 'react';
 import {useCallback, useMemo} from 'react';
 import {FlatList, ListRenderItemInfo, StyleSheet} from 'react-native';
 import {useQueryClient} from 'react-query';
-import {Account} from '../api';
-import {useAccounts} from '../api-hooks/useAccounts';
+import {AccountModel, useAccounts} from '../api-hooks/';
 import {useInstruments} from '../api-hooks/useInstruments';
 import {ACCOUNTS} from '../auth/constants';
 import {Text, View} from '../components/Themed';
-
-type AccountModel = Pick<Account, 'id' | 'title' | 'type' | 'balance'> & {instrument: string};
+import {extractId} from '../utils';
 
 const AccountItem: React.FC<AccountModel> = (props) => {
   return (
@@ -21,14 +19,9 @@ const AccountItem: React.FC<AccountModel> = (props) => {
   );
 };
 
-function extractId(entity: {id: string}, _index: number) {
-  return entity.id;
-}
-
 const useAccountModels = () => {
   const accounts = useAccounts();
   const instruments = useInstruments();
-  const instrumentsMap = useMemo(() => new Map(instruments.data?.map((i) => [i.id, i])), [instruments.data]);
   const accountModels = useMemo<AccountModel[]>(
     () =>
       accounts.data?.map(({id, title, type, balance, instrument}) => ({
@@ -36,9 +29,9 @@ const useAccountModels = () => {
         title,
         type,
         balance,
-        instrument: instrumentsMap.get(instrument)?.symbol ?? '',
+        instrument: instruments.data?.get(instrument)?.symbol ?? '',
       })) ?? [],
-    [accounts.data, instrumentsMap],
+    [accounts.data, instruments],
   );
   return {data: accountModels, isLoading: accounts.isLoading || instruments.isLoading};
 };

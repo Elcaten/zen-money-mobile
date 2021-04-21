@@ -6,7 +6,7 @@ export const fetchInstruments = async () => {
 
 export interface Instrument {
   id: number;
-  changed: number;
+  changed: number; // Unix timestamp
   title: string;
   shortTitle: string;
   symbol: string;

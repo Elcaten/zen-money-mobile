@@ -6,8 +6,8 @@ import * as React from 'react';
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
 import {AccountsScreen} from '../screens/AccountsScreen';
-import TabTwoScreen from '../screens/TabTwoScreen';
-import {BottomTabParamList, TabOneParamList, TabTwoParamList} from '../types';
+import {TransactionsScreen} from '../screens/TransactionsScreen';
+import {BottomTabParamList, AccountsParamList, TransactionsParamList as TransactionsParamList} from '../types';
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -15,17 +15,17 @@ export default function BottomTabNavigator() {
   const colorScheme = useColorScheme();
 
   return (
-    <BottomTab.Navigator initialRouteName="TabOne" tabBarOptions={{activeTintColor: Colors[colorScheme].tint}}>
+    <BottomTab.Navigator initialRouteName="Accounts" tabBarOptions={{activeTintColor: Colors[colorScheme].tint}}>
       <BottomTab.Screen
-        name="TabOne"
-        component={TabOneNavigator}
+        name="Accounts"
+        component={AccountsNavigator}
         options={{
           tabBarIcon: ({color}) => <TabBarIcon name="ios-code" color={color} />,
         }}
       />
       <BottomTab.Screen
-        name="TabTwo"
-        component={TabTwoNavigator}
+        name="Transactions"
+        component={TransactionsNavigator}
         options={{
           tabBarIcon: ({color}) => <TabBarIcon name="ios-code" color={color} />,
         }}
@@ -42,22 +42,26 @@ function TabBarIcon(props: {name: React.ComponentProps<typeof Ionicons>['name'];
 
 // Each tab has its own navigation stack, you can read more about this pattern here:
 // https://reactnavigation.org/docs/tab-based-navigation#a-stack-navigator-for-each-tab
-const TabOneStack = createStackNavigator<TabOneParamList>();
+const AccountsStack = createStackNavigator<AccountsParamList>();
 
-function TabOneNavigator() {
+function AccountsNavigator() {
   return (
-    <TabOneStack.Navigator>
-      <TabOneStack.Screen name="AccountsScreen" component={AccountsScreen} options={{headerTitle: 'Accounts'}} />
-    </TabOneStack.Navigator>
+    <AccountsStack.Navigator>
+      <AccountsStack.Screen name="AccountsScreen" component={AccountsScreen} options={{headerTitle: 'Accounts'}} />
+    </AccountsStack.Navigator>
   );
 }
 
-const TabTwoStack = createStackNavigator<TabTwoParamList>();
+const TransactionsStack = createStackNavigator<TransactionsParamList>();
 
-function TabTwoNavigator() {
+function TransactionsNavigator() {
   return (
-    <TabTwoStack.Navigator>
-      <TabTwoStack.Screen name="TabTwoScreen" component={TabTwoScreen} options={{headerTitle: 'Tab Two Title'}} />
-    </TabTwoStack.Navigator>
+    <TransactionsStack.Navigator>
+      <TransactionsStack.Screen
+        name="TransactionsScreen"
+        component={TransactionsScreen}
+        options={{headerTitle: 'Transactions'}}
+      />
+    </TransactionsStack.Navigator>
   );
 }
