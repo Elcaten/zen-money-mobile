@@ -1,8 +1,9 @@
 import {loadAsync} from 'expo-auth-session';
 import ky from 'ky';
+import {QueryClient, useQueryClient} from 'react-query';
 import {AuthResonse, validateAuthTokenResponse} from './auth-response';
 import {AuthToken} from './auth-token';
-import {AUTH_URL, CLIENT_ID, REDIRECT_URL, TOKEN_URL} from './constants';
+import {AUTH_URL, CLIENT_ID, REDIRECT_URL, TOKEN_URL, USERS} from './constants';
 import {persistToken} from './persist-token';
 
 const promptUserForAuth = async () => {
@@ -37,4 +38,5 @@ export const login = async () => {
   const tokenResponse = await promptUserForAuth();
   const token = tokenResponse ? new AuthToken(tokenResponse) : null;
   await persistToken(token);
+  new QueryClient().invalidateQueries(USERS);
 };

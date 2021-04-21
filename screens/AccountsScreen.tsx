@@ -1,16 +1,15 @@
 import * as React from 'react';
-import {Button, FlatList, ListRenderItemInfo, StyleSheet} from 'react-native';
+import {FlatList, ListRenderItemInfo, StyleSheet} from 'react-native';
 import {useQuery, useQueryClient} from 'react-query';
 import {Account, fetchAccounts} from '../api';
-import {logout} from '../auth';
 import {ACCOUNTS} from '../auth/constants';
 import {Text, View} from '../components/Themed';
 
 const AccountItem: React.FC<Account> = (props) => {
   return (
-    <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-      <Text>{props.title}</Text>
-      <Text>{props.archive ? 'T' : 'f'}</Text>
+    <View style={styles.listItem}>
+      <Text style={styles.itemType}>{props.type}</Text>
+      <Text style={styles.itemTitle}>{props.title}</Text>
       <Text>{props.balance}</Text>
     </View>
   );
@@ -20,7 +19,7 @@ function extractId(entity: {id: string}, _index: number) {
   return entity.id;
 }
 
-export default function TabTwoScreen() {
+export const AccountsScreen: React.FC = () => {
   const queryClient = useQueryClient();
 
   const {data: accounts, isLoading} = useQuery('accounts', fetchAccounts);
@@ -29,7 +28,6 @@ export default function TabTwoScreen() {
 
   return (
     <View style={styles.container}>
-      <Button title="Log Out" onPress={logout} />
       <FlatList
         onRefresh={() => queryClient.invalidateQueries(ACCOUNTS)}
         refreshing={isLoading}
@@ -39,7 +37,7 @@ export default function TabTwoScreen() {
       />
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -47,13 +45,15 @@ const styles = StyleSheet.create({
     alignItems: 'stretch',
     justifyContent: 'center',
   },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
+  listItem: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
+  itemType: {
+    flex: 0,
+    minWidth: 72,
+  },
+  itemTitle: {
+    flex: 1,
   },
 });

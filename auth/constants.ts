@@ -7,3 +7,6 @@ export const TOKEN_URL = (code: string) => `https://zenmoneyauth.azurewebsites.n
 export const REFRESH_TOKEN_URL = (refreshToken: string) =>
   `https://zenmoneyauth.azurewebsites.net/api/refreshtoken?refreshToken=${refreshToken}`;
 export const API_URL = 'https://api.zenmoney.ru';
+
+export const ACCOUNTS = 'accounts';
+export const USERS = 'users';
