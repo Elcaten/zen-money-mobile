@@ -1,9 +1,6 @@
 import * as React from 'react';
-import {useCallback} from 'react';
 import {FlatList, ListRenderItemInfo, StyleSheet} from 'react-native';
-import {useQueryClient} from 'react-query';
 import {TransactionModel, useTransactionModels} from '../api-hooks';
-import {INSTRUMENTS, TRANSACTIONS} from '../auth/constants';
 import {Text, View} from '../components/Themed';
 import {extractId} from '../utils';
 

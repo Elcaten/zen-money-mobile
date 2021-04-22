@@ -1,20 +1,32 @@
 import * as React from 'react';
-import {useCallback, useMemo} from 'react';
 import {FlatList, ListRenderItemInfo, StyleSheet} from 'react-native';
-import {useQueryClient} from 'react-query';
-import {AccountModel, useAccountModels, useAccounts} from '../api-hooks/';
-import {useInstruments} from '../api-hooks/useInstruments';
-import {ACCOUNTS} from '../auth/constants';
+import styled from 'styled-components/native';
+import {AccountModel, useAccountModels} from '../api-hooks/';
 import {Text, View} from '../components/Themed';
 import {extractId} from '../utils';
+import {AccountIcon} from './components/AccountIcon';
+
+const StyledIcon = styled(AccountIcon)`
+  flex: 0;
+  min-width: 48px;
+`;
+const StyledTitle = styled(Text)`
+  flex: 1;
+  font-size: 18px;
+`;
+const StyledBalance = styled(Text)`
+  font-size: 18px;
+`;
 
 const AccountItem: React.FC<AccountModel> = (props) => {
   return (
     <View style={styles.listItem}>
-      <Text style={styles.itemType}>{props.type}</Text>
-      <Text style={styles.itemTitle}>{props.title}</Text>
-      <Text>{props.balance}</Text>
-      <Text>{props.instrument}</Text>
+      <StyledIcon type={props.type} size={32} />
+      <StyledTitle>{props.title}</StyledTitle>
+      <StyledBalance>
+        {props.balance}
+        {props.instrument}
+      </StyledBalance>
     </View>
   );
 };
@@ -49,10 +61,12 @@ const styles = StyleSheet.create({
   listItem: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: 10,
   },
-  itemType: {
+  itemIcon: {
     flex: 0,
-    minWidth: 72,
+    minWidth: 48,
   },
   itemTitle: {
     flex: 1,
