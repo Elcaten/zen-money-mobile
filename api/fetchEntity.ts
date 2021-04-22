@@ -1,4 +1,5 @@
 import {privateClient} from './client';
+import testEntities from '../test-entities.json';
 
 export enum EntityType {
   Account = 'account',
@@ -9,6 +10,11 @@ export enum EntityType {
 }
 
 export const fetchEntities = async <T>(entityType: EntityType) => {
+  if (testEntities[entityType]) {
+    console.log(`From JSON ${entityType}`);
+    return testEntities[entityType];
+  }
+
   const response = await privateClient.post('v8/diff', {
     headers: {
       Accept: 'application/json',
@@ -30,6 +36,11 @@ export const fetchEntities = async <T>(entityType: EntityType) => {
 };
 
 export const fetchEntitiesSinceDate = async <T>(entityType: EntityType, since: Date) => {
+  if (testEntities[entityType]) {
+    console.log(`From JSON ${entityType}`);
+    return testEntities[entityType];
+  }
+
   const response = await privateClient.post('v8/diff', {
     headers: {
       Accept: 'application/json',

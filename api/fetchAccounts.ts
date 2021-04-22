@@ -4,6 +4,8 @@ export const fetchAccounts = async () => {
   return fetchEntities<Account>(EntityType.Account);
 };
 
+export type AccountType = 'cash' | 'debt' | 'ccard' | 'checking';
+
 export interface Account {
   archive: boolean;
   balance: number;
@@ -28,6 +30,6 @@ export interface Account {
   startDate: null;
   syncID: null;
   title: string;
-  type: string;
+  type: AccountType;
   user: number;
 }
