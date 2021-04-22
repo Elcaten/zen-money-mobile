@@ -25,6 +25,7 @@ export const fetchEntities = async <T>(entityType: EntityType) => {
     throw new Error('Network response was not ok');
   }
   const json = await response.json();
+  console.log(`Fetched ${entityType}`);
   return json[entityType] as T[];
 };
 

@@ -3,7 +3,7 @@ import {useCallback} from 'react';
 import {FlatList, ListRenderItemInfo, StyleSheet} from 'react-native';
 import {useQueryClient} from 'react-query';
 import {TransactionModel, useTransactionModels} from '../api-hooks';
-import {ACCOUNTS} from '../auth/constants';
+import {INSTRUMENTS, TRANSACTIONS} from '../auth/constants';
 import {Text, View} from '../components/Themed';
 import {extractId} from '../utils';
 
@@ -19,20 +19,17 @@ const TransactionItem: React.FC<TransactionModel> = (props) => {
 };
 
 export const TransactionsScreen: React.FC = () => {
-  const {data, isLoading} = useTransactionModels();
+  const {data, isLoading, invalidate} = useTransactionModels();
 
   const renderTransaction = React.useCallback(
     (info: ListRenderItemInfo<TransactionModel>) => <TransactionItem {...info.item} />,
     [],
   );
 
-  const queryClient = useQueryClient();
-  const refresh = useCallback(() => () => queryClient.invalidateQueries(ACCOUNTS), [queryClient]);
-
   return (
     <View style={styles.container}>
       <FlatList
-        onRefresh={refresh}
+        onRefresh={invalidate}
         refreshing={isLoading}
         data={data}
         keyExtractor={extractId}

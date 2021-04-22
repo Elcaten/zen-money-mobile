@@ -1,7 +1,7 @@
 import {EntityType, fetchEntities} from './fetchEntity';
 
 export const fetchTags = async () => {
-  return fetchEntities<Tag>(EntityType.Tag);
+  return fetchEntities<Tag>(EntityType.Tag).then((tags) => new Map(tags?.map((t) => [t.id, t])));
 };
 
 export interface Tag {

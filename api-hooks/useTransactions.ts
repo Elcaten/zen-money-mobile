@@ -1,7 +1,7 @@
-import {useMemo} from 'react';
-import {useQuery} from 'react-query';
+import {useCallback, useMemo} from 'react';
+import {useQuery, useQueryClient} from 'react-query';
 import {fetchTransactions, Transaction} from '../api';
-import {TRANSACTIONS} from '../auth';
+import {INSTRUMENTS, TAGS, TRANSACTIONS} from '../auth';
 import {useInstruments} from './useInstruments';
 import {useTags} from './useTags';
 
@@ -17,6 +17,7 @@ export const useTransactionModels = () => {
   const transactions = useTransactions();
   const tags = useTags();
   const instruments = useInstruments();
+
   const transactionModels = useMemo<TransactionModel[]>(
     () =>
       transactions.data?.map(({id, tag, date, income, outcome, incomeInstrument, outcomeInstrument}) => ({
@@ -30,5 +31,14 @@ export const useTransactionModels = () => {
       })) ?? [],
     [transactions.data, tags.data, instruments.data],
   );
-  return {data: transactionModels, isLoading: transactions.isLoading || instruments.isLoading};
+
+  const queryClient = useQueryClient();
+
+  const invalidate = useCallback(() => {
+    queryClient.invalidateQueries(TRANSACTIONS);
+    queryClient.invalidateQueries(INSTRUMENTS);
+    queryClient.invalidateQueries(TAGS);
+  }, [queryClient]);
+
+  return {data: transactionModels, isLoading: transactions.isLoading || instruments.isLoading, invalidate};
 };

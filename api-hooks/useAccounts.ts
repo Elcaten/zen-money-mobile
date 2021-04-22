@@ -1,7 +1,7 @@
-import {useMemo} from 'react';
-import {useQuery} from 'react-query';
+import {useCallback, useMemo} from 'react';
+import {useQuery, useQueryClient} from 'react-query';
 import {fetchAccounts, Account} from '../api';
-import {ACCOUNTS} from '../auth';
+import {ACCOUNTS, INSTRUMENTS} from '../auth';
 import {useInstruments} from './useInstruments';
 
 export const useAccounts = () => useQuery(ACCOUNTS, fetchAccounts);
@@ -11,6 +11,7 @@ export type AccountModel = Pick<Account, 'id' | 'title' | 'type' | 'balance'> & 
 export const useAccountModels = () => {
   const accounts = useAccounts();
   const instruments = useInstruments();
+
   const accountModels = useMemo<AccountModel[]>(
     () =>
       accounts.data?.map(({id, title, type, balance, instrument}) => ({
@@ -22,5 +23,13 @@ export const useAccountModels = () => {
       })) ?? [],
     [accounts.data, instruments],
   );
-  return {data: accountModels, isLoading: accounts.isLoading || instruments.isLoading};
+
+  const queryClient = useQueryClient();
+
+  const invalidate = useCallback(() => {
+    queryClient.invalidateQueries(ACCOUNTS);
+    queryClient.invalidateQueries(INSTRUMENTS);
+  }, [queryClient]);
+
+  return {data: accountModels, isLoading: accounts.isLoading || instruments.isLoading, invalidate};
 };

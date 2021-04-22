@@ -2,7 +2,7 @@ import * as React from 'react';
 import {useCallback, useMemo} from 'react';
 import {FlatList, ListRenderItemInfo, StyleSheet} from 'react-native';
 import {useQueryClient} from 'react-query';
-import {AccountModel, useAccounts} from '../api-hooks/';
+import {AccountModel, useAccountModels, useAccounts} from '../api-hooks/';
 import {useInstruments} from '../api-hooks/useInstruments';
 import {ACCOUNTS} from '../auth/constants';
 import {Text, View} from '../components/Themed';
@@ -19,38 +19,18 @@ const AccountItem: React.FC<AccountModel> = (props) => {
   );
 };
 
-const useAccountModels = () => {
-  const accounts = useAccounts();
-  const instruments = useInstruments();
-  const accountModels = useMemo<AccountModel[]>(
-    () =>
-      accounts.data?.map(({id, title, type, balance, instrument}) => ({
-        id,
-        title,
-        type,
-        balance,
-        instrument: instruments.data?.get(instrument)?.symbol ?? '',
-      })) ?? [],
-    [accounts.data, instruments],
-  );
-  return {data: accountModels, isLoading: accounts.isLoading || instruments.isLoading};
-};
-
 export const AccountsScreen: React.FC = () => {
-  const {data, isLoading} = useAccountModels();
+  const {data, isLoading, invalidate} = useAccountModels();
 
   const renderAccount = React.useCallback(
     (info: ListRenderItemInfo<AccountModel>) => <AccountItem {...info.item} />,
     [],
   );
 
-  const queryClient = useQueryClient();
-  const refresh = useCallback(() => () => queryClient.invalidateQueries(ACCOUNTS), [queryClient]);
-
   return (
     <View style={styles.container}>
       <FlatList
-        onRefresh={refresh}
+        onRefresh={invalidate}
         refreshing={isLoading}
         data={data}
         keyExtractor={extractId}
