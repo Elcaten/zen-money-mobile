@@ -2,12 +2,10 @@ import {Ionicons} from '@expo/vector-icons';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createStackNavigator} from '@react-navigation/stack';
 import * as React from 'react';
-
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
-import {AccountsScreen} from '../screens/AccountsScreen';
-import {TransactionsScreen} from '../screens/TransactionsScreen';
-import {BottomTabParamList, AccountsParamList, TransactionsParamList as TransactionsParamList} from '../types';
+import {AccountsScreen, MoreScreen, TagDetailsScreen, TagsScreen, TransactionsScreen} from '../screens/';
+import {AccountsParamList, BottomTabParamList, MoreParamList, TransactionsParamList} from '../types';
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -30,12 +28,17 @@ export default function BottomTabNavigator() {
           tabBarIcon: ({color}) => <TabBarIcon name="ios-code" color={color} />,
         }}
       />
+      <BottomTab.Screen
+        name="More"
+        component={MoreNavigator}
+        options={{
+          tabBarIcon: ({color}) => <TabBarIcon name="ios-code" color={color} />,
+        }}
+      />
     </BottomTab.Navigator>
   );
 }
 
-// You can explore the built-in icon families and icons on the web at:
-// https://icons.expo.fyi/
 function TabBarIcon(props: {name: React.ComponentProps<typeof Ionicons>['name']; color: string}) {
   return <Ionicons size={30} style={{marginBottom: -3}} {...props} />;
 }
@@ -63,5 +66,17 @@ function TransactionsNavigator() {
         options={{headerTitle: 'Transactions'}}
       />
     </TransactionsStack.Navigator>
+  );
+}
+
+const MoreStack = createStackNavigator<MoreParamList>();
+
+function MoreNavigator() {
+  return (
+    <MoreStack.Navigator>
+      <MoreStack.Screen name="MoreScreen" component={MoreScreen} options={{headerTitle: 'More'}} />
+      <MoreStack.Screen name="TagsScreen" component={TagsScreen} options={{headerTitle: 'Tags'}} />
+      <MoreStack.Screen name="TagDetailsScreen" component={TagDetailsScreen} options={{headerTitle: 'Tag'}} />
+    </MoreStack.Navigator>
   );
 }

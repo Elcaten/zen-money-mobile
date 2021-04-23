@@ -8,8 +8,16 @@ export const BankIcon: React.FC<IconProps> = (props) => {
   return <MaterialCommunityIcons {...props} name="bank" />;
 };
 
+export const LogoutIcon: React.FC<IconProps> = (props) => {
+  return <MaterialIcons {...props} name="logout" />;
+};
+
 export const HelpIcon: React.FC<IconProps> = (props) => {
   return <MaterialIcons {...props} name="help-outline" />;
+};
+
+export const TagIcon: React.FC<IconProps> = (props) => {
+  return <MaterialCommunityIcons {...props} name="tag-outline" />;
 };
 
 export const WalletIcon: React.FC<IconProps> = (props) => {
