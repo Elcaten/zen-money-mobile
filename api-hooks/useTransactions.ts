@@ -1,14 +1,21 @@
 import {useCallback, useMemo} from 'react';
 import {useQuery, useQueryClient} from 'react-query';
 import {fetchTransactions, Transaction} from '../api';
+import {TagIconName} from '../api/fetchTags';
 import {INSTRUMENTS, TAGS, TRANSACTIONS} from '../auth';
 import {useInstruments} from './useInstruments';
 import {useTags} from './useTags';
 
 export const useTransactions = () => useQuery(TRANSACTIONS, fetchTransactions);
 
-export type TransactionModel = Pick<Transaction, 'id' | 'date' | 'income' | 'outcome'> & {
-  tag: string;
+export type TagModel = {
+  title: string;
+  icon?: TagIconName | null;
+};
+
+export type TransactionModel = Pick<Transaction, 'id' | 'income' | 'outcome' | 'comment'> & {
+  tag?: TagModel;
+  date: string;
   incomeInstrument: string;
   outcomeInstrument: string;
 };
@@ -20,15 +27,19 @@ export const useTransactionModels = () => {
 
   const transactionModels = useMemo<TransactionModel[]>(
     () =>
-      transactions.data?.map(({id, tag, date, income, outcome, incomeInstrument, outcomeInstrument}) => ({
-        id,
-        tag: tag && tag.length > 0 ? tags.data?.get(tag[0])?.icon ?? 'No category' : 'No category',
-        date,
-        income,
-        outcome,
-        incomeInstrument: instruments.data?.get(incomeInstrument)?.symbol ?? '',
-        outcomeInstrument: instruments.data?.get(outcomeInstrument)?.symbol ?? '',
-      })) ?? [],
+      transactions.data?.map(({id, tag, date, income, outcome, comment, incomeInstrument, outcomeInstrument}) => {
+        const firstTag = tag && tag.length > 0 ? tags.data?.get(tag[0]) : undefined;
+        return {
+          id,
+          tag: firstTag ? {icon: firstTag.icon, title: firstTag.title} : undefined,
+          date,
+          income,
+          outcome,
+          comment,
+          incomeInstrument: instruments.data?.get(incomeInstrument)?.symbol ?? '',
+          outcomeInstrument: instruments.data?.get(outcomeInstrument)?.symbol ?? '',
+        };
+      }) ?? [],
     [transactions.data, tags.data, instruments.data],
   );
 
