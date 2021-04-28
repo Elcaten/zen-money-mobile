@@ -1,22 +1,14 @@
 import dayjs from 'dayjs';
 import * as React from 'react';
 import {useCallback, useMemo} from 'react';
-import {ListRenderItemInfo, SectionList, StyleSheet} from 'react-native';
+import {ListRenderItemInfo, SectionList, StyleSheet, View} from 'react-native';
 import styled from 'styled-components/native';
 import {TransactionModel, useTransactionModels} from '../api-hooks';
-import {Text, View} from '../components/Themed';
+import {Text} from '../components';
+import {ListItem} from '../components/ListItem';
 import {extractId} from '../utils';
 import {groupBy} from '../utils/group-by';
 import {TagIcon} from './components';
-
-const StyledTagIcon = styled(TagIcon)`
-  flex: 0;
-  min-width: 72px;
-`;
-
-const StyledTagName = styled(Text)`
-  flex: 1;
-`;
 
 const StyledIncomeText = styled(Text)`
   color: #4eb64e;
@@ -29,12 +21,12 @@ const StyledOutcomeText = styled(Text)`
 
 const TransactionItem: React.FC<TransactionModel> = (props) => {
   return (
-    <View style={styles.listItem}>
-      <StyledTagIcon icon={props.tag?.icon} />
-      <StyledTagName>{props.tag?.title}</StyledTagName>
+    <ListItem>
+      <TagIcon icon={props.tag?.icon} color={props.tag?.iconColor} size={24} />
+      <ListItem.Title>{props.tag?.title}</ListItem.Title>
       {props.income ? <StyledIncomeText>+{props.income}</StyledIncomeText> : null}
       {props.outcome ? <StyledOutcomeText>-{props.outcome}</StyledOutcomeText> : null}
-    </View>
+    </ListItem>
   );
 };
 
@@ -84,11 +76,6 @@ export const TransactionsScreen: React.FC = () => {
 };
 
 const styles = StyleSheet.create({
-  listItem: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
   itemTagName: {
     flex: 0,
     minWidth: 72,

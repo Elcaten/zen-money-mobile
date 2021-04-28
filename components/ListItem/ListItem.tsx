@@ -1,16 +1,24 @@
 import * as React from 'react';
 import {ListItem as RNEListItem} from 'react-native-elements';
 import styled from 'styled-components/native';
+import {useNavigatorThemeColors} from '../../themes';
 import {ListItemTitle} from './ListItemtTitle';
 
 type ListItemProps = Parameters<typeof RNEListItem>['0'];
 
-type StyledListItemProps = ListItemProps & {};
+type StyledListItemProps = ListItemProps & {
+  color: string | null;
+};
 
-const StyledItem = styled<React.FC<StyledListItemProps>>(RNEListItem)``;
+const StyledItem = styled<React.FC<StyledListItemProps>>(RNEListItem).attrs(({color}) => ({
+  containerStyle: {
+    backgroundColor: color,
+  },
+}))``;
 
 const ListItemComponent: React.FC<ListItemProps> = (props) => {
-  return <StyledItem {...props} />;
+  const {card} = useNavigatorThemeColors();
+  return <StyledItem {...props} color={card} />;
 };
 
 export const ListItem = Object.assign(ListItemComponent, {

@@ -11,6 +11,7 @@ export const useTransactions = () => useQuery(TRANSACTIONS, fetchTransactions);
 export type TagModel = {
   title: string;
   icon?: TagIconName | null;
+  iconColor?: number | null;
 };
 
 export type TransactionModel = Pick<Transaction, 'id' | 'income' | 'outcome' | 'comment'> & {
@@ -31,7 +32,7 @@ export const useTransactionModels = () => {
         const firstTag = tag && tag.length > 0 ? tags.data?.get(tag[0]) : undefined;
         return {
           id,
-          tag: firstTag ? {icon: firstTag.icon, title: firstTag.title} : undefined,
+          tag: firstTag ? {icon: firstTag.icon, title: firstTag.title, iconColor: firstTag.color} : undefined,
           date,
           income,
           outcome,

@@ -1,13 +1,12 @@
 import * as React from 'react';
 import {useCallback, useMemo} from 'react';
-import {FlatList, ListRenderItemInfo, SectionList, SectionListData, StyleSheet} from 'react-native';
-import {TouchableOpacity} from 'react-native';
+import {FlatList, ListRenderItemInfo, StyleSheet, TouchableOpacity} from 'react-native';
 import {useTags} from '../api-hooks/useTags';
 import {Tag} from '../api/fetchTags';
-import {Text, View} from '../components/Themed';
+import {Text} from '../components';
+import {ListItem} from '../components/ListItem';
 import {TagsScreenProps} from '../types';
-import {extractId, groupBy} from '../utils';
-import {flatten} from '../utils';
+import {extractId, flatten, groupBy} from '../utils';
 import {TagIcon} from './components';
 
 interface TagItemProps {
@@ -20,10 +19,10 @@ const TagItem: React.FC<TagItemProps> = ({tag, onPress}) => {
     onPress(tag);
   }, [onPress, tag]);
   return (
-    <TouchableOpacity style={styles.listItem} onPress={onPressCb}>
-      <TagIcon style={[{marginLeft: tag.parent ? 32 : 0}]} icon={tag.icon} color={tag.color} />
-      <Text>{tag.title}</Text>
-    </TouchableOpacity>
+    <ListItem onPress={onPressCb} topDivider={!tag.parent}>
+      <TagIcon style={[{marginLeft: tag.parent ? 32 : 0}]} icon={tag.icon} color={tag.color} size={24} />
+      <Text style={{fontSize: 18}}>{tag.title}</Text>
+    </ListItem>
   );
 };
 
@@ -58,11 +57,3 @@ export const TagsScreen: React.FC<TagsScreenProps> = ({navigation}) => {
     />
   );
 };
-
-const styles = StyleSheet.create({
-  listItem: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-});

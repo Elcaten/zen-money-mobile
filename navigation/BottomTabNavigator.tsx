@@ -2,24 +2,27 @@ import {Ionicons} from '@expo/vector-icons';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createStackNavigator} from '@react-navigation/stack';
 import * as React from 'react';
-import Colors from '../constants/Colors';
-import useColorScheme from '../hooks/useColorScheme';
+import {useMemo} from 'react';
 import {AccountsScreen, MoreScreen, TagDetailsScreen, TagsScreen, TransactionsScreen} from '../screens/';
+import {useNavigatorThemeColors} from '../themes';
 import {AccountsParamList, BottomTabParamList, MoreParamList, TransactionsParamList} from '../types';
+import {resetTabStackListener} from './resetTabStackListeners';
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
 export default function BottomTabNavigator() {
-  const colorScheme = useColorScheme();
+  const {tintColor} = useNavigatorThemeColors();
+  const tabListeners = useMemo(() => resetTabStackListener(), []);
 
   return (
-    <BottomTab.Navigator initialRouteName="Accounts" tabBarOptions={{activeTintColor: Colors[colorScheme].tint}}>
+    <BottomTab.Navigator initialRouteName="Accounts" tabBarOptions={{activeTintColor: tintColor}}>
       <BottomTab.Screen
         name="Accounts"
         component={AccountsNavigator}
         options={{
           tabBarIcon: ({color}) => <TabBarIcon name="ios-code" color={color} />,
         }}
+        listeners={tabListeners}
       />
       <BottomTab.Screen
         name="Transactions"
@@ -27,6 +30,7 @@ export default function BottomTabNavigator() {
         options={{
           tabBarIcon: ({color}) => <TabBarIcon name="ios-code" color={color} />,
         }}
+        listeners={tabListeners}
       />
       <BottomTab.Screen
         name="More"
@@ -34,6 +38,7 @@ export default function BottomTabNavigator() {
         options={{
           tabBarIcon: ({color}) => <TabBarIcon name="ios-code" color={color} />,
         }}
+        listeners={tabListeners}
       />
     </BottomTab.Navigator>
   );
