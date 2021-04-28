@@ -1,35 +1,97 @@
 import dayjs from 'dayjs';
 import * as React from 'react';
-import {useCallback, useMemo} from 'react';
-import {ListRenderItemInfo, SectionList, StyleSheet, View} from 'react-native';
+import {useMemo} from 'react';
+import {ListRenderItemInfo, SectionList, SectionListData, View} from 'react-native';
 import styled from 'styled-components/native';
 import {TransactionModel, useTransactionModels} from '../api-hooks';
-import {Text} from '../components';
+import {SubdirArrowRightIcon, Text} from '../components';
 import {ListItem} from '../components/ListItem';
 import {extractId} from '../utils';
 import {groupBy} from '../utils/group-by';
 import {TagIcon} from './components';
 
-const StyledIncomeText = styled(Text)`
+// ========================================================================================================================
+const Info = styled(View)`
+  flex: 1;
+  flex-direction: column;
+`;
+const Subtitle = styled(Text)`
+  font-size: 14px;
+  color: #8a8a8c;
+`;
+const Income = styled(Text)`
   color: #4eb64e;
-  font-size: 18px;
 `;
-
-const StyledOutcomeText = styled(Text)`
-  font-size: 18px;
-`;
-
-const TransactionItem: React.FC<TransactionModel> = (props) => {
+const OneWayTransaction: React.FC<TransactionModel> = ({tag, income, outcome, incomeAccount, outcomeAccount}) => {
   return (
     <ListItem>
-      <TagIcon icon={props.tag?.icon} color={props.tag?.iconColor} size={24} />
-      <ListItem.Title>{props.tag?.title}</ListItem.Title>
-      {props.income ? <StyledIncomeText>+{props.income}</StyledIncomeText> : null}
-      {props.outcome ? <StyledOutcomeText>-{props.outcome}</StyledOutcomeText> : null}
+      <TagIcon icon={tag?.icon} color={tag?.iconColor} size={24} />
+      <Info>
+        <Text>{tag?.title}</Text>
+        <Subtitle>{income ? incomeAccount : outcomeAccount}</Subtitle>
+      </Info>
+      <React.Fragment>
+        {income ? <Income>+ {income}</Income> : null}
+        {outcome ? <Text>− {outcome}</Text> : null}
+      </React.Fragment>
     </ListItem>
   );
 };
 
+// ========================================================================================================================
+const TitleContainer = styled(View)`
+  flex: 1;
+  flex-direction: column;
+`;
+const TwoWayTransaction: React.FC<TransactionModel> = ({income, outcome, incomeAccount, outcomeAccount}) => {
+  const isSameAmount = outcome === income;
+  return (
+    <ListItem>
+      <SubdirArrowRightIcon size={24} />
+      <TitleContainer>
+        <Text>{outcomeAccount}</Text>
+        <Text>{incomeAccount}</Text>
+      </TitleContainer>
+      {isSameAmount ? (
+        <Text>{outcome}</Text>
+      ) : (
+        <View>
+          <Text>− {outcome}</Text>
+          <Income>+ {income}</Income>
+        </View>
+      )}
+    </ListItem>
+  );
+};
+
+// ========================================================================================================================
+const renderTransactionItem = (info: ListRenderItemInfo<TransactionModel>) => {
+  return info.item.income && info.item.outcome ? (
+    <TwoWayTransaction {...info.item} />
+  ) : (
+    <OneWayTransaction {...info.item} />
+  );
+};
+
+const SectionTitle = styled(ListItem.Title)`
+  color: #8a8a8c;
+  font-weight: bold;
+`;
+const renderSectionHeader = (info: {
+  section: SectionListData<
+    TransactionModel,
+    {
+      title: string;
+      data: TransactionModel[];
+    }
+  >;
+}) => (
+  <ListItem topDivider>
+    <SectionTitle>{info.section.title}</SectionTitle>
+  </ListItem>
+);
+
+// ========================================================================================================================
 export const TransactionsScreen: React.FC = () => {
   const {data, isLoading, invalidate} = useTransactionModels();
 
@@ -41,21 +103,12 @@ export const TransactionsScreen: React.FC = () => {
     return sortedDates
       .map(({dateString, dateDayJs}) => {
         return {
-          title: dateDayJs.format('DD/MM/YYYY'),
+          title: dateDayJs.format('MMMM D, dddd'),
           data: transactionsByDate.get(dateString) ?? [],
         };
       })
       .slice(0, 5);
   }, [data]);
-
-  const renderTransaction = React.useCallback(
-    (info: ListRenderItemInfo<TransactionModel>) => <TransactionItem {...info.item} />,
-    [],
-  );
-  const renderSectionHeader = useCallback(
-    ({section: {title}}) => <Text style={styles.sectionHeader}>{title}</Text>,
-    [],
-  );
 
   return (
     <React.Fragment>
@@ -67,23 +120,10 @@ export const TransactionsScreen: React.FC = () => {
           onRefresh={invalidate}
           refreshing={isLoading}
           keyExtractor={extractId}
-          renderItem={renderTransaction}
+          renderItem={renderTransactionItem}
           renderSectionHeader={renderSectionHeader}
         />
       )}
     </React.Fragment>
   );
 };
-
-const styles = StyleSheet.create({
-  itemTagName: {
-    flex: 0,
-    minWidth: 72,
-  },
-  sectionHeader: {
-    backgroundColor: '#ddd9d9',
-    borderBottomColor: '#999999',
-    borderBottomWidth: 2,
-    padding: 6,
-  },
-});

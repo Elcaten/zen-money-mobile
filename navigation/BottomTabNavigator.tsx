@@ -3,10 +3,17 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createStackNavigator} from '@react-navigation/stack';
 import * as React from 'react';
 import {useMemo} from 'react';
+import {IconProps} from 'react-native-elements';
+import {CreditCardIcon, SwapHorizIcon, MenuIcon} from '../components';
 import {AccountsScreen, MoreScreen, TagDetailsScreen, TagsScreen, TransactionsScreen} from '../screens/';
 import {useNavigatorThemeColors} from '../themes';
 import {AccountsParamList, BottomTabParamList, MoreParamList, TransactionsParamList} from '../types';
 import {resetTabStackListener} from './resetTabStackListeners';
+
+const iconProps: Omit<IconProps, 'name'> = {
+  size: 30,
+  style: {marginBottom: -3},
+};
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -20,7 +27,7 @@ export default function BottomTabNavigator() {
         name="Accounts"
         component={AccountsNavigator}
         options={{
-          tabBarIcon: ({color}) => <TabBarIcon name="ios-code" color={color} />,
+          tabBarIcon: ({color}) => <CreditCardIcon {...iconProps} color={color} />,
         }}
         listeners={tabListeners}
       />
@@ -28,7 +35,7 @@ export default function BottomTabNavigator() {
         name="Transactions"
         component={TransactionsNavigator}
         options={{
-          tabBarIcon: ({color}) => <TabBarIcon name="ios-code" color={color} />,
+          tabBarIcon: ({color}) => <SwapHorizIcon {...iconProps} color={color} />,
         }}
         listeners={tabListeners}
       />
@@ -36,16 +43,12 @@ export default function BottomTabNavigator() {
         name="More"
         component={MoreNavigator}
         options={{
-          tabBarIcon: ({color}) => <TabBarIcon name="ios-code" color={color} />,
+          tabBarIcon: ({color}) => <MenuIcon {...iconProps} color={color} />,
         }}
         listeners={tabListeners}
       />
     </BottomTab.Navigator>
   );
-}
-
-function TabBarIcon(props: {name: React.ComponentProps<typeof Ionicons>['name']; color: string}) {
-  return <Ionicons size={30} style={{marginBottom: -3}} {...props} />;
 }
 
 // Each tab has its own navigation stack, you can read more about this pattern here:

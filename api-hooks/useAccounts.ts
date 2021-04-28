@@ -6,6 +6,14 @@ import {useInstruments} from './useInstruments';
 
 export const useAccounts = () => useQuery(ACCOUNTS, fetchAccounts);
 
+export const useAccountDictionary = () => {
+  const accounts = useAccounts();
+
+  return useMemo(() => {
+    return new Map(accounts.data?.map((a) => [a.id, a]));
+  }, [accounts.data]);
+};
+
 export type AccountModel = Pick<Account, 'id' | 'title' | 'type' | 'balance'> & {instrument: string};
 
 export const useAccountModels = () => {
@@ -14,13 +22,16 @@ export const useAccountModels = () => {
 
   const accountModels = useMemo<AccountModel[]>(
     () =>
-      accounts.data?.map(({id, title, type, balance, instrument}) => ({
-        id,
-        title,
-        type,
-        balance,
-        instrument: instruments.data?.get(instrument)?.symbol ?? '',
-      })) ?? [],
+      accounts.data?.map(({id, title, type, balance, instrument}) => {
+        const symbol = instruments.data?.get(instrument)?.symbol ?? '';
+        return {
+          id,
+          title,
+          type,
+          balance,
+          instrument: symbol,
+        };
+      }) ?? [],
     [accounts.data, instruments],
   );
 

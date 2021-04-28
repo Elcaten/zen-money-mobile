@@ -7,8 +7,6 @@ import {ListItem} from '../components/ListItem';
 import {extractId} from '../utils';
 import {AccountIcon} from './components/AccountIcon';
 
-const StyledListItem = styled(ListItem)``;
-
 const StyledTitle = styled(Text)`
   flex: 1;
   font-size: 18px;
@@ -19,14 +17,15 @@ const StyledBalance = styled(Text)`
 
 const AccountItem: React.FC<AccountModel> = (props) => {
   return (
-    <StyledListItem>
-      <AccountIcon type={props.type} size={32} />
+    <ListItem>
+      <AccountIcon type={props.type} size={24} />
       <StyledTitle>{props.title}</StyledTitle>
       <StyledBalance>
-        {props.balance}
+        {props.balance < 0 && '-'}
         {props.instrument}
+        {Math.abs(props.balance)}
       </StyledBalance>
-    </StyledListItem>
+    </ListItem>
   );
 };
 

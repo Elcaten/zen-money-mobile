@@ -10,6 +10,7 @@ type StyledTextProps = TextProps & {
 
 const StyledText = styled<React.FC<StyledTextProps>>(RNEText)`
   color: ${(props) => props.color};
+  font-size: ${(props) => (props.style as any)?.fontSize ?? '16px'};
 `;
 
 export const Text: React.FC<TextProps> = (props) => {

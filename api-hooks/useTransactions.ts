@@ -3,6 +3,7 @@ import {useQuery, useQueryClient} from 'react-query';
 import {fetchTransactions, Transaction} from '../api';
 import {TagIconName} from '../api/fetchTags';
 import {INSTRUMENTS, TAGS, TRANSACTIONS} from '../auth';
+import {useAccountDictionary, useAccounts} from './useAccounts';
 import {useInstruments} from './useInstruments';
 import {useTags} from './useTags';
 
@@ -14,34 +15,45 @@ export type TagModel = {
   iconColor?: number | null;
 };
 
-export type TransactionModel = Pick<Transaction, 'id' | 'income' | 'outcome' | 'comment'> & {
-  tag?: TagModel;
+export interface TransactionModel {
+  id: string;
   date: string;
-  incomeInstrument: string;
-  outcomeInstrument: string;
-};
+  income: string;
+  incomeAccount?: string;
+  outcomeAccount?: string;
+  outcome: string;
+  tag?: TagModel;
+  comment?: string;
+}
+
+function formatCurrency(amount: number, symbol: string) {
+  return amount ? `${symbol}${Math.abs(amount)}` : '';
+}
 
 export const useTransactionModels = () => {
-  const transactions = useTransactions();
-  const tags = useTags();
+  const accounts = useAccountDictionary();
   const instruments = useInstruments();
+  const tags = useTags();
+  const transactions = useTransactions();
 
   const transactionModels = useMemo<TransactionModel[]>(
     () =>
-      transactions.data?.map(({id, tag, date, income, outcome, comment, incomeInstrument, outcomeInstrument}) => {
-        const firstTag = tag && tag.length > 0 ? tags.data?.get(tag[0]) : undefined;
+      transactions.data?.map((transaction) => {
+        const firstTag = transaction.tag && transaction.tag.length > 0 ? tags.data?.get(transaction.tag[0]) : undefined;
+        const incomeSymbol = instruments.data?.get(transaction.incomeInstrument)?.symbol ?? '';
+        const outcomeSymbol = instruments.data?.get(transaction.outcomeInstrument)?.symbol ?? '';
         return {
-          id,
+          id: transaction.id,
           tag: firstTag ? {icon: firstTag.icon, title: firstTag.title, iconColor: firstTag.color} : undefined,
-          date,
-          income,
-          outcome,
-          comment,
-          incomeInstrument: instruments.data?.get(incomeInstrument)?.symbol ?? '',
-          outcomeInstrument: instruments.data?.get(outcomeInstrument)?.symbol ?? '',
+          date: transaction.date,
+          income: formatCurrency(transaction.income, incomeSymbol),
+          incomeAccount: accounts.get(transaction.incomeAccount)?.title,
+          outcomeAccount: accounts.get(transaction.outcomeAccount)?.title,
+          outcome: formatCurrency(transaction.outcome, outcomeSymbol),
+          comment: transaction.comment ?? undefined,
         };
       }) ?? [],
-    [transactions.data, tags.data, instruments.data],
+    [transactions.data, tags.data, instruments.data, accounts],
   );
 
   const queryClient = useQueryClient();

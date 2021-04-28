@@ -3,6 +3,7 @@ import {ListItem as RNEListItem} from 'react-native-elements';
 import styled from 'styled-components/native';
 import {useNavigatorThemeColors} from '../../themes';
 import {ListItemTitle} from './ListItemtTitle';
+import {ListItemSubtitle} from './ListItemSubtitle';
 
 type ListItemProps = Parameters<typeof RNEListItem>['0'];
 
@@ -26,4 +27,5 @@ export const ListItem = Object.assign(ListItemComponent, {
   Chevron: RNEListItem.Chevron,
   Content: RNEListItem.Content,
   Title: ListItemTitle,
+  Subtitle: ListItemSubtitle,
 });
