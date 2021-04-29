@@ -3,9 +3,18 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createStackNavigator} from '@react-navigation/stack';
 import * as React from 'react';
 import {useMemo} from 'react';
+import {useTranslation} from 'react-i18next';
 import {IconProps} from 'react-native-elements';
 import {CreditCardIcon, SwapHorizIcon, MenuIcon, ShowChartIcon} from '../components';
-import {AccountsScreen, MoreScreen, TagDetailsScreen, TagsScreen, ThemesScreen, TransactionsScreen} from '../screens/';
+import {
+  AccountsScreen,
+  LocalesScreen,
+  MoreScreen,
+  TagDetailsScreen,
+  TagsScreen,
+  ThemesScreen,
+  TransactionsScreen,
+} from '../screens/';
 import {AnalyticsScreen} from '../screens/AnalyticsScreen';
 import {useNavigatorThemeColors} from '../themes';
 import {
@@ -15,18 +24,20 @@ import {
   MoreParamList,
   TransactionsParamList,
 } from '../types';
-import {resetTabStackListener} from './resetTabStackListeners';
+import {resetTabStackListener} from './reset-tab-stack-listeners';
 
 const iconProps: Omit<IconProps, 'name'> = {
   size: 30,
   style: {marginBottom: -3},
 };
 
+const tabListeners = resetTabStackListener();
+
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
 export default function BottomTabNavigator() {
   const {tintColor} = useNavigatorThemeColors();
-  const tabListeners = useMemo(() => resetTabStackListener(), []);
+  const {t} = useTranslation();
 
   return (
     <BottomTab.Navigator initialRouteName="Accounts" tabBarOptions={{activeTintColor: tintColor}}>
@@ -35,6 +46,7 @@ export default function BottomTabNavigator() {
         component={AccountsNavigator}
         options={{
           tabBarIcon: ({color}) => <CreditCardIcon {...iconProps} color={color} />,
+          tabBarLabel: t('Tab.Accounts'),
         }}
         listeners={tabListeners}
       />
@@ -43,6 +55,7 @@ export default function BottomTabNavigator() {
         component={TransactionsNavigator}
         options={{
           tabBarIcon: ({color}) => <SwapHorizIcon {...iconProps} color={color} />,
+          tabBarLabel: t('Tab.Transactions'),
         }}
         listeners={tabListeners}
       />
@@ -51,6 +64,7 @@ export default function BottomTabNavigator() {
         component={AnalyticsNavigator}
         options={{
           tabBarIcon: ({color}) => <ShowChartIcon {...iconProps} color={color} />,
+          tabBarLabel: t('Tab.Analytics'),
         }}
         listeners={tabListeners}
       />
@@ -59,6 +73,7 @@ export default function BottomTabNavigator() {
         component={MoreNavigator}
         options={{
           tabBarIcon: ({color}) => <MenuIcon {...iconProps} color={color} />,
+          tabBarLabel: t('Tab.More'),
         }}
         listeners={tabListeners}
       />
@@ -71,9 +86,15 @@ export default function BottomTabNavigator() {
 const AccountsStack = createStackNavigator<AccountsParamList>();
 
 function AccountsNavigator() {
+  const {t} = useTranslation();
+
   return (
     <AccountsStack.Navigator>
-      <AccountsStack.Screen name="AccountsScreen" component={AccountsScreen} options={{headerTitle: 'Accounts'}} />
+      <AccountsStack.Screen
+        name="AccountsScreen"
+        component={AccountsScreen}
+        options={{headerTitle: t('Screen.Accounts')}}
+      />
     </AccountsStack.Navigator>
   );
 }
@@ -81,12 +102,14 @@ function AccountsNavigator() {
 const TransactionsStack = createStackNavigator<TransactionsParamList>();
 
 function TransactionsNavigator() {
+  const {t} = useTranslation();
+
   return (
     <TransactionsStack.Navigator>
       <TransactionsStack.Screen
         name="TransactionsScreen"
         component={TransactionsScreen}
-        options={{headerTitle: 'Transactions'}}
+        options={{headerTitle: t('Screen.Transactions')}}
       />
     </TransactionsStack.Navigator>
   );
@@ -94,9 +117,15 @@ function TransactionsNavigator() {
 const AnalyticsStack = createStackNavigator<AnalyticsParamList>();
 
 function AnalyticsNavigator() {
+  const {t} = useTranslation();
+
   return (
     <AnalyticsStack.Navigator>
-      <AnalyticsStack.Screen name="AnalyticsScreen" component={AnalyticsScreen} options={{headerTitle: 'Analytics'}} />
+      <AnalyticsStack.Screen
+        name="AnalyticsScreen"
+        component={AnalyticsScreen}
+        options={{headerTitle: t('Screen.Analytics')}}
+      />
     </AnalyticsStack.Navigator>
   );
 }
@@ -104,12 +133,15 @@ function AnalyticsNavigator() {
 const MoreStack = createStackNavigator<MoreParamList>();
 
 function MoreNavigator() {
+  const {t} = useTranslation();
+
   return (
     <MoreStack.Navigator>
-      <MoreStack.Screen name="MoreScreen" component={MoreScreen} options={{headerTitle: 'More'}} />
-      <MoreStack.Screen name="ThemesScreen" component={ThemesScreen} options={{headerTitle: 'Themes'}} />
-      <MoreStack.Screen name="TagsScreen" component={TagsScreen} options={{headerTitle: 'Tags'}} />
-      <MoreStack.Screen name="TagDetailsScreen" component={TagDetailsScreen} options={{headerTitle: 'Tag'}} />
+      <MoreStack.Screen name="MoreScreen" component={MoreScreen} options={{headerTitle: t('Screen.More')}} />
+      <MoreStack.Screen name="TagsScreen" component={TagsScreen} options={{headerTitle: t('Screen.Tags')}} />
+      <MoreStack.Screen name="ThemesScreen" component={ThemesScreen} options={{headerTitle: t('Screen.Themes')}} />
+      <MoreStack.Screen name="LocalesScreen" component={LocalesScreen} options={{headerTitle: t('Screen.Locales')}} />
+      <MoreStack.Screen name="TagDetailsScreen" component={TagDetailsScreen} options={{headerTitle: t('Screen.Tag')}} />
     </MoreStack.Navigator>
   );
 }

@@ -1,0 +1,19 @@
+{
+    "Screen": {
+        "Accounts": "Accounts",
+        "Analytics": "Analytics",
+        "Locales": "App Language",
+        "More": "More",
+        "Tag": "Tag",
+        "Tags": "Tags",
+        "Themes": "Themes",
+        "Transactions": "Transactions"
+    },
+    "SignOut": "Sign Out",
+    "Tab": {
+        "Accounts": "Accounts",
+        "Analytics": "Analytics",
+        "More": "More",
+        "Transactions": "Transactions"
+    }
+}

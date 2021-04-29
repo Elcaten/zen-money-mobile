@@ -32,9 +32,11 @@
     "expo-status-bar": "~1.0.4",
     "expo-web-browser": "~9.1.0",
     "firebase": "^8.2.3",
+    "i18next": "^20.2.2",
     "ky": "^0.27.0",
     "react": "16.13.1",
     "react-dom": "16.13.1",
+    "react-i18next": "^11.8.15",
     "react-native": "https://github.com/expo/react-native/archive/sdk-41.0.0.tar.gz",
     "react-native-elements": "^3.4.0",
     "react-native-gesture-handler": "~1.10.2",
@@ -46,7 +48,8 @@
     "react-query": "^3.13.10",
     "styled-components": "^5.2.3",
     "zustand": "^3.4.1",
-    "zustand-persist": "^0.3.1"
+    "zustand-persist": "^0.3.1",
+    "expo-localization": "~10.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",

@@ -34,6 +34,7 @@ export type AnalyticsParamList = {
 export type MoreParamList = {
   MoreScreen: undefined;
   ThemesScreen: undefined;
+  LocalesScreen: undefined;
   TagsScreen: undefined;
   TagDetailsScreen: {tagId: string};
 };

@@ -1,0 +1,19 @@
+{
+    "Screen": {
+        "Accounts": "Счета",
+        "Analytics": "Аналитика",
+        "Locales": "Язык приложения",
+        "More": "Еще",
+        "Tag": "Категория",
+        "Tags": "Категории",
+        "Themes": "Темы",
+        "Transactions": "Операции"
+    },
+    "SignOut": "Выход из аккаунта",
+    "Tab": {
+        "Accounts": "Счета",
+        "Analytics": "Аналитика",
+        "More": "Еще",
+        "Transactions": "Операции"
+    }
+}
