@@ -15,6 +15,7 @@ export type RootStackParamList = {
 export type BottomTabParamList = {
   Accounts: undefined;
   Transactions: undefined;
+  Analytics: undefined;
   More: undefined;
 };
 
@@ -24,6 +25,10 @@ export type AccountsParamList = {
 
 export type TransactionsParamList = {
   TransactionsScreen: undefined;
+};
+
+export type AnalyticsParamList = {
+  AnalyticsScreen: undefined;
 };
 
 export type MoreParamList = {

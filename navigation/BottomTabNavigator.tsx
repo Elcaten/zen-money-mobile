@@ -4,10 +4,17 @@ import {createStackNavigator} from '@react-navigation/stack';
 import * as React from 'react';
 import {useMemo} from 'react';
 import {IconProps} from 'react-native-elements';
-import {CreditCardIcon, SwapHorizIcon, MenuIcon} from '../components';
+import {CreditCardIcon, SwapHorizIcon, MenuIcon, ShowChartIcon} from '../components';
 import {AccountsScreen, MoreScreen, TagDetailsScreen, TagsScreen, ThemesScreen, TransactionsScreen} from '../screens/';
+import {AnalyticsScreen} from '../screens/AnalyticsScreen';
 import {useNavigatorThemeColors} from '../themes';
-import {AccountsParamList, BottomTabParamList, MoreParamList, TransactionsParamList} from '../types';
+import {
+  AccountsParamList,
+  AnalyticsParamList,
+  BottomTabParamList,
+  MoreParamList,
+  TransactionsParamList,
+} from '../types';
 import {resetTabStackListener} from './resetTabStackListeners';
 
 const iconProps: Omit<IconProps, 'name'> = {
@@ -36,6 +43,14 @@ export default function BottomTabNavigator() {
         component={TransactionsNavigator}
         options={{
           tabBarIcon: ({color}) => <SwapHorizIcon {...iconProps} color={color} />,
+        }}
+        listeners={tabListeners}
+      />
+      <BottomTab.Screen
+        name="Analytics"
+        component={AnalyticsNavigator}
+        options={{
+          tabBarIcon: ({color}) => <ShowChartIcon {...iconProps} color={color} />,
         }}
         listeners={tabListeners}
       />
@@ -74,6 +89,15 @@ function TransactionsNavigator() {
         options={{headerTitle: 'Transactions'}}
       />
     </TransactionsStack.Navigator>
+  );
+}
+const AnalyticsStack = createStackNavigator<AnalyticsParamList>();
+
+function AnalyticsNavigator() {
+  return (
+    <AnalyticsStack.Navigator>
+      <AnalyticsStack.Screen name="AnalyticsScreen" component={AnalyticsScreen} options={{headerTitle: 'Analytics'}} />
+    </AnalyticsStack.Navigator>
   );
 }
 

@@ -50,6 +50,11 @@ export const RadioboxMarkedIcon: React.FC<IconProps> = (props) => {
   return <MaterialCommunityIcons color={iconColor} name="radiobox-marked" {...props} />;
 };
 
+export const ShowChartIcon: React.FC<IconProps> = (props) => {
+  const {iconColor} = useNavigatorThemeColors();
+  return <MaterialIcons color={iconColor} name="show-chart" {...props} />;
+};
+
 export const SubdirArrowRightIcon: React.FC<IconProps> = (props) => {
   const {iconColor} = useNavigatorThemeColors();
   return <MaterialCommunityIcons color={iconColor} name="subdirectory-arrow-right" {...props} />;
