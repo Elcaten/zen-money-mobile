@@ -1,14 +1,16 @@
 import dayjs from 'dayjs';
 import * as React from 'react';
 import {useMemo} from 'react';
-import {ListRenderItemInfo, SectionList, SectionListData, View} from 'react-native';
+import {ListRenderItemInfo, SectionList, SectionListData, StyleSheet, View} from 'react-native';
 import styled from 'styled-components/native';
 import {TransactionModel, useTransactionModels} from '../api-hooks';
-import {SubdirArrowRightIcon, Text} from '../components';
+import {FabButton, MenuIcon, SubdirArrowRightIcon, Text, WalletIcon} from '../components';
 import {ListItem} from '../components/ListItem';
+import {FloatingAction} from '../lib/react-native-floating-action';
 import {extractId} from '../utils';
 import {groupBy} from '../utils/group-by';
 import {TagIcon} from './components';
+import {AddTransactionButton} from './components';
 
 // ========================================================================================================================
 const Info = styled(View)`
@@ -111,7 +113,7 @@ export const TransactionsScreen: React.FC = () => {
   }, [data]);
 
   return (
-    <React.Fragment>
+    <View style={styles.container}>
       {transactionSections.length > 0 && (
         <SectionList
           sections={transactionSections}
@@ -124,6 +126,13 @@ export const TransactionsScreen: React.FC = () => {
           renderSectionHeader={renderSectionHeader}
         />
       )}
-    </React.Fragment>
+      <AddTransactionButton />
+    </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+});

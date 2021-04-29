@@ -51,6 +51,7 @@ export interface IFloatingActionProps {
   shadow?: shadowType;
   onPressItem?: (name?: string) => void;
   onPressMain?: () => void;
+  onLongPressMain?: () => void;
   onPressBackdrop?: () => void;
   onClose?: () => void;
   onOpen?: () => void;
