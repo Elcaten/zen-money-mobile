@@ -40,6 +40,16 @@ export const PlusIcon: React.FC<IconProps> = (props) => {
   return <MaterialCommunityIcons color={iconColor} name="plus" {...props} />;
 };
 
+export const RadioboxBlankIcon: React.FC<IconProps> = (props) => {
+  const {iconColor} = useNavigatorThemeColors();
+  return <MaterialCommunityIcons color={iconColor} name="radiobox-blank" {...props} />;
+};
+
+export const RadioboxMarkedIcon: React.FC<IconProps> = (props) => {
+  const {iconColor} = useNavigatorThemeColors();
+  return <MaterialCommunityIcons color={iconColor} name="radiobox-marked" {...props} />;
+};
+
 export const SubdirArrowRightIcon: React.FC<IconProps> = (props) => {
   const {iconColor} = useNavigatorThemeColors();
   return <MaterialCommunityIcons color={iconColor} name="subdirectory-arrow-right" {...props} />;
@@ -53,6 +63,11 @@ export const SwapHorizIcon: React.FC<IconProps> = (props) => {
 export const TagIcon: React.FC<IconProps> = (props) => {
   const {iconColor} = useNavigatorThemeColors();
   return <MaterialCommunityIcons color={iconColor} name="tag-outline" {...props} />;
+};
+
+export const ThemeIcon: React.FC<IconProps> = (props) => {
+  const {iconColor} = useNavigatorThemeColors();
+  return <MaterialCommunityIcons color={iconColor} name="theme-light-dark" {...props} />;
 };
 
 export const WalletIcon: React.FC<IconProps> = (props) => {

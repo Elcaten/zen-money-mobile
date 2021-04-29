@@ -28,8 +28,19 @@ export type TransactionsParamList = {
 
 export type MoreParamList = {
   MoreScreen: undefined;
+  ThemesScreen: undefined;
   TagsScreen: undefined;
   TagDetailsScreen: {tagId: string};
+};
+
+export type MoreScreenRouteProp = RouteProp<MoreParamList, 'MoreScreen'>;
+export type MoreScreenNavigationProp = CompositeNavigationProp<
+  StackNavigationProp<MoreParamList, 'MoreScreen'>,
+  BottomTabNavigationProp<TransactionsParamList>
+>;
+export type MoreScreenProps = {
+  route: MoreScreenRouteProp;
+  navigation: MoreScreenNavigationProp;
 };
 
 export type TagsScreenRouteProp = RouteProp<MoreParamList, 'TagsScreen'>;

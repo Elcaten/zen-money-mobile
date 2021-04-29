@@ -1,21 +1,21 @@
-import {useNavigation} from '@react-navigation/native';
 import * as React from 'react';
 import {View} from 'react-native';
-import {TagIcon, LogoutIcon} from '../components/Icons';
+import {LogoutIcon, TagIcon, ThemeIcon} from '../components';
 import {ListItem} from '../components/ListItem';
-import {LOGOUT, TAGS} from '../constants/Strings';
-import {useThemeToggle} from '../themes';
-import {CheckboxListItem} from '../components/ListItem/CheckboxListItem';
+import {LOGOUT, TAGS, THEMES} from '../constants/Strings';
+import {MoreScreenProps} from '../types';
 
-export const MoreScreen: React.FC = () => {
-  const nav = useNavigation();
-  const {isDarkThemeEnabled, toggleTheme} = useThemeToggle();
-
+export const MoreScreen: React.FC<MoreScreenProps> = ({navigation}) => {
   return (
     <View>
-      <CheckboxListItem title="Dark theme" checked={isDarkThemeEnabled} onPress={toggleTheme} />
-
-      <ListItem bottomDivider onPress={() => nav.navigate('TagsScreen')}>
+      <ListItem bottomDivider onPress={() => navigation.navigate('ThemesScreen')}>
+        <ThemeIcon />
+        <ListItem.Content>
+          <ListItem.Title>{THEMES}</ListItem.Title>
+        </ListItem.Content>
+        <ListItem.Chevron />
+      </ListItem>
+      <ListItem bottomDivider onPress={() => navigation.navigate('TagsScreen')}>
         <TagIcon />
         <ListItem.Content>
           <ListItem.Title>{TAGS}</ListItem.Title>

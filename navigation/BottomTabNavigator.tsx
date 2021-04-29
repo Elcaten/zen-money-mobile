@@ -5,7 +5,7 @@ import * as React from 'react';
 import {useMemo} from 'react';
 import {IconProps} from 'react-native-elements';
 import {CreditCardIcon, SwapHorizIcon, MenuIcon} from '../components';
-import {AccountsScreen, MoreScreen, TagDetailsScreen, TagsScreen, TransactionsScreen} from '../screens/';
+import {AccountsScreen, MoreScreen, TagDetailsScreen, TagsScreen, ThemesScreen, TransactionsScreen} from '../screens/';
 import {useNavigatorThemeColors} from '../themes';
 import {AccountsParamList, BottomTabParamList, MoreParamList, TransactionsParamList} from '../types';
 import {resetTabStackListener} from './resetTabStackListeners';
@@ -83,6 +83,7 @@ function MoreNavigator() {
   return (
     <MoreStack.Navigator>
       <MoreStack.Screen name="MoreScreen" component={MoreScreen} options={{headerTitle: 'More'}} />
+      <MoreStack.Screen name="ThemesScreen" component={ThemesScreen} options={{headerTitle: 'Themes'}} />
       <MoreStack.Screen name="TagsScreen" component={TagsScreen} options={{headerTitle: 'Tags'}} />
       <MoreStack.Screen name="TagDetailsScreen" component={TagDetailsScreen} options={{headerTitle: 'Tag'}} />
     </MoreStack.Navigator>
