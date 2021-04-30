@@ -3,6 +3,7 @@ import {StyleSheet, View} from 'react-native';
 import {TransactionModel} from '../../api-hooks';
 import {SubdirArrowRightIcon, Text} from '../../components';
 import {ListItem} from '../../components/ListItem';
+import {GRAY, SUCCESS} from '../../constants/Colors';
 import {TagIcon} from '../components/TagIcon';
 
 // ========================================================================================================================
@@ -13,10 +14,10 @@ const owStyles = StyleSheet.create({
   },
   subtitle: {
     fontSize: 14,
-    color: '#8a8a8c',
+    color: GRAY,
   },
   income: {
-    color: '#4eb64e',
+    color: SUCCESS,
   },
 });
 export class OneWayTransaction extends React.Component<{transaction: TransactionModel}> {
@@ -49,7 +50,7 @@ const twStyles = StyleSheet.create({
     flexDirection: 'column',
   },
   income: {
-    color: '#4eb64e',
+    color: SUCCESS,
   },
 });
 

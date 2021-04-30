@@ -21,6 +21,7 @@ export type BottomTabParamList = {
 
 export type AccountsParamList = {
   AccountsScreen: undefined;
+  AccountOverviewScreen: undefined;
 };
 
 export type TransactionsParamList = {

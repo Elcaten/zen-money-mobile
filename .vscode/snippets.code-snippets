@@ -17,7 +17,7 @@
   // }
   "React Functional Component Without Props": {
     "scope": "typescriptreact",
-    "prefix": "m_rfc",
+    "prefix": "rfc",
     "body": [
       "import * as React from 'react'",
       "",
@@ -28,7 +28,7 @@
   },
   "React Functional Component With Props": {
     "scope": "typescriptreact",
-    "prefix": "m_rfc_p",
+    "prefix": "rfcp",
     "body": [
       "import * as React from 'react'",
       "",
@@ -38,5 +38,23 @@
       "\treturn$0",
       "}"
     ]
+  },
+  "Style Sheet": {
+    "scope": "typescriptreact",
+    "prefix": "ss",
+    "body": [
+      "import {StyleSheet} from 'react-native'",
+      "",
+      "const ${0:styles} = StyleSheet.create({",
+      "\t$1: {",
+      "\t\t$2",
+      "\t}",
+      "});"
+    ]
+  },
+  "useTranslations hook": {
+    "scope": "typescriptreact",
+    "prefix": "utr",
+    "body": ["import {useTranslation} from 'react-i18next';", "const {t,$0} = useTranslation();$1"]
   }
 }

@@ -1,5 +1,11 @@
 {
     "Screen": {
+        "AccountOverview": {
+            "AccountOverview": "Аналитика по счетам",
+            "DistributionByCurrency": "Распределение по валютам",
+            "OnAllAccounts": "На всех счетах",
+            "OnBalanceAccounts": "На выбранных счетах"
+        },
         "Accounts": "Счета",
         "Analytics": "Аналитика",
         "Locales": "Язык приложения",

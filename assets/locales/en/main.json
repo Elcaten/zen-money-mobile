@@ -1,5 +1,11 @@
 {
     "Screen": {
+        "AccountOverview": {
+            "AccountOverview": "Account overview",
+            "DistributionByCurrency": "Distribution by currency",
+            "OnAllAccounts": "On all accounts",
+            "OnBalanceAccounts": "On balance accounts"
+        },
         "Accounts": "Accounts",
         "Analytics": "Analytics",
         "Locales": "App Language",

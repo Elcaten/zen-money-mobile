@@ -1,4 +1,5 @@
 export * from './AccountsScreen';
+export * from './AccountOverviewScreen';
 export * from './AnalyticsScreen';
 export * from './LocalesScreen';
 export * from './MoreScreen';

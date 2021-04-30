@@ -1,6 +1,7 @@
 import * as React from 'react';
 import {StyleSheet} from 'react-native';
 import {ListItem} from '../../components/ListItem';
+import {GRAY} from '../../constants/Colors';
 
 export interface TransactionSectionHeaderProps {
   title: string;
@@ -16,7 +17,7 @@ export const TransactionSectionHeader: React.FC<TransactionSectionHeaderProps> =
 
 const styles = StyleSheet.create({
   title: {
-    color: '#8a8a8c',
+    color: GRAY,
     fontWeight: 'bold',
   },
 });

@@ -19,3 +19,6 @@ export default {
     tabIconSelected: tintColorDark,
   },
 };
+
+export const GRAY = '#8a8a8c';
+export const SUCCESS = '#4eb64e';

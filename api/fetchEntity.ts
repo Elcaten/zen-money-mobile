@@ -1,5 +1,5 @@
 import {privateClient} from './client';
-import testEntities from '../test-entities.json';
+import testEntities from '../assets/json/test-entities.json';
 
 export enum EntityType {
   Account = 'account',

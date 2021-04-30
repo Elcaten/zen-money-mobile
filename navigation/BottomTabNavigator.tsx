@@ -4,8 +4,10 @@ import {createStackNavigator} from '@react-navigation/stack';
 import * as React from 'react';
 import {useMemo} from 'react';
 import {useTranslation} from 'react-i18next';
-import {IconProps} from 'react-native-elements';
-import {CreditCardIcon, SwapHorizIcon, MenuIcon, ShowChartIcon} from '../components';
+import {TouchableOpacity, TouchableOpacityBase, Button, TouchableWithoutFeedback} from 'react-native';
+import {Icon, IconProps} from 'react-native-elements';
+import {HeaderButtons, HeaderButton, Item} from 'react-navigation-header-buttons';
+import {CreditCardIcon, SwapHorizIcon, MenuIcon, ShowChartIcon, PieChartIcon} from '../components';
 import {
   AccountsScreen,
   LocalesScreen,
@@ -14,8 +16,9 @@ import {
   TagsScreen,
   ThemesScreen,
   TransactionsScreen,
+  AccountOverviewScreen,
+  AnalyticsScreen,
 } from '../screens/';
-import {AnalyticsScreen} from '../screens/AnalyticsScreen';
 import {useNavigatorThemeColors} from '../themes';
 import {
   AccountsParamList,
@@ -93,7 +96,25 @@ function AccountsNavigator() {
       <AccountsStack.Screen
         name="AccountsScreen"
         component={AccountsScreen}
-        options={{headerTitle: t('Screen.Accounts')}}
+        options={({navigation}) => ({
+          headerTitle: t('Screen.Accounts'),
+          headerRight: () => (
+            <HeaderButtons>
+              <Item
+                title={t('Screen.AccountOverview.AccountOverview')}
+                IconComponent={Ionicons}
+                iconName="pie-chart-outline"
+                iconSize={24}
+                onPress={() => navigation.navigate('AccountOverviewScreen')}
+              />
+            </HeaderButtons>
+          ),
+        })}
+      />
+      <AccountsStack.Screen
+        name="AccountOverviewScreen"
+        component={AccountOverviewScreen}
+        options={{headerTitle: t('Screen.AccountOverview.AccountOverview')}}
       />
     </AccountsStack.Navigator>
   );

@@ -1,5 +1,5 @@
 import React from 'react';
-import {MaterialCommunityIcons, MaterialIcons} from '@expo/vector-icons';
+import {Ionicons, MaterialCommunityIcons, MaterialIcons} from '@expo/vector-icons';
 import {IconProps as ExpoIconProps} from '@expo/vector-icons/build/createIconSet';
 import {useNavigatorThemeColors} from '../themes';
 
@@ -33,6 +33,11 @@ export const MenuIcon: React.FC<IconProps> = (props) => {
 export const MinusIcon: React.FC<IconProps> = (props) => {
   const {iconColor} = useNavigatorThemeColors();
   return <MaterialCommunityIcons color={iconColor} name="minus" {...props} />;
+};
+
+export const PieChartIcon: React.FC<IconProps> = (props) => {
+  const {iconColor} = useNavigatorThemeColors();
+  return <Ionicons color={iconColor} name="pie-chart-outline" {...props} />;
 };
 
 export const PlusIcon: React.FC<IconProps> = (props) => {
