@@ -11,7 +11,6 @@ export enum EntityType {
 
 export const fetchEntities = async <T>(entityType: EntityType): Promise<T[]> => {
   if (testEntities[entityType]) {
-    console.log(`From JSON ${entityType}`);
     return (testEntities as any)[entityType];
   }
 
@@ -37,7 +36,6 @@ export const fetchEntities = async <T>(entityType: EntityType): Promise<T[]> => 
 
 export const fetchEntitiesSinceDate = async <T>(entityType: EntityType, since: Date): Promise<T[]> => {
   if (testEntities[entityType]) {
-    console.log(`From JSON ${entityType}`);
     return (testEntities as any)[entityType];
   }
 

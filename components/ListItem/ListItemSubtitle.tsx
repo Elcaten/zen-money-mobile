@@ -6,5 +6,5 @@ type ListItemSubtitleProps = Parameters<typeof ListItem.Subtitle>['0'];
 
 export const ListItemSubtitle: React.FC<ListItemSubtitleProps> = (props) => {
   const {text} = useNavigatorThemeColors();
-  return <ListItem.Subtitle {...props} style={{color: text}} />;
+  return <ListItem.Subtitle style={{color: text}} {...props} />;
 };

@@ -6,6 +6,7 @@ import {INSTRUMENTS, TAGS, TRANSACTIONS} from '../auth';
 import {useAccountDictionary, useAccounts} from './useAccounts';
 import {useInstruments} from './useInstruments';
 import {useTags} from './useTags';
+import React from 'react';
 
 export const useTransactions = () => useQuery(TRANSACTIONS, fetchTransactions);
 
@@ -29,6 +30,8 @@ export interface TransactionModel {
 function formatCurrency(amount: number, symbol: string) {
   return amount ? `${symbol}${Math.abs(amount)}` : '';
 }
+
+export type TransactionModelsInfo = ReturnType<typeof useTransactionModels>;
 
 export const useTransactionModels = () => {
   const accounts = useAccountDictionary();
@@ -66,3 +69,23 @@ export const useTransactionModels = () => {
 
   return {data: transactionModels, isLoading: transactions.isLoading || instruments.isLoading, invalidate};
 };
+
+export interface WithTransactionModelsProps {
+  transactionModels: TransactionModelsInfo;
+}
+
+export function withTransactionModels<T extends WithTransactionModelsProps = WithTransactionModelsProps>(
+  WrappedComponent: React.ComponentType<T>,
+) {
+  const displayName = WrappedComponent.displayName || WrappedComponent.name || 'Component';
+
+  const ComponentWithTheme = (props: Omit<T, keyof WithTransactionModelsProps>) => {
+    const transactionModels = useTransactionModels();
+
+    return <WrappedComponent {...(props as T)} transactionModels={transactionModels} />;
+  };
+
+  ComponentWithTheme.displayName = `withTransactionModels(${displayName})`;
+
+  return ComponentWithTheme;
+}

@@ -1,155 +1,132 @@
 import dayjs from 'dayjs';
 import * as React from 'react';
-import {useMemo} from 'react';
-import {ListRenderItemInfo, SectionList, SectionListData, StyleSheet, View} from 'react-native';
-import {TransactionModel, useTransactionModels} from '../api-hooks';
-import {SubdirArrowRightIcon, Text} from '../components';
-import {ListItem} from '../components/ListItem';
-import {extractId} from '../utils';
+import {Component} from 'react';
+import {Dimensions, StyleSheet, View} from 'react-native';
+import {DataProvider, LayoutProvider, RecyclerListView} from 'recyclerlistview';
+import {TransactionModel, TransactionModelsInfo, withTransactionModels} from '../api-hooks';
+import {flatten} from '../utils';
 import {groupBy} from '../utils/group-by';
-import {AddTransactionButton, TagIcon} from './components';
+import {AddTransactionButton, OneWayTransaction, TwoWayTransaction} from './components';
+import {TransactionSectionHeader} from './components/TransactionSectionHeader';
 
-// ========================================================================================================================
-const owStyles = StyleSheet.create({
-  info: {
-    flex: 1,
-    flexDirection: 'column',
-  },
-  subtitle: {
-    fontSize: 14,
-    color: '#8a8a8c',
-  },
-  income: {
-    color: '#4eb64e',
-  },
-});
-class OneWayTransaction extends React.Component<TransactionModel> {
-  render() {
-    const {tag, income, outcome, incomeAccount, outcomeAccount} = this.props;
-    return (
-      <ListItem>
-        <TagIcon icon={tag?.icon} color={tag?.iconColor} size={24} />
-        <View style={owStyles.info}>
-          <Text>{tag?.title}</Text>
-          <Text style={owStyles.subtitle}>{income ? incomeAccount : outcomeAccount}</Text>
-        </View>
-        <React.Fragment>
-          {income ? <Text style={owStyles.income}>+ {income}</Text> : null}
-          {outcome ? <Text>− {outcome}</Text> : null}
-        </React.Fragment>
-      </ListItem>
-    );
-  }
+let {width} = Dimensions.get('window');
 
-  shouldComponentUpdate() {
-    return false;
-  }
-}
-
-// ========================================================================================================================
-const twStyles = StyleSheet.create({
-  titleContainer: {
-    flex: 1,
-    flexDirection: 'column',
-  },
-  income: {
-    color: '#4eb64e',
-  },
-});
-
-class TwoWayTransaction extends React.Component<TransactionModel> {
-  render() {
-    const {income, outcome, incomeAccount, outcomeAccount} = this.props;
-    const isSameAmount = outcome === income;
-
-    return (
-      <ListItem>
-        <SubdirArrowRightIcon size={24} />
-        <View style={twStyles.titleContainer}>
-          <Text>{outcomeAccount}</Text>
-          <Text>{incomeAccount}</Text>
-        </View>
-        {isSameAmount ? (
-          <Text>{outcome}</Text>
-        ) : (
-          <View>
-            <Text>− {outcome}</Text>
-            <Text style={twStyles.income}>+ {income}</Text>
-          </View>
-        )}
-      </ListItem>
-    );
-  }
-
-  shouldComponentUpdate() {
-    return false;
-  }
-}
-
-// ========================================================================================================================
-const renderTransactionItem = (info: ListRenderItemInfo<TransactionModel>) => {
-  return info.item.income && info.item.outcome ? (
-    <TwoWayTransaction {...info.item} />
-  ) : (
-    <OneWayTransaction {...info.item} />
-  );
+const ViewType = {
+  SectionHeader: 0,
+  OneWayTransaction: 1,
+  TwoWayTransaction: 2,
 };
+interface TransactionListItem {
+  type: number | string;
+  value: TransactionModel | string;
+}
+interface TransactionsScreenNewProps {
+  transactionModels: TransactionModelsInfo;
+}
+interface TransactionsScreenNewState {
+  dataProvider: DataProvider;
+}
+export class TransactionsScreenCmp extends Component<TransactionsScreenNewProps, TransactionsScreenNewState> {
+  private layoutProvider: LayoutProvider;
 
-const sectionHeaderStyles = StyleSheet.create({
-  title: {
-    color: '#8a8a8c',
-    fontWeight: 'bold',
-  },
-});
-const renderSectionHeader = (info: {
-  section: SectionListData<
-    TransactionModel,
-    {
-      title: string;
-      data: TransactionModel[];
+  constructor(args: any) {
+    super(args);
+
+    this.state = {
+      dataProvider: new DataProvider((r1: TransactionModel | string, r2: TransactionModel | string) => {
+        const uid1 = (r1 as TransactionModel)?.id ?? r1;
+        const uid2 = (r2 as TransactionModel)?.id ?? r2;
+        return uid1 !== uid2;
+      }),
+    };
+
+    this.layoutProvider = new LayoutProvider(
+      (i) => {
+        return this.state.dataProvider.getDataForIndex(i).type;
+      },
+      (type, dim) => {
+        switch (type) {
+          case ViewType.OneWayTransaction:
+          case ViewType.TwoWayTransaction:
+            dim.width = width;
+            dim.height = 64;
+            break;
+          case ViewType.SectionHeader:
+            dim.width = width;
+            dim.height = 48;
+            break;
+          default:
+            dim.width = width;
+            dim.height = 0;
+        }
+      },
+    );
+
+    this.renderRow = this.renderRow.bind(this);
+    this.updateDataProvider = this.updateDataProvider.bind(this);
+  }
+
+  componentDidMount() {
+    this.updateDataProvider(this.props.transactionModels.data);
+  }
+
+  componentDidUpdate(prevProps: {transactionModels: TransactionModelsInfo}) {
+    if (this.props.transactionModels.data !== prevProps.transactionModels.data) {
+      this.updateDataProvider(this.props.transactionModels.data);
     }
-  >;
-}) => (
-  <ListItem topDivider>
-    <ListItem.Title style={sectionHeaderStyles.title}>{info.section.title}</ListItem.Title>
-  </ListItem>
-);
+  }
 
-// ========================================================================================================================
-export const TransactionsScreen: React.FC = () => {
-  const {data, isLoading, invalidate} = useTransactionModels();
-
-  const transactionSections = useMemo(() => {
-    const transactionsByDate = groupBy(data, 'date');
+  private updateDataProvider(models: TransactionModel[]) {
+    const transactionsByDate = groupBy(models, 'date');
     const sortedDates = Array.from(transactionsByDate.keys())
       .map((dateString) => ({dateString, dateDayJs: dayjs(dateString)}))
       .sort((a, b) => (a.dateDayJs.isBefore(b.dateDayJs) ? 1 : -1));
-    return sortedDates.map(({dateString, dateDayJs}) => {
-      return {
-        title: dateDayJs.format('MMMM D, dddd'),
-        data: transactionsByDate.get(dateString) ?? [],
+    const items = sortedDates.map<TransactionListItem[]>(({dateString, dateDayJs}) => {
+      const sectionHeader: TransactionListItem = {
+        type: ViewType.SectionHeader,
+        value: dateDayJs.format('MMMM D, dddd'),
       };
+      const transactionItems: TransactionListItem[] = (transactionsByDate.get(dateString) ?? []).map((i) =>
+        i.income && i.outcome
+          ? {type: ViewType.TwoWayTransaction, value: i}
+          : {type: ViewType.OneWayTransaction, value: i},
+      );
+      return [sectionHeader].concat(transactionItems);
     });
-  }, [data]);
 
-  return (
-    <View style={styles.container}>
-      {transactionSections.length > 0 && (
-        <SectionList
-          sections={transactionSections}
-          stickySectionHeadersEnabled
-          removeClippedSubviews
-          onRefresh={invalidate}
-          refreshing={isLoading}
-          keyExtractor={extractId}
-          renderItem={renderTransactionItem}
-          renderSectionHeader={renderSectionHeader}
+    this.setState({
+      dataProvider: this.state.dataProvider.cloneWithRows(flatten(items)),
+    });
+  }
+
+  private renderRow(type: string | number, data: TransactionListItem) {
+    switch (type) {
+      case ViewType.OneWayTransaction:
+        return <OneWayTransaction transaction={data.value as TransactionModel} />;
+      case ViewType.TwoWayTransaction:
+        return <TwoWayTransaction transaction={data.value as TransactionModel} />;
+      case ViewType.SectionHeader:
+        return <TransactionSectionHeader title={data.value as string} />;
+      default:
+        return null;
+    }
+  }
+
+  render() {
+    return (
+      <View style={styles.container}>
+        <RecyclerListView
+          rowRenderer={this.renderRow}
+          dataProvider={this.state.dataProvider}
+          layoutProvider={this.layoutProvider}
         />
-      )}
-      <AddTransactionButton />
-    </View>
-  );
-};
+        <AddTransactionButton />
+      </View>
+    );
+  }
+}
+
+export const TransactionsScreen = withTransactionModels(TransactionsScreenCmp);
 
 const styles = StyleSheet.create({
   container: {

@@ -6,5 +6,5 @@ type ListItemTitleProps = Parameters<typeof ListItem.Title>['0'];
 
 export const ListItemTitle: React.FC<ListItemTitleProps> = (props) => {
   const {text} = useNavigatorThemeColors();
-  return <ListItem.Title {...props} style={[props.style, {color: text}]} />;
+  return <ListItem.Title {...props} style={[{color: text}, props.style]} />;
 };
