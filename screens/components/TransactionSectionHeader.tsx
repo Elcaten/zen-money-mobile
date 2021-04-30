@@ -8,7 +8,7 @@ export interface TransactionSectionHeaderProps {
 
 export const TransactionSectionHeader: React.FC<TransactionSectionHeaderProps> = ({title}) => {
   return (
-    <ListItem topDivider>
+    <ListItem>
       <ListItem.Title style={styles.title}>{title}</ListItem.Title>
     </ListItem>
   );
