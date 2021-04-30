@@ -2,69 +2,89 @@ import dayjs from 'dayjs';
 import * as React from 'react';
 import {useMemo} from 'react';
 import {ListRenderItemInfo, SectionList, SectionListData, StyleSheet, View} from 'react-native';
-import styled from 'styled-components/native';
 import {TransactionModel, useTransactionModels} from '../api-hooks';
-import {FabButton, MenuIcon, SubdirArrowRightIcon, Text, WalletIcon} from '../components';
+import {SubdirArrowRightIcon, Text} from '../components';
 import {ListItem} from '../components/ListItem';
-import {FloatingAction} from '../lib/react-native-floating-action';
 import {extractId} from '../utils';
 import {groupBy} from '../utils/group-by';
-import {TagIcon} from './components';
-import {AddTransactionButton} from './components';
+import {AddTransactionButton, TagIcon} from './components';
 
 // ========================================================================================================================
-const Info = styled(View)`
-  flex: 1;
-  flex-direction: column;
-`;
-const Subtitle = styled(Text)`
-  font-size: 14px;
-  color: #8a8a8c;
-`;
-const Income = styled(Text)`
-  color: #4eb64e;
-`;
-const OneWayTransaction: React.FC<TransactionModel> = ({tag, income, outcome, incomeAccount, outcomeAccount}) => {
-  return (
-    <ListItem>
-      <TagIcon icon={tag?.icon} color={tag?.iconColor} size={24} />
-      <Info>
-        <Text>{tag?.title}</Text>
-        <Subtitle>{income ? incomeAccount : outcomeAccount}</Subtitle>
-      </Info>
-      <React.Fragment>
-        {income ? <Income>+ {income}</Income> : null}
-        {outcome ? <Text>− {outcome}</Text> : null}
-      </React.Fragment>
-    </ListItem>
-  );
-};
-
-// ========================================================================================================================
-const TitleContainer = styled(View)`
-  flex: 1;
-  flex-direction: column;
-`;
-const TwoWayTransaction: React.FC<TransactionModel> = ({income, outcome, incomeAccount, outcomeAccount}) => {
-  const isSameAmount = outcome === income;
-  return (
-    <ListItem>
-      <SubdirArrowRightIcon size={24} />
-      <TitleContainer>
-        <Text>{outcomeAccount}</Text>
-        <Text>{incomeAccount}</Text>
-      </TitleContainer>
-      {isSameAmount ? (
-        <Text>{outcome}</Text>
-      ) : (
-        <View>
-          <Text>− {outcome}</Text>
-          <Income>+ {income}</Income>
+const owStyles = StyleSheet.create({
+  info: {
+    flex: 1,
+    flexDirection: 'column',
+  },
+  subtitle: {
+    fontSize: 14,
+    color: '#8a8a8c',
+  },
+  income: {
+    color: '#4eb64e',
+  },
+});
+class OneWayTransaction extends React.Component<TransactionModel> {
+  render() {
+    const {tag, income, outcome, incomeAccount, outcomeAccount} = this.props;
+    return (
+      <ListItem>
+        <TagIcon icon={tag?.icon} color={tag?.iconColor} size={24} />
+        <View style={owStyles.info}>
+          <Text>{tag?.title}</Text>
+          <Text style={owStyles.subtitle}>{income ? incomeAccount : outcomeAccount}</Text>
         </View>
-      )}
-    </ListItem>
-  );
-};
+        <React.Fragment>
+          {income ? <Text style={owStyles.income}>+ {income}</Text> : null}
+          {outcome ? <Text>− {outcome}</Text> : null}
+        </React.Fragment>
+      </ListItem>
+    );
+  }
+
+  shouldComponentUpdate() {
+    return false;
+  }
+}
+
+// ========================================================================================================================
+const twStyles = StyleSheet.create({
+  titleContainer: {
+    flex: 1,
+    flexDirection: 'column',
+  },
+  income: {
+    color: '#4eb64e',
+  },
+});
+
+class TwoWayTransaction extends React.Component<TransactionModel> {
+  render() {
+    const {income, outcome, incomeAccount, outcomeAccount} = this.props;
+    const isSameAmount = outcome === income;
+
+    return (
+      <ListItem>
+        <SubdirArrowRightIcon size={24} />
+        <View style={twStyles.titleContainer}>
+          <Text>{outcomeAccount}</Text>
+          <Text>{incomeAccount}</Text>
+        </View>
+        {isSameAmount ? (
+          <Text>{outcome}</Text>
+        ) : (
+          <View>
+            <Text>− {outcome}</Text>
+            <Text style={twStyles.income}>+ {income}</Text>
+          </View>
+        )}
+      </ListItem>
+    );
+  }
+
+  shouldComponentUpdate() {
+    return false;
+  }
+}
 
 // ========================================================================================================================
 const renderTransactionItem = (info: ListRenderItemInfo<TransactionModel>) => {
@@ -75,10 +95,12 @@ const renderTransactionItem = (info: ListRenderItemInfo<TransactionModel>) => {
   );
 };
 
-const SectionTitle = styled(ListItem.Title)`
-  color: #8a8a8c;
-  font-weight: bold;
-`;
+const sectionHeaderStyles = StyleSheet.create({
+  title: {
+    color: '#8a8a8c',
+    fontWeight: 'bold',
+  },
+});
 const renderSectionHeader = (info: {
   section: SectionListData<
     TransactionModel,
@@ -89,7 +111,7 @@ const renderSectionHeader = (info: {
   >;
 }) => (
   <ListItem topDivider>
-    <SectionTitle>{info.section.title}</SectionTitle>
+    <ListItem.Title style={sectionHeaderStyles.title}>{info.section.title}</ListItem.Title>
   </ListItem>
 );
 
@@ -102,14 +124,12 @@ export const TransactionsScreen: React.FC = () => {
     const sortedDates = Array.from(transactionsByDate.keys())
       .map((dateString) => ({dateString, dateDayJs: dayjs(dateString)}))
       .sort((a, b) => (a.dateDayJs.isBefore(b.dateDayJs) ? 1 : -1));
-    return sortedDates
-      .map(({dateString, dateDayJs}) => {
-        return {
-          title: dateDayJs.format('MMMM D, dddd'),
-          data: transactionsByDate.get(dateString) ?? [],
-        };
-      })
-      .slice(0, 5);
+    return sortedDates.map(({dateString, dateDayJs}) => {
+      return {
+        title: dateDayJs.format('MMMM D, dddd'),
+        data: transactionsByDate.get(dateString) ?? [],
+      };
+    });
   }, [data]);
 
   return (

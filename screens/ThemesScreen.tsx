@@ -1,12 +1,14 @@
 import * as React from 'react';
-import styled from 'styled-components/native';
+import {StyleSheet} from 'react-native';
 import {ListItem} from '../components/ListItem';
 import {useThemeToggle} from '../themes';
 import {RadioButton} from './components';
 
-const Subtitle = styled(ListItem.Subtitle)`
-  color: #8a8a8c;
-`;
+const styles = StyleSheet.create({
+  subtitle: {
+    color: '#8a8a8c',
+  },
+});
 
 export const ThemesScreen: React.FC = () => {
   const {isDarkThemeEnabled, toggleTheme} = useThemeToggle();
@@ -16,7 +18,9 @@ export const ThemesScreen: React.FC = () => {
         <RadioButton />
         <ListItem.Content>
           <ListItem.Title>System default</ListItem.Title>
-          <Subtitle>Turn on dark when your device's dark theme or Battery Saver is on</Subtitle>
+          <ListItem.Subtitle style={styles.subtitle}>
+            Turn on dark when your device's dark theme or Battery Saver is on
+          </ListItem.Subtitle>
         </ListItem.Content>
       </ListItem>
       <ListItem onPress={() => isDarkThemeEnabled && toggleTheme()}>
