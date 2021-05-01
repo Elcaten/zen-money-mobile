@@ -1,7 +1,7 @@
 import {StatusBar} from 'expo-status-bar';
 import React, {useEffect, useState} from 'react';
 import {useCallback} from 'react';
-import {Appearance, Button, Text} from 'react-native';
+import {Appearance, Button, Text, View} from 'react-native';
 import {useMe} from './api-hooks';
 import {login} from './auth';
 import {initI18n} from './init-i18n';
@@ -18,7 +18,7 @@ import {
 
 export const Root: React.FC = () => {
   const {isLoading, isSuccess, data: user} = useMe();
-  const isLoggedIn = isSuccess && user != undefined;
+  const isLoggedIn = isSuccess && user != null;
 
   const [isLoadingLocales, setIsLoadingLocales] = useState(true);
   const locale = useStore((x) => x.locale);
@@ -73,5 +73,9 @@ export const Root: React.FC = () => {
     );
   }
 
-  return <Button title="Login" onPress={login} />;
+  return (
+    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+      <Button title="Login" onPress={login} />
+    </View>
+  );
 };

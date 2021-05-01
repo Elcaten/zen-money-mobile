@@ -4,7 +4,7 @@ import {fetchAccounts, Account} from '../api';
 import {ACCOUNTS, INSTRUMENTS} from '../auth';
 import {useInstruments} from './useInstruments';
 
-export const useAccounts = () => useQuery(ACCOUNTS, fetchAccounts);
+export const useAccounts = () => useQuery(ACCOUNTS, fetchAccounts, {staleTime: Infinity});
 
 export const useAccountDictionary = () => {
   const accounts = useAccounts();

@@ -1,8 +1,9 @@
 import * as React from 'react';
-import {useMemo} from 'react';
+import {useEffect, useMemo, useState} from 'react';
 import {useTranslation} from 'react-i18next';
-import {StyleSheet, View} from 'react-native';
-import {PieChart} from 'react-native-svg-charts';
+import {StyleSheet} from 'react-native';
+import {PieChart, PieChartData} from 'react-native-svg-charts';
+import {Fade, Placeholder, PlaceholderMedia} from 'rn-placeholder';
 import {useAccounts, useInstruments} from '../api-hooks';
 import {Text} from '../components';
 import {Card} from '../components/Card';
@@ -67,8 +68,9 @@ export const AccountOverviewScreen: React.FC<AccountOverviewScreenProps> = (prop
   const instrumentBalances = useInstrumentBalances();
   const {t} = useTranslation();
 
-  const pieData = useMemo(() => {
-    return instrumentBalances.map((b, index) => ({
+  const [pieData, setPieData] = useState<PieChartData[]>([]);
+  useEffect(() => {
+    const data = instrumentBalances.map((b, index) => ({
       value: b.balanceRub,
       svg: {
         fill: b.color,
@@ -76,13 +78,20 @@ export const AccountOverviewScreen: React.FC<AccountOverviewScreenProps> = (prop
       },
       key: `pie-${index}`,
     }));
+    setPieData(data);
   }, [instrumentBalances]);
 
   return (
     <React.Fragment>
       <Card>
         <Card.Title style={styles.distributionTitle}>{t('Screen.AccountOverview.DistributionByCurrency')}</Card.Title>
-        <PieChart style={styles.pieChart} innerRadius="75%" data={pieData} />
+        {pieData.length > 0 ? (
+          <PieChart style={styles.pieChart} innerRadius="75%" data={pieData} />
+        ) : (
+          <Placeholder Animation={Fade} style={styles.pieChartPlaceholder}>
+            <PlaceholderMedia isRound size={160} />
+          </Placeholder>
+        )}
       </Card>
       <AccountBalancesInfo balances={instrumentBalances} />
     </React.Fragment>
@@ -94,6 +103,12 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   pieChart: {
+    padding: 16,
+    height: 200,
+  },
+  pieChartPlaceholder: {
+    alignItems: 'center',
+    flexDirection: 'column',
     padding: 16,
     height: 200,
   },
