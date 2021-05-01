@@ -1,5 +1,5 @@
 import {DarkTheme, DefaultTheme, Theme} from '@react-navigation/native';
-import React, {useContext} from 'react';
+import React, {useContext, useState} from 'react';
 
 const tintColorLight = '#2f95dc';
 const tintColorDark = '#fff';
@@ -36,7 +36,16 @@ const NavigatorThemeContext = React.createContext({
   setNavigatorTheme: (theme: NavigatorTheme) => {},
 });
 
-export const NavigatorThemeProvider = NavigatorThemeContext.Provider;
+export const NavigatorThemeProvider: React.FC = ({children}) => {
+  const [navigatorTheme, setNavigatorTheme] = useState(DefaultNavigatorTheme);
+
+  return (
+    <NavigatorThemeContext.Provider value={{navigatorTheme, setNavigatorTheme}}>
+      {children}
+    </NavigatorThemeContext.Provider>
+  );
+};
+
 export const useNavigatorTheme = () => useContext(NavigatorThemeContext);
 
 export const useNavigatorThemeColors = () => useContext(NavigatorThemeContext).navigatorTheme.colors;

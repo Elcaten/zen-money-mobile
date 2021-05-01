@@ -1,21 +1,24 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {LogBox} from 'react-native';
-import {ThemeProvider as ElementsThemeProvider} from 'react-native-elements';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {OverflowMenuProvider} from 'react-navigation-header-buttons';
-import {QueryClient, QueryClientProvider} from 'react-query';
+import {QueryClient, QueryClientProvider as QCProvider} from 'react-query';
 import {PersistGate} from 'zustand-persist';
 import {Text, View} from './components';
 import useCachedResources from './hooks/useCachedResources';
 import {Root} from './Root';
 import {useStore} from './store/use-store';
-import {DefaultElementsTheme, DefaultNavigatorTheme, NavigatorThemeProvider, useElementsTheme} from './themes';
+import {ElementsThemeProvider, NavigatorThemeProvider} from './themes';
+import {composeProviders} from './utils';
 
 LogBox.ignoreLogs(['Setting a timer']);
 
 const queryClient = new QueryClient();
+const QueryClientProvider: React.FC = ({children}) => {
+  return <QCProvider client={queryClient}>{children}</QCProvider>;
+};
 
-const Loading = () => (
+const Loading: React.FC = () => (
   <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
     <Text>Loading...</Text>
   </View>
@@ -23,29 +26,17 @@ const Loading = () => (
 
 export default function App() {
   const isLoadingComplete = useCachedResources();
-  const [navigatorTheme, setNavigatorTheme] = useState(DefaultNavigatorTheme);
-  const {elementsTheme} = useElementsTheme();
 
   // Must call useStore to bootstrap persistence or will stop on loading screen
   useStore();
 
-  return (
-    <PersistGate>
-      {isLoadingComplete ? (
-        <NavigatorThemeProvider value={{navigatorTheme, setNavigatorTheme}}>
-          <ElementsThemeProvider theme={elementsTheme ?? DefaultElementsTheme}>
-            <OverflowMenuProvider>
-              <SafeAreaProvider>
-                <QueryClientProvider client={queryClient}>
-                  <Root />
-                </QueryClientProvider>
-              </SafeAreaProvider>
-            </OverflowMenuProvider>
-          </ElementsThemeProvider>
-        </NavigatorThemeProvider>
-      ) : (
-        <Loading />
-      )}
-    </PersistGate>
-  );
+  const WrappedApp = composeProviders(
+    NavigatorThemeProvider,
+    ElementsThemeProvider,
+    OverflowMenuProvider,
+    SafeAreaProvider,
+    QueryClientProvider,
+  )(Root);
+
+  return <PersistGate>{isLoadingComplete ? <WrappedApp /> : <Loading />}</PersistGate>;
 }

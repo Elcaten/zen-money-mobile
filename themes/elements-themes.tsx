@@ -1,5 +1,7 @@
 import {Platform} from 'react-native';
 import {colors, FullTheme, useTheme} from 'react-native-elements';
+import React from 'react';
+import {ThemeProvider} from 'react-native-elements';
 
 declare type RecursivePartial<T> = {
   [P in keyof T]?: RecursivePartial<T[P]>;
@@ -27,4 +29,10 @@ export const useElementsTheme = () => {
   const {theme, replaceTheme} = useTheme();
   const elementsTheme = theme as Partial<FullTheme>;
   return {elementsTheme, setElementsTheme: replaceTheme};
+};
+
+export const ElementsThemeProvider: React.FC = ({children}) => {
+  const {elementsTheme} = useElementsTheme();
+
+  return <ThemeProvider theme={elementsTheme ?? DefaultElementsTheme}>{children}</ThemeProvider>;
 };
