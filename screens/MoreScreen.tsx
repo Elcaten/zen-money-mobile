@@ -13,7 +13,7 @@ export const MoreScreen: React.FC<MoreScreenProps> = ({navigation}) => {
       <ListItem bottomDivider onPress={() => navigation.navigate('ThemesScreen')}>
         <ThemeIcon />
         <ListItem.Content>
-          <ListItem.Title>{t('Screen.Themes')}</ListItem.Title>
+          <ListItem.Title>{t('Screen.Themes.Themes')}</ListItem.Title>
         </ListItem.Content>
         <ListItem.Chevron />
       </ListItem>

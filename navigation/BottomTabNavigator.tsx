@@ -160,7 +160,11 @@ function MoreNavigator() {
     <MoreStack.Navigator>
       <MoreStack.Screen name="MoreScreen" component={MoreScreen} options={{headerTitle: t('Screen.More')}} />
       <MoreStack.Screen name="TagsScreen" component={TagsScreen} options={{headerTitle: t('Screen.Tags')}} />
-      <MoreStack.Screen name="ThemesScreen" component={ThemesScreen} options={{headerTitle: t('Screen.Themes')}} />
+      <MoreStack.Screen
+        name="ThemesScreen"
+        component={ThemesScreen}
+        options={{headerTitle: t('Screen.Themes.Themes')}}
+      />
       <MoreStack.Screen name="LocalesScreen" component={LocalesScreen} options={{headerTitle: t('Screen.Locales')}} />
       <MoreStack.Screen name="TagDetailsScreen" component={TagDetailsScreen} options={{headerTitle: t('Screen.Tag')}} />
     </MoreStack.Navigator>

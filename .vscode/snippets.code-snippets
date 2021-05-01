@@ -55,6 +55,6 @@
   "useTranslations hook": {
     "scope": "typescriptreact",
     "prefix": "utr",
-    "body": ["import {useTranslation} from 'react-i18next';", "const {t,$0} = useTranslation();$1"]
+    "body": ["import {useTranslation} from 'react-i18next';", "const {t} = useTranslation();$0"]
   }
 }

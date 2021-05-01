@@ -12,7 +12,13 @@
         "More": "Еще",
         "Tag": "Категория",
         "Tags": "Категории",
-        "Themes": "Темы",
+        "Themes": {
+            "Dark": "Темная",
+            "Light": "Светлая",
+            "SystemDefault": "По-умолчанию",
+            "SystemDefaultDescription": "Turn on dark when your device's dark theme or Battery Saver is on",
+            "Themes": "Темы"
+        },
         "Transactions": "Операции"
     },
     "SignOut": "Выход из аккаунта",

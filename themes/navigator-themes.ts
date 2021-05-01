@@ -24,8 +24,8 @@ export const DarkNavigatorTheme: NavigatorTheme = {
   ...DarkTheme,
   colors: {
     ...DarkTheme.colors,
-    text: '#A1A1A3',
-    iconColor: '#A1A1A3',
+    text: '#D7D7D7',
+    iconColor: '#D7D7D7',
     tintColor: tintColorDark,
   },
 };

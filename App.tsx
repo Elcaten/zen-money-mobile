@@ -5,7 +5,7 @@ import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {OverflowMenuProvider} from 'react-navigation-header-buttons';
 import {QueryClient, QueryClientProvider} from 'react-query';
 import {PersistGate} from 'zustand-persist';
-import {Text} from './components';
+import {Text, View} from './components';
 import useCachedResources from './hooks/useCachedResources';
 import {Root} from './Root';
 import {useStore} from './store/use-store';
@@ -15,7 +15,11 @@ LogBox.ignoreLogs(['Setting a timer']);
 
 const queryClient = new QueryClient();
 
-const Loading = () => <Text>Loading App...</Text>;
+const Loading = () => (
+  <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+    <Text>Loading...</Text>
+  </View>
+);
 
 export default function App() {
   const isLoadingComplete = useCachedResources();
@@ -26,7 +30,7 @@ export default function App() {
   useStore();
 
   return (
-    <PersistGate loading={<Loading />}>
+    <PersistGate>
       {isLoadingComplete ? (
         <NavigatorThemeProvider value={{navigatorTheme, setNavigatorTheme}}>
           <ElementsThemeProvider theme={elementsTheme ?? DefaultElementsTheme}>

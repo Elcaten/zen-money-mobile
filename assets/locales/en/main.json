@@ -12,7 +12,13 @@
         "More": "More",
         "Tag": "Tag",
         "Tags": "Tags",
-        "Themes": "Themes",
+        "Themes": {
+            "Dark": "Dark",
+            "Light": "Light",
+            "SystemDefault": "System default",
+            "SystemDefaultDescription": "Turn on dark when your device's dark theme or Battery Saver is on",
+            "Themes": "Themes"
+        },
         "Transactions": "Transactions"
     },
     "SignOut": "Sign Out",

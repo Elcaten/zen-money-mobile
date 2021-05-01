@@ -1,7 +1,11 @@
 import {Platform} from 'react-native';
 import {colors, FullTheme, useTheme} from 'react-native-elements';
 
-export type ElementsTheme = Partial<FullTheme>;
+declare type RecursivePartial<T> = {
+  [P in keyof T]?: RecursivePartial<T[P]>;
+};
+
+export type ElementsTheme = RecursivePartial<FullTheme>;
 
 export const DefaultElementsTheme: ElementsTheme = {
   colors: {
