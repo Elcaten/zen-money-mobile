@@ -1,6 +1,6 @@
-import {EntityType, fetchEntitiesUncached} from './fetchEntity';
+import {EntityType, fetchEntities} from './fetchEntity';
 import {User} from './models';
 
 export const fetchUsers = async () => {
-  return fetchEntitiesUncached<User>(EntityType.User);
+  return fetchEntities<User>(EntityType.User);
 };

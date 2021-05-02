@@ -4,7 +4,7 @@ import {fetchInstruments} from '../api';
 import {INSTRUMENTS} from '../auth';
 
 export const useInstruments = () => {
-  const {data, isLoading} = useQuery(INSTRUMENTS, fetchInstruments);
+  const {data, isLoading} = useQuery(INSTRUMENTS, fetchInstruments, {staleTime: Infinity});
 
   const instruments = useMemo(() => {
     return new Map(data?.map((i) => [i.id, {...i, symbol: fixSymbol(i.symbol)}]));

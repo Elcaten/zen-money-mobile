@@ -1,6 +1,6 @@
-import {EntityType, fetchEntitiesSinceDate} from './fetchEntity';
+import {EntityType, fetchEntities} from './fetchEntity';
 import {Transaction} from './models';
 
 export const fetchTransactions = async () => {
-  return fetchEntitiesSinceDate<Transaction>(EntityType.Transaction, new Date(2021, 3, 16));
+  return fetchEntities<Transaction>(EntityType.Transaction);
 };

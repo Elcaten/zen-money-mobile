@@ -7,7 +7,7 @@ import {useAccountDictionary} from './useAccounts';
 import {useInstruments} from './useInstruments';
 import {useTags} from './useTags';
 
-const useTransactions = () => useQuery(TRANSACTIONS, fetchTransactions);
+const useTransactions = () => useQuery(TRANSACTIONS, fetchTransactions, {staleTime: Infinity});
 
 export type TagModel = {
   title: string;

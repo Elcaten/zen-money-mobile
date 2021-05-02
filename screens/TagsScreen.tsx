@@ -32,7 +32,7 @@ export const TagsScreen: React.FC<TagsScreenProps> = ({navigation}) => {
   const tagItems = useMemo<Tag[]>(() => {
     const tagsArray = data?.values ? Array.from(data.values()) : [];
     const tagsByParent = groupBy(tagsArray, 'parent');
-    const rootTags = (tagsByParent.get(undefined) ?? []).sort((t1, t2) => t1.title.localeCompare(t2.title));
+    const rootTags = tagsArray.filter((t) => t.parent == null).sort((t1, t2) => t1.title.localeCompare(t2.title));
     return flatten(rootTags.map((t) => [t, ...(tagsByParent.get(t.id) ?? [])]));
   }, [data]);
 
