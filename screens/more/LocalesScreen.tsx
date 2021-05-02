@@ -1,11 +1,9 @@
 import * as React from 'react';
-import {useTranslation} from 'react-i18next';
-import {Text} from '../components';
-import {ListItem} from '../components/ListItem';
-import {RadioButton} from './components';
-import * as Localization from 'expo-localization';
 import {useCallback} from 'react';
-import {useStore} from '../store/use-store';
+import {useTranslation} from 'react-i18next';
+import {ListItem} from '../../components/ListItem';
+import {useStore} from '../../store/use-store';
+import {RadioButton} from '../components';
 
 export interface LocalesScreenProps {}
 

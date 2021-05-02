@@ -1,9 +1,9 @@
 import * as React from 'react';
 import {useMemo} from 'react';
 import {View} from 'react-native';
-import {useTags} from '../api-hooks/useTags';
-import {Text} from '../components';
-import {TagDetailsScreenProps} from '../types';
+import {useTags} from '../../api-hooks/useTags';
+import {Text} from '../../components';
+import {TagDetailsScreenProps} from '../../types';
 
 export const TagDetailsScreen: React.FC<TagDetailsScreenProps> = ({navigation, route}) => {
   const tags = useTags();

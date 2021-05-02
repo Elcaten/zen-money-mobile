@@ -1,10 +1,10 @@
 import * as React from 'react';
 import {useTranslation} from 'react-i18next';
 import {StyleSheet} from 'react-native';
-import {ListItem} from '../components/ListItem';
-import {GRAY} from '../constants/Colors';
-import {useStore} from '../store/use-store';
-import {RadioButton} from './components';
+import {ListItem} from '../../components/ListItem';
+import {GRAY} from '../../constants/Colors';
+import {useStore} from '../../store/use-store';
+import {RadioButton} from '../components';
 
 const styles = StyleSheet.create({
   subtitle: {
