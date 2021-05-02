@@ -2,22 +2,20 @@ import {Ionicons} from '@expo/vector-icons';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createStackNavigator} from '@react-navigation/stack';
 import * as React from 'react';
-import {useMemo} from 'react';
 import {useTranslation} from 'react-i18next';
-import {TouchableOpacity, TouchableOpacityBase, Button, TouchableWithoutFeedback} from 'react-native';
-import {Icon, IconProps} from 'react-native-elements';
-import {HeaderButtons, HeaderButton, Item} from 'react-navigation-header-buttons';
-import {CreditCardIcon, SwapHorizIcon, MenuIcon, ShowChartIcon, PieChartIcon} from '../components';
+import {IconProps} from 'react-native-elements';
+import {HeaderButtons, Item} from 'react-navigation-header-buttons';
+import {CreditCardIcon, MenuIcon, ShowChartIcon, SwapHorizIcon} from '../components';
 import {
+  AccountOverviewScreen,
   AccountsScreen,
+  AnalyticsScreen,
   LocalesScreen,
   MoreScreen,
   TagDetailsScreen,
   TagsScreen,
   ThemesScreen,
   TransactionsScreen,
-  AccountOverviewScreen,
-  AnalyticsScreen,
 } from '../screens/';
 import {useNavigatorThemeColors} from '../themes';
 import {
