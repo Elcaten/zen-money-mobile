@@ -1,13 +1,6 @@
 import {EntityType, fetchEntitiesUncached} from './fetchEntity';
+import {User} from './models';
 
 export const fetchUsers = async () => {
   return fetchEntitiesUncached<User>(EntityType.User);
 };
-
-export interface User {
-  id: number;
-  changed: number; // Unix timestamp
-  login?: string;
-  currency: number; // Instrument id
-  parent?: number; // User id
-}

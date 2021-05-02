@@ -1,5 +1,6 @@
 import {privateClient} from './client';
 import testEntities from '../assets/json/test-entities.json';
+import {Diff} from './models/diff';
 
 export enum EntityType {
   Account = 'account',
@@ -76,4 +77,23 @@ export const fetchEntitiesSinceDate = async <T>(entityType: EntityType, since: D
   }
   const json = await response.json();
   return json[entityType] as T[];
+};
+
+export const fetchDiff = async (serverTimestamp: number): Promise<Diff> => {
+  const response = await privateClient.post('v8/diff', {
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      currentClientTimestamp: new Date().getTime() / 1000,
+      serverTimestamp: serverTimestamp,
+    }),
+  });
+
+  if (!response.ok) {
+    throw new Error('Network response was not ok');
+  }
+  const json = await response.json();
+  return json as Diff;
 };

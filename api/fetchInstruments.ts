@@ -1,4 +1,5 @@
 import {EntityType, fetchEntities} from './fetchEntity';
+import {Instrument} from './models';
 
 export const fetchInstruments = async () => {
   return fetchEntities<Instrument>(EntityType.Instrument).then(
@@ -7,12 +8,3 @@ export const fetchInstruments = async () => {
 };
 
 const fixSymbol = (symbol: string) => (symbol === 'руб.' ? '₽' : symbol);
-
-export interface Instrument {
-  id: number;
-  changed: number; // Unix timestamp
-  title: string;
-  shortTitle: string;
-  symbol: string;
-  rate: number;
-}
