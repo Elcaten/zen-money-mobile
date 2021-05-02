@@ -115,11 +115,14 @@ export class TransactionsScreenCmp extends Component<TransactionsScreenNewProps,
   render() {
     return (
       <View style={styles.container}>
-        <RecyclerListView
-          rowRenderer={this.renderRow}
-          dataProvider={this.state.dataProvider}
-          layoutProvider={this.layoutProvider}
-        />
+        {this.state.dataProvider.getSize() > 0 && (
+          <RecyclerListView
+            rowRenderer={this.renderRow}
+            dataProvider={this.state.dataProvider}
+            layoutProvider={this.layoutProvider}
+          />
+        )}
+
         <AddTransactionButton />
       </View>
     );
