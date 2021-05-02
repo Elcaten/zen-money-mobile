@@ -1,5 +1,5 @@
 import React from 'react';
-import {AccountType} from '../../api';
+import {AccountType} from '../../api/models';
 import {BankIcon, HelpIcon, IconProps, WalletIcon} from '../../components/Icons';
 
 export type AccountIconProps = IconProps & {

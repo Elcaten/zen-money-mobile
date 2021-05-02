@@ -1,4 +1,4 @@
-import {TagIconName} from '../api/fetchTags';
+import {TagIconName} from '../api/models';
 
 export const pngIcons: Partial<Record<TagIconName, any>> = {
   '1003_bottle_of_water': require('../assets/images/a1003_bottle_of_water.png'),

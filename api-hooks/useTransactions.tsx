@@ -1,14 +1,13 @@
-import {useCallback, useMemo} from 'react';
+import React, {useCallback, useMemo} from 'react';
 import {useQuery, useQueryClient} from 'react-query';
-import {fetchTransactions, Transaction} from '../api';
-import {TagIconName} from '../api/fetchTags';
-import {INSTRUMENTS, TAGS, TRANSACTIONS} from '../auth';
-import {useAccountDictionary, useAccounts} from './useAccounts';
+import {fetchTransactions} from '../api';
+import {TagIconName} from '../api/models';
+import {TRANSACTIONS} from '../auth';
+import {useAccountDictionary} from './useAccounts';
 import {useInstruments} from './useInstruments';
 import {useTags} from './useTags';
-import React from 'react';
 
-export const useTransactions = () => useQuery(TRANSACTIONS, fetchTransactions);
+const useTransactions = () => useQuery(TRANSACTIONS, fetchTransactions);
 
 export type TagModel = {
   title: string;
@@ -63,9 +62,9 @@ export const useTransactionModels = () => {
 
   const invalidate = useCallback(() => {
     queryClient.invalidateQueries(TRANSACTIONS);
-    queryClient.invalidateQueries(INSTRUMENTS);
-    queryClient.invalidateQueries(TAGS);
-  }, [queryClient]);
+    instruments.invalidate();
+    tags.invalidate();
+  }, [instruments, queryClient, tags]);
 
   return {data: transactionModels, isLoading: transactions.isLoading || instruments.isLoading, invalidate};
 };

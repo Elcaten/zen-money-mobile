@@ -1,6 +1,7 @@
 import {useCallback, useMemo} from 'react';
 import {useQuery, useQueryClient} from 'react-query';
-import {fetchAccounts, Account} from '../api';
+import {fetchAccounts} from '../api';
+import {Account} from '../api/models';
 import {ACCOUNTS, INSTRUMENTS} from '../auth';
 import {useInstruments} from './useInstruments';
 

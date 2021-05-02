@@ -1,8 +1,8 @@
 import * as React from 'react';
 import {useCallback, useMemo} from 'react';
-import {FlatList, ListRenderItemInfo, StyleSheet, TouchableOpacity} from 'react-native';
+import {FlatList, ListRenderItemInfo} from 'react-native';
 import {useTags} from '../api-hooks/useTags';
-import {Tag} from '../api/fetchTags';
+import {Tag} from '../api/models';
 import {Text} from '../components';
 import {ListItem} from '../components/ListItem';
 import {TagsScreenProps} from '../types';

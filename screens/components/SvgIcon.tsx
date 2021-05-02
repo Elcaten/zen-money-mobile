@@ -1,6 +1,5 @@
 import React from 'react';
 import {SvgProps} from 'react-native-svg';
-import {TagIconName} from '../../api/fetchTags';
 import {HelpIcon} from '../../components/Icons';
 import Icon_1001_bunch_ingredients from '../../assets/images/a1001_bunch_ingredients.svg';
 import Icon_1002_diningroom from '../../assets/images/a1002_diningroom.svg';
@@ -32,6 +31,7 @@ import Icon_9002_money_bag from '../../assets/images/a9002_money_bag.svg';
 import Icon_9003_banknotes from '../../assets/images/a9003_banknotes.svg';
 import Icon_9007_tax from '../../assets/images/a9007_tax.svg';
 import Icon_9008_give_money from '../../assets/images/a9008_give_money.svg';
+import {TagIconName} from '../../api/models';
 
 export type SvgIconProps = SvgProps & {
   icon: TagIconName;
