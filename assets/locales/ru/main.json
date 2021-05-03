@@ -7,6 +7,14 @@
             "OnBalanceAccounts": "На выбранных счетах"
         },
         "Accounts": "Счета",
+        "AddTransaction": {
+            "AddTransaction": "Добавить транзакцию",
+            "Comment": "Комментарий",
+            "Expense": "Расход",
+            "Income": "Доход",
+            "Save": "Сохранить",
+            "Transfer": "Перевод"
+        },
         "Analytics": "Аналитика",
         "Locales": "Язык приложения",
         "More": "Еще",

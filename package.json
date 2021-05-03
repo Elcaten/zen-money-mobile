@@ -52,7 +52,8 @@
     "recyclerlistview": "^3.0.5-beta.1",
     "rn-placeholder": "^3.0.3",
     "zustand": "^3.4.1",
-    "zustand-persist": "^0.3.1"
+    "zustand-persist": "^0.3.1",
+    "@react-native-community/datetimepicker": "3.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {ListItem} from '.';
+import {ListItem} from './ListItem';
 
 interface CheckboxListItemProps {
   title: string;

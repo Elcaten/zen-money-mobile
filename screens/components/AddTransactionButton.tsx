@@ -1,14 +1,11 @@
+import {useNavigation} from '@react-navigation/native';
 import * as React from 'react';
 import {useMemo} from 'react';
-import {PlusIcon, FabButton, MinusIcon, SwapHorizIcon} from '../../components';
+import {FabButton, MinusIcon, PlusIcon, SwapHorizIcon} from '../../components';
 import {IActionProps} from '../../lib/react-native-floating-action';
 import {useNavigatorThemeColors} from '../../themes';
-
-export enum TransactionType {
-  Expense = 'Expense',
-  Income = 'Income',
-  Transfer = 'Transfer',
-}
+import {TransactionsScreenNavigationProp} from '../../types';
+import {TransactionType} from './transaction-type';
 
 export interface AddTransactionButtonProps {}
 
@@ -41,13 +38,13 @@ export const AddTransactionButton: React.FC<AddTransactionButtonProps> = (props)
     ];
   }, [primary]);
 
+  const nav = useNavigation<TransactionsScreenNavigationProp>();
+
   return (
     <FabButton
       actions={actions}
-      onLongPressMain={() => console.log('LONG')}
-      onPressItem={(name) => {
-        console.log(`selected button: ${name}`);
-      }}
+      onLongPressMain={() => nav.navigate('AddTransactionScreen', {transactionType: TransactionType.Expense})}
+      onPressItem={(name) => nav.navigate('AddTransactionScreen', {transactionType: name as TransactionType})}
     />
   );
 };

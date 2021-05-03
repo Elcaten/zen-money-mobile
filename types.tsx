@@ -6,6 +6,7 @@
 import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
 import {CompositeNavigationProp, RouteProp} from '@react-navigation/native';
 import {StackNavigationProp, StackScreenProps} from '@react-navigation/stack';
+import {TransactionType} from './screens/components/transaction-type';
 
 export type RootStackParamList = {
   Root: undefined;
@@ -26,6 +27,9 @@ export type AccountsParamList = {
 
 export type TransactionsParamList = {
   TransactionsScreen: undefined;
+  AddTransactionScreen: {
+    transactionType: TransactionType;
+  };
 };
 
 export type AnalyticsParamList = {
@@ -38,6 +42,22 @@ export type MoreParamList = {
   LocalesScreen: undefined;
   TagsScreen: undefined;
   TagDetailsScreen: {tagId: string};
+};
+
+export type TransactionsScreenRouteProp = RouteProp<TransactionsParamList, 'TransactionsScreen'>;
+export type TransactionsScreenNavigationProp = CompositeNavigationProp<
+  StackNavigationProp<TransactionsParamList, 'TransactionsScreen'>,
+  BottomTabNavigationProp<TransactionsParamList>
+>;
+
+export type AddTransactionScreenRouteProp = RouteProp<TransactionsParamList, 'AddTransactionScreen'>;
+export type AddTransactionScreenNavigationProp = CompositeNavigationProp<
+  StackNavigationProp<TransactionsParamList, 'AddTransactionScreen'>,
+  BottomTabNavigationProp<TransactionsParamList>
+>;
+export type AddTransactionScreenProps = {
+  route: AddTransactionScreenRouteProp;
+  navigation: AddTransactionScreenNavigationProp;
 };
 
 export type MoreScreenRouteProp = RouteProp<MoreParamList, 'MoreScreen'>;

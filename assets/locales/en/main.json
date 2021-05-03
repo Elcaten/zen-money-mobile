@@ -7,6 +7,14 @@
             "OnBalanceAccounts": "On balance accounts"
         },
         "Accounts": "Accounts",
+        "AddTransaction": {
+            "AddTransaction": "Add transaction",
+            "Comment": "Comment",
+            "Expense": "Expense",
+            "Income": "Income",
+            "Save": "Save",
+            "Transfer": "Transfer"
+        },
         "Analytics": "Analytics",
         "Locales": "App Language",
         "More": "More",

@@ -10,9 +10,19 @@ export const BankIcon: React.FC<IconProps> = (props) => {
   return <MaterialCommunityIcons color={iconColor} name="bank" {...props} />;
 };
 
+export const CalendarIcon: React.FC<IconProps> = (props) => {
+  const {iconColor} = useNavigatorThemeColors();
+  return <MaterialCommunityIcons color={iconColor} name="calendar" {...props} />;
+};
+
 export const CreditCardIcon: React.FC<IconProps> = (props) => {
   const {iconColor} = useNavigatorThemeColors();
   return <MaterialIcons color={iconColor} name="credit-card" {...props} />;
+};
+
+export const CommentIcon: React.FC<IconProps> = (props) => {
+  const {iconColor} = useNavigatorThemeColors();
+  return <MaterialCommunityIcons color={iconColor} name="comment" {...props} />;
 };
 
 export const HelpIcon: React.FC<IconProps> = (props) => {
