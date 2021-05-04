@@ -1,15 +1,20 @@
 import {HeaderBackButton} from '@react-navigation/stack';
+import dayjs from 'dayjs';
 import * as React from 'react';
-import {useEffect, useMemo, useState} from 'react';
+import {useCallback, useEffect, useMemo, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {Divider} from 'react-native-elements';
 import {HeaderButtons, Item} from 'react-navigation-header-buttons';
-import {useAccounts, useTags} from '../../api-hooks';
-import {Account, Tag} from '../../api/models';
+import {useQueryClient} from 'react-query';
+import {useAccounts, useMe, useTags} from '../../api-hooks';
+import {useAddTransaction} from '../../api-hooks/useAddTransaction';
+import {Account, Tag, Transaction} from '../../api/models';
+import {USERS} from '../../auth';
 import {CommentIcon, Input, Text, View} from '../../components';
 import {DateTimeInput} from '../../components/DateTimeInput';
 import {AddTransactionScreenProps} from '../../types';
 import {groupBy} from '../../utils';
+import {generateUUID} from '../../utils/generate-uuid';
 import {TagPicker, AccountPicker} from '../components';
 import {TransactionTypePicker} from '../components/TransactionTypePicker';
 
@@ -38,6 +43,44 @@ export const AddTransactionScreen: React.FC<AddTransactionScreenProps> = ({route
 
   const [date, setDate] = useState(new Date());
 
+  const user = useMe();
+
+  const add = useAddTransaction();
+  const onSavePress = useCallback(() => {
+    const now = new Date();
+    const tr: Transaction = {
+      changed: now.getTime(),
+      comment: null,
+      created: now.getTime(),
+      date: dayjs(date).format('yyyy-MM-dd'),
+      deleted: false,
+      id: generateUUID(),
+      income: 0,
+      hold: false,
+      originalPayee: null,
+      incomeAccount: account!.id,
+      incomeBankID: null,
+      incomeInstrument: account!.instrument,
+      merchant: null,
+      outcome: 100,
+      outcomeAccount: account!.id,
+      outcomeBankID: null,
+      opIncome: null,
+      opIncomeInstrument: null,
+      opOutcome: null,
+      opOutcomeInstrument: null,
+      outcomeInstrument: account!.instrument,
+      payee: null,
+      reminderMarker: null,
+      tag: [],
+      user: user.data!.id,
+      latitude: null,
+      longitude: null,
+      mcc: null,
+    };
+    add.mutateAsync(tr);
+  }, [account, add, date, user.data]);
+
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
@@ -48,11 +91,11 @@ export const AddTransactionScreen: React.FC<AddTransactionScreenProps> = ({route
       ),
       headerRight: () => (
         <HeaderButtons>
-          <Item title={t('Screen.AddTransaction.Save')} onPress={() => {}} />
+          <Item title={t('Screen.AddTransaction.Save')} onPress={onSavePress} />
         </HeaderButtons>
       ),
     });
-  }, [navigation, t, transactionType]);
+  }, [navigation, onSavePress, t, transactionType]);
 
   return (
     <View style={{flex: 1}}>

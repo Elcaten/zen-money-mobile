@@ -7,11 +7,12 @@ export const useMe = () =>
     USERS,
     () =>
       fetchUsers()
-        .then((u) => (u ? u[0] : null))
-        .catch(() => null),
-    {
-      retry: 0,
-      // should be refetched in the background every 8 hours
-      staleTime: 1000 * 60 * 60 * 8,
-    },
+        .then((u) => {
+          return u ? u[0] : null;
+        })
+        .catch((err) => {
+          console.error(err);
+          return null;
+        }),
+    {staleTime: Infinity},
   );

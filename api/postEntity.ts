@@ -1,7 +1,7 @@
 import {privateClient} from './client';
 import {EntityType} from './entyity-type';
 
-export const fetchEntities = async <T>(entityType: EntityType): Promise<T[]> => {
+export const postEntity = async <T>(entityType: EntityType, ...entities: T[]): Promise<any> => {
   const response = await privateClient.post('v8/diff', {
     headers: {
       Accept: 'application/json',
@@ -10,7 +10,7 @@ export const fetchEntities = async <T>(entityType: EntityType): Promise<T[]> => 
     body: JSON.stringify({
       currentClientTimestamp: new Date().getTime() / 1000,
       serverTimestamp: new Date().getTime() / 1000,
-      forceFetch: [entityType],
+      [entityType]: entities,
     }),
   });
 
@@ -18,6 +18,6 @@ export const fetchEntities = async <T>(entityType: EntityType): Promise<T[]> => 
     throw new Error('Network response was not ok');
   }
   const json = await response.json();
-  console.log(`Fetched ${entityType}`);
-  return json[entityType] as T[];
+  console.log(`Posted ${entityType}`);
+  return json;
 };
