@@ -1,4 +1,17 @@
 {
+    "Components": {
+        "TagEditor": {
+            "Expense": "in expense",
+            "Fixed": "Fixed",
+            "Flexible": "Flexible",
+            "Icon": "Icon",
+            "Income": "in income",
+            "Parent": "Parent category",
+            "Show": "Show",
+            "SpendingTitle": "Spending in category is",
+            "Title": "Title"
+        }
+    },
     "Screen": {
         "AccountOverview": {
             "AccountOverview": "Account overview",
@@ -18,8 +31,12 @@
         "Analytics": "Analytics",
         "Locales": "App Language",
         "More": "More",
-        "Tag": "Tag",
-        "Tags": "Tags",
+        "Tag": {
+            "Edit": "Edit",
+            "Save": "Save",
+            "Tag": "Categoriy"
+        },
+        "Tags": "Categories",
         "Themes": {
             "Dark": "Dark",
             "Light": "Light",

@@ -1,7 +1,12 @@
 import {useCallback, useMemo} from 'react';
-import {useQuery, useQueryClient} from 'react-query';
+import {useMutation, useQuery, useQueryClient} from 'react-query';
+import {EntityType, postEntity} from '../api';
+import {deleteEntity} from '../api/deleteEntity';
 import {fetchTags} from '../api/fetchTags';
+import {Tag} from '../api/models';
 import {TAGS} from '../auth';
+import {EditableTag} from '../screens';
+import {useMe} from './useMe';
 
 export const useTags = () => {
   const {data, isLoading} = useQuery(TAGS, fetchTags, {staleTime: Infinity});
@@ -16,4 +21,23 @@ export const useTags = () => {
   }, [queryClient]);
 
   return {data: tags, isLoading, invalidate};
+};
+
+export const useMutateTag = () => {
+  const user = useMe();
+  return useMutation((editableTag: EditableTag) => {
+    const tag: Tag = {
+      ...editableTag,
+      changed: new Date().getTime(),
+      budgetIncome: false,
+      budgetOutcome: false,
+      user: user.data!.id,
+    };
+    return postEntity<Tag>(EntityType.Tag, tag);
+  });
+};
+
+export const useDeleteTag = () => {
+  const user = useMe();
+  return useMutation((tagId: string) => deleteEntity(user.data!.id, EntityType.Tag, tagId));
 };

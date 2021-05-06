@@ -50,7 +50,7 @@ export default function BottomTabNavigator() {
           tabBarIcon: ({color}) => <CreditCardIcon {...iconProps} color={color} />,
           tabBarLabel: t('Tab.Accounts'),
         }}
-        listeners={tabListeners}
+        listeners={tabListeners as any}
       />
       <BottomTab.Screen
         name="Transactions"
@@ -59,7 +59,7 @@ export default function BottomTabNavigator() {
           tabBarIcon: ({color}) => <SwapHorizIcon {...iconProps} color={color} />,
           tabBarLabel: t('Tab.Transactions'),
         }}
-        listeners={tabListeners}
+        listeners={tabListeners as any}
       />
       <BottomTab.Screen
         name="Analytics"
@@ -68,7 +68,7 @@ export default function BottomTabNavigator() {
           tabBarIcon: ({color}) => <ShowChartIcon {...iconProps} color={color} />,
           tabBarLabel: t('Tab.Analytics'),
         }}
-        listeners={tabListeners}
+        listeners={tabListeners as any}
       />
       <BottomTab.Screen
         name="More"
@@ -77,7 +77,7 @@ export default function BottomTabNavigator() {
           tabBarIcon: ({color}) => <MenuIcon {...iconProps} color={color} />,
           tabBarLabel: t('Tab.More'),
         }}
-        listeners={tabListeners}
+        listeners={tabListeners as any}
       />
     </BottomTab.Navigator>
   );
@@ -170,7 +170,11 @@ function MoreNavigator() {
         options={{headerTitle: t('Screen.Themes.Themes')}}
       />
       <MoreStack.Screen name="LocalesScreen" component={LocalesScreen} options={{headerTitle: t('Screen.Locales')}} />
-      <MoreStack.Screen name="TagDetailsScreen" component={TagDetailsScreen} options={{headerTitle: t('Screen.Tag')}} />
+      <MoreStack.Screen
+        name="TagDetailsScreen"
+        component={TagDetailsScreen}
+        options={{headerTitle: t('Screen.Tag.Tag')}}
+      />
     </MoreStack.Navigator>
   );
 }

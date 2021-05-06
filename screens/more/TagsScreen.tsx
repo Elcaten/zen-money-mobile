@@ -1,6 +1,8 @@
+import {MaterialIcons} from '@expo/vector-icons';
 import * as React from 'react';
-import {useCallback, useMemo} from 'react';
+import {useCallback, useLayoutEffect, useMemo} from 'react';
 import {FlatList, ListRenderItemInfo} from 'react-native';
+import {HeaderButtons, Item} from 'react-navigation-header-buttons';
 import {useTags} from '../../api-hooks/useTags';
 import {Tag} from '../../api/models';
 import {Text} from '../../components';
@@ -36,16 +38,26 @@ export const TagsScreen: React.FC<TagsScreenProps> = ({navigation}) => {
     return flatten(rootTags.map((t) => [t, ...(tagsByParent.get(t.id) ?? [])]));
   }, [data]);
 
-  const opendDetails = useCallback(
-    (tag: Tag) => {
-      navigation.navigate('TagDetailsScreen', {tagId: tag.id});
-    },
-    [navigation],
-  );
+  const opendDetails = useCallback((tag: Tag) => navigation.navigate('TagDetailsScreen', {tagId: tag.id}), [
+    navigation,
+  ]);
+
+  const onAddPress = useCallback(() => navigation.navigate('TagDetailsScreen', {tagId: undefined}), [navigation]);
+
   const renderTag = React.useCallback(
     (info: ListRenderItemInfo<Tag>) => <TagItem tag={info.item} onPress={opendDetails} />,
     [opendDetails],
   );
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <HeaderButtons>
+          <Item title="" IconComponent={MaterialIcons} iconName="add" iconSize={24} onPress={onAddPress} />
+        </HeaderButtons>
+      ),
+    });
+  }, [navigation, onAddPress]);
 
   return (
     <FlatList

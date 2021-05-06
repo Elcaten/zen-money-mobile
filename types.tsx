@@ -4,7 +4,7 @@
  */
 
 import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
-import {CompositeNavigationProp, RouteProp} from '@react-navigation/native';
+import {CompositeNavigationProp, NavigatorScreenParams, RouteProp} from '@react-navigation/native';
 import {StackNavigationProp, StackScreenProps} from '@react-navigation/stack';
 import {TransactionType} from './screens/components/transaction-type';
 
@@ -14,10 +14,10 @@ export type RootStackParamList = {
 };
 
 export type BottomTabParamList = {
-  Accounts: undefined;
-  Transactions: undefined;
-  Analytics: undefined;
-  More: undefined;
+  Accounts: NavigatorScreenParams<AccountsParamList>;
+  Transactions: NavigatorScreenParams<TransactionsParamList>;
+  Analytics: NavigatorScreenParams<AnalyticsParamList>;
+  More: NavigatorScreenParams<MoreParamList>;
 };
 
 export type AccountsParamList = {
@@ -40,20 +40,20 @@ export type MoreParamList = {
   MoreScreen: undefined;
   ThemesScreen: undefined;
   LocalesScreen: undefined;
-  TagsScreen: undefined;
-  TagDetailsScreen: {tagId: string};
+  TagsScreen: {}; // TODO: figure out what's wrong with navigation.setOptions typing
+  TagDetailsScreen: {tagId?: string};
 };
 
 export type TransactionsScreenRouteProp = RouteProp<TransactionsParamList, 'TransactionsScreen'>;
 export type TransactionsScreenNavigationProp = CompositeNavigationProp<
   StackNavigationProp<TransactionsParamList, 'TransactionsScreen'>,
-  BottomTabNavigationProp<TransactionsParamList>
+  BottomTabNavigationProp<BottomTabParamList>
 >;
 
 export type AddTransactionScreenRouteProp = RouteProp<TransactionsParamList, 'AddTransactionScreen'>;
 export type AddTransactionScreenNavigationProp = CompositeNavigationProp<
   StackNavigationProp<TransactionsParamList, 'AddTransactionScreen'>,
-  BottomTabNavigationProp<TransactionsParamList>
+  BottomTabNavigationProp<BottomTabParamList>
 >;
 export type AddTransactionScreenProps = {
   route: AddTransactionScreenRouteProp;
@@ -63,7 +63,7 @@ export type AddTransactionScreenProps = {
 export type MoreScreenRouteProp = RouteProp<MoreParamList, 'MoreScreen'>;
 export type MoreScreenNavigationProp = CompositeNavigationProp<
   StackNavigationProp<MoreParamList, 'MoreScreen'>,
-  BottomTabNavigationProp<TransactionsParamList>
+  BottomTabNavigationProp<BottomTabParamList>
 >;
 export type MoreScreenProps = {
   route: MoreScreenRouteProp;
@@ -73,7 +73,7 @@ export type MoreScreenProps = {
 export type TagsScreenRouteProp = RouteProp<MoreParamList, 'TagsScreen'>;
 export type TagsScreenNavigationProp = CompositeNavigationProp<
   StackNavigationProp<MoreParamList, 'TagsScreen'>,
-  BottomTabNavigationProp<TransactionsParamList>
+  BottomTabNavigationProp<BottomTabParamList>
 >;
 export type TagsScreenProps = {
   route: TagsScreenRouteProp;
@@ -83,7 +83,7 @@ export type TagsScreenProps = {
 export type TagDetailsScreenRouteProp = RouteProp<MoreParamList, 'TagDetailsScreen'>;
 export type TagDetailsScreenNavigationProp = CompositeNavigationProp<
   StackNavigationProp<MoreParamList, 'TagDetailsScreen'>,
-  BottomTabNavigationProp<TransactionsParamList>
+  BottomTabNavigationProp<BottomTabParamList>
 >;
 export type TagDetailsScreenProps = {
   route: TagDetailsScreenRouteProp;

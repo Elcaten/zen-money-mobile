@@ -39,6 +39,7 @@
     "ky": "^0.27.0",
     "react": "16.13.1",
     "react-dom": "16.13.1",
+    "react-hook-form": "^7.4.1",
     "react-i18next": "^11.8.15",
     "react-native": "https://github.com/expo/react-native/archive/sdk-41.0.0.tar.gz",
     "react-native-elements": "^3.4.0",
