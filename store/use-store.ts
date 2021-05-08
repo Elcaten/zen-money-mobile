@@ -10,6 +10,11 @@ const {persist, purge} = configurePersist({
   rootKey: 'root', // optional, default value is `root`
 });
 
+export enum AppLocale {
+  Ru = 'ru',
+  En = 'en',
+}
+
 export type State = {
   theme: 'dark' | 'light' | 'system';
   setTheme: (value: 'dark' | 'light' | 'system') => void;
@@ -18,7 +23,7 @@ export type State = {
   zenMoneyToken: AuthToken | null;
   setZenMoneyToken: (value: AuthToken | null) => void;
   locale: string;
-  setLocale: (value: string) => void;
+  setLocale: (value: AppLocale) => void;
 };
 
 const colorScheme = (Appearance.getColorScheme() as unknown) as 'light' | 'dark';

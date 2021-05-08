@@ -27,7 +27,15 @@ const owStyles = StyleSheet.create({
 });
 export class OneWayTransaction extends React.Component<TransactionItemProps> {
   render() {
-    const {tag, income, outcome, incomeAccount, outcomeAccount} = this.props.transaction;
+    const {
+      tag,
+      income,
+      incomeFormatted,
+      outcome,
+      outcomeFormatted,
+      incomeAccount,
+      outcomeAccount,
+    } = this.props.transaction;
     return (
       <ListItem onPress={() => this.props.onPress(this.props.transaction.id)}>
         <TagIcon icon={tag?.icon} color={tag?.iconColor} size={24} />
@@ -36,8 +44,8 @@ export class OneWayTransaction extends React.Component<TransactionItemProps> {
           <Text style={owStyles.subtitle}>{income ? incomeAccount : outcomeAccount}</Text>
         </View>
         <React.Fragment>
-          {income ? <Text style={owStyles.income}>+ {income}</Text> : null}
-          {outcome ? <Text>− {outcome}</Text> : null}
+          {income ? <Text style={owStyles.income}>+ {incomeFormatted}</Text> : null}
+          {outcome ? <Text>− {outcomeFormatted}</Text> : null}
         </React.Fragment>
       </ListItem>
     );
@@ -61,7 +69,7 @@ const twStyles = StyleSheet.create({
 
 export class TwoWayTransaction extends React.Component<TransactionItemProps> {
   render() {
-    const {income, outcome, incomeAccount, outcomeAccount} = this.props.transaction;
+    const {income, outcome, incomeFormatted, outcomeFormatted, incomeAccount, outcomeAccount} = this.props.transaction;
     const isSameAmount = outcome === income;
 
     return (
@@ -72,11 +80,11 @@ export class TwoWayTransaction extends React.Component<TransactionItemProps> {
           <Text>{incomeAccount}</Text>
         </View>
         {isSameAmount ? (
-          <Text>{outcome}</Text>
+          <Text>{outcomeFormatted}</Text>
         ) : (
           <View>
-            <Text>− {outcome}</Text>
-            <Text style={twStyles.income}>+ {income}</Text>
+            <Text>− {outcomeFormatted}</Text>
+            <Text style={twStyles.income}>+ {incomeFormatted}</Text>
           </View>
         )}
       </ListItem>

@@ -21,9 +21,8 @@ const styles = StyleSheet.create({
 const Balance: React.FC<{account: AccountModel}> = ({account}) => {
   return (
     <Text style={[styles.balance, account.balance < 0 ? {color: CINNABAR} : {}]}>
-      {account.balance < 0 && '-'}
-      {account.instrument}
-      {Math.abs(account.balance)}
+      {account.balance < 0 && '−'}
+      {account.balanceFormatted}
     </Text>
   );
 };

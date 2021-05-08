@@ -3,6 +3,7 @@ import {useQuery, useQueryClient} from 'react-query';
 import {fetchTransactions} from '../api';
 import {TagIconName, Transaction} from '../api/models';
 import {TRANSACTIONS} from '../auth';
+import {useCurrencyFormat} from '../hooks/useCurrencyFormat';
 import {useAccountDictionary} from './useAccounts';
 import {useInstruments} from './useInstruments';
 import {useTags} from './useTags';
@@ -18,17 +19,15 @@ export type TagModel = {
 export interface TransactionModel {
   id: string;
   date: string;
-  income: string;
+  income: number;
+  incomeFormatted: string;
   incomeAccount?: string;
   outcomeAccount?: string;
-  outcome: string;
+  outcome: number;
+  outcomeFormatted: string;
   tag?: TagModel;
   comment?: string;
   changed: number;
-}
-
-function formatCurrency(amount: number, symbol: string) {
-  return amount ? `${symbol}${Math.abs(amount)}` : '';
 }
 
 export type TransactionModelsInfo = ReturnType<typeof useTransactionModels>;
@@ -38,6 +37,7 @@ export const useTransactionModels = () => {
   const instruments = useInstruments();
   const tags = useTags();
   const transactions = useTransactions();
+  const formatCurrency = useCurrencyFormat();
 
   const transactionModels = useMemo<TransactionModel[]>(
     () =>
@@ -52,15 +52,17 @@ export const useTransactionModels = () => {
             id: transaction.id,
             tag: firstTag ? {icon: firstTag.icon, title: firstTag.title, iconColor: firstTag.color} : undefined,
             date: transaction.date,
-            income: formatCurrency(transaction.income, incomeSymbol),
+            income: transaction.income,
+            incomeFormatted: formatCurrency(transaction.income, incomeSymbol),
             incomeAccount: accounts.get(transaction.incomeAccount)?.title,
             outcomeAccount: accounts.get(transaction.outcomeAccount)?.title,
-            outcome: formatCurrency(transaction.outcome, outcomeSymbol),
+            outcome: transaction.outcome,
+            outcomeFormatted: formatCurrency(transaction.outcome, outcomeSymbol),
             comment: transaction.comment ?? undefined,
             changed: transaction.changed,
           };
         }) ?? [],
-    [transactions.data, tags.data, instruments.data, accounts],
+    [transactions.data, tags.data, instruments.data, formatCurrency, accounts],
   );
 
   const queryClient = useQueryClient();
