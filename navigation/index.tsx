@@ -5,7 +5,7 @@ import {NotFoundScreen} from '../screens';
 import {useNavigatorTheme} from '../themes';
 import {RootStackParamList} from '../types';
 import BottomTabNavigator from './BottomTabNavigator';
-import LinkingConfiguration from './LinkingConfiguration';
+import LinkingConfiguration from './linking-configuration';
 
 export default function Navigation() {
   const {navigatorTheme} = useNavigatorTheme();
