@@ -9,7 +9,7 @@ import {CreditCardIcon, MenuIcon, ShowChartIcon, SwapHorizIcon} from '../compone
 import {AnalyticsScreen} from '../screens/';
 import {AccountOverviewScreen, AccountsScreen} from '../screens/account';
 import {LocalesScreen, MoreScreen, TagDetailsScreen, TagsScreen, ThemesScreen} from '../screens/more';
-import {EditTransactionScreen, TransactionsScreen} from '../screens/transactions';
+import {EditTransactionScreen, TransactionDetailsScreen, TransactionsScreen} from '../screens/transactions';
 import {useNavigatorThemeColors} from '../themes';
 import {
   AccountsParamList,
@@ -122,6 +122,11 @@ function TransactionsNavigator() {
         name="TransactionsScreen"
         component={TransactionsScreen}
         options={{headerTitle: t('Screen.Transactions')}}
+      />
+      <TransactionsStack.Screen
+        name="TransactionDetailsScreen"
+        component={TransactionDetailsScreen}
+        options={{headerTitle: ''}}
       />
       <TransactionsStack.Screen
         name="EditTransactionScreen"

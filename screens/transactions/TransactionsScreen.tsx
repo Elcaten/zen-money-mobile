@@ -9,6 +9,7 @@ import {groupBy} from '../../utils/group-by';
 import {OneWayTransaction, TwoWayTransaction} from './TransactionItem';
 import {TransactionSectionHeader} from './TransactionSectionHeader';
 import {AddTransactionButton} from './AddTransactionButton';
+import {TransactionsScreenProps as TransactionsScreenCmpProps} from '../../types';
 
 let {width} = Dimensions.get('window');
 
@@ -21,13 +22,13 @@ interface TransactionListItem {
   type: number | string;
   value: TransactionModel | string;
 }
-interface TransactionsScreenNewProps {
+interface TransactionsScreenProps extends TransactionsScreenCmpProps {
   transactionModels: TransactionModelsInfo;
 }
 interface TransactionsScreenNewState {
   dataProvider: DataProvider;
 }
-export class TransactionsScreenCmp extends Component<TransactionsScreenNewProps, TransactionsScreenNewState> {
+export class TransactionsScreenCmp extends Component<TransactionsScreenProps, TransactionsScreenNewState> {
   private layoutProvider: LayoutProvider;
 
   constructor(args: any) {
@@ -65,6 +66,7 @@ export class TransactionsScreenCmp extends Component<TransactionsScreenNewProps,
 
     this.renderRow = this.renderRow.bind(this);
     this.updateDataProvider = this.updateDataProvider.bind(this);
+    this.navigateToDetails = this.navigateToDetails.bind(this);
   }
 
   componentDidMount() {
@@ -100,12 +102,16 @@ export class TransactionsScreenCmp extends Component<TransactionsScreenNewProps,
     });
   }
 
+  private navigateToDetails(transactionId: string) {
+    this.props.navigation.navigate('TransactionDetailsScreen', {transactionId});
+  }
+
   private renderRow(type: string | number, data: TransactionListItem) {
     switch (type) {
       case ViewType.OneWayTransaction:
-        return <OneWayTransaction transaction={data.value as TransactionModel} />;
+        return <OneWayTransaction transaction={data.value as TransactionModel} onPress={this.navigateToDetails} />;
       case ViewType.TwoWayTransaction:
-        return <TwoWayTransaction transaction={data.value as TransactionModel} />;
+        return <TwoWayTransaction transaction={data.value as TransactionModel} onPress={this.navigateToDetails} />;
       case ViewType.SectionHeader:
         return <TransactionSectionHeader title={data.value as string} />;
       default:

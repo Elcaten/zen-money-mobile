@@ -1,7 +1,7 @@
 import React, {useCallback, useMemo} from 'react';
 import {useQuery, useQueryClient} from 'react-query';
 import {fetchTransactions} from '../api';
-import {TagIconName} from '../api/models';
+import {TagIconName, Transaction} from '../api/models';
 import {TRANSACTIONS} from '../auth';
 import {useAccountDictionary} from './useAccounts';
 import {useInstruments} from './useInstruments';
@@ -24,6 +24,7 @@ export interface TransactionModel {
   outcome: string;
   tag?: TagModel;
   comment?: string;
+  changed: number;
 }
 
 function formatCurrency(amount: number, symbol: string) {
@@ -40,21 +41,25 @@ export const useTransactionModels = () => {
 
   const transactionModels = useMemo<TransactionModel[]>(
     () =>
-      transactions.data?.map((transaction) => {
-        const firstTag = transaction.tag && transaction.tag.length > 0 ? tags.data?.get(transaction.tag[0]) : undefined;
-        const incomeSymbol = instruments.data?.get(transaction.incomeInstrument)?.symbol ?? '';
-        const outcomeSymbol = instruments.data?.get(transaction.outcomeInstrument)?.symbol ?? '';
-        return {
-          id: transaction.id,
-          tag: firstTag ? {icon: firstTag.icon, title: firstTag.title, iconColor: firstTag.color} : undefined,
-          date: transaction.date,
-          income: formatCurrency(transaction.income, incomeSymbol),
-          incomeAccount: accounts.get(transaction.incomeAccount)?.title,
-          outcomeAccount: accounts.get(transaction.outcomeAccount)?.title,
-          outcome: formatCurrency(transaction.outcome, outcomeSymbol),
-          comment: transaction.comment ?? undefined,
-        };
-      }) ?? [],
+      transactions.data
+        ?.filter((transaction) => !transaction.deleted)
+        .map((transaction) => {
+          const firstTag =
+            transaction.tag && transaction.tag.length > 0 ? tags.data?.get(transaction.tag[0]) : undefined;
+          const incomeSymbol = instruments.data?.get(transaction.incomeInstrument)?.symbol ?? '';
+          const outcomeSymbol = instruments.data?.get(transaction.outcomeInstrument)?.symbol ?? '';
+          return {
+            id: transaction.id,
+            tag: firstTag ? {icon: firstTag.icon, title: firstTag.title, iconColor: firstTag.color} : undefined,
+            date: transaction.date,
+            income: formatCurrency(transaction.income, incomeSymbol),
+            incomeAccount: accounts.get(transaction.incomeAccount)?.title,
+            outcomeAccount: accounts.get(transaction.outcomeAccount)?.title,
+            outcome: formatCurrency(transaction.outcome, outcomeSymbol),
+            comment: transaction.comment ?? undefined,
+            changed: transaction.changed,
+          };
+        }) ?? [],
     [transactions.data, tags.data, instruments.data, accounts],
   );
 

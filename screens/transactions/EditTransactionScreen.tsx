@@ -7,11 +7,11 @@ import {HeaderButtons, Item} from 'react-navigation-header-buttons';
 import {useAccounts, useTags} from '../../api-hooks';
 import {useAddIncomeTransaction} from '../../api-hooks/useMutateTransaction';
 import {Text} from '../../components';
-import {AddTransactionScreenProps} from '../../types';
+import {EditTransactionScreenProps} from '../../types';
 import {IncomeEditor, IncomeEditorHandles, IncomeTransaction} from './IncomeEditor';
 import {TransactionTypePicker} from './TransactionTypePicker';
 
-export const EditTransactionScreen: React.FC<AddTransactionScreenProps> = ({route, navigation}) => {
+export const EditTransactionScreen: React.FC<EditTransactionScreenProps> = ({route, navigation}) => {
   const accounts = useAccounts();
 
   const emptyIncome: IncomeTransaction = {

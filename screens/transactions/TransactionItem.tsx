@@ -6,6 +6,11 @@ import {ListItem} from '../../components/ListItem';
 import {GRAY, SUCCESS} from '../../constants/Colors';
 import {TagIcon} from '../components/TagIcon';
 
+interface TransactionItemProps {
+  transaction: TransactionModel;
+  onPress: (transactionId: string) => void;
+}
+
 // ========================================================================================================================
 const owStyles = StyleSheet.create({
   info: {
@@ -20,11 +25,11 @@ const owStyles = StyleSheet.create({
     color: SUCCESS,
   },
 });
-export class OneWayTransaction extends React.Component<{transaction: TransactionModel}> {
+export class OneWayTransaction extends React.Component<TransactionItemProps> {
   render() {
     const {tag, income, outcome, incomeAccount, outcomeAccount} = this.props.transaction;
     return (
-      <ListItem>
+      <ListItem onPress={() => this.props.onPress(this.props.transaction.id)}>
         <TagIcon icon={tag?.icon} color={tag?.iconColor} size={24} />
         <View style={owStyles.info}>
           <Text>{tag?.title}</Text>
@@ -38,8 +43,8 @@ export class OneWayTransaction extends React.Component<{transaction: Transaction
     );
   }
 
-  shouldComponentUpdate() {
-    return false;
+  shouldComponentUpdate(newProps: TransactionItemProps) {
+    return this.props.transaction.changed !== newProps.transaction.changed;
   }
 }
 
@@ -54,13 +59,13 @@ const twStyles = StyleSheet.create({
   },
 });
 
-export class TwoWayTransaction extends React.Component<{transaction: TransactionModel}> {
+export class TwoWayTransaction extends React.Component<TransactionItemProps> {
   render() {
     const {income, outcome, incomeAccount, outcomeAccount} = this.props.transaction;
     const isSameAmount = outcome === income;
 
     return (
-      <ListItem>
+      <ListItem onPress={() => this.props.onPress(this.props.transaction.id)}>
         <SubdirArrowRightIcon size={24} />
         <View style={twStyles.titleContainer}>
           <Text>{outcomeAccount}</Text>
@@ -78,7 +83,7 @@ export class TwoWayTransaction extends React.Component<{transaction: Transaction
     );
   }
 
-  shouldComponentUpdate() {
-    return false;
+  shouldComponentUpdate(newProps: TransactionItemProps) {
+    return this.props.transaction.changed !== newProps.transaction.changed;
   }
 }
