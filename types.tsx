@@ -22,6 +22,9 @@ export type BottomTabParamList = {
 
 export type AccountsParamList = {
   AccountsScreen: undefined;
+  AccountDetailsScreen: {
+    accountId: string;
+  };
   AccountOverviewScreen: undefined;
 };
 
@@ -45,6 +48,26 @@ export type MoreParamList = {
   LocalesScreen: undefined;
   TagsScreen: {}; // TODO: figure out what's wrong with navigation.setOptions typing
   TagDetailsScreen: {tagId?: string};
+};
+
+export type AccountsScreenRouteProp = RouteProp<AccountsParamList, 'AccountsScreen'>;
+export type AccountsScreenNavigationProp = CompositeNavigationProp<
+  StackNavigationProp<AccountsParamList, 'AccountsScreen'>,
+  BottomTabNavigationProp<BottomTabParamList>
+>;
+export type AccountsScreenProps = {
+  route: AccountsScreenRouteProp;
+  navigation: AccountsScreenNavigationProp;
+};
+
+export type AccountDetailsScreenRouteProp = RouteProp<AccountsParamList, 'AccountDetailsScreen'>;
+export type AccountDetailsScreenNavigationProp = CompositeNavigationProp<
+  StackNavigationProp<AccountsParamList, 'AccountDetailsScreen'>,
+  BottomTabNavigationProp<BottomTabParamList>
+>;
+export type AccountDetailsScreenProps = {
+  route: AccountDetailsScreenRouteProp;
+  navigation: AccountDetailsScreenNavigationProp;
 };
 
 export type TransactionsScreenRouteProp = RouteProp<TransactionsParamList, 'TransactionsScreen'>;

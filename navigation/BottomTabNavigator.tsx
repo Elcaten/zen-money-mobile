@@ -8,6 +8,7 @@ import {HeaderButtons, Item} from 'react-navigation-header-buttons';
 import {CreditCardIcon, MenuIcon, ShowChartIcon, SwapHorizIcon} from '../components';
 import {AnalyticsScreen} from '../screens/';
 import {AccountOverviewScreen, AccountsScreen} from '../screens/account';
+import {AccountDetailsScreen} from '../screens/account/AccountDetailsScreen';
 import {LocalesScreen, MoreScreen, TagDetailsScreen, TagsScreen, ThemesScreen} from '../screens/more';
 import {EditTransactionScreen, TransactionDetailsScreen, TransactionsScreen} from '../screens/transactions';
 import {useNavigatorThemeColors} from '../themes';
@@ -107,6 +108,7 @@ function AccountsNavigator() {
         component={AccountOverviewScreen}
         options={{headerTitle: t('Screen.AccountOverview.AccountOverview')}}
       />
+      <AccountsStack.Screen name="AccountDetailsScreen" component={AccountDetailsScreen} options={{headerTitle: ''}} />
     </AccountsStack.Navigator>
   );
 }
