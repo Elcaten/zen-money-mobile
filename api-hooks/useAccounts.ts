@@ -21,8 +21,8 @@ export const useAccountModels = () => {
   const accounts = useAccounts();
   const instruments = useInstruments();
 
-  const accountModels = useMemo<AccountModel[]>(
-    () =>
+  const accountModels = useMemo<AccountModel[]>(() => {
+    const models =
       accounts.data?.map(({id, title, type, balance, instrument}) => {
         const symbol = instruments.data?.get(instrument)?.symbol ?? '';
         return {
@@ -32,9 +32,9 @@ export const useAccountModels = () => {
           balance,
           instrument: symbol,
         };
-      }) ?? [],
-    [accounts.data, instruments],
-  );
+      }) ?? [];
+    return models.sort((m1, m2) => m1.title.localeCompare(m2.title));
+  }, [accounts.data, instruments]);
 
   const queryClient = useQueryClient();
 

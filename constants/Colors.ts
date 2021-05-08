@@ -20,5 +20,6 @@ export default {
   },
 };
 
-export const GRAY = '#8a8a8c';
-export const SUCCESS = '#4eb64e';
+export const GRAY = '#8A8A8C';
+export const SUCCESS = '#4EB64E';
+export const CINNABAR = '#EC4237';
