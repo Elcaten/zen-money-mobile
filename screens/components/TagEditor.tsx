@@ -52,9 +52,9 @@ const TagEditorComponent: ForwardRefRenderFunction<TagEditorHandles, TagEditorPr
       <Controller
         control={control}
         render={({field: {onChange, value}}) => {
-          const parent = parentTags.find(({id}) => id === value) ?? null;
+          // const parent = parentTags.find(({id}) => id === value) ?? null;
           return parentTags.length > 0 ? (
-            <TagPicker tags={parentTags} selectedTag={parent} onSelect={(tag) => onChange(tag.id)} />
+            <TagPicker tags={parentTags} selectedTag={value} onSelect={onChange} />
           ) : (
             <></>
           );

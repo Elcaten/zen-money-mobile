@@ -9,7 +9,7 @@ import {CreditCardIcon, MenuIcon, ShowChartIcon, SwapHorizIcon} from '../compone
 import {
   AccountOverviewScreen,
   AccountsScreen,
-  AddTransactionScreen,
+  TransactionDetailsScreen,
   AnalyticsScreen,
   LocalesScreen,
   MoreScreen,
@@ -132,8 +132,8 @@ function TransactionsNavigator() {
         options={{headerTitle: t('Screen.Transactions')}}
       />
       <TransactionsStack.Screen
-        name="AddTransactionScreen"
-        component={AddTransactionScreen}
+        name="TransactionDetailsScreen"
+        component={TransactionDetailsScreen}
         options={{headerTitle: ''}}
       />
     </TransactionsStack.Navigator>

@@ -1,6 +1,5 @@
 import * as React from 'react';
 import {Picker, PickerProps} from 'react-native';
-import {Text} from '../../components';
 import {TransactionType, useTransactionTypes} from './transaction-type';
 
 export type TransactionTypePickerProps = {

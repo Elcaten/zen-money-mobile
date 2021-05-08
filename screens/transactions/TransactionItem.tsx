@@ -82,12 +82,3 @@ export class TwoWayTransaction extends React.Component<{transaction: Transaction
     return false;
   }
 }
-
-// ========================================================================================================================
-export const renderTransactionItem = (type: any, model: TransactionModel) => {
-  return model.income && model.outcome ? (
-    <TwoWayTransaction transaction={model} />
-  ) : (
-    <OneWayTransaction transaction={model} />
-  );
-};

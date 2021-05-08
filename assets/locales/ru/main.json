@@ -1,5 +1,8 @@
 {
     "Components": {
+        "IncomeTransactionEditor": {
+            "Comment": "Комментарий"
+        },
         "TagEditor": {
             "Expense": "в расходе",
             "Fixed": "Обязательные",

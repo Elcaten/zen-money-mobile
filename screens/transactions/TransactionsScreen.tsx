@@ -6,8 +6,9 @@ import {DataProvider, LayoutProvider, RecyclerListView} from 'recyclerlistview';
 import {TransactionModel, TransactionModelsInfo, withTransactionModels} from '../../api-hooks';
 import {flatten} from '../../utils';
 import {groupBy} from '../../utils/group-by';
-import {AddTransactionButton, OneWayTransaction, TwoWayTransaction} from '../components';
-import {TransactionSectionHeader} from '../components/TransactionSectionHeader';
+import {OneWayTransaction, TwoWayTransaction} from './TransactionItem';
+import {TransactionSectionHeader} from './TransactionSectionHeader';
+import {AddTransactionButton} from './AddTransactionButton';
 
 let {width} = Dimensions.get('window');
 
