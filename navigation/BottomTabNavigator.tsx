@@ -6,18 +6,10 @@ import {useTranslation} from 'react-i18next';
 import {IconProps} from 'react-native-elements';
 import {HeaderButtons, Item} from 'react-navigation-header-buttons';
 import {CreditCardIcon, MenuIcon, ShowChartIcon, SwapHorizIcon} from '../components';
-import {
-  AccountOverviewScreen,
-  AccountsScreen,
-  TransactionDetailsScreen,
-  AnalyticsScreen,
-  LocalesScreen,
-  MoreScreen,
-  TagDetailsScreen,
-  TagsScreen,
-  ThemesScreen,
-  TransactionsScreen,
-} from '../screens/';
+import {AnalyticsScreen} from '../screens/';
+import {AccountOverviewScreen, AccountsScreen} from '../screens/account';
+import {LocalesScreen, MoreScreen, TagDetailsScreen, TagsScreen, ThemesScreen} from '../screens/more';
+import {EditTransactionScreen, TransactionsScreen} from '../screens/transactions';
 import {useNavigatorThemeColors} from '../themes';
 import {
   AccountsParamList,
@@ -132,8 +124,8 @@ function TransactionsNavigator() {
         options={{headerTitle: t('Screen.Transactions')}}
       />
       <TransactionsStack.Screen
-        name="TransactionDetailsScreen"
-        component={TransactionDetailsScreen}
+        name="EditTransactionScreen"
+        component={EditTransactionScreen}
         options={{headerTitle: ''}}
       />
     </TransactionsStack.Navigator>

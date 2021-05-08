@@ -1,6 +1,6 @@
 export * from './AddTransactionButton';
 export * from './IncomeEditor';
-export * from './TransactionDetailsScreen';
+export * from './EditTransactionScreen';
 export * from './TransactionItem';
 export * from './TransactionSectionHeader';
 export * from './TransactionTypePicker';

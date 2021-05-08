@@ -5,7 +5,7 @@ import {InputHandles} from 'react-native-elements';
 import {Account, Tag, Transaction} from '../../api/models';
 import {CommentIcon, Input, View} from '../../components';
 import {DateTimeInput} from '../../components/DateTimeInput';
-import {AccountPicker} from '../components/AccountPicker';
+import {AccountPicker} from './AccountPicker';
 import {TagPicker} from '../components/TagPicker';
 import {useTranslation} from 'react-i18next';
 import {useMemo, useState} from 'react';

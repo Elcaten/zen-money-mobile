@@ -43,8 +43,8 @@ export const AddTransactionButton: React.FC<AddTransactionButtonProps> = (props)
   return (
     <FabButton
       actions={actions}
-      onLongPressMain={() => nav.navigate('TransactionDetailsScreen', {transactionType: TransactionType.Expense})}
-      onPressItem={(name) => nav.navigate('TransactionDetailsScreen', {transactionType: name as TransactionType})}
+      onLongPressMain={() => nav.navigate('EditTransactionScreen', {transactionType: TransactionType.Expense})}
+      onPressItem={(name) => nav.navigate('EditTransactionScreen', {transactionType: name as TransactionType})}
     />
   );
 };

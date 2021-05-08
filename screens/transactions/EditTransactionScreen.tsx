@@ -11,7 +11,7 @@ import {AddTransactionScreenProps} from '../../types';
 import {IncomeEditor, IncomeEditorHandles, IncomeTransaction} from './IncomeEditor';
 import {TransactionTypePicker} from './TransactionTypePicker';
 
-export const TransactionDetailsScreen: React.FC<AddTransactionScreenProps> = ({route, navigation}) => {
+export const EditTransactionScreen: React.FC<AddTransactionScreenProps> = ({route, navigation}) => {
   const accounts = useAccounts();
 
   const emptyIncome: IncomeTransaction = {

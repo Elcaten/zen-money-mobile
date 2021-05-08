@@ -7,8 +7,8 @@ import {CheckBox, InputHandles} from 'react-native-elements';
 import {Tag} from '../../api/models';
 import {Input, ListItem, Text, View} from '../../components';
 import {IconPicker} from './IconPicker';
-import {RadioButton} from './RadioButton';
-import {TagPicker} from './TagPicker';
+import {RadioButton} from '../components/RadioButton';
+import {TagPicker} from '../components/TagPicker';
 
 export type EditableTag = Pick<Tag, 'title' | 'parent' | 'icon' | 'showIncome' | 'showOutcome' | 'required' | 'id'>;
 

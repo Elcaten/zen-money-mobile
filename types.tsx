@@ -27,7 +27,7 @@ export type AccountsParamList = {
 
 export type TransactionsParamList = {
   TransactionsScreen: undefined;
-  TransactionDetailsScreen: {
+  EditTransactionScreen: {
     transactionType: TransactionType;
   };
 };
@@ -50,14 +50,14 @@ export type TransactionsScreenNavigationProp = CompositeNavigationProp<
   BottomTabNavigationProp<BottomTabParamList>
 >;
 
-export type TransactionDetailsScreenRouteProp = RouteProp<TransactionsParamList, 'TransactionDetailsScreen'>;
-export type TransactionDetailsScreenNavigationProp = CompositeNavigationProp<
-  StackNavigationProp<TransactionsParamList, 'TransactionDetailsScreen'>,
+export type EditTransactionScreenRouteProp = RouteProp<TransactionsParamList, 'EditTransactionScreen'>;
+export type EditTransactionScreenNavigationProp = CompositeNavigationProp<
+  StackNavigationProp<TransactionsParamList, 'EditTransactionScreen'>,
   BottomTabNavigationProp<BottomTabParamList>
 >;
 export type AddTransactionScreenProps = {
-  route: TransactionDetailsScreenRouteProp;
-  navigation: TransactionDetailsScreenNavigationProp;
+  route: EditTransactionScreenRouteProp;
+  navigation: EditTransactionScreenNavigationProp;
 };
 
 export type MoreScreenRouteProp = RouteProp<MoreParamList, 'MoreScreen'>;

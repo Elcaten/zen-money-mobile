@@ -4,11 +4,11 @@ import {useTranslation} from 'react-i18next';
 import {StyleSheet} from 'react-native';
 import {PieChart, PieChartData} from 'react-native-svg-charts';
 import {Fade, Placeholder, PlaceholderMedia} from 'rn-placeholder';
-import {useAccounts, useInstruments} from '../api-hooks';
-import {Text} from '../components';
-import {Card} from '../components/Card';
-import {ListItem} from '../components/ListItem';
-import {groupBy} from '../utils';
+import {useAccounts, useInstruments} from '../../api-hooks';
+import {Text} from '../../components';
+import {Card} from '../../components/Card';
+import {ListItem} from '../../components/ListItem';
+import {groupBy} from '../../utils';
 
 export interface AccountOverviewScreenProps {}
 

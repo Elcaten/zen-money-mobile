@@ -1,10 +1,10 @@
 import * as React from 'react';
 import {FlatList, ListRenderItemInfo, StyleSheet} from 'react-native';
-import {AccountModel, useAccountModels} from '../api-hooks/';
-import {Text} from '../components';
-import {ListItem} from '../components/ListItem';
-import {extractId} from '../utils';
-import {AccountIcon} from './components/AccountIcon';
+import {AccountModel, useAccountModels} from '../../api-hooks/';
+import {Text} from '../../components';
+import {ListItem} from '../../components/ListItem';
+import {extractId} from '../../utils';
+import {AccountIcon} from './AccountIcon';
 
 const styles = StyleSheet.create({
   title: {
