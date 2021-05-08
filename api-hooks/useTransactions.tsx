@@ -78,13 +78,13 @@ export function withTransactionModels<T extends WithTransactionModelsProps = Wit
 ) {
   const displayName = WrappedComponent.displayName || WrappedComponent.name || 'Component';
 
-  const ComponentWithTheme = (props: Omit<T, keyof WithTransactionModelsProps>) => {
+  const ComponentWithTransactionModels = (props: Omit<T, keyof WithTransactionModelsProps>) => {
     const transactionModels = useTransactionModels();
 
     return <WrappedComponent {...(props as T)} transactionModels={transactionModels} />;
   };
 
-  ComponentWithTheme.displayName = `withTransactionModels(${displayName})`;
+  ComponentWithTransactionModels.displayName = `withTransactionModels(${displayName})`;
 
-  return ComponentWithTheme;
+  return ComponentWithTransactionModels;
 }

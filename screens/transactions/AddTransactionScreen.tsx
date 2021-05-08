@@ -49,35 +49,36 @@ export const AddTransactionScreen: React.FC<AddTransactionScreenProps> = ({route
   const onSavePress = useCallback(() => {
     const now = new Date();
     const tr: Transaction = {
-      changed: now.getTime(),
-      comment: null,
+      changed: now.getTime() + 1,
+      comment: 'TEST COMENT',
       created: now.getTime(),
-      date: dayjs(date).format('yyyy-MM-dd'),
+      date: dayjs(date).format('YYYY-MM-DD'),
       deleted: false,
+      hold: false,
       id: generateUUID(),
       income: 0,
-      hold: false,
-      originalPayee: null,
       incomeAccount: account!.id,
       incomeBankID: null,
       incomeInstrument: account!.instrument,
+      latitude: null,
+      longitude: null,
+      mcc: null,
       merchant: null,
-      outcome: 100,
-      outcomeAccount: account!.id,
-      outcomeBankID: null,
       opIncome: null,
       opIncomeInstrument: null,
       opOutcome: null,
       opOutcomeInstrument: null,
+      originalPayee: null,
+      outcome: 100,
+      outcomeAccount: account!.id,
+      outcomeBankID: null,
       outcomeInstrument: account!.instrument,
       payee: null,
       reminderMarker: null,
-      tag: [],
+      tag: null,
       user: user.data!.id,
-      latitude: null,
-      longitude: null,
-      mcc: null,
     };
+    // console.log(tr);
     add.mutateAsync(tr);
   }, [account, add, date, user.data]);
 

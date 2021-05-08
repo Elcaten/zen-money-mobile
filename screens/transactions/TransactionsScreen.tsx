@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import * as React from 'react';
 import {Component} from 'react';
-import {Dimensions, StyleSheet, View} from 'react-native';
+import {Dimensions, RefreshControl, StyleSheet, View} from 'react-native';
 import {DataProvider, LayoutProvider, RecyclerListView} from 'recyclerlistview';
 import {TransactionModel, TransactionModelsInfo, withTransactionModels} from '../../api-hooks';
 import {flatten} from '../../utils';
@@ -120,6 +120,14 @@ export class TransactionsScreenCmp extends Component<TransactionsScreenNewProps,
             rowRenderer={this.renderRow}
             dataProvider={this.state.dataProvider}
             layoutProvider={this.layoutProvider}
+            scrollViewProps={{
+              refreshControl: (
+                <RefreshControl
+                  refreshing={this.props.transactionModels.isLoading}
+                  onRefresh={this.props.transactionModels.invalidate}
+                />
+              ),
+            }}
           />
         )}
 
