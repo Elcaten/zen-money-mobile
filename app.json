@@ -1,32 +1,33 @@
 {
   "expo": {
-    "name": "zen-money-mobile",
-    "slug": "zen-money-mobile",
-    "version": "1.0.0",
-    "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
-    "scheme": "myapp",
-    "userInterfaceStyle": "automatic",
-    "splash": {
-      "image": "./assets/images/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
-    "updates": {
-      "fallbackToCacheTimeout": 0
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#ffffff",
+        "foregroundImage": "./assets/images/adaptive-icon.png"
+      }
     },
     "assetBundlePatterns": [
       "**/*"
     ],
+    "icon": "./assets/images/icon.png",
     "ios": {
       "supportsTablet": true
     },
-    "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      }
+    "name": "zen-money-mobile",
+    "orientation": "portrait",
+    "privacy": "unlisted",
+    "scheme": "myapp",
+    "slug": "zen-money-mobile",
+    "splash": {
+      "backgroundColor": "#ffffff",
+      "image": "./assets/images/splash.png",
+      "resizeMode": "contain"
     },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "userInterfaceStyle": "automatic",
+    "version": "1.0.0",
     "web": {
       "favicon": "./assets/images/favicon.png"
     }
