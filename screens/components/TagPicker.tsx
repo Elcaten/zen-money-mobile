@@ -1,8 +1,9 @@
 import * as React from 'react';
-import {useCallback} from 'react';
+import {useMemo} from 'react';
 import {Picker, PickerProps as RNPickerProps} from 'react-native';
 import {Tag} from '../../api/models';
-import {ListItem, TagIcon} from '../../components';
+import {ListItem} from '../../components';
+import {TagIcon} from './TagIcon';
 
 export type TagPickerProps = {
   tags: Tag[];
@@ -11,16 +12,11 @@ export type TagPickerProps = {
 } & Pick<RNPickerProps, 'enabled'>;
 
 export const TagPicker: React.FC<TagPickerProps> = ({tags, selectedTag, onSelect}) => {
-  // const onSelect = useCallback(
-  //   (id: string) => {
-  //     _onSelect(tags.find((t) => t.id === id)!);
-  //   },
-  //   [_onSelect, tags],
-  // );
+  const selectedTagIcon = useMemo(() => tags.find((t) => t.id === selectedTag)?.icon, [tags, selectedTag]);
 
   return (
     <ListItem>
-      <TagIcon size={24} />
+      <TagIcon icon={selectedTagIcon} size={24} />
       <Picker onValueChange={onSelect} selectedValue={selectedTag} style={{flex: 1}}>
         {tags.map((t) => (
           <Picker.Item key={t.id} value={t.id} label={t.title} />
