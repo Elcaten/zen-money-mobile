@@ -1,15 +1,16 @@
 import * as React from 'react';
-import {Control, Controller} from 'react-hook-form';
+import {useEffect, useImperativeHandle, useMemo, useState} from 'react';
+import {Controller, useForm} from 'react-hook-form';
+import {useTranslation} from 'react-i18next';
 import {StyleSheet} from 'react-native';
 import {InputHandles} from 'react-native-elements';
-import {Account, Tag, Transaction} from '../../api/models';
-import {CommentIcon, Input, View} from '../../components';
+import {useAccounts, useInstruments, useTags} from '../../api-hooks';
+import {Account, Transaction} from '../../api/models';
+import {CommentIcon, Input, Text, View} from '../../components';
 import {DateTimeInput} from '../../components/DateTimeInput';
-import {AccountPicker} from './AccountPicker';
-import {TagPicker} from '../components/TagPicker';
-import {useTranslation} from 'react-i18next';
-import {useMemo, useState} from 'react';
 import {groupBy} from '../../utils';
+import {TagPicker} from '../components/TagPicker';
+import {AccountPicker} from './AccountPicker';
 
 export type IncomeTransaction = Pick<Transaction, 'comment'> & {
   income: string;
@@ -20,19 +21,44 @@ export type IncomeTransaction = Pick<Transaction, 'comment'> & {
 };
 
 export interface IncomeEditorHandles {
-  shakeIncome: () => void;
+  submit: () => void;
 }
 
 export interface IncomeEditorProps {
-  control: Control<IncomeTransaction>;
-  accounts: Account[];
-  tags: Tag[];
+  onSubmit: (t: IncomeTransaction) => void;
 }
 
 const IncomeEditorComponent: React.ForwardRefRenderFunction<IncomeEditorHandles, IncomeEditorProps> = (
-  {control, accounts, tags},
+  {onSubmit},
   ref,
 ) => {
+  const {data: accounts} = useAccounts();
+  const {data: tagDict} = useTags();
+  const tags = useMemo(() => (tagDict.values ? Array.from(tagDict.values()) : []), [tagDict]);
+
+  const {
+    control,
+    handleSubmit,
+    watch,
+    formState: {errors},
+  } = useForm<IncomeTransaction>({
+    defaultValues: {
+      income: '',
+      incomeAccount: accounts![0],
+      parentTag: null,
+      childTag: null,
+      comment: null,
+      date: new Date(),
+    },
+  });
+
+  const watchIncomeInstrument = watch('incomeAccount.instrument');
+  const instruments = useInstruments();
+  const incomeSymbol = useMemo(() => instruments.data?.get(watchIncomeInstrument)?.symbol, [
+    instruments.data,
+    watchIncomeInstrument,
+  ]);
+
   const tagByParent = useMemo(() => groupBy(tags, 'parent'), [tags]);
 
   const rootTags = useMemo(
@@ -46,17 +72,26 @@ const IncomeEditorComponent: React.ForwardRefRenderFunction<IncomeEditorHandles,
   }, [rootTagId, tagByParent]);
 
   const incomeInputRef = React.useRef<InputHandles>(null);
-  React.useImperativeHandle(ref, () => ({
-    shakeIncome: () => incomeInputRef.current?.shake(),
-  }));
+  useEffect(() => {
+    if (errors.income) {
+      incomeInputRef.current?.shake();
+    }
+  }, [errors.income]);
 
+  useImperativeHandle(ref, () => ({submit: () => handleSubmit(onSubmit)()}), [handleSubmit, onSubmit]);
   const {t} = useTranslation();
   return (
     <View style={styles.container}>
       <Controller
         control={control}
         render={({field: {onChange, onBlur, value}}) => (
-          <Input ref={incomeInputRef} value={value.toString()} onBlur={onBlur} onChangeText={onChange} />
+          <Input
+            ref={incomeInputRef}
+            value={value.toString()}
+            onBlur={onBlur}
+            onChangeText={onChange}
+            rightIcon={<Text>{incomeSymbol}</Text>}
+          />
         )}
         name="income"
         rules={{
@@ -94,9 +129,9 @@ const IncomeEditorComponent: React.ForwardRefRenderFunction<IncomeEditorHandles,
         control={control}
         render={({field: {onChange, value}}) => (
           <AccountPicker
-            accounts={accounts}
+            accounts={accounts ?? []}
             selectedAccount={value?.id}
-            onSelect={(id) => onChange(accounts.find((a) => a.id === id))}
+            onSelect={(id) => onChange(accounts?.find((a) => a.id === id))}
           />
         )}
         name="incomeAccount"

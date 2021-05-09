@@ -4,7 +4,7 @@ import {useNavigatorThemeColors} from '../../themes';
 import {ListItemSubtitle} from './ListItemSubtitle';
 import {ListItemTitle} from './ListItemtTitle';
 
-type ListItemProps = Parameters<typeof RNEListItem>['0'];
+export type ListItemProps = Parameters<typeof RNEListItem>['0'];
 
 const ListItemComponent: React.FC<ListItemProps> = (props) => {
   const {card} = useNavigatorThemeColors();

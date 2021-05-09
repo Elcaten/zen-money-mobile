@@ -1,54 +1,39 @@
 import {HeaderBackButton} from '@react-navigation/stack';
 import * as React from 'react';
-import {useCallback, useEffect, useMemo, useRef, useState} from 'react';
-import {useForm} from 'react-hook-form';
+import {useCallback, useRef, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {HeaderButtons, Item} from 'react-navigation-header-buttons';
-import {useAccounts, useTags} from '../../api-hooks';
-import {useAddIncomeTransaction} from '../../api-hooks/useMutateTransaction';
+import {useMutateIncomeTransaction, useMutateTransferTransaction} from '../../api-hooks/useMutateTransaction';
 import {Text} from '../../components';
 import {EditTransactionScreenProps} from '../../types';
-import {IncomeEditor, IncomeEditorHandles, IncomeTransaction} from './IncomeEditor';
+import {exhaustiveCheck} from '../../utils/exhaustive-check';
+import {IncomeEditor, IncomeEditorHandles} from './IncomeEditor';
+import {TransactionType} from './transaction-type';
 import {TransactionTypePicker} from './TransactionTypePicker';
+import {TransferEditor, TransferEditorHandles} from './TransferEditor';
 
 export const EditTransactionScreen: React.FC<EditTransactionScreenProps> = ({route, navigation}) => {
-  const accounts = useAccounts();
-
-  const emptyIncome: IncomeTransaction = {
-    income: '',
-    incomeAccount: accounts.data![0],
-    parentTag: null,
-    childTag: null,
-    comment: null,
-    date: new Date(),
-  };
-
-  const {
-    control,
-    handleSubmit,
-    formState: {errors},
-  } = useForm<IncomeTransaction>({defaultValues: emptyIncome});
-  const {t} = useTranslation();
-
-  const tags = useTags();
-  const tagArray = useMemo(() => (tags?.data.values ? Array.from(tags?.data.values()) : []), [tags?.data]);
+  const incomeEditorRef = useRef<IncomeEditorHandles>(null);
+  const transferEditorRef = useRef<TransferEditorHandles>(null);
 
   const [transactionType, setTransactionType] = useState(route.params.transactionType);
 
-  const ref = useRef<IncomeEditorHandles>(null);
-  useEffect(() => {
-    if (errors.income) {
-      ref.current?.shakeIncome();
+  const onSavePress = useCallback(() => {
+    switch (transactionType) {
+      case TransactionType.Income:
+        return incomeEditorRef.current?.submit();
+      case TransactionType.Transfer:
+        return transferEditorRef.current?.submit();
+      case TransactionType.Expense:
+        return () => {};
+      default:
+        exhaustiveCheck(transactionType);
     }
-  }, [errors.income]);
+  }, [transactionType]);
 
-  const add = useAddIncomeTransaction();
-  const onSavePress = useCallback(
-    (income: IncomeTransaction) => {
-      add.mutateAsync(income);
-    },
-    [add],
-  );
+  const {t} = useTranslation();
+  const {mutateAsync: mutateIncomeAsync} = useMutateIncomeTransaction();
+  const {mutateAsync: mutateTransferAsync} = useMutateTransferTransaction();
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -60,15 +45,24 @@ export const EditTransactionScreen: React.FC<EditTransactionScreenProps> = ({rou
       ),
       headerRight: () => (
         <HeaderButtons>
-          <Item title={t('Screen.AddTransaction.Save')} onPress={handleSubmit(onSavePress)} />
+          <Item title={t('Screen.AddTransaction.Save')} onPress={onSavePress} />
         </HeaderButtons>
       ),
     });
-  }, [handleSubmit, navigation, onSavePress, t, transactionType]);
+  }, [mutateIncomeAsync, navigation, onSavePress, t, transactionType]);
 
-  return (
-    <React.Fragment>
-      <IncomeEditor ref={ref} control={control} accounts={accounts.data ?? []} tags={tagArray} />
-    </React.Fragment>
-  );
+  const renderEditor = useCallback(() => {
+    switch (transactionType) {
+      case TransactionType.Income:
+        return <IncomeEditor onSubmit={mutateIncomeAsync} ref={incomeEditorRef} />;
+      case TransactionType.Transfer:
+        return <TransferEditor onSubmit={mutateTransferAsync} ref={transferEditorRef} />;
+      case TransactionType.Expense:
+        return <Text>Not Implemented</Text>;
+      default:
+        exhaustiveCheck(transactionType);
+    }
+  }, [mutateIncomeAsync, mutateTransferAsync, transactionType]);
+
+  return renderEditor();
 };
