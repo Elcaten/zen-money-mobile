@@ -1,14 +1,18 @@
 import * as React from 'react';
 import {useTranslation} from 'react-i18next';
 import {View} from 'react-native';
+import {Button} from 'react-native-elements';
 import {useLogout} from '../../auth';
 import {LogoutIcon, TagIcon, ThemeIcon} from '../../components';
 import {ListItem} from '../../components/ListItem';
+import {useNotifications, schedulePushNotification} from '../../hooks/useNotifications';
 import {MoreScreenProps} from '../../types';
 
 export const MoreScreen: React.FC<MoreScreenProps> = ({navigation}) => {
   const {t} = useTranslation();
   const logout = useLogout();
+
+  useNotifications();
 
   return (
     <View>
@@ -39,6 +43,14 @@ export const MoreScreen: React.FC<MoreScreenProps> = ({navigation}) => {
           <ListItem.Title>{t('SignOut')}</ListItem.Title>
         </ListItem.Content>
         <ListItem.Chevron />
+      </ListItem>
+      <ListItem>
+        <Button
+          title="Schedule notification"
+          onPress={async () => {
+            await schedulePushNotification();
+          }}
+        />
       </ListItem>
     </View>
   );
