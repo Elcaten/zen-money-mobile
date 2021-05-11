@@ -1,13 +1,14 @@
 import * as React from 'react';
 import {useTranslation} from 'react-i18next';
 import {View} from 'react-native';
-import {logout} from '../../auth';
+import {useLogout} from '../../auth';
 import {LogoutIcon, TagIcon, ThemeIcon} from '../../components';
 import {ListItem} from '../../components/ListItem';
 import {MoreScreenProps} from '../../types';
 
 export const MoreScreen: React.FC<MoreScreenProps> = ({navigation}) => {
   const {t} = useTranslation();
+  const logout = useLogout();
 
   return (
     <View>

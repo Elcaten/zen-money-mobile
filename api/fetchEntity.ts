@@ -3,6 +3,7 @@ import {EntityType} from './entyity-type';
 
 export const fetchEntities = async <T>(entityType: EntityType): Promise<T[]> => {
   const response = await privateClient.post('v8/diff', {
+    throwHttpErrors: false,
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
@@ -14,10 +15,12 @@ export const fetchEntities = async <T>(entityType: EntityType): Promise<T[]> => 
     }),
   });
 
-  if (!response.ok) {
-    throw new Error('Network response was not ok');
+  if (response.ok) {
+    const json = await response.json();
+    console.log(`Fetched ${entityType}`);
+    return json[entityType] as T[];
+  } else {
+    console.log(`Err fetching ${entityType}: ${response.status}`);
+    return [];
   }
-  const json = await response.json();
-  console.log(`Fetched ${entityType}`);
-  return json[entityType] as T[];
 };

@@ -6,5 +6,5 @@ export * from './fetchEntity';
 export * from './fetchInstruments';
 export * from './fetchTags';
 export * from './fetchTransactions';
-export * from './fetchUsers';
+export * from './fetchUser';
 export * from './postEntity';

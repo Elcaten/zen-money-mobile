@@ -2,8 +2,9 @@ import {StatusBar} from 'expo-status-bar';
 import React, {useEffect, useState} from 'react';
 import {useCallback} from 'react';
 import {Appearance, Button, Text, View} from 'react-native';
+import {useQueryClient} from 'react-query';
 import {useMe} from './api-hooks';
-import {login} from './auth';
+import {login, useLogin} from './auth';
 import {initI18n} from './init-i18n';
 import Navigation from './navigation';
 import {useStore} from './store/use-store';
@@ -59,6 +60,8 @@ export const Root: React.FC = () => {
       setComponentThemes(theme);
     }
   }, [setComponentThemes, theme]);
+
+  const login = useLogin();
 
   if (isLoading || isLoadingLocales) {
     return <Text>Loading...</Text>;
