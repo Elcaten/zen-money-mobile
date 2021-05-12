@@ -8,10 +8,10 @@ export type AccountIconProps = IconProps & {
 
 export const AccountIcon: React.FC<AccountIconProps> = ({type, ...props}) => {
   switch (type) {
-    case 'cash':
+    case AccountType.Cash:
       return <WalletIcon {...props} />;
-    case 'ccard':
-    case 'checking':
+    case AccountType.Card:
+    case AccountType.Checking:
       return <BankIcon {...props} />;
     default:
       return <HelpIcon {...props} />;

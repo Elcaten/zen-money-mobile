@@ -1,3 +1,4 @@
+/** Bank or financial organization. */
 export interface Company {
   id: number;
   changed: number; // Unix timestamp

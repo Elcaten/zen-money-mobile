@@ -1,7 +1,10 @@
 export interface User {
   id: number;
-  changed: number; // Unix timestamp
-  login?: string;
-  currency: number; // Instrument id
-  parent?: number; // User id
+  /** Unix timestamp */
+  changed: number;
+  login?: string | null;
+  /** Instrument.id */
+  currency: number;
+  /** User.id */
+  parent?: number | null;
 }

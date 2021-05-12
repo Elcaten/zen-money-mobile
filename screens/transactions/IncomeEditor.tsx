@@ -5,7 +5,7 @@ import {useTranslation} from 'react-i18next';
 import {StyleSheet} from 'react-native';
 import {InputHandles} from 'react-native-elements';
 import {useAccounts, useInstruments, useTags} from '../../api-hooks';
-import {Account, Transaction} from '../../api/models';
+import {UserAccount, Transaction} from '../../api/models';
 import {CommentIcon, Input, Text, View} from '../../components';
 import {DateTimeInput} from '../../components/DateTimeInput';
 import {groupBy} from '../../utils';
@@ -14,7 +14,7 @@ import {AccountPicker} from './AccountPicker';
 
 export type IncomeTransaction = Pick<Transaction, 'comment'> & {
   income: string;
-  incomeAccount: Account;
+  incomeAccount: UserAccount;
   date: Date;
   parentTag?: string | null;
   childTag?: string | null;

@@ -5,16 +5,16 @@ import {useTranslation} from 'react-i18next';
 import {StyleSheet} from 'react-native';
 import {InputHandles} from 'react-native-elements';
 import {useAccounts, useInstruments} from '../../api-hooks';
-import {Account, Transaction} from '../../api/models';
+import {UserAccount, Transaction} from '../../api/models';
 import {CommentIcon, Input, Text, View} from '../../components';
 import {DateTimeInput} from '../../components/DateTimeInput';
 import {AccountPicker} from './AccountPicker';
 
 export type TransferTransaction = Pick<Transaction, 'comment'> & {
   income: string;
-  incomeAccount: Account;
+  incomeAccount: UserAccount;
   outcome: string;
-  outcomeAccount: Account;
+  outcomeAccount: UserAccount;
   date: Date;
 };
 

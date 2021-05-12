@@ -1,4 +1,4 @@
-import {Account} from './account';
+import {UserAccount} from './account';
 import {Company} from './company';
 import {Instrument} from './instrument';
 import {Tag} from './tag';
@@ -12,7 +12,7 @@ export interface Diff {
   instrument?: Instrument[];
   company?: Company[];
   user?: User[];
-  account?: Account[];
+  account?: UserAccount[];
   tag?: Tag[];
   // merchant:       [Merchant]?
   // budget:         [Budget]?

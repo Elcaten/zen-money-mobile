@@ -1,7 +1,7 @@
 import {useCallback, useMemo} from 'react';
 import {useQuery, useQueryClient} from 'react-query';
 import {fetchAccounts} from '../api';
-import {Account} from '../api/models';
+import {UserAccount} from '../api/models';
 import {ACCOUNTS, INSTRUMENTS} from '../auth';
 import {useCurrencyFormat} from '../hooks/useCurrencyFormat';
 import {useInstruments} from './useInstruments';
@@ -16,7 +16,7 @@ export const useAccountDictionary = () => {
   }, [accounts.data]);
 };
 
-export type AccountModel = Pick<Account, 'id' | 'title' | 'type' | 'balance'> & {
+export type AccountModel = Pick<UserAccount, 'id' | 'title' | 'type' | 'balance'> & {
   balanceFormatted: string;
 };
 

@@ -1,12 +1,16 @@
 import {TagIconName} from './tag-icon-name';
 
 export interface Tag {
-  id: string; // UUID
-  changed: number; // Unix timestamp
-  user: number; // User.id
+  /** UUID */
+  id: string;
+  /** Unix timestamp */
+  changed: number;
+  /** User.id */
+  user: number;
 
   title: string;
-  parent?: string | null; // Tag.id
+  /** Tag.id */
+  parent?: string | null;
   icon?: TagIconName | null;
   picture?: string | null;
   color?: number | null;
@@ -15,5 +19,6 @@ export interface Tag {
   showOutcome: boolean;
   budgetIncome: boolean;
   budgetOutcome: boolean;
+  /** if null, then still required */
   required?: boolean | null;
 }

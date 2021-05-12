@@ -1,6 +1,7 @@
 import {AccountType} from './account-type';
 
-export interface Account {
+/** User account */
+export interface UserAccount {
   archive: boolean;
   balance: number;
   capitalization: null;

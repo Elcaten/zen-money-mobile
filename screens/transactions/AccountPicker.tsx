@@ -1,11 +1,11 @@
 import * as React from 'react';
 import {useCallback} from 'react';
 import {Picker} from 'react-native';
-import {Account} from '../../api/models';
+import {UserAccount} from '../../api/models';
 import {ListItem, ListItemProps, WalletIcon} from '../../components';
 
 export type AccountPickerProps = ListItemProps & {
-  accounts: Account[];
+  accounts: UserAccount[];
   selectedAccount?: string | null;
   onSelect: (id: string) => void;
 };
