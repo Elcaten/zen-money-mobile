@@ -16,7 +16,7 @@ export const useAccountDictionary = () => {
   }, [accounts.data]);
 };
 
-export type AccountModel = Pick<UserAccount, 'id' | 'title' | 'type' | 'balance'> & {
+export type AccountModel = Pick<UserAccount, 'id' | 'title' | 'type' | 'balance' | 'archive'> & {
   balanceFormatted: string;
 };
 
@@ -27,10 +27,11 @@ export const useAccountModels = () => {
 
   const accountModels = useMemo(() => {
     const models =
-      accounts.data?.map<AccountModel>(({id, title, type, balance, instrument}) => {
+      accounts.data?.map<AccountModel>(({id, archive, title, type, balance, instrument}) => {
         const symbol = instruments.data?.get(instrument)?.symbol ?? '';
         return {
           id,
+          archive,
           title,
           type,
           balance,

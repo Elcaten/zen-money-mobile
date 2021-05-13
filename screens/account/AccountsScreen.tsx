@@ -1,12 +1,14 @@
 import * as React from 'react';
-import {FlatList, ListRenderItemInfo, StyleSheet} from 'react-native';
+import {useMemo, useState} from 'react';
+import {Button, FlatList, ListRenderItemInfo, StyleSheet} from 'react-native';
 import {AccountModel, useAccountModels} from '../../api-hooks/';
-import {Text} from '../../components';
+import {Text, View} from '../../components';
 import {ListItem} from '../../components/ListItem';
 import {CINNABAR} from '../../constants/Colors';
 import {AccountsScreenProps} from '../../types';
 import {extractId} from '../../utils';
 import {AccountIcon} from './AccountIcon';
+import Collapsible from 'react-native-collapsible';
 
 const styles = StyleSheet.create({
   title: {
@@ -40,6 +42,10 @@ const AccountItem: React.FC<{account: AccountModel; onPress: () => void}> = ({ac
 export const AccountsScreen: React.FC<AccountsScreenProps> = ({navigation}) => {
   const {data, isLoading, invalidate} = useAccountModels();
 
+  const [showArchived, setShowArchived] = useState(false);
+  const archivedAccounts = useMemo(() => data.filter((a) => a.archive), [data]);
+  const nonArchivedAccounts = useMemo(() => data.filter((a) => !a.archive), [data]);
+
   const renderAccount = React.useCallback(
     (info: ListRenderItemInfo<AccountModel>) => (
       <AccountItem
@@ -54,9 +60,19 @@ export const AccountsScreen: React.FC<AccountsScreenProps> = ({navigation}) => {
     <FlatList
       onRefresh={invalidate}
       refreshing={isLoading}
-      data={data}
+      data={nonArchivedAccounts}
       keyExtractor={extractId}
       renderItem={renderAccount}
+      ListFooterComponent={
+        <View>
+          <View style={{alignItems: 'flex-end'}}>
+            <Text onPress={() => setShowArchived((v) => !v)}>Show all</Text>
+          </View>
+          <Collapsible collapsed={!showArchived}>
+            <FlatList data={archivedAccounts} keyExtractor={extractId} renderItem={renderAccount} />
+          </Collapsible>
+        </View>
+      }
     />
   );
 };
