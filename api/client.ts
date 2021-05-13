@@ -1,7 +1,7 @@
 import ky from 'ky';
 import {persistToken, pullTokenFromStorage} from '../auth';
-import {API_URL} from '../auth/constants';
 import {refreshToken} from '../auth/refresh-token';
+import {API_URL} from '../utils/manifest-extra';
 
 export const publicClient = ky.extend({
   prefixUrl: API_URL,

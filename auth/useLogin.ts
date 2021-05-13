@@ -2,9 +2,9 @@ import {loadAsync} from 'expo-auth-session';
 import ky from 'ky';
 import {useCallback} from 'react';
 import {useQueryClient} from 'react-query';
+import {CLIENT_ID, REDIRECT_URL, AUTH_URL, TOKEN_URL, USE_PROXY} from '../utils/manifest-extra';
 import {AuthResonse, validateAuthTokenResponse} from './auth-response';
 import {AuthToken} from './auth-token';
-import {AUTH_URL, CLIENT_ID, REDIRECT_URL, TOKEN_URL} from './constants';
 import {persistToken} from './persist-token';
 
 const promptUserForAuth = async () => {
@@ -18,14 +18,17 @@ const promptUserForAuth = async () => {
     },
   );
 
-  const result = await authRequest.promptAsync({
-    authorizationEndpoint: AUTH_URL,
-  });
+  const result = await authRequest.promptAsync(
+    {
+      authorizationEndpoint: AUTH_URL,
+    },
+    {useProxy: USE_PROXY},
+  );
 
   switch (result.type) {
     case 'success':
       const {code} = result.params;
-      const authResponse = await ky.get(TOKEN_URL(code)).json<AuthResonse>();
+      const authResponse = await ky.get(`${TOKEN_URL}${code}`).json<AuthResonse>();
       validateAuthTokenResponse(authResponse);
       return authResponse;
     case 'error':

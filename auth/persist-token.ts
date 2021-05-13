@@ -1,11 +1,11 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {PERSISIT_TOKEN_KEY} from '../utils/manifest-extra';
 import {AuthToken} from './auth-token';
-import {TOKEN_KEY} from './constants';
 
 export const persistToken = async (token: AuthToken | null) => {
   if (token) {
-    await AsyncStorage.setItem(TOKEN_KEY, JSON.stringify(token));
+    await AsyncStorage.setItem(PERSISIT_TOKEN_KEY, JSON.stringify(token));
   } else {
-    await AsyncStorage.removeItem(TOKEN_KEY);
+    await AsyncStorage.removeItem(PERSISIT_TOKEN_KEY);
   }
 };

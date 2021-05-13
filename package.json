@@ -1,10 +1,11 @@
 {
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
-    "start": "expo start",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
-    "web": "expo start --web",
+    "publish": "cross-env ENVIRONMENT=prod expo publish .",
+    "start": "cross-env ENVIRONMENT=dev expo start",
+    "android": "cross-env ENVIRONMENT=dev expo start --android",
+    "ios": "cross-env ENVIRONMENT=dev expo start --ios",
+    "web": "cross-env ENVIRONMENT=dev expo start --web",
     "eject": "expo eject",
     "lint": "eslint --ext .tsx --ext .ts .",
     "test": "jest --watchAll"
@@ -65,6 +66,8 @@
     "@types/react": "~16.9.35",
     "@types/react-native": "~0.63.2",
     "@types/react-native-svg-charts": "^5.0.7",
+    "cross-env": "^7.0.3",
+    "dotenv": "^9.0.2",
     "eslint": "^7.24.0",
     "eslint-plugin-prettier": "^3.4.0",
     "eslint-plugin-react-hooks": "^4.2.0",

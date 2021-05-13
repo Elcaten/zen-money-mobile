@@ -4,19 +4,24 @@
       "adaptiveIcon": {
         "backgroundColor": "#ffffff",
         "foregroundImage": "./assets/images/adaptive-icon.png"
-      }
+      },
+      "package": "com.nameless1one.zenmoney",
+      "versionCode": 1
     },
     "assetBundlePatterns": [
       "**/*"
     ],
     "icon": "./assets/images/icon.png",
     "ios": {
+      "buildNumber": "1.0.0",
+      "bundleIdentifier": "com.nameless1one.zenmoney",
       "supportsTablet": true
     },
     "name": "zen-money-mobile",
     "orientation": "portrait",
+    "owner": "nameless1one",
     "privacy": "unlisted",
-    "scheme": "myapp",
+    "scheme": "nameless1one",
     "slug": "zen-money-mobile",
     "splash": {
       "backgroundColor": "#ffffff",
