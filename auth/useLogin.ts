@@ -18,12 +18,9 @@ const promptUserForAuth = async () => {
     },
   );
 
-  const result = await authRequest.promptAsync(
-    {
-      authorizationEndpoint: AUTH_URL,
-    },
-    {useProxy: USE_PROXY},
-  );
+  const result = await authRequest.promptAsync({
+    authorizationEndpoint: AUTH_URL,
+  });
 
   switch (result.type) {
     case 'success':
