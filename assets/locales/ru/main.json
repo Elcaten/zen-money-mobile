@@ -22,7 +22,11 @@
             "OnAllAccounts": "На всех счетах",
             "OnBalanceAccounts": "На выбранных счетах"
         },
-        "Accounts": "Счета",
+        "Accounts": {
+            "Accounts": "Счета",
+            "Collapse": "Свернуть",
+            "ShowArchived": "Показать архивные"
+        },
         "AddTransaction": {
             "AddTransaction": "Добавить транзакцию",
             "Comment": "Комментарий",

@@ -22,7 +22,11 @@
             "OnAllAccounts": "On all accounts",
             "OnBalanceAccounts": "On balance accounts"
         },
-        "Accounts": "Accounts",
+        "Accounts": {
+            "Accounts": "Accounts",
+            "Collapse": "Collapse",
+            "ShowArchived": "Show archived"
+        },
         "AddTransaction": {
             "AddTransaction": "Add transaction",
             "Comment": "Comment",

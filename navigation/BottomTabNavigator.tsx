@@ -89,7 +89,7 @@ function AccountsNavigator() {
         name="AccountsScreen"
         component={AccountsScreen}
         options={({navigation}) => ({
-          headerTitle: t('Screen.Accounts'),
+          headerTitle: t('Screen.Accounts.Accounts'),
           headerRight: () => (
             <HeaderButtons>
               <Item

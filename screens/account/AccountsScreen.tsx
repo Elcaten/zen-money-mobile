@@ -1,43 +1,15 @@
 import * as React from 'react';
-import {useMemo, useState} from 'react';
-import {Button, FlatList, ListRenderItemInfo, StyleSheet} from 'react-native';
+import {useCallback, useMemo, useState} from 'react';
+import {FlatList, ListRenderItemInfo, StyleSheet} from 'react-native';
+import Collapsible from 'react-native-collapsible';
 import {AccountModel, useAccountModels} from '../../api-hooks/';
 import {Text, View} from '../../components';
-import {ListItem} from '../../components/ListItem';
-import {CINNABAR} from '../../constants/Colors';
+import {useNavigatorThemeColors} from '../../themes';
 import {AccountsScreenProps} from '../../types';
 import {extractId} from '../../utils';
-import {AccountIcon} from './AccountIcon';
-import Collapsible from 'react-native-collapsible';
+import {useTranslation} from 'react-i18next';
 
-const styles = StyleSheet.create({
-  title: {
-    flex: 1,
-    fontSize: 18,
-  },
-  balance: {
-    fontSize: 18,
-  },
-});
-
-const Balance: React.FC<{account: AccountModel}> = ({account}) => {
-  return (
-    <Text style={[styles.balance, account.balance < 0 ? {color: CINNABAR} : {}]}>
-      {account.balance < 0 && '−'}
-      {account.balanceFormatted}
-    </Text>
-  );
-};
-
-const AccountItem: React.FC<{account: AccountModel; onPress: () => void}> = ({account, onPress}) => {
-  return (
-    <ListItem onPress={onPress}>
-      <AccountIcon type={account.type} size={24} />
-      <Text style={styles.title}>{account.title}</Text>
-      <Balance account={account} />
-    </ListItem>
-  );
-};
+import {AccountListItem} from './AccountListItem';
 
 export const AccountsScreen: React.FC<AccountsScreenProps> = ({navigation}) => {
   const {data, isLoading, invalidate} = useAccountModels();
@@ -46,9 +18,9 @@ export const AccountsScreen: React.FC<AccountsScreenProps> = ({navigation}) => {
   const archivedAccounts = useMemo(() => data.filter((a) => a.archive), [data]);
   const nonArchivedAccounts = useMemo(() => data.filter((a) => !a.archive), [data]);
 
-  const renderAccount = React.useCallback(
+  const renderAccountItem = React.useCallback(
     (info: ListRenderItemInfo<AccountModel>) => (
-      <AccountItem
+      <AccountListItem
         account={info.item}
         onPress={() => navigation.navigate('AccountDetailsScreen', {accountId: info.item.id})}
       />
@@ -56,23 +28,40 @@ export const AccountsScreen: React.FC<AccountsScreenProps> = ({navigation}) => {
     [navigation],
   );
 
+  const {primary} = useNavigatorThemeColors();
+  const {t} = useTranslation();
+  const renderFooter = useCallback(() => {
+    return (
+      <View>
+        <View style={styles.toggleContainer}>
+          <Text style={[styles.toggleText, {color: primary}]} onPress={() => setShowArchived((v) => !v)}>
+            {showArchived ? t('Screen.Accounts.Collapse') : t('Screen.Accounts.ShowArchived')}
+          </Text>
+        </View>
+        <Collapsible collapsed={!showArchived}>
+          <FlatList data={archivedAccounts} keyExtractor={extractId} renderItem={renderAccountItem} />
+        </Collapsible>
+      </View>
+    );
+  }, [archivedAccounts, primary, renderAccountItem, showArchived, t]);
+
   return (
     <FlatList
       onRefresh={invalidate}
       refreshing={isLoading}
       data={nonArchivedAccounts}
       keyExtractor={extractId}
-      renderItem={renderAccount}
-      ListFooterComponent={
-        <View>
-          <View style={{alignItems: 'flex-end'}}>
-            <Text onPress={() => setShowArchived((v) => !v)}>Show all</Text>
-          </View>
-          <Collapsible collapsed={!showArchived}>
-            <FlatList data={archivedAccounts} keyExtractor={extractId} renderItem={renderAccount} />
-          </Collapsible>
-        </View>
-      }
+      renderItem={renderAccountItem}
+      ListFooterComponent={renderFooter()}
     />
   );
 };
+
+const styles = StyleSheet.create({
+  toggleContainer: {
+    alignItems: 'flex-end',
+  },
+  toggleText: {
+    padding: 12,
+  },
+});

@@ -1,4 +1,4 @@
-import {resources} from '../../init-i18n';
+import {resources} from '../init-i18n';
 
 declare module 'react-i18next' {
   type DefaultResources = typeof resources['en'];
