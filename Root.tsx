@@ -1,10 +1,8 @@
 import {StatusBar} from 'expo-status-bar';
-import React, {useEffect, useState} from 'react';
-import {useCallback} from 'react';
-import {Appearance, Button, Text, View} from 'react-native';
-import {useQueryClient} from 'react-query';
+import React, {useCallback, useEffect, useState} from 'react';
+import {Appearance, Text} from 'react-native';
 import {useMe} from './api-hooks';
-import {login, useLogin} from './auth';
+import {LoginScreen} from './components/LoginScreen';
 import {initI18n} from './init-i18n';
 import Navigation from './navigation';
 import {useStore} from './store/use-store';
@@ -61,8 +59,6 @@ export const Root: React.FC = () => {
     }
   }, [setComponentThemes, theme]);
 
-  const login = useLogin();
-
   if (isLoading || isLoadingLocales) {
     return <Text>Loading...</Text>;
   }
@@ -76,9 +72,5 @@ export const Root: React.FC = () => {
     );
   }
 
-  return (
-    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-      <Button title="Login" onPress={login} />
-    </View>
-  );
+  return <LoginScreen />;
 };
