@@ -24,7 +24,7 @@ const AccountIcon: React.FC<AccountIconProps> = ({type, ...props}) => {
 
 const Balance: React.FC<{account: AccountModel}> = ({account}) => {
   return (
-    <Text style={[styles.balance, account.balance < 0 ? {color: CINNABAR} : {}]}>
+    <Text size="large" style={account.balance < 0 ? {color: CINNABAR} : {}}>
       {account.balance < 0 && '−'}
       {account.balanceFormatted}
     </Text>
@@ -35,7 +35,9 @@ export const AccountListItem: React.FC<{account: AccountModel; onPress: () => vo
   return (
     <ListItem onPress={onPress}>
       <AccountIcon type={account.type} size={24} />
-      <Text style={styles.title}>{account.title}</Text>
+      <Text size="large" style={styles.title}>
+        {account.title}
+      </Text>
       <Balance account={account} />
     </ListItem>
   );
@@ -44,9 +46,5 @@ export const AccountListItem: React.FC<{account: AccountModel; onPress: () => vo
 const styles = StyleSheet.create({
   title: {
     flex: 1,
-    fontSize: 18,
-  },
-  balance: {
-    fontSize: 18,
   },
 });

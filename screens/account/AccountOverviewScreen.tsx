@@ -56,8 +56,8 @@ const AccountBalancesInfo: React.FC<{balances: InstrumentBalance[]}> = ({balance
         <ListItem style={styles.infoItem} key={b.id}>
           <Text style={[styles.percentage, {color: b.color}]}>{((b.balanceRub / grandTotal) * 100).toFixed(2)}%</Text>
           <Text style={styles.shortTitle}>{b.shortTitle}</Text>
-          <Text style={styles.balance}>{b.balance.toFixed(2)}</Text>
-          <Text style={styles.balanceRub}>{b.balanceRub} ₽</Text>
+          <Text style={styles.balance}>{b.balance.toFixed(0)}</Text>
+          <Text style={styles.balanceRub}>{b.balanceRub.toFixed(0)} ₽</Text>
         </ListItem>
       ))}
     </React.Fragment>

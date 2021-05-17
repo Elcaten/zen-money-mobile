@@ -27,10 +27,11 @@ function formatCurrency(
   currensySymbol: string,
   fractionDigits: number,
 ) {
-  return `${currensySymbol ?? ''}${num
+  currensySymbol = currensySymbol ? ` ${currensySymbol}` : '';
+  return `${num
     .toFixed(fractionDigits)
     .replace(/(\d)(?=(\d{3})+(?!\d))/g, `$1${digitGroupingSeparator}`)
-    .replace('.', decimalSeparator)}`;
+    .replace('.', decimalSeparator)}${currensySymbol}`;
 }
 
 type x = Parameters<typeof formatCurrency>;

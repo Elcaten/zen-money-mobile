@@ -1,5 +1,6 @@
 import * as React from 'react';
 import {StyleSheet} from 'react-native';
+import {Text, View} from '../../components';
 import {ListItem} from '../../components/ListItem';
 import {GRAY} from '../../constants/Colors';
 
@@ -9,14 +10,16 @@ export interface TransactionSectionHeaderProps {
 
 export const TransactionSectionHeader: React.FC<TransactionSectionHeaderProps> = ({title}) => {
   return (
-    <ListItem>
-      <ListItem.Title style={styles.title}>{title}</ListItem.Title>
-    </ListItem>
+    <View>
+      <Text style={styles.title}>{title}</Text>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   title: {
+    paddingHorizontal: 16,
+    paddingVertical: 8,
     color: GRAY,
     fontWeight: 'bold',
   },

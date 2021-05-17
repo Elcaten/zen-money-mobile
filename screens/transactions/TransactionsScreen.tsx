@@ -51,11 +51,11 @@ export class TransactionsScreenCmp extends Component<TransactionsScreenProps, Tr
           case ViewType.OneWayTransaction:
           case ViewType.TwoWayTransaction:
             dim.width = width;
-            dim.height = 64;
+            dim.height = 72;
             break;
           case ViewType.SectionHeader:
             dim.width = width;
-            dim.height = 48;
+            dim.height = 36;
             break;
           default:
             dim.width = width;

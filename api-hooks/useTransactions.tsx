@@ -53,11 +53,11 @@ export const useTransactionModels = () => {
             tag: firstTag ? {icon: firstTag.icon, title: firstTag.title, iconColor: firstTag.color} : undefined,
             date: transaction.date,
             income: transaction.income,
-            incomeFormatted: formatCurrency(transaction.income, incomeSymbol),
+            incomeFormatted: formatCurrency(transaction.income, incomeSymbol, 0),
             incomeAccount: accounts.get(transaction.incomeAccount)?.title,
             outcomeAccount: accounts.get(transaction.outcomeAccount)?.title,
             outcome: transaction.outcome,
-            outcomeFormatted: formatCurrency(transaction.outcome, outcomeSymbol),
+            outcomeFormatted: formatCurrency(transaction.outcome, outcomeSymbol, 0),
             comment: transaction.comment ?? undefined,
             changed: transaction.changed,
           };
