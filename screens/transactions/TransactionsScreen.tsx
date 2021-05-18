@@ -4,8 +4,6 @@ import {Component} from 'react';
 import {Dimensions, RefreshControl, StyleSheet, View} from 'react-native';
 import {DataProvider, LayoutProvider, RecyclerListView} from 'recyclerlistview';
 import {TransactionModel, TransactionModelsInfo, withTransactionModels} from '../../api-hooks';
-import {flatten} from '../../utils';
-import {groupBy} from '../../utils/group-by';
 import {OneWayTransaction, TwoWayTransaction} from './TransactionItem';
 import {TransactionSectionHeader} from './TransactionSectionHeader';
 import {AddTransactionButton} from './AddTransactionButton';
@@ -80,7 +78,7 @@ export class TransactionsScreenCmp extends Component<TransactionsScreenProps, Tr
   }
 
   private updateDataProvider(models: TransactionModel[]) {
-    const transactionsByDate = groupBy(models, 'date');
+    const transactionsByDate = models.groupBy('date');
     const sortedDates = Array.from(transactionsByDate.keys())
       .map((dateString) => ({dateString, dateDayJs: dayjs(dateString)}))
       .sort((a, b) => (a.dateDayJs.isBefore(b.dateDayJs) ? 1 : -1));
@@ -98,7 +96,7 @@ export class TransactionsScreenCmp extends Component<TransactionsScreenProps, Tr
     });
 
     this.setState({
-      dataProvider: this.state.dataProvider.cloneWithRows(flatten(items)),
+      dataProvider: this.state.dataProvider.cloneWithRows(items.flatten()),
     });
   }
 

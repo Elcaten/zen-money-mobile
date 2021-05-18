@@ -8,7 +8,6 @@ import {useAccounts, useInstruments} from '../../api-hooks';
 import {Text} from '../../components';
 import {Card} from '../../components/Card';
 import {ListItem} from '../../components/ListItem';
-import {groupBy} from '../../utils';
 
 export interface AccountOverviewScreenProps {}
 
@@ -27,7 +26,7 @@ const useInstrumentBalances = (): InstrumentBalance[] => {
   const {data: instrumentsData} = useInstruments();
 
   return useMemo(() => {
-    const accountsByInstrument = groupBy(acountsData ?? [], 'instrument');
+    const accountsByInstrument = (acountsData ?? []).groupBy('instrument');
     const balances = Array.from(accountsByInstrument.entries())
       .map(([instrumentId, accounts]) => {
         const instrument = instrumentsData?.get(instrumentId);

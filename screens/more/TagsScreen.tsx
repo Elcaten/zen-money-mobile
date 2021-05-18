@@ -8,7 +8,7 @@ import {Tag} from '../../api/models';
 import {Text} from '../../components';
 import {ListItem} from '../../components/ListItem';
 import {TagsScreenProps} from '../../types';
-import {extractId, flatten, groupBy} from '../../utils';
+import {extractId} from '../../utils';
 import {TagIcon} from '../components';
 
 interface TagItemProps {
@@ -33,9 +33,9 @@ export const TagsScreen: React.FC<TagsScreenProps> = ({navigation}) => {
 
   const tagItems = useMemo<Tag[]>(() => {
     const tagsArray = data?.values ? Array.from(data.values()) : [];
-    const tagsByParent = groupBy(tagsArray, 'parent');
+    const tagsByParent = tagsArray.groupBy('parent');
     const rootTags = tagsArray.filter((t) => t.parent == null).sort((t1, t2) => t1.title.localeCompare(t2.title));
-    return flatten(rootTags.map((t) => [t, ...(tagsByParent.get(t.id) ?? [])]));
+    return rootTags.map((t) => [t, ...(tagsByParent.get(t.id) ?? [])]).flatten();
   }, [data]);
 
   const opendDetails = useCallback((tag: Tag) => navigation.navigate('TagDetailsScreen', {tagId: tag.id}), [

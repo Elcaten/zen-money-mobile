@@ -8,7 +8,6 @@ import {useAccounts, useInstruments, useTags} from '../../api-hooks';
 import {UserAccount, Transaction} from '../../api/models';
 import {CommentIcon, Input, Text, View} from '../../components';
 import {DateTimeInput} from '../../components/DateTimeInput';
-import {groupBy} from '../../utils';
 import {TagPicker} from '../components/TagPicker';
 import {AccountPicker} from './AccountPicker';
 
@@ -59,7 +58,7 @@ const IncomeEditorComponent: React.ForwardRefRenderFunction<IncomeEditorHandles,
     watchIncomeInstrument,
   ]);
 
-  const tagByParent = useMemo(() => groupBy(tags, 'parent'), [tags]);
+  const tagByParent = useMemo(() => tags.groupBy('parent'), [tags]);
 
   const rootTags = useMemo(
     () => tags.filter((t) => t.parent == null).sort((t1, t2) => t1.title.localeCompare(t2.title)),

@@ -12,6 +12,7 @@ import {Root} from './Root';
 import {useStore} from './store/use-store';
 import {ElementsThemeProvider, NavigatorThemeProvider} from './themes';
 import {composeProviders} from './utils';
+import './utils/augmentations';
 
 LogBox.ignoreLogs(['Setting a timer']);
 
