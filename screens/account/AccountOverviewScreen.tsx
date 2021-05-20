@@ -1,75 +1,71 @@
 import * as React from 'react';
-import {useEffect, useMemo, useState} from 'react';
+import {useEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {StyleSheet} from 'react-native';
 import {PieChart, PieChartData} from 'react-native-svg-charts';
-import {Fade, Placeholder, PlaceholderMedia} from 'rn-placeholder';
+import {Fade, Placeholder, PlaceholderLine} from 'rn-placeholder';
 import {useAccounts, useInstruments} from '../../api-hooks';
-import {Text} from '../../components';
+import {Text, View} from '../../components';
 import {Card} from '../../components/Card';
 import {ListItem} from '../../components/ListItem';
+import {LIGHT_GRAY} from '../../constants/Colors';
 
+//=====================================================================================================================
 export interface AccountOverviewScreenProps {}
 
-const getColor = (index: number) => ['#b35806', '#f1a340', '#998ec3', '#542788'][index % 4];
+export const AccountOverviewScreen: React.FC<AccountOverviewScreenProps> = () => {
+  const {data: accountList} = useAccounts();
+  const {data: instrumentsMap} = useInstruments();
 
-interface InstrumentBalance {
-  id: number;
-  balance: number;
-  balanceRub: number;
-  shortTitle: string;
-  color: string;
-}
+  const [instrumentBalances, setInstrumentBalances] = useState<InstrumentBalance[]>([]);
 
-const useInstrumentBalances = (): InstrumentBalance[] => {
-  const {data: acountsData} = useAccounts();
-  const {data: instrumentsData} = useInstruments();
-
-  return useMemo(() => {
-    const accountsByInstrument = (acountsData ?? []).groupBy('instrument');
-    const balances = Array.from(accountsByInstrument.entries())
+  useEffect(() => {
+    const accountsByInstrument = (accountList ?? []).groupBy('instrument');
+    const balances = accountsByInstrument
+      .entriesArray()
       .map(([instrumentId, accounts]) => {
-        const instrument = instrumentsData?.get(instrumentId);
+        const instrument = instrumentsMap?.get(instrumentId);
         return {
           instrument,
           balance: accounts.reduce((prev, curr) => prev + curr.balance, 0),
         };
       })
-      .filter((i) => i.instrument != null);
+      .filter((i) => i.instrument != null)
+      .map((b, idx) => ({
+        id: b.instrument!.id,
+        balance: b.balance,
+        balanceRub: b.balance * b.instrument!.rate,
+        shortTitle: b.instrument!.shortTitle,
+        color: getColor(idx),
+      }));
 
-    return balances.map((b, idx) => ({
-      id: b.instrument!.id,
-      balance: b.balance,
-      balanceRub: b.balance * b.instrument!.rate,
-      shortTitle: b.instrument!.shortTitle,
-      color: getColor(idx),
-    }));
-  }, [acountsData, instrumentsData]);
-};
+    setInstrumentBalances(balances);
+  }, [accountList, instrumentsMap]);
 
-const AccountBalancesInfo: React.FC<{balances: InstrumentBalance[]}> = ({balances}) => {
-  const grandTotal = balances.reduce((prev, curr) => prev + curr.balanceRub, 0);
+  const {t} = useTranslation();
+
   return (
     <React.Fragment>
-      {balances.map((b) => (
-        <ListItem style={styles.infoItem} key={b.id}>
-          <Text style={[styles.percentage, {color: b.color}]}>{((b.balanceRub / grandTotal) * 100).toFixed(2)}%</Text>
-          <Text style={styles.shortTitle}>{b.shortTitle}</Text>
-          <Text style={styles.balance}>{b.balance.toFixed(0)}</Text>
-          <Text style={styles.balanceRub}>{b.balanceRub.toFixed(0)} ₽</Text>
-        </ListItem>
-      ))}
+      <Card>
+        <Card.Title>{t('Screen.AccountOverview.DistributionByCurrency')}</Card.Title>
+        <InstrumentBalancesPieChart balances={instrumentBalances} />
+      </Card>
+      <InstrumentBalancesList balances={instrumentBalances} />
     </React.Fragment>
   );
 };
 
-export const AccountOverviewScreen: React.FC<AccountOverviewScreenProps> = (props) => {
-  const instrumentBalances = useInstrumentBalances();
-  const {t} = useTranslation();
+//=====================================================================================================================
 
-  const [pieData, setPieData] = useState<PieChartData[]>([]);
+export interface InstrumentBalancesPieChartProps {
+  balances: InstrumentBalance[];
+}
+
+export const InstrumentBalancesPieChart: React.FC<InstrumentBalancesPieChartProps> = ({balances}) => {
+  const [pieData, setPieData] = useState<PieChartData[]>([{key: 'pie-0', value: 10, svg: {fill: LIGHT_GRAY}}]);
+
   useEffect(() => {
-    const data = instrumentBalances.map((b, index) => ({
+    const data = balances.map((b, index) => ({
       value: b.balanceRub,
       svg: {
         fill: b.color,
@@ -77,41 +73,56 @@ export const AccountOverviewScreen: React.FC<AccountOverviewScreenProps> = (prop
       },
       key: `pie-${index}`,
     }));
-    setPieData(data);
-  }, [instrumentBalances]);
 
-  return (
-    <React.Fragment>
-      <Card>
-        <Card.Title style={styles.distributionTitle}>{t('Screen.AccountOverview.DistributionByCurrency')}</Card.Title>
-        {pieData.length > 0 ? (
-          <PieChart style={styles.pieChart} innerRadius="75%" data={pieData} />
-        ) : (
-          <Placeholder Animation={Fade} style={styles.pieChartPlaceholder}>
-            <PlaceholderMedia isRound size={160} />
-          </Placeholder>
-        )}
-      </Card>
-      <AccountBalancesInfo balances={instrumentBalances} />
-    </React.Fragment>
-  );
+    setPieData(data);
+  }, [balances]);
+
+  return <PieChart style={chartStyles.pieChart} innerRadius="75%" data={pieData} />;
 };
 
-const styles = StyleSheet.create({
-  distributionTitle: {
-    padding: 16,
-  },
+const chartStyles = StyleSheet.create({
   pieChart: {
     padding: 16,
     height: 200,
   },
-  pieChartPlaceholder: {
-    alignItems: 'center',
-    flexDirection: 'column',
-    padding: 16,
-    height: 200,
+});
+
+//=====================================================================================================================
+const InstrumentBalancesList: React.FC<{balances: InstrumentBalance[]}> = ({balances}) => {
+  if (balances.length === 0) {
+    return (
+      <View style={infoStyles.placeholdersContainer}>
+        <Placeholder Animation={Fade}>
+          <PlaceholderLine width={80} />
+          <PlaceholderLine width={30} />
+          <PlaceholderLine width={60} />
+        </Placeholder>
+      </View>
+    );
+  }
+
+  const grandTotal = balances.reduce((prev, curr) => prev + curr.balanceRub, 0);
+
+  return (
+    <React.Fragment>
+      {balances.map((b) => (
+        <ListItem key={b.id}>
+          <Text style={[infoStyles.percentage, {color: b.color}]}>
+            {((b.balanceRub / grandTotal) * 100).toFixed(2)}%
+          </Text>
+          <Text style={infoStyles.shortTitle}>{b.shortTitle}</Text>
+          <Text style={infoStyles.balance}>{b.balance.toFixed(0)}</Text>
+          <Text>{b.balanceRub.toFixed(0)} ₽</Text>
+        </ListItem>
+      ))}
+    </React.Fragment>
+  );
+};
+
+const infoStyles = StyleSheet.create({
+  placeholdersContainer: {
+    padding: 8,
   },
-  infoItem: {},
   percentage: {
     minWidth: 50,
   },
@@ -121,5 +132,15 @@ const styles = StyleSheet.create({
   balance: {
     flex: 1,
   },
-  balanceRub: {},
 });
+
+//=====================================================================================================================
+const getColor = (index: number) => ['#b35806', '#f1a340', '#998ec3', '#542788'][index % 4];
+
+interface InstrumentBalance {
+  id: number;
+  balance: number;
+  balanceRub: number;
+  shortTitle: string;
+  color: string;
+}
