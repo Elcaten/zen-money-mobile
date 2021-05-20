@@ -8,6 +8,7 @@ dotenv.config({path: path.resolve(__dirname, `./config/${process.env.ENVIRONMENT
 
 export default ({config}: ConfigContext): ZenMoneyExpoConfig => {
   if (
+    !process.env.ZEN_REACT_QUERY_PERSIST_KEY! ||
     !process.env.ZEN_PERSISIT_TOKEN_KEY! ||
     !process.env.ZEN_CLIENT_ID! ||
     !process.env.ZEN_REDIRECT_URL ||
@@ -23,6 +24,7 @@ export default ({config}: ConfigContext): ZenMoneyExpoConfig => {
   return {
     ...(config as ExpoConfig),
     extra: {
+      REACT_QUERY_PERSIST_KEY: process.env.ZEN_REACT_QUERY_PERSIST_KEY,
       PERSISIT_TOKEN_KEY: process.env.ZEN_PERSISIT_TOKEN_KEY,
       CLIENT_ID: process.env.ZEN_CLIENT_ID,
       REDIRECT_URL: process.env.ZEN_REDIRECT_URL,

@@ -2,6 +2,7 @@ import Constants from 'expo-constants';
 import {ExtraConfig} from '../config/zen-money-expo-config';
 
 export const {
+  REACT_QUERY_PERSIST_KEY,
   API_URL,
   AUTH_URL,
   CLIENT_ID,

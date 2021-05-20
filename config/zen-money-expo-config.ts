@@ -1,6 +1,7 @@
 import {ExpoConfig} from '@expo/config';
 
 export interface ExtraConfig {
+  REACT_QUERY_PERSIST_KEY: string;
   PERSISIT_TOKEN_KEY: string;
   CLIENT_ID: string;
   REDIRECT_URL: string;

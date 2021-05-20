@@ -1,5 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {PersistedClient, Persistor} from 'react-query/persistQueryClient-experimental';
+import {REACT_QUERY_PERSIST_KEY} from '../utils';
 
 interface CreateLocalStoragePersistorOptions {
   /** The key to use when storing the cache to localstorage */
@@ -10,7 +11,7 @@ interface CreateLocalStoragePersistorOptions {
 }
 
 export function createAsyncStoragePersistor({
-  localStorageKey = 'REACT_QUERY_OFFLINE_CACHE2',
+  localStorageKey = REACT_QUERY_PERSIST_KEY,
   throttleTime = 10 * 1000,
 }: CreateLocalStoragePersistorOptions = {}): Persistor {
   return {
