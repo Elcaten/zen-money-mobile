@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import React from 'react';
 import {LogBox} from 'react-native';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
@@ -13,6 +14,9 @@ import {useStore} from './store/use-store';
 import {ElementsThemeProvider, NavigatorThemeProvider} from './themes';
 import {composeProviders} from './utils';
 import './utils/augmentations';
+
+var customParseFormat = require('dayjs/plugin/customParseFormat');
+dayjs.extend(customParseFormat);
 
 LogBox.ignoreLogs(['Setting a timer']);
 

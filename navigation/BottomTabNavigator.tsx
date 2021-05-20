@@ -6,7 +6,7 @@ import {useTranslation} from 'react-i18next';
 import {IconProps} from 'react-native-elements';
 import {HeaderButtons, Item} from 'react-navigation-header-buttons';
 import {CreditCardIcon, MenuIcon, ShowChartIcon, SwapHorizIcon} from '../components';
-import {AnalyticsScreen} from '../screens/';
+import {AnalyticsScreen} from '../screens/analytics';
 import {AccountOverviewScreen, AccountsScreen} from '../screens/account';
 import {AccountDetailsScreen} from '../screens/account/AccountDetailsScreen';
 import {LocalesScreen, MoreScreen, TagDetailsScreen, TagsScreen, ThemesScreen} from '../screens/more';

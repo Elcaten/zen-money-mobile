@@ -26,6 +26,7 @@ export interface TransactionModel {
   outcome: number;
   outcomeFormatted: string;
   tag?: TagModel;
+  parentTag?: TagModel;
   comment?: string;
   changed: number;
 }
@@ -39,18 +40,20 @@ export const useTransactionModels = () => {
   const transactions = useTransactions();
   const formatCurrency = useCurrencyFormat();
 
-  const transactionModels = useMemo<TransactionModel[]>(
+  const transactionModels = useMemo(
     () =>
       transactions.data
         ?.filter((transaction) => !transaction.deleted)
-        .map((transaction) => {
+        .map<TransactionModel>((transaction) => {
           const firstTag =
             transaction.tag && transaction.tag.length > 0 ? tags.data?.get(transaction.tag[0]) : undefined;
+          const parenTag = firstTag?.parent ? tags.data?.get(firstTag.parent) : undefined;
           const incomeSymbol = instruments.data?.get(transaction.incomeInstrument)?.symbol ?? '';
           const outcomeSymbol = instruments.data?.get(transaction.outcomeInstrument)?.symbol ?? '';
           return {
             id: transaction.id,
             tag: firstTag ? {icon: firstTag.icon, title: firstTag.title, iconColor: firstTag.color} : undefined,
+            parentTag: parenTag ? {icon: parenTag.icon, title: parenTag.title, iconColor: parenTag.color} : undefined,
             date: transaction.date,
             income: transaction.income,
             incomeFormatted: formatCurrency(transaction.income, incomeSymbol, 0),

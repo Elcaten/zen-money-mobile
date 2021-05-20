@@ -1,18 +1,9 @@
 /* eslint-disable no-bitwise */
 import React from 'react';
 import {Image, ImageStyle, StyleProp, View, ViewStyle} from 'react-native';
-import {SvgIcon} from './SvgIcon';
-import {pngIcons} from '../../utils/png-icons';
 import {TagIconName} from '../../api/models';
-
-const hexColorByArgb = new Map<number, string>();
-
-function argbToHEX(color: number) {
-  if (!hexColorByArgb.has(color)) {
-    hexColorByArgb.set(color, '#' + ('000000' + (color & 0xffffff).toString(16)).slice(-6));
-  }
-  return hexColorByArgb.get(color);
-}
+import {argbToHEX, pngIcons} from '../../utils';
+import {SvgIcon} from './SvgIcon';
 
 export interface TagIconProps {
   icon?: TagIconName | null;
