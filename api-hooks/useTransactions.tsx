@@ -1,14 +1,14 @@
 import React, {useCallback, useMemo} from 'react';
 import {useQuery, useQueryClient} from 'react-query';
 import {fetchTransactions} from '../api';
-import {TagIconName, Transaction} from '../api/models';
-import {TRANSACTIONS} from '../auth';
+import {TagIconName} from '../api/models';
 import {useCurrencyFormat} from '../hooks/useCurrencyFormat';
+import {QueryKeys} from './query-keys';
 import {useAccountDictionary} from './useAccounts';
 import {useInstruments} from './useInstruments';
 import {useTags} from './useTags';
 
-const useTransactions = () => useQuery(TRANSACTIONS, fetchTransactions, {staleTime: Infinity});
+const useTransactions = () => useQuery(QueryKeys.Transactions, fetchTransactions, {staleTime: Infinity});
 
 export type TagModel = {
   title: string;
@@ -71,7 +71,7 @@ export const useTransactionModels = () => {
   const queryClient = useQueryClient();
 
   const invalidate = useCallback(() => {
-    queryClient.invalidateQueries(TRANSACTIONS);
+    queryClient.invalidateQueries(QueryKeys.Transactions);
     instruments.invalidate();
     tags.invalidate();
   }, [instruments, queryClient, tags]);

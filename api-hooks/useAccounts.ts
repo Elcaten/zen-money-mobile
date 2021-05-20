@@ -2,11 +2,11 @@ import {useCallback, useMemo} from 'react';
 import {useQuery, useQueryClient} from 'react-query';
 import {fetchAccounts} from '../api';
 import {UserAccount} from '../api/models';
-import {ACCOUNTS, INSTRUMENTS} from '../auth';
 import {useCurrencyFormat} from '../hooks/useCurrencyFormat';
+import {QueryKeys} from './query-keys';
 import {useInstruments} from './useInstruments';
 
-export const useAccounts = () => useQuery(ACCOUNTS, fetchAccounts, {staleTime: Infinity});
+export const useAccounts = () => useQuery(QueryKeys.Accounts, fetchAccounts, {staleTime: Infinity});
 
 export const useAccountDictionary = () => {
   const accounts = useAccounts();
@@ -44,8 +44,8 @@ export const useAccountModels = () => {
   const queryClient = useQueryClient();
 
   const invalidate = useCallback(() => {
-    queryClient.invalidateQueries(ACCOUNTS);
-    queryClient.invalidateQueries(INSTRUMENTS);
+    queryClient.invalidateQueries(QueryKeys.Accounts);
+    queryClient.invalidateQueries(QueryKeys.Intruments);
   }, [queryClient]);
 
   return {data: accountModels, isLoading: accounts.isLoading || instruments.isLoading, invalidate};

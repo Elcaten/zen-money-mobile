@@ -1,10 +1,10 @@
 import {useQuery} from 'react-query';
 import {fetchUser} from '../api';
-import {USERS} from '../auth/constants';
+import {QueryKeys} from './query-keys';
 
 export const useMe = () =>
   useQuery(
-    USERS,
+    QueryKeys.Users,
     () => fetchUser(),
     {staleTime: 0}, // DONT FUCKING ADD Infinity,
   );

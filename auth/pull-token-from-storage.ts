@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {PERSISIT_TOKEN_KEY} from '../utils/manifest-extra';
+import {PERSISIT_TOKEN_KEY} from '../utils';
 import {AuthToken} from './auth-token';
 
 function validateToken(value: unknown): asserts value is AuthToken {

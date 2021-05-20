@@ -7,8 +7,8 @@ import {StyleSheet} from 'react-native';
 import {HeaderButtons, Item} from 'react-navigation-header-buttons';
 import {useQueryClient} from 'react-query';
 import {useMutateTag} from '../../api-hooks';
+import {QueryKeys} from '../../api-hooks/query-keys';
 import {useDeleteTag, useTags} from '../../api-hooks/useTags';
-import {TAGS} from '../../auth';
 import {TagDetailsScreenProps} from '../../types';
 import {generateUUID} from '../../utils/generate-uuid';
 import {EditableTag, TagEditor, TagEditorHandles} from '../components';
@@ -52,7 +52,7 @@ export const TagDetailsScreen: React.FC<TagDetailsScreenProps> = ({navigation, r
   const queryClient = useQueryClient();
   const onDeletePress = useCallback(async () => {
     await deleteAsync(tag.id);
-    await queryClient.invalidateQueries(TAGS);
+    await queryClient.invalidateQueries(QueryKeys.Tags);
     navigation.pop();
   }, [deleteAsync, navigation, queryClient, tag]);
 

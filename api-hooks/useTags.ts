@@ -4,12 +4,12 @@ import {EntityType, postEntity} from '../api';
 import {deleteEntity} from '../api/deleteEntity';
 import {fetchTags} from '../api/fetchTags';
 import {Tag} from '../api/models';
-import {TAGS} from '../auth';
-import {EditableTag} from '../screens';
+import {EditableTag} from '../screens/components';
+import {QueryKeys} from './query-keys';
 import {useMe} from './useMe';
 
 export const useTags = () => {
-  const {data, isLoading} = useQuery(TAGS, fetchTags, {staleTime: Infinity});
+  const {data, isLoading} = useQuery(QueryKeys.Tags, fetchTags, {staleTime: Infinity});
 
   const tags = useMemo(() => {
     return new Map(data?.map((t) => [t.id, t]));
@@ -17,7 +17,7 @@ export const useTags = () => {
 
   const queryClient = useQueryClient();
   const invalidate = useCallback(() => {
-    queryClient.invalidateQueries(TAGS);
+    queryClient.invalidateQueries(QueryKeys.Tags);
   }, [queryClient]);
 
   return {data: tags, isLoading, invalidate};

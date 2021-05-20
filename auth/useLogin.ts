@@ -2,7 +2,7 @@ import {loadAsync} from 'expo-auth-session';
 import ky from 'ky';
 import {useCallback} from 'react';
 import {useQueryClient} from 'react-query';
-import {CLIENT_ID, REDIRECT_URL, AUTH_URL, TOKEN_URL, USE_PROXY} from '../utils/manifest-extra';
+import {AUTH_URL, CLIENT_ID, REDIRECT_URL, TOKEN_URL} from '../utils/manifest-extra';
 import {AuthResonse, validateAuthTokenResponse} from './auth-response';
 import {AuthToken} from './auth-token';
 import {persistToken} from './persist-token';
