@@ -2,6 +2,8 @@ import {StatusBar} from 'expo-status-bar';
 import React, {useCallback, useEffect, useState} from 'react';
 import {Appearance, Text} from 'react-native';
 import {useMe} from './api-hooks';
+import {View} from './components';
+import {LoadingScreen} from './components/LoadingScreen';
 import {LoginScreen} from './components/LoginScreen';
 import {initI18n} from './init-i18n';
 import Navigation from './navigation';
@@ -60,7 +62,7 @@ export const Root: React.FC = () => {
   }, [setComponentThemes, theme]);
 
   if (isLoading || isLoadingLocales) {
-    return <Text>Loading...</Text>;
+    return <LoadingScreen />;
   }
 
   if (isLoggedIn) {

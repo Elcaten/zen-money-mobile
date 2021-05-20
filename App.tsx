@@ -7,7 +7,7 @@ import {QueryClient, QueryClientProvider as QCProvider} from 'react-query';
 import {persistQueryClient} from 'react-query/persistQueryClient-experimental';
 import {PersistGate} from 'zustand-persist';
 import {createAsyncStoragePersistor} from './api/create-async-storage-persistor';
-import {Text, View} from './components';
+import {LoadingScreen} from './components';
 import useCachedResources from './hooks/useCachedResources';
 import {Root} from './Root';
 import {useStore} from './store/use-store';
@@ -36,12 +36,6 @@ const QueryClientProvider: React.FC = ({children}) => {
   return <QCProvider client={queryClient}>{children}</QCProvider>;
 };
 
-const Loading: React.FC = () => (
-  <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-    <Text>Loading...</Text>
-  </View>
-);
-
 export default function App() {
   const isLoadingComplete = useCachedResources();
 
@@ -56,5 +50,5 @@ export default function App() {
     QueryClientProvider,
   )(Root);
 
-  return <PersistGate>{isLoadingComplete ? <WrappedApp /> : <Loading />}</PersistGate>;
+  return <PersistGate>{isLoadingComplete ? <WrappedApp /> : <LoadingScreen />}</PersistGate>;
 }
