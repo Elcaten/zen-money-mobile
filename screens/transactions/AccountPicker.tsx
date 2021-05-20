@@ -1,8 +1,8 @@
 import * as React from 'react';
-import {useCallback} from 'react';
 import {Picker} from 'react-native';
 import {UserAccount} from '../../api/models';
-import {ListItem, ListItemProps, WalletIcon} from '../../components';
+import {WalletIcon} from '../../components';
+import {ListItem, ListItemProps} from '../../components/ListItem';
 
 export type AccountPickerProps = ListItemProps & {
   accounts: UserAccount[];

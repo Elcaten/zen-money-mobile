@@ -2,7 +2,7 @@ import * as React from 'react';
 import {useMemo} from 'react';
 import {Picker, PickerProps as RNPickerProps} from 'react-native';
 import {Tag} from '../../api/models';
-import {ListItem} from '../../components';
+import {ListItem} from '../../components/ListItem';
 import {TagIcon} from './TagIcon';
 
 export type TagPickerProps = {

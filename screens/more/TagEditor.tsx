@@ -5,10 +5,11 @@ import {useTranslation} from 'react-i18next';
 import {StyleSheet, ViewProps} from 'react-native';
 import {CheckBox, InputHandles} from 'react-native-elements';
 import {Tag} from '../../api/models';
-import {Input, ListItem, Text, View} from '../../components';
+import {Input, Text, View} from '../../components';
 import {IconPicker} from './IconPicker';
 import {RadioButton} from '../components/RadioButton';
 import {TagPicker} from '../components/TagPicker';
+import {ListItem} from '../../components/ListItem';
 
 export type EditableTag = Pick<Tag, 'title' | 'parent' | 'icon' | 'showIncome' | 'showOutcome' | 'required' | 'id'>;
 

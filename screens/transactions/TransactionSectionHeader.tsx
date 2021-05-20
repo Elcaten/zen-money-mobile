@@ -1,7 +1,6 @@
 import * as React from 'react';
 import {StyleSheet} from 'react-native';
 import {Text, View} from '../../components';
-import {ListItem} from '../../components/ListItem';
 import {GRAY} from '../../constants/Colors';
 
 export interface TransactionSectionHeaderProps {
