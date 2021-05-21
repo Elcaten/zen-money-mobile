@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {StyleSheet} from 'react-native';
-import {Text, View} from '../../components';
-import {GRAY} from '../../constants/Colors';
+import {Text, View} from '../../../components';
+import {GRAY} from '../../../constants/Colors';
 
 export interface TransactionSectionHeaderProps {
   title: string;

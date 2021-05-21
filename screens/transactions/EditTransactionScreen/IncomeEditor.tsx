@@ -4,11 +4,11 @@ import {Controller, useForm} from 'react-hook-form';
 import {useTranslation} from 'react-i18next';
 import {StyleSheet} from 'react-native';
 import {InputHandles} from 'react-native-elements';
-import {useAccounts, useInstruments, useTags} from '../../api-hooks';
-import {UserAccount, Transaction} from '../../api/models';
-import {CommentIcon, Input, Text, View} from '../../components';
-import {DateTimeInput} from '../../components/DateTimeInput';
-import {TagPicker} from '../components/TagPicker';
+import {useAccounts, useInstruments, useTags} from '../../../api-hooks';
+import {UserAccount, Transaction} from '../../../api/models';
+import {CommentIcon, Input, Text, View} from '../../../components';
+import {DateTimeInput} from '../../../components/DateTimeInput';
+import {TagPicker} from '../../components/TagPicker';
 import {AccountPicker} from './AccountPicker';
 
 export type IncomeTransaction = Pick<Transaction, 'comment'> & {

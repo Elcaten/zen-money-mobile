@@ -1,6 +1,7 @@
 import * as React from 'react';
+import {useTranslation} from 'react-i18next';
 import {Picker, PickerProps} from 'react-native';
-import {TransactionType, useTransactionTypes} from './transaction-type';
+import {TransactionType} from '../transaction-type';
 
 export type TransactionTypePickerProps = {
   selectedType: TransactionType | null;
@@ -16,4 +17,23 @@ export const TransactionTypePicker: React.FC<TransactionTypePickerProps> = ({sel
       ))}
     </Picker>
   );
+};
+
+const useTransactionTypes = () => {
+  const {t} = useTranslation();
+
+  return [
+    {
+      type: TransactionType.Expense,
+      label: t('Screen.AddTransaction.Expense'),
+    },
+    {
+      type: TransactionType.Income,
+      label: t('Screen.AddTransaction.Income'),
+    },
+    {
+      type: TransactionType.Transfer,
+      label: t('Screen.AddTransaction.Transfer'),
+    },
+  ];
 };

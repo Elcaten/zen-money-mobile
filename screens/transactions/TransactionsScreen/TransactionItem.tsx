@@ -1,10 +1,10 @@
 import * as React from 'react';
 import {StyleSheet, View} from 'react-native';
-import {TransactionModel} from '../../api-hooks';
-import {SubdirArrowRightIcon, Text} from '../../components';
-import {ListItem} from '../../components/ListItem';
-import {GRAY, SUCCESS} from '../../constants/Colors';
-import {TagIcon} from '../components/TagIcon';
+import {TransactionModel} from '../../../api-hooks';
+import {SubdirArrowRightIcon, Text} from '../../../components';
+import {ListItem} from '../../../components/ListItem';
+import {GRAY, SUCCESS} from '../../../constants/Colors';
+import {TagIcon} from '../../components/TagIcon';
 
 interface TransactionItemProps {
   transaction: TransactionModel;

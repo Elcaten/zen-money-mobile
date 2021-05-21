@@ -3,11 +3,11 @@ import * as React from 'react';
 import {Component} from 'react';
 import {Dimensions, RefreshControl, StyleSheet, View} from 'react-native';
 import {DataProvider, LayoutProvider, RecyclerListView} from 'recyclerlistview';
-import {TransactionModel, TransactionModelsInfo, withTransactionModels} from '../../api-hooks';
+import {TransactionModel, TransactionModelsInfo, withTransactionModels} from '../../../api-hooks';
 import {OneWayTransaction, TwoWayTransaction} from './TransactionItem';
 import {TransactionSectionHeader} from './TransactionSectionHeader';
 import {AddTransactionButton} from './AddTransactionButton';
-import {TransactionsScreenProps as TransactionsScreenCmpProps} from '../../types';
+import {TransactionsScreenProps as TransactionsScreenCmpProps} from '../../../types';
 
 let {width} = Dimensions.get('window');
 

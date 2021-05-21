@@ -10,7 +10,7 @@ import {AnalyticsScreen} from '../screens/analytics';
 import {AccountOverviewScreen, AccountsScreen} from '../screens/account';
 import {AccountDetailsScreen} from '../screens/account/AccountDetailsScreen';
 import {LocalesScreen, MoreScreen, TagDetailsScreen, TagsScreen, ThemesScreen} from '../screens/more';
-import {EditTransactionScreen, TransactionDetailsScreen, TransactionsScreen} from '../screens/transactions';
+import {TransactionDetailsScreen, TransactionsScreen} from '../screens/transactions';
 import {useNavigatorThemeColors} from '../themes';
 import {
   AccountsParamList,
@@ -20,6 +20,7 @@ import {
   TransactionsParamList,
 } from '../types';
 import {resetTabStackListener} from './reset-tab-stack-listeners';
+import {EditTransactionScreen} from '../screens/transactions/EditTransactionScreen';
 
 const iconProps: Omit<IconProps, 'name'> = {
   size: 30,

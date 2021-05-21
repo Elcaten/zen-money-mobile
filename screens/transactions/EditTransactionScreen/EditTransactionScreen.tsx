@@ -3,12 +3,12 @@ import * as React from 'react';
 import {useCallback, useRef, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {HeaderButtons, Item} from 'react-navigation-header-buttons';
-import {useMutateIncomeTransaction, useMutateTransferTransaction} from '../../api-hooks/useMutateTransaction';
-import {Text} from '../../components';
-import {EditTransactionScreenProps} from '../../types';
-import {exhaustiveCheck} from '../../utils/exhaustive-check';
+import {useMutateIncomeTransaction, useMutateTransferTransaction} from '../../../api-hooks/useMutateTransaction';
+import {Text} from '../../../components';
+import {EditTransactionScreenProps} from '../../../types';
+import {exhaustiveCheck} from '../../../utils/exhaustive-check';
 import {IncomeEditor, IncomeEditorHandles} from './IncomeEditor';
-import {TransactionType} from './transaction-type';
+import {TransactionType} from '../transaction-type';
 import {TransactionTypePicker} from './TransactionTypePicker';
 import {TransferEditor, TransferEditorHandles} from './TransferEditor';
 

@@ -1,11 +1,11 @@
 import {useNavigation} from '@react-navigation/native';
 import * as React from 'react';
 import {useMemo} from 'react';
-import {FabButton, MinusIcon, PlusIcon, SwapHorizIcon} from '../../components';
-import {IActionProps} from '../../lib/react-native-floating-action';
-import {useNavigatorThemeColors} from '../../themes';
-import {TransactionsScreenNavigationProp} from '../../types';
-import {TransactionType} from './transaction-type';
+import {FabButton, MinusIcon, PlusIcon, SwapHorizIcon} from '../../../components';
+import {IActionProps} from '../../../lib/react-native-floating-action';
+import {useNavigatorThemeColors} from '../../../themes';
+import {TransactionsScreenNavigationProp} from '../../../types';
+import {TransactionType} from '../transaction-type';
 import {useTranslation} from 'react-i18next';
 
 export interface AddTransactionButtonProps {}
