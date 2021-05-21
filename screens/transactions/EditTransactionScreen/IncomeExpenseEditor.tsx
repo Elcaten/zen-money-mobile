@@ -11,26 +11,26 @@ import {DateTimeInput} from '../../../components/DateTimeInput';
 import {TagPicker} from '../../components/TagPicker';
 import {AccountPicker} from './AccountPicker';
 
-export type IncomeTransaction = Pick<Transaction, 'comment'> & {
-  income: string;
-  incomeAccount: UserAccount;
+export type IncomeExpenseTransaction = Pick<Transaction, 'comment'> & {
+  amount: string;
+  account: UserAccount;
   date: Date;
   parentTag?: string | null;
   childTag?: string | null;
 };
 
-export interface IncomeEditorHandles {
+export interface IncomeExpenseEditorHandles {
   submit: () => void;
 }
 
-export interface IncomeEditorProps {
-  onSubmit: (t: IncomeTransaction) => void;
+export interface IncomeExpenseEditorProps {
+  onSubmit: (t: IncomeExpenseTransaction) => void;
 }
 
-const IncomeEditorComponent: React.ForwardRefRenderFunction<IncomeEditorHandles, IncomeEditorProps> = (
-  {onSubmit},
-  ref,
-) => {
+const IncomeExpenseEditorComponent: React.ForwardRefRenderFunction<
+  IncomeExpenseEditorHandles,
+  IncomeExpenseEditorProps
+> = ({onSubmit}, ref) => {
   const {data: accounts} = useAccounts();
   const {data: tagDict} = useTags();
   const tags = useMemo(() => (tagDict.values ? Array.from(tagDict.values()) : []), [tagDict]);
@@ -40,10 +40,10 @@ const IncomeEditorComponent: React.ForwardRefRenderFunction<IncomeEditorHandles,
     handleSubmit,
     watch,
     formState: {errors},
-  } = useForm<IncomeTransaction>({
+  } = useForm<IncomeExpenseTransaction>({
     defaultValues: {
-      income: '',
-      incomeAccount: accounts![0],
+      amount: '',
+      account: accounts![0],
       parentTag: null,
       childTag: null,
       comment: null,
@@ -51,11 +51,11 @@ const IncomeEditorComponent: React.ForwardRefRenderFunction<IncomeEditorHandles,
     },
   });
 
-  const watchIncomeInstrument = watch('incomeAccount.instrument');
+  const watchInstrument = watch('account.instrument');
   const instruments = useInstruments();
-  const incomeSymbol = useMemo(() => instruments.data?.get(watchIncomeInstrument)?.symbol, [
+  const instrumentSymbol = useMemo(() => instruments.data?.get(watchInstrument)?.symbol, [
     instruments.data,
-    watchIncomeInstrument,
+    watchInstrument,
   ]);
 
   const tagByParent = useMemo(() => tags.groupBy('parent'), [tags]);
@@ -70,12 +70,12 @@ const IncomeEditorComponent: React.ForwardRefRenderFunction<IncomeEditorHandles,
     return tagByParent.get(rootTagId) ?? [];
   }, [rootTagId, tagByParent]);
 
-  const incomeInputRef = React.useRef<InputHandles>(null);
+  const amountInputRef = React.useRef<InputHandles>(null);
   useEffect(() => {
-    if (errors.income) {
-      incomeInputRef.current?.shake();
+    if (errors.amount) {
+      amountInputRef.current?.shake();
     }
-  }, [errors.income]);
+  }, [errors.amount]);
 
   useImperativeHandle(ref, () => ({submit: () => handleSubmit(onSubmit)()}), [handleSubmit, onSubmit]);
   const {t} = useTranslation();
@@ -85,14 +85,14 @@ const IncomeEditorComponent: React.ForwardRefRenderFunction<IncomeEditorHandles,
         control={control}
         render={({field: {onChange, onBlur, value}}) => (
           <Input
-            ref={incomeInputRef}
+            ref={amountInputRef}
             value={value.toString()}
             onBlur={onBlur}
             onChangeText={onChange}
-            rightIcon={<Text>{incomeSymbol}</Text>}
+            rightIcon={<Text>{instrumentSymbol}</Text>}
           />
         )}
-        name="income"
+        name="amount"
         rules={{
           validate: (text) => {
             const num = Number.parseInt(text, 10);
@@ -133,7 +133,7 @@ const IncomeEditorComponent: React.ForwardRefRenderFunction<IncomeEditorHandles,
             onSelect={(id) => onChange(accounts?.find((a) => a.id === id))}
           />
         )}
-        name="incomeAccount"
+        name="account"
         rules={{required: true}}
       />
 
@@ -167,4 +167,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export const IncomeEditor = React.forwardRef(IncomeEditorComponent);
+export const IncomeExpenseEditor = React.forwardRef(IncomeExpenseEditorComponent);

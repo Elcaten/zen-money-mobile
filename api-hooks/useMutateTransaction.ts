@@ -2,7 +2,7 @@ import {useMutation} from 'react-query';
 import {EntityType} from '../api/entyity-type';
 import {Transaction} from '../api/models';
 import {postEntity} from '../api/postEntity';
-import {IncomeTransaction, TransferTransaction} from '../screens/transactions';
+import {IncomeExpenseTransaction, TransferTransaction} from '../screens/transactions/EditTransactionScreen';
 import {generateUUID} from '../utils/generate-uuid';
 import {toApiDate} from '../utils/to-api-date';
 import {useMe} from './useMe';
@@ -10,27 +10,27 @@ import {useMe} from './useMe';
 export const useMutateIncomeTransaction = () => {
   const user = useMe();
 
-  return useMutation((income: IncomeTransaction) => {
+  return useMutation((transaction: IncomeExpenseTransaction) => {
     const now = new Date();
-    const incomeAmount = Number.parseInt(income.income, 10);
+    const amount = Number.parseInt(transaction.amount, 10);
 
-    if (isNaN(incomeAmount)) {
+    if (isNaN(amount)) {
       return Promise.reject('Invalid income');
     }
 
-    const transaction: Transaction = {
+    const tr: Transaction = {
       changed: now.getTime(),
-      comment: income.comment,
+      comment: transaction.comment,
       created: now.getTime(),
-      date: toApiDate(income.date),
+      date: toApiDate(transaction.date),
       id: generateUUID(),
-      income: incomeAmount,
-      incomeAccount: income.incomeAccount.id,
-      incomeInstrument: income.incomeAccount.instrument,
+      income: amount,
+      incomeAccount: transaction.account.id,
+      incomeInstrument: transaction.account.instrument,
       outcome: 0,
-      outcomeAccount: income.incomeAccount.id,
-      outcomeInstrument: income.incomeAccount.instrument,
-      tag: income.childTag ? [income.childTag] : income.parentTag ? [income.parentTag] : null,
+      outcomeAccount: transaction.account.id,
+      outcomeInstrument: transaction.account.instrument,
+      tag: transaction.childTag ? [transaction.childTag] : transaction.parentTag ? [transaction.parentTag] : null,
       user: user.data!.id,
 
       deleted: false,
@@ -49,7 +49,52 @@ export const useMutateIncomeTransaction = () => {
       payee: null,
       reminderMarker: null,
     };
-    return postEntity<Transaction>(EntityType.Transaction, transaction);
+    return postEntity<Transaction>(EntityType.Transaction, tr);
+  });
+};
+
+export const useMutateExpenseTransaction = () => {
+  const user = useMe();
+
+  return useMutation((transaction: IncomeExpenseTransaction) => {
+    const now = new Date();
+    const amount = Number.parseInt(transaction.amount, 10);
+
+    if (isNaN(amount)) {
+      return Promise.reject('Invalid outcome');
+    }
+
+    return postEntity<Transaction>(EntityType.Transaction, {
+      changed: now.getTime(),
+      comment: transaction.comment,
+      created: now.getTime(),
+      date: toApiDate(transaction.date),
+      id: generateUUID(),
+      income: 0,
+      incomeAccount: transaction.account.id,
+      incomeInstrument: transaction.account.instrument,
+      outcome: amount,
+      outcomeAccount: transaction.account.id,
+      outcomeInstrument: transaction.account.instrument,
+      tag: transaction.childTag ? [transaction.childTag] : transaction.parentTag ? [transaction.parentTag] : null,
+      user: user.data!.id,
+
+      deleted: false,
+      hold: false,
+      incomeBankID: null,
+      latitude: null,
+      longitude: null,
+      mcc: null,
+      merchant: null,
+      opIncome: null,
+      opIncomeInstrument: null,
+      opOutcome: null,
+      opOutcomeInstrument: null,
+      originalPayee: null,
+      outcomeBankID: null,
+      payee: null,
+      reminderMarker: null,
+    });
   });
 };
 
@@ -68,7 +113,7 @@ export const useMutateTransferTransaction = () => {
       return Promise.reject('Invalid outcome');
     }
 
-    const transaction: Transaction = {
+    return postEntity<Transaction>(EntityType.Transaction, {
       changed: now.getTime(),
       comment: transfer.comment,
       created: now.getTime(),
@@ -98,7 +143,6 @@ export const useMutateTransferTransaction = () => {
       payee: null,
       reminderMarker: null,
       tag: null,
-    };
-    return postEntity<Transaction>(EntityType.Transaction, transaction);
+    });
   });
 };
