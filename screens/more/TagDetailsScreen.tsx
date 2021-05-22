@@ -1,23 +1,33 @@
-import {MaterialIcons} from '@expo/vector-icons';
+import {Ionicons, MaterialCommunityIcons} from '@expo/vector-icons';
 import * as React from 'react';
-import {useCallback, useEffect, useLayoutEffect, useMemo, useRef} from 'react';
-import {useForm} from 'react-hook-form';
+import {useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState} from 'react';
+import {Controller, useForm} from 'react-hook-form';
 import {useTranslation} from 'react-i18next';
 import {StyleSheet} from 'react-native';
+import {Button, Divider, InputHandles} from 'react-native-elements';
+import Toast from 'react-native-root-toast';
 import {HeaderButtons, Item} from 'react-navigation-header-buttons';
 import {useQueryClient} from 'react-query';
 import {useMutateTag} from '../../api-hooks';
 import {QueryKeys} from '../../api-hooks/query-keys';
 import {useDeleteTag, useTags} from '../../api-hooks/useTags';
+import {Tag} from '../../api/models';
+import {Input, View} from '../../components';
+import {Card} from '../../components/Card';
+import {ListItem} from '../../components/ListItem';
 import {TagDetailsScreenProps} from '../../types';
 import {generateUUID} from '../../utils/generate-uuid';
-import {EditableTag, TagEditor, TagEditorHandles} from '../components';
+import {TagIcon} from '../components';
+import {RadioButton} from '../components/RadioButton';
+import {TagPicker} from '../components/TagPicker';
+import {EditableTag} from './editable-tag';
 
 export const emptyTag: EditableTag = {
   id: generateUUID(),
   title: '',
   parent: null,
   icon: null,
+  color: null,
   showIncome: true,
   showOutcome: true,
   required: false,
@@ -27,77 +37,182 @@ export const TagDetailsScreen: React.FC<TagDetailsScreenProps> = ({navigation, r
   const tags = useTags();
   const tag = useMemo(() => tags.data?.get(route.params.tagId!) ?? emptyTag, [route.params.tagId, tags.data]);
 
+  const {t} = useTranslation();
+  const queryClient = useQueryClient();
+
   const {
     control,
+    setValue,
+    watch,
     handleSubmit,
     formState: {errors},
   } = useForm<EditableTag>({defaultValues: tag ?? emptyTag});
 
   const {mutateAsync, isLoading: isMutating} = useMutateTag();
   const onSavePress = useCallback(
-    (editableTag: EditableTag) => {
-      mutateAsync(editableTag);
+    async (editableTag: EditableTag) => {
+      await mutateAsync(editableTag);
+      await queryClient.invalidateQueries(QueryKeys.Tags);
+      showToast(t('Components.TagEditor.CategorySaved'));
+      navigation.pop();
     },
-    [mutateAsync],
+    [mutateAsync, navigation, queryClient, t],
   );
 
-  const ref = useRef<TagEditorHandles>(null);
+  const titleRef = useRef<InputHandles>(null);
   useEffect(() => {
     if (errors.title) {
-      ref.current?.shakeTitle();
+      titleRef.current?.shake();
     }
   }, [errors.title]);
 
   const {mutateAsync: deleteAsync, isLoading: isDeleting} = useDeleteTag();
-  const queryClient = useQueryClient();
   const onDeletePress = useCallback(async () => {
     await deleteAsync(tag.id);
     await queryClient.invalidateQueries(QueryKeys.Tags);
+    showToast(t('Components.TagEditor.CategoryDeleted'));
     navigation.pop();
-  }, [deleteAsync, navigation, queryClient, tag]);
+  }, [deleteAsync, navigation, queryClient, t, tag.id]);
 
-  const {t} = useTranslation();
   useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => (
         <HeaderButtons>
           <Item
             title={t('Screen.Tag.Edit')}
-            IconComponent={MaterialIcons}
-            iconName="delete"
+            IconComponent={MaterialCommunityIcons}
+            iconName="delete-outline"
             iconSize={24}
             onPress={onDeletePress}
           />
-          <Item title={t('Screen.Tag.Save')} onPress={handleSubmit(onSavePress)} />
+          <Item
+            title={t('Screen.Tag.Save')}
+            IconComponent={Ionicons}
+            iconName="save-outline"
+            iconSize={24}
+            onPress={handleSubmit(onSavePress)}
+          />
         </HeaderButtons>
       ),
     });
   }, [deleteAsync, handleSubmit, navigation, onDeletePress, onSavePress, t]);
 
-  const possibleParentTags = useMemo(() => {
+  const [possibleParentTags, setPossibleParentTags] = useState<Tag[]>([]);
+  useEffect(() => {
     const tagsArr = Array.from(tags.data?.values());
     const topLevelTags = tagsArr.filter(({parent}) => parent == null);
 
     if (tag?.parent != null) {
-      return topLevelTags;
+      setPossibleParentTags(topLevelTags);
+      return;
     }
 
     const tagHasChildren = tagsArr.some((i) => i.parent === tag?.id);
-    if (tagHasChildren) {
-      return [];
-    } else {
-      return topLevelTags.filter((i) => i.id !== tag?.id);
+    if (!tagHasChildren) {
+      setPossibleParentTags(topLevelTags.filter((i) => i.id !== tag?.id));
     }
   }, [tag, tags.data]);
 
+  const iconColor = watch('color');
+  const iconName = watch('icon');
+
   return (
-    <TagEditor
-      ref={ref}
-      control={control}
-      parentTags={possibleParentTags}
+    <View
       style={isMutating || isDeleting ? styles.disabledView : []}
-      pointerEvents={isMutating || isDeleting ? 'none' : 'auto'}
-    />
+      pointerEvents={isMutating || isDeleting ? 'none' : 'auto'}>
+      <View style={{flexDirection: 'row', margin: 8}}>
+        <View>
+          <TagIcon icon={iconName} color={iconColor} style={{margin: 16}} />
+          <Button
+            type="clear"
+            title="Edit"
+            onPress={() =>
+              navigation.navigate('IconPickerScreen', {
+                icon: iconName,
+                color: iconColor,
+                onSave: (i, c) => {
+                  setValue('icon', i);
+                  setValue('color', c);
+                },
+              })
+            }
+          />
+        </View>
+        <View style={{flex: 1}}>
+          <Controller
+            control={control}
+            render={({field: {onChange, onBlur, value}}) => (
+              <Input
+                ref={titleRef}
+                placeholder={t('Components.TagEditor.Title')}
+                value={value}
+                style={{fontSize: 16}}
+                onBlur={onBlur}
+                onChangeText={(text) => onChange(text)}
+              />
+            )}
+            name="title"
+            rules={{required: true}}
+          />
+
+          <Controller
+            control={control}
+            render={({field: {onChange, value}}) => {
+              return <TagPicker tags={possibleParentTags} selectedTag={value} onSelect={onChange} />;
+            }}
+            name="parent"
+          />
+        </View>
+      </View>
+
+      <Divider />
+      <Card>
+        <Card.Title>{t('Components.TagEditor.Show')}</Card.Title>
+        <Controller
+          control={control}
+          render={({field: {onChange, onBlur, value}}) => (
+            <ListItem onPress={() => onChange(!value)}>
+              <ListItem.CheckBox checked={value} onBlur={onBlur} />
+              <ListItem.Title>{t('Components.TagEditor.Expense')}</ListItem.Title>
+            </ListItem>
+          )}
+          name="showOutcome"
+        />
+        <Controller
+          control={control}
+          render={({field: {onChange, onBlur, value}}) => (
+            <ListItem onPress={() => onChange(!value)}>
+              <ListItem.CheckBox checked={value} onBlur={onBlur} />
+              <ListItem.Title>{t('Components.TagEditor.Income')}</ListItem.Title>
+            </ListItem>
+          )}
+          name="showIncome"
+        />
+      </Card>
+
+      <Divider />
+      <Controller
+        control={control}
+        render={({field: {onChange, value}}) => (
+          <Card>
+            <Card.Title>{t('Components.TagEditor.SpendingTitle')}</Card.Title>
+            <ListItem onPress={() => onChange(true)}>
+              <RadioButton checked={!!value} />
+              <ListItem.Content>
+                <ListItem.Title>{t('Components.TagEditor.Fixed')}</ListItem.Title>
+              </ListItem.Content>
+            </ListItem>
+            <ListItem onPress={() => onChange(false)}>
+              <RadioButton checked={!value} />
+              <ListItem.Content>
+                <ListItem.Title>{t('Components.TagEditor.Flexible')}</ListItem.Title>
+              </ListItem.Content>
+            </ListItem>
+          </Card>
+        )}
+        name="required"
+      />
+    </View>
   );
 };
 
@@ -106,3 +221,13 @@ const styles = StyleSheet.create({
     opacity: 0.5,
   },
 });
+
+function showToast(message: string) {
+  Toast.show(message, {
+    duration: Toast.durations.SHORT,
+    position: Toast.positions.BOTTOM - 50,
+    shadow: true,
+    animation: true,
+    hideOnPress: true,
+  });
+}

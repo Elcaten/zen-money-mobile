@@ -1,6 +1,6 @@
 import {MaterialIcons} from '@expo/vector-icons';
 import * as React from 'react';
-import {useCallback, useLayoutEffect, useMemo} from 'react';
+import {useCallback, useEffect, useLayoutEffect, useMemo} from 'react';
 import {FlatList, ListRenderItemInfo} from 'react-native';
 import {HeaderButtons, Item} from 'react-navigation-header-buttons';
 import {useTags} from '../../api-hooks/useTags';

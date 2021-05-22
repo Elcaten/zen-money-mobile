@@ -4,6 +4,8 @@
             "Comment": "Комментарий"
         },
         "TagEditor": {
+            "CategoryDeleted": "Категория удалена",
+            "CategorySaved": "Категория сохранена",
             "Expense": "в расходе",
             "Fixed": "Обязательные",
             "Flexible": "Необязательные",

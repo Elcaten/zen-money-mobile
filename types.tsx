@@ -6,6 +6,7 @@
 import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
 import {CompositeNavigationProp, NavigatorScreenParams, RouteProp} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
+import {TagIconName} from './api/models';
 import {TransactionType} from './screens/transactions/transaction-type';
 
 export type RootStackParamList = {
@@ -46,6 +47,11 @@ export type MoreParamList = {
   MoreScreen: undefined;
   ThemesScreen: undefined;
   LocalesScreen: undefined;
+  IconPickerScreen: {
+    icon: TagIconName | null | undefined;
+    color: number | null | undefined;
+    onSave: (icon: TagIconName | null | undefined, color: number | null | undefined) => void;
+  }; // TODO: figure out what's wrong with navigation.setOptions typing
   TagsScreen: {}; // TODO: figure out what's wrong with navigation.setOptions typing
   TagDetailsScreen: {tagId?: string};
 };
@@ -128,4 +134,14 @@ export type TagDetailsScreenNavigationProp = CompositeNavigationProp<
 export type TagDetailsScreenProps = {
   route: TagDetailsScreenRouteProp;
   navigation: TagDetailsScreenNavigationProp;
+};
+
+export type IconPickerScreenRouteProp = RouteProp<MoreParamList, 'IconPickerScreen'>;
+export type IconPickerScreenNavigationProp = CompositeNavigationProp<
+  StackNavigationProp<MoreParamList, 'IconPickerScreen'>,
+  BottomTabNavigationProp<BottomTabParamList>
+>;
+export type IconPickerScreenProps = {
+  route: IconPickerScreenRouteProp;
+  navigation: IconPickerScreenNavigationProp;
 };

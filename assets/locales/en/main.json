@@ -4,6 +4,8 @@
             "Comment": "Comment"
         },
         "TagEditor": {
+            "CategoryDeleted": "Category deleted",
+            "CategorySaved": "Category saved",
             "Expense": "in expense",
             "Fixed": "Fixed",
             "Flexible": "Flexible",

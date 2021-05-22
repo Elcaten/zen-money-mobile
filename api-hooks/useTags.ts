@@ -4,7 +4,7 @@ import {EntityType, postEntity} from '../api';
 import {deleteEntity} from '../api/deleteEntity';
 import {fetchTags} from '../api/fetchTags';
 import {Tag} from '../api/models';
-import {EditableTag} from '../screens/components';
+import {EditableTag} from '../screens/more';
 import {QueryKeys} from './query-keys';
 import {useMe} from './useMe';
 

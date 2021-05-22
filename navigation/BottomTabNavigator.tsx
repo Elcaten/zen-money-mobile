@@ -9,7 +9,7 @@ import {CreditCardIcon, MenuIcon, ShowChartIcon, SwapHorizIcon} from '../compone
 import {AnalyticsScreen} from '../screens/analytics';
 import {AccountOverviewScreen, AccountsScreen} from '../screens/account';
 import {AccountDetailsScreen} from '../screens/account/AccountDetailsScreen';
-import {LocalesScreen, MoreScreen, TagDetailsScreen, TagsScreen, ThemesScreen} from '../screens/more';
+import {IconPickerScreen, LocalesScreen, MoreScreen, TagDetailsScreen, TagsScreen, ThemesScreen} from '../screens/more';
 import {TransactionDetailsScreen, TransactionsScreen} from '../screens/transactions';
 import {useNavigatorThemeColors} from '../themes';
 import {
@@ -175,6 +175,7 @@ function MoreNavigator() {
         component={TagDetailsScreen}
         options={{headerTitle: t('Screen.Tag.Tag')}}
       />
+      <MoreStack.Screen name="IconPickerScreen" component={IconPickerScreen} options={{headerTitle: ''}} />
     </MoreStack.Navigator>
   );
 }

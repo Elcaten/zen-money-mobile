@@ -7,3 +7,15 @@ export function argbToHEX(color: number) {
   }
   return hexColorByArgb.get(color)!;
 }
+
+export function hexToRgb(hex: string) {
+  var result = /^#?([a-fd]{2})([a-fd]{2})([a-fd]{2})$/i.exec(hex);
+  if (result) {
+    var r = parseInt(result[1], 16);
+    var g = parseInt(result[2], 16);
+    var b = parseInt(result[3], 16);
+    // eslint-disable-next-line no-bitwise
+    return (r << 16) + (g << 8) + (b << 0);
+  }
+  return null;
+}

@@ -13,12 +13,14 @@ import {Root} from './Root';
 import {useStore} from './store/use-store';
 import {ElementsThemeProvider, NavigatorThemeProvider} from './themes';
 import {composeProviders} from './utils';
+import {RootSiblingParent} from 'react-native-root-siblings';
+
 import './utils/augmentations';
 
 var customParseFormat = require('dayjs/plugin/customParseFormat');
 dayjs.extend(customParseFormat);
 
-LogBox.ignoreLogs(['Setting a timer']);
+LogBox.ignoreLogs(['Setting a timer', 'Non-serializable values were found in the navigation state']);
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -43,6 +45,7 @@ export default function App() {
   useStore();
 
   const WrappedApp = composeProviders(
+    RootSiblingParent,
     NavigatorThemeProvider,
     ElementsThemeProvider,
     OverflowMenuProvider,

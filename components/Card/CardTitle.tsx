@@ -13,5 +13,6 @@ export const CardTitle: React.FC<CardTitleProps> = (props) => {
 const styles = StyleSheet.create({
   text: {
     color: GRAY,
+    margin: 16,
   },
 });
