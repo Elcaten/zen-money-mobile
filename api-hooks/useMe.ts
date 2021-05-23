@@ -6,5 +6,5 @@ export const useMe = () =>
   useQuery(
     QueryKeys.Users,
     () => fetchUser(),
-    {staleTime: 0}, // DONT FUCKING ADD Infinity,
+    {staleTime: 1000 * 60 * 60}, // DONT FUCKING ADD Infinity,
   );
