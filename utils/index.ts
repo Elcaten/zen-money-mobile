@@ -6,5 +6,4 @@ export * from './extract-id';
 export * from './generate-uuid';
 export * from './random-color';
 export * from './manifest-extra';
-export * from './png-icons';
 export * from './to-api-date';
