@@ -28,6 +28,7 @@ export const useMutateTag = () => {
   return useMutation((editableTag: EditableTag) => {
     const tag: Tag = {
       ...editableTag,
+      parent: editableTag.parent ?? null,
       changed: new Date().getTime(),
       budgetIncome: false,
       budgetOutcome: false,
