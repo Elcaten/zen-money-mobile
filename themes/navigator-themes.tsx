@@ -8,6 +8,7 @@ export type NavigatorTheme = Theme & {
   colors: {
     iconColor: string;
     tintColor: string;
+    placeholder: string;
   };
 };
 
@@ -17,6 +18,7 @@ export const DefaultNavigatorTheme: NavigatorTheme = {
     ...DefaultTheme.colors,
     iconColor: '#656566',
     tintColor: tintColorLight,
+    placeholder: '#D7D7D7',
   },
 };
 
@@ -27,6 +29,7 @@ export const DarkNavigatorTheme: NavigatorTheme = {
     text: '#D7D7D7',
     iconColor: '#D7D7D7',
     tintColor: tintColorDark,
+    placeholder: '#D7D7D7',
   },
 };
 

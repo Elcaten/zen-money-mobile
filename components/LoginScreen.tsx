@@ -3,9 +3,9 @@ import * as React from 'react';
 import {useCallback, useRef, useState} from 'react';
 import {StyleSheet} from 'react-native';
 import {Button, InputHandles} from 'react-native-elements';
-import {Input} from 'react-native-elements/dist/input/Input';
 import {useQueryClient} from 'react-query';
 import {AuthToken, persistToken, useLogin, validateAuthTokenResponse} from '../auth';
+import {Input} from './Input';
 import {View} from './View';
 
 export interface LoginScreenProps {}
