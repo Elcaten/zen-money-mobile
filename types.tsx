@@ -27,7 +27,7 @@ export type AccountsParamList = {
     accountId: string;
   };
   EditAccountScreen: {
-    accountId: string;
+    accountId?: string;
   };
   AccountOverviewScreen: undefined;
 };
