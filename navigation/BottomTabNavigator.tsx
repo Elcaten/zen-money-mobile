@@ -21,6 +21,7 @@ import {
 } from '../types';
 import {resetTabStackListener} from './reset-tab-stack-listeners';
 import {EditTransactionScreen} from '../screens/transactions/EditTransactionScreen';
+import {EditAccountScreen} from '../screens/account/EditAccountScreen';
 
 const iconProps: Omit<IconProps, 'name'> = {
   size: 30,
@@ -110,6 +111,7 @@ function AccountsNavigator() {
         options={{headerTitle: t('Screen.AccountOverview.AccountOverview')}}
       />
       <AccountsStack.Screen name="AccountDetailsScreen" component={AccountDetailsScreen} options={{headerTitle: ''}} />
+      <AccountsStack.Screen name="EditAccountScreen" component={EditAccountScreen} options={{headerTitle: ''}} />
     </AccountsStack.Navigator>
   );
 }

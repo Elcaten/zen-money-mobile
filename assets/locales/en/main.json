@@ -38,6 +38,9 @@
             "Transfer": "Transfer"
         },
         "Analytics": "Analytics",
+        "EditAccount": {
+            "AccountSettings": "Account Settings"
+        },
         "Locales": "App Language",
         "More": "More",
         "Tag": {

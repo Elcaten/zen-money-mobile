@@ -38,6 +38,9 @@
             "Transfer": "Перевод"
         },
         "Analytics": "Аналитика",
+        "EditAccount": {
+            "AccountSettings": "Настройки счета"
+        },
         "Locales": "Язык приложения",
         "More": "Еще",
         "Tag": {
