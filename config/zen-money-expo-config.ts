@@ -10,6 +10,7 @@ export interface ExtraConfig {
   REFRESH_TOKEN_URL: string;
   API_URL: string;
   USE_PROXY: boolean;
+  DEMO_TOKEN: string;
 }
 
 export interface ZenMoneyExpoConfig extends ExpoConfig {

@@ -11,4 +11,5 @@ export const {
   REFRESH_TOKEN_URL,
   TOKEN_URL,
   USE_PROXY,
+  DEMO_TOKEN,
 } = Constants.manifest.extra as ExtraConfig;

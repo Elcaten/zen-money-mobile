@@ -16,7 +16,8 @@ export default ({config}: ConfigContext): ZenMoneyExpoConfig => {
     !process.env.ZEN_TOKEN_URL ||
     !process.env.ZEN_REFRESH_TOKEN_URL ||
     !process.env.ZEN_API_URL ||
-    !process.env.ZEN_USE_PROXY
+    !process.env.ZEN_USE_PROXY ||
+    !process.env.ZEN_DEMO_TOKEN
   ) {
     throw new Error(`Invalid process.env configuration:\n${JSON.stringify(process.env, null, 2)}`);
   }
@@ -33,6 +34,7 @@ export default ({config}: ConfigContext): ZenMoneyExpoConfig => {
       REFRESH_TOKEN_URL: process.env.ZEN_REFRESH_TOKEN_URL,
       API_URL: process.env.ZEN_API_URL,
       USE_PROXY: process.env.ZEN_USE_PROXY === 'true',
+      DEMO_TOKEN: process.env.ZEN_DEMO_TOKEN,
     },
   };
 };

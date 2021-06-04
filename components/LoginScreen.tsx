@@ -5,6 +5,7 @@ import {StyleSheet} from 'react-native';
 import {Button, InputHandles} from 'react-native-elements';
 import {useQueryClient} from 'react-query';
 import {AuthToken, persistToken, useLogin, validateAuthTokenResponse} from '../auth';
+import {DEMO_TOKEN} from '../utils';
 import {Input} from './Input';
 import {View} from './View';
 
@@ -28,6 +29,14 @@ export const LoginScreen: React.FC<LoginScreenProps> = (props) => {
     queryClient.invalidateQueries();
   }, [queryClient, token]);
 
+  const onDemoPress = useCallback(async () => {
+    const tokenResponse = JSON.parse(DEMO_TOKEN);
+    validateAuthTokenResponse(tokenResponse);
+    const authToken = new AuthToken(tokenResponse);
+    await persistToken(authToken);
+    queryClient.invalidateQueries();
+  }, [queryClient]);
+
   return (
     <View style={styles.container}>
       <View style={styles.buttonContainer}>
@@ -41,6 +50,9 @@ export const LoginScreen: React.FC<LoginScreenProps> = (props) => {
           rightIcon={<MaterialCommunityIcons name="send" size={24} onPress={onPress} />}
           ref={ref as any}
         />
+      </View>
+      <View style={styles.buttonContainer}>
+        <Button title="Demo Access" onPress={onDemoPress} />
       </View>
     </View>
   );
