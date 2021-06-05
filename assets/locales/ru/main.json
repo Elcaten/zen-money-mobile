@@ -15,6 +15,13 @@
             "Show": "Показывать",
             "SpendingTitle": "Расходы по этой категории",
             "Title": "Наименование"
+        },
+        "AccountTypePicker": {
+            "Cash": "Наличные",
+            "Card": "Карта",
+            "Checking": "Банковский счет",
+            "Deposit": "Депозит",
+            "Loan": "Кредит"
         }
     },
     "Screen": {

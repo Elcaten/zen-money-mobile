@@ -1,5 +1,12 @@
 {
     "Components": {
+        "AccountTypePicker": {
+            "Card": "Debit/credit card",
+            "Cash": "Cash",
+            "Checking": "Checking",
+            "Deposit": "Deposit",
+            "Loan": "Loan"
+        },
         "IncomeTransactionEditor": {
             "Comment": "Comment"
         },

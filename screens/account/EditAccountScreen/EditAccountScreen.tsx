@@ -11,6 +11,7 @@ import {Card} from '../../../components/Card';
 import {RUB_SHORT_TITLE} from '../../../constants/Constants';
 import {AccountDetailsScreenProps} from '../../../types';
 import {generateUUID} from '../../../utils';
+import {AccountTypePicker} from '../../components';
 import {EditableAccount} from './editable-account';
 
 export const EditAccountScreen: React.FC<AccountDetailsScreenProps> = ({navigation, route}) => {
@@ -21,6 +22,7 @@ export const EditAccountScreen: React.FC<AccountDetailsScreenProps> = ({navigati
   const rubleInstrument = instruments.valuesArray().find((i) => i.shortTitle === RUB_SHORT_TITLE)!;
   const emptyAccount: EditableAccount = {
     id: generateUUID(),
+    archive: false,
     title: '',
     balance: 0,
     type: AccountType.Cash,
@@ -51,7 +53,7 @@ export const EditAccountScreen: React.FC<AccountDetailsScreenProps> = ({navigati
         render={({field: {onChange, onBlur, value}}) => (
           <Input
             ref={titleRef}
-            placeholder={t('Components.TagEditor.Title')}
+            // placeholder={t('Components.TagEditor.Title')}
             value={value}
             style={{fontSize: 16}}
             onBlur={onBlur}
@@ -59,6 +61,19 @@ export const EditAccountScreen: React.FC<AccountDetailsScreenProps> = ({navigati
           />
         )}
         name="title"
+        rules={{required: true}}
+      />
+
+      <Controller
+        control={control}
+        render={({field: {onChange, value}}) => (
+          <AccountTypePicker
+            // placeholder={t('Components.TagEditor.')}
+            selectedType={value}
+            onSelect={(type) => onChange(type)}
+          />
+        )}
+        name="type"
         rules={{required: true}}
       />
     </Card>
