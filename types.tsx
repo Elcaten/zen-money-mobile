@@ -30,6 +30,10 @@ export type AccountsParamList = {
     accountId?: string;
   };
   AccountOverviewScreen: undefined;
+  InstrumentPickerScreen: {
+    instrument: number | null;
+    onSelect: (instrument: number | null) => void;
+  };
 };
 
 export type TransactionsParamList = {
@@ -77,6 +81,16 @@ export type AccountDetailsScreenNavigationProp = CompositeNavigationProp<
 export type AccountDetailsScreenProps = {
   route: AccountDetailsScreenRouteProp;
   navigation: AccountDetailsScreenNavigationProp;
+};
+
+export type InstrumentPickerScreenRouteProp = RouteProp<AccountsParamList, 'InstrumentPickerScreen'>;
+export type InstrumentPickerScreenNavigationProp = CompositeNavigationProp<
+  StackNavigationProp<AccountsParamList, 'InstrumentPickerScreen'>,
+  BottomTabNavigationProp<BottomTabParamList>
+>;
+export type InstrumentPickerScreenProps = {
+  route: InstrumentPickerScreenRouteProp;
+  navigation: InstrumentPickerScreenNavigationProp;
 };
 
 export type TransactionsScreenRouteProp = RouteProp<TransactionsParamList, 'TransactionsScreen'>;
