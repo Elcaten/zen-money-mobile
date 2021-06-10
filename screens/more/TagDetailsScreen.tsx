@@ -16,6 +16,7 @@ import {Input, View} from '../../components';
 import {Card} from '../../components/Card';
 import {ListItem} from '../../components/ListItem';
 import {TagDetailsScreenProps} from '../../types';
+import {showToast} from '../../utils';
 import {generateUUID} from '../../utils/generate-uuid';
 import {TagIcon} from '../components';
 import {RadioButton} from '../components/RadioButton';
@@ -221,13 +222,3 @@ const styles = StyleSheet.create({
     opacity: 0.5,
   },
 });
-
-function showToast(message: string) {
-  Toast.show(message, {
-    duration: Toast.durations.SHORT,
-    position: Toast.positions.BOTTOM - 50,
-    shadow: true,
-    animation: true,
-    hideOnPress: true,
-  });
-}
