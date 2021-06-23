@@ -1,5 +1,12 @@
 {
     "Components": {
+        "AccountTypePicker": {
+            "Card": "Карта",
+            "Cash": "Наличные",
+            "Checking": "Банковский счет",
+            "Deposit": "Депозит",
+            "Loan": "Кредит"
+        },
         "IncomeTransactionEditor": {
             "Comment": "Комментарий"
         },
@@ -15,13 +22,6 @@
             "Show": "Показывать",
             "SpendingTitle": "Расходы по этой категории",
             "Title": "Наименование"
-        },
-        "AccountTypePicker": {
-            "Cash": "Наличные",
-            "Card": "Карта",
-            "Checking": "Банковский счет",
-            "Deposit": "Депозит",
-            "Loan": "Кредит"
         }
     },
     "Screen": {
@@ -46,7 +46,12 @@
         },
         "Analytics": "Аналитика",
         "EditAccount": {
-            "AccountSettings": "Настройки счета"
+            "AccountSaved": "Счет сохранен",
+            "AccountSettings": "Настройки счета",
+            "Archive": "Архивный счет",
+            "InBalance": "Включить в общий баланс",
+            "Instrument": "Валюта счета",
+            "Savings": "Накопительный счет"
         },
         "Locales": "Язык приложения",
         "More": "Еще",

@@ -24,6 +24,7 @@
     "@react-navigation/native": "~5.8.10",
     "@react-navigation/stack": "~5.12.8",
     "dayjs": "^1.10.4",
+    "envalid": "^7.1.0",
     "expo": "~41.0.0",
     "expo-asset": "~8.3.1",
     "expo-auth-session": "~3.2.3",

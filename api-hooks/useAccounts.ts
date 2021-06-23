@@ -16,7 +16,19 @@ export const useAccountDictionary = () => {
   }, [accounts.data]);
 };
 
-export type AccountModel = Pick<UserAccount, 'id' | 'title' | 'type' | 'balance' | 'archive'> & {
+export type AccountModel = Pick<
+  UserAccount,
+  | 'id'
+  | 'title'
+  | 'type'
+  | 'balance'
+  | 'startBalance'
+  | 'archive'
+  | 'instrument'
+  | 'inBalance'
+  | 'savings'
+  | 'creditLimit'
+> & {
   balanceFormatted: string;
 };
 
@@ -27,15 +39,20 @@ export const useAccountModels = () => {
 
   const accountModels = useMemo(() => {
     const models =
-      accounts.data?.map<AccountModel>(({id, archive, title, type, balance, instrument}) => {
-        const symbol = instruments.data?.get(instrument)?.symbol ?? '';
+      accounts.data?.map<AccountModel>((acc) => {
+        const symbol = instruments.data?.get(acc.instrument!)?.symbol ?? '';
         return {
-          id,
-          archive,
-          title,
-          type,
-          balance,
-          balanceFormatted: formatCurrency(Math.abs(balance), symbol),
+          archive: acc.archive,
+          balance: acc.balance,
+          balanceFormatted: formatCurrency(Math.abs(acc.balance), symbol),
+          creditLimit: acc.creditLimit,
+          id: acc.id,
+          inBalance: acc.inBalance,
+          instrument: acc.instrument,
+          savings: acc.savings,
+          startBalance: acc.startBalance,
+          title: acc.title,
+          type: acc.type,
         };
       }) ?? [];
     return models.sort((m1, m2) => m1.title.localeCompare(m2.title));

@@ -1,40 +1,39 @@
 // WARNING THIS ISN'T VERSIONED
-import {ExpoConfig, ConfigContext} from '@expo/config';
+import {ConfigContext, ExpoConfig} from '@expo/config';
 import dotenv from 'dotenv';
+import {bool, cleanEnv, EnvError, json, makeValidator, str} from 'envalid';
 import path from 'path';
-import {ZenMoneyExpoConfig} from './config/zen-money-expo-config';
 
 dotenv.config({path: path.resolve(__dirname, `./config/${process.env.ENVIRONMENT}.env`)});
 
-export default ({config}: ConfigContext): ZenMoneyExpoConfig => {
-  if (
-    !process.env.ZEN_REACT_QUERY_PERSIST_KEY! ||
-    !process.env.ZEN_PERSISIT_TOKEN_KEY! ||
-    !process.env.ZEN_CLIENT_ID! ||
-    !process.env.ZEN_REDIRECT_URL ||
-    !process.env.ZEN_AUTH_URL ||
-    !process.env.ZEN_TOKEN_URL ||
-    !process.env.ZEN_REFRESH_TOKEN_URL ||
-    !process.env.ZEN_API_URL ||
-    !process.env.ZEN_USE_PROXY ||
-    !process.env.ZEN_DEMO_TOKEN
-  ) {
-    throw new Error(`Invalid process.env configuration:\n${JSON.stringify(process.env, null, 2)}`);
+const environmentValidator = makeValidator<'dev' | 'prod'>((value) => {
+  if (value !== 'dev' && value !== 'prod') {
+    throw new EnvError(`Value "${value}" not in choices [${['dev', 'prod']}]`);
   }
+  return value as 'dev' | 'prod';
+});
 
+function getEnv() {
+  return cleanEnv(process.env, {
+    ENVIRONMENT: environmentValidator(),
+    REACT_QUERY_PERSIST_KEY: str(),
+    PERSISIT_TOKEN_KEY: str(),
+    CLIENT_ID: str(),
+    REDIRECT_URL: str(),
+    AUTH_URL: str(),
+    TOKEN_URL: str(),
+    REFRESH_TOKEN_URL: str(),
+    API_URL: str(),
+    USE_PROXY: bool(),
+    DEMO_TOKEN: json(),
+  });
+}
+
+export type ZenMoneyExpoConfig = ReturnType<typeof getEnv>;
+
+export default ({config}: ConfigContext): ExpoConfig => {
   return {
     ...(config as ExpoConfig),
-    extra: {
-      REACT_QUERY_PERSIST_KEY: process.env.ZEN_REACT_QUERY_PERSIST_KEY,
-      PERSISIT_TOKEN_KEY: process.env.ZEN_PERSISIT_TOKEN_KEY,
-      CLIENT_ID: process.env.ZEN_CLIENT_ID,
-      REDIRECT_URL: process.env.ZEN_REDIRECT_URL,
-      AUTH_URL: process.env.ZEN_AUTH_URL,
-      TOKEN_URL: process.env.ZEN_TOKEN_URL,
-      REFRESH_TOKEN_URL: process.env.ZEN_REFRESH_TOKEN_URL,
-      API_URL: process.env.ZEN_API_URL,
-      USE_PROXY: process.env.ZEN_USE_PROXY === 'true',
-      DEMO_TOKEN: process.env.ZEN_DEMO_TOKEN,
-    },
+    extra: getEnv(),
   };
 };

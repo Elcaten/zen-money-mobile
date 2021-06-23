@@ -1,5 +1,5 @@
 import Constants from 'expo-constants';
-import {ExtraConfig} from '../config/zen-money-expo-config';
+import {ZenMoneyExpoConfig} from '../app.config';
 
 export const {
   REACT_QUERY_PERSIST_KEY,
@@ -12,4 +12,4 @@ export const {
   TOKEN_URL,
   USE_PROXY,
   DEMO_TOKEN,
-} = Constants.manifest.extra as ExtraConfig;
+} = Constants.manifest.extra as ZenMoneyExpoConfig;

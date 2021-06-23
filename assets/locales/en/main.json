@@ -46,7 +46,12 @@
         },
         "Analytics": "Analytics",
         "EditAccount": {
-            "AccountSettings": "Account Settings"
+            "AccountSaved": "Account saved",
+            "AccountSettings": "Account Settings",
+            "Archive": "Archived account",
+            "InBalance": "Include in total balance",
+            "Instrument": "Account сurrency",
+            "Savings": "Savings account"
         },
         "Locales": "App Language",
         "More": "More",

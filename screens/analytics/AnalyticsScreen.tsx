@@ -71,7 +71,7 @@ export const AnalyticsScreen: React.FC<AnalyticsScreenProps> = (props) => {
   }, [formatCurrency, userCurrency, transactionsByMonth]);
 
   const [selectedIndex, setSelectedIndex] = React.useState(0);
-  const shouldLoadComponent = (index) => index === selectedIndex;
+  const shouldLoadComponent = (index: number) => index === selectedIndex;
 
   return (
     <ViewPager
