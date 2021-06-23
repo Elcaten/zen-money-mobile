@@ -28,7 +28,7 @@ export const MoreScreen: React.FC<MoreScreenProps> = ({navigation}) => {
         </ListItem.Content>
         <ListItem.Chevron />
       </ListItem>
-      <ListItem bottomDivider onPress={() => navigation.navigate('TagsScreen')}>
+      <ListItem bottomDivider onPress={() => navigation.navigate('TagsScreen', {})}>
         <TagIcon />
         <ListItem.Content>
           <ListItem.Title>{t('Screen.Tags')}</ListItem.Title>
