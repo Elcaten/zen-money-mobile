@@ -15,6 +15,11 @@ export const CalendarIcon: React.FC<IconProps> = (props) => {
   return <MaterialCommunityIcons color={iconColor} name="calendar" {...props} />;
 };
 
+export const CheckIcon: React.FC<IconProps> = (props) => {
+  const {iconColor} = useNavigatorThemeColors();
+  return <MaterialIcons color={iconColor} name="check" {...props} />;
+};
+
 export const CreditCardIcon: React.FC<IconProps> = (props) => {
   const {iconColor} = useNavigatorThemeColors();
   return <MaterialIcons color={iconColor} name="credit-card" {...props} />;
