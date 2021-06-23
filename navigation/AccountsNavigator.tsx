@@ -8,6 +8,7 @@ import {AccountDetailsScreen} from '../screens/account/AccountDetailsScreen';
 import {AccountsParamList} from '../types';
 import {EditAccountScreen} from '../screens/account/EditAccountScreen';
 import {InstrumentPickerScreen} from '../screens/account/InstrumentPickerScreen';
+import {AccountTypePickerScreen} from '../screens/account/AccountTypePickerScreen';
 
 const Stack = createStackNavigator<AccountsParamList>();
 
@@ -40,6 +41,7 @@ export function AccountsNavigator() {
         options={{headerTitle: t('Screen.AccountOverview.AccountOverview')}}
       />
       <Stack.Screen name="InstrumentPickerScreen" component={InstrumentPickerScreen} options={{headerTitle: ''}} />
+      <Stack.Screen name="AccountTypePickerScreen" component={AccountTypePickerScreen} options={{headerTitle: ''}} />
       <Stack.Screen name="AccountDetailsScreen" component={AccountDetailsScreen} options={{headerTitle: ''}} />
       <Stack.Screen name="EditAccountScreen" component={EditAccountScreen} options={{headerTitle: ''}} />
     </Stack.Navigator>

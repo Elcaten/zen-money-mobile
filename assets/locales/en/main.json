@@ -48,6 +48,7 @@
         "EditAccount": {
             "AccountSaved": "Account saved",
             "AccountSettings": "Account Settings",
+            "AccountType": "Account type",
             "Archive": "Archived account",
             "InBalance": "Include in total balance",
             "Instrument": "Account сurrency",

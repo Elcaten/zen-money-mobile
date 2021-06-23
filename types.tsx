@@ -6,7 +6,7 @@
 import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
 import {CompositeNavigationProp, NavigatorScreenParams, RouteProp} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
-import {TagIconName} from './api/models';
+import {AccountType, TagIconName} from './api/models';
 import {TransactionType} from './screens/transactions/transaction-type';
 
 export type RootStackParamList = {
@@ -33,6 +33,10 @@ export type AccountsParamList = {
   InstrumentPickerScreen: {
     instrument: number | null;
     onSelect: (instrument: number | null) => void;
+  };
+  AccountTypePickerScreen: {
+    type: AccountType | null;
+    onSelect: (type: AccountType | null) => void;
   };
 };
 
@@ -91,6 +95,16 @@ export type InstrumentPickerScreenNavigationProp = CompositeNavigationProp<
 export type InstrumentPickerScreenProps = {
   route: InstrumentPickerScreenRouteProp;
   navigation: InstrumentPickerScreenNavigationProp;
+};
+
+export type AccountTypePickerScreenRouteProp = RouteProp<AccountsParamList, 'AccountTypePickerScreen'>;
+export type AccountTypePickerScreenNavigationProp = CompositeNavigationProp<
+  StackNavigationProp<AccountsParamList, 'AccountTypePickerScreen'>,
+  BottomTabNavigationProp<BottomTabParamList>
+>;
+export type AccountTypePickerScreenProps = {
+  route: AccountTypePickerScreenRouteProp;
+  navigation: AccountTypePickerScreenNavigationProp;
 };
 
 export type TransactionsScreenRouteProp = RouteProp<TransactionsParamList, 'TransactionsScreen'>;

@@ -16,15 +16,16 @@ import {Card} from '../../../components/Card';
 import {PickerListItem} from '../../../components/ListItem';
 import {SwitchListItem} from '../../../components/ListItem/SwitchListItem';
 import {RUB_SHORT_TITLE} from '../../../constants/Constants';
+import {useAccountTypes} from '../../../hooks/useAccountTypes';
 import {AccountDetailsScreenProps} from '../../../types';
 import {generateUUID, showToast} from '../../../utils';
-import {AccountTypePicker} from '../../components';
 import {EditableAccount} from './editable-account';
 
 export const EditAccountScreen: React.FC<AccountDetailsScreenProps> = ({navigation, route}) => {
   const accounts = useAccountModels();
   const account = accounts.data.find(({id}) => id === route.params.accountId);
   const {data: instruments} = useInstruments();
+  const accounTypes = useAccountTypes();
 
   const rubleInstrument = instruments.valuesArray().find((i) => i.shortTitle === RUB_SHORT_TITLE)!;
   const emptyAccount: EditableAccount = {
@@ -111,7 +112,11 @@ export const EditAccountScreen: React.FC<AccountDetailsScreenProps> = ({navigati
       <Controller
         control={control}
         render={({field: {onChange, value}}) => (
-          <AccountTypePicker selectedType={value} onSelect={(type) => onChange(type)} />
+          <PickerListItem
+            title={t('Screen.EditAccount.AccountType')}
+            value={accounTypes.get(value!) ?? ''}
+            onPress={() => navigation.navigate('AccountTypePickerScreen', {type: value, onSelect: onChange})}
+          />
         )}
         name="type"
         rules={{required: true}}

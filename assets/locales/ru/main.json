@@ -48,6 +48,7 @@
         "EditAccount": {
             "AccountSaved": "Счет сохранен",
             "AccountSettings": "Настройки счета",
+            "AccountType": "Тип счета",
             "Archive": "Архивный счет",
             "InBalance": "Включить в общий баланс",
             "Instrument": "Валюта счета",
