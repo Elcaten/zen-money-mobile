@@ -23,10 +23,10 @@ interface TransactionListItem {
 interface TransactionsScreenProps extends TransactionsScreenCmpProps {
   transactionModels: TransactionModelsInfo;
 }
-interface TransactionsScreenNewState {
+interface TransactionsScreenState {
   dataProvider: DataProvider;
 }
-export class TransactionsScreenCmp extends Component<TransactionsScreenProps, TransactionsScreenNewState> {
+export class TransactionsScreenCmp extends Component<TransactionsScreenProps, TransactionsScreenState> {
   private layoutProvider: LayoutProvider;
 
   constructor(args: any) {
