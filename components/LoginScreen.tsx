@@ -30,7 +30,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = (props) => {
   }, [queryClient, token]);
 
   const onDemoPress = useCallback(async () => {
-    const tokenResponse = JSON.parse(DEMO_TOKEN);
+    const tokenResponse = DEMO_TOKEN;
     validateAuthTokenResponse(tokenResponse);
     const authToken = new AuthToken(tokenResponse);
     await persistToken(authToken);
