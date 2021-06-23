@@ -16,6 +16,7 @@ export const AccountsScreen: React.FC<AccountsScreenProps> = ({navigation}) => {
 
   const [showArchived, setShowArchived] = useState(false);
   const archivedAccounts = useMemo(() => data.filter((a) => a.archive), [data]);
+  const displayShowArchivedButton = archivedAccounts.length > 0;
   const nonArchivedAccounts = useMemo(() => data.filter((a) => !a.archive), [data]);
 
   const renderAccountItem = React.useCallback(
@@ -33,17 +34,19 @@ export const AccountsScreen: React.FC<AccountsScreenProps> = ({navigation}) => {
   const renderFooter = useCallback(() => {
     return (
       <View>
-        <View style={styles.toggleContainer}>
-          <Text style={[styles.toggleText, {color: primary}]} onPress={() => setShowArchived((v) => !v)}>
-            {showArchived ? t('Screen.Accounts.Collapse') : t('Screen.Accounts.ShowArchived')}
-          </Text>
-        </View>
+        {displayShowArchivedButton && (
+          <View style={styles.toggleContainer}>
+            <Text style={[styles.toggleText, {color: primary}]} onPress={() => setShowArchived((v) => !v)}>
+              {showArchived ? t('Screen.Accounts.Collapse') : t('Screen.Accounts.ShowArchived')}
+            </Text>
+          </View>
+        )}
         <Collapsible collapsed={!showArchived}>
           <FlatList data={archivedAccounts} keyExtractor={extractId} renderItem={renderAccountItem} />
         </Collapsible>
       </View>
     );
-  }, [archivedAccounts, primary, renderAccountItem, showArchived, t]);
+  }, [archivedAccounts, displayShowArchivedButton, primary, renderAccountItem, showArchived, t]);
 
   return (
     <FlatList
