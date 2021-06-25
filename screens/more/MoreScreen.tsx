@@ -1,10 +1,17 @@
 import * as React from 'react';
+import {useMemo} from 'react';
 import {useTranslation} from 'react-i18next';
-import {View} from 'react-native';
+import {ScrollView} from 'react-native';
+import {useMe} from '../../api-hooks';
 import {useLogout} from '../../auth';
-import {LogoutIcon, TagIcon, ThemeIcon} from '../../components';
+import {ThemeIcon} from '../../components';
 import {ListItem} from '../../components/ListItem';
 import {MoreScreenProps} from '../../types';
+
+interface MoreScreenListItem {
+  title: string;
+  onPress: () => void;
+}
 
 export const MoreScreen: React.FC<MoreScreenProps> = ({navigation}) => {
   const {t} = useTranslation();
@@ -12,44 +19,75 @@ export const MoreScreen: React.FC<MoreScreenProps> = ({navigation}) => {
 
   // useNotifications();
 
+  const options = useMemo<MoreScreenListItem[]>(
+    () => [
+      {
+        title: t('Screen.Themes.Themes'),
+        onPress: () => navigation.navigate('ThemesScreen'),
+      },
+      {
+        title: t('Screen.Locales'),
+        onPress: () => navigation.navigate('LocalesScreen'),
+      },
+      {
+        title: t('Screen.Tags'),
+        onPress: () => navigation.navigate('TagsScreen', {}),
+      },
+      {
+        title: t('SignOut'),
+        onPress: logout,
+      },
+      // {
+      //   title: 'Schedule notification',
+      //   onPress: async () => {
+      //     await schedulePushNotification();
+      //   },
+      // },
+    ],
+    // .map((x) => [x, x, x, x])
+    // .flatten(),
+    [logout, navigation, t],
+  );
+
+  // const user = useMe();
+
   return (
-    <View>
-      <ListItem bottomDivider onPress={() => navigation.navigate('ThemesScreen')}>
-        <ThemeIcon />
-        <ListItem.Content>
-          <ListItem.Title>{t('Screen.Themes.Themes')}</ListItem.Title>
-        </ListItem.Content>
-        <ListItem.Chevron />
-      </ListItem>
-      <ListItem bottomDivider onPress={() => navigation.navigate('LocalesScreen')}>
-        <ThemeIcon />
-        <ListItem.Content>
-          <ListItem.Title>{t('Screen.Locales')}</ListItem.Title>
-        </ListItem.Content>
-        <ListItem.Chevron />
-      </ListItem>
-      <ListItem bottomDivider onPress={() => navigation.navigate('TagsScreen', {})}>
-        <TagIcon />
-        <ListItem.Content>
-          <ListItem.Title>{t('Screen.Tags')}</ListItem.Title>
-        </ListItem.Content>
-        <ListItem.Chevron />
-      </ListItem>
-      <ListItem bottomDivider onPress={logout}>
-        <LogoutIcon />
-        <ListItem.Content>
-          <ListItem.Title>{t('SignOut')}</ListItem.Title>
-        </ListItem.Content>
-        <ListItem.Chevron />
-      </ListItem>
+    // <CollapsibleHeaderScrollView headerHeight={56} HeaderComponent={Header}>
+    <ScrollView>
+      {/* <StatusBar backgroundColor="white" /> */}
       {/* <ListItem>
-        <Button
-          title="Schedule notification"
-          onPress={async () => {
-            await schedulePushNotification();
-          }}
-        />
+        <ListItem.Content>
+          <ListItem.Title>{user.data?.login}</ListItem.Title>
+        </ListItem.Content>
       </ListItem> */}
-    </View>
+      {options.map(({title, onPress}, idx) => (
+        <ListItem key={idx} bottomDivider onPress={onPress}>
+          <ThemeIcon />
+          <ListItem.Content>
+            <ListItem.Title>{title}</ListItem.Title>
+          </ListItem.Content>
+          <ListItem.Chevron />
+        </ListItem>
+      ))}
+    </ScrollView>
+    // </CollapsibleHeaderScrollView>
   );
 };
+
+// const Header: React.FC = () => {
+//   return (
+//     <Card style={styles.container}>
+//       <Text>Collapsed</Text>
+//     </Card>
+//   );
+// };
+
+// const styles = StyleSheet.create({
+//   container: {
+//     height: 56,
+//     flexDirection: 'row',
+//     alignItems: 'center',
+//     paddingHorizontal: 4,
+//     elevation: 4,
+//   },
+// });
