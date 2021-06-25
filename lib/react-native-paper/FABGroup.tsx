@@ -44,6 +44,10 @@ type Props = {
    */
   onPress?: () => void;
   /**
+   * Function to execute on long pressing the `FAB`.
+   */
+  onLongPress?: () => void;
+  /**
    * Whether the speed dial is open.
    */
   open: boolean;
@@ -140,6 +144,7 @@ const FABGroup = ({
   icon,
   open,
   onPress,
+  onLongPress,
   accessibilityLabel,
   theme,
   style,
@@ -319,6 +324,9 @@ const FABGroup = ({
           onPress={() => {
             onPress?.();
             toggle();
+          }}
+          onLongPress={() => {
+            onLongPress?.();
           }}
           icon={icon}
           color={colorProp}
