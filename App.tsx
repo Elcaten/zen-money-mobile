@@ -14,6 +14,7 @@ import {useStore} from './store/use-store';
 import {ElementsThemeProvider, NavigatorThemeProvider} from './themes';
 import {composeProviders} from './utils';
 import {RootSiblingParent} from 'react-native-root-siblings';
+import {Provider as PaperProvider} from 'react-native-paper';
 
 import './utils/augmentations';
 
@@ -48,6 +49,7 @@ export default function App() {
     RootSiblingParent,
     NavigatorThemeProvider,
     ElementsThemeProvider,
+    PaperProvider,
     OverflowMenuProvider,
     SafeAreaProvider,
     QueryClientProvider,
