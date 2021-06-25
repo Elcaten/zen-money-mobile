@@ -25,6 +25,11 @@ export const CreditCardIcon: React.FC<IconProps> = (props) => {
   return <MaterialIcons color={iconColor} name="credit-card" {...props} />;
 };
 
+export const CloseIcon: React.FC<IconProps> = (props) => {
+  const {iconColor} = useNavigatorThemeColors();
+  return <MaterialIcons color={iconColor} name="close" {...props} />;
+};
+
 export const CommentIcon: React.FC<IconProps> = (props) => {
   const {iconColor} = useNavigatorThemeColors();
   return <MaterialCommunityIcons color={iconColor} name="comment" {...props} />;
