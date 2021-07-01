@@ -1,5 +1,6 @@
 import {useMutation} from 'react-query';
 import {EntityType, postEntity} from '../api';
+import {deleteEntity} from '../api/deleteEntity';
 import {UserAccount} from '../api/models';
 import {EditableAccount} from '../screens/account/EditAccountScreen/editable-account';
 import {useMe} from './useMe';
@@ -41,4 +42,9 @@ export const useMutateAccount = () => {
       .then(() => ({success: true}))
       .catch(() => ({success: false}));
   });
+};
+
+export const useDeleteAccount = () => {
+  const user = useMe();
+  return useMutation((accountId: string) => deleteEntity(user.data!.id, EntityType.Account, accountId));
 };

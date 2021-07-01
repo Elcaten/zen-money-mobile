@@ -25,6 +25,13 @@
         }
     },
     "Screen": {
+        "AccountDetails": {
+            "CancelButtonText": "Удалить",
+            "DeleteButtonText": "Отмена",
+            "DeleteAccountMessage": "Счет будет удален вместе со всеми операциями.",
+            "DeleteAccountTitle": "Удалить счет?",
+            "DeleteSuccessMessage": "Счет удален"
+        },
         "AccountOverview": {
             "AccountOverview": "Аналитика по счетам",
             "DistributionByCurrency": "Распределение по валютам",

@@ -25,6 +25,13 @@
         }
     },
     "Screen": {
+        "AccountDetails": {
+            "CancelButtonText": "Cancel",
+            "DeleteAccountMessage": "This account and its transactions will be deleted.",
+            "DeleteAccountTitle": "Delete account?",
+            "DeleteButtonText": "Delete",
+            "DeleteSuccessMessage": "Account deleted"
+        },
         "AccountOverview": {
             "AccountOverview": "Account overview",
             "DistributionByCurrency": "Distribution by currency",
