@@ -3,7 +3,7 @@ import * as React from 'react';
 import {useCallback, useEffect, useLayoutEffect, useRef} from 'react';
 import {Controller, useForm} from 'react-hook-form';
 import {useTranslation} from 'react-i18next';
-import {StyleSheet} from 'react-native';
+import {ScrollView, StyleSheet, TextInput} from 'react-native';
 import {InputHandles} from 'react-native-elements';
 import {HeaderButtons, Item} from 'react-navigation-header-buttons';
 import {useQueryClient} from 'react-query';
@@ -13,13 +13,14 @@ import {useMutateAccount} from '../../../api-hooks/useMutateAccount';
 import {AccountType} from '../../../api/models';
 import {Input} from '../../../components';
 import {Card} from '../../../components/Card';
-import {PickerListItem} from '../../../components/ListItem';
+import {ListItem, PickerListItem} from '../../../components/ListItem';
 import {SwitchListItem} from '../../../components/ListItem/SwitchListItem';
 import {RUB_SHORT_TITLE} from '../../../constants/Constants';
 import {useAccountTypes} from '../../../hooks/useAccountTypes';
 import {AccountDetailsScreenProps} from '../../../types';
 import {generateUUID, showToast} from '../../../utils';
 import {EditableAccount} from './editable-account';
+import {List} from 'react-native-paper';
 
 export const EditAccountScreen: React.FC<AccountDetailsScreenProps> = ({navigation, route}) => {
   const accounts = useAccountModels();
@@ -92,75 +93,78 @@ export const EditAccountScreen: React.FC<AccountDetailsScreenProps> = ({navigati
   }, [handleSubmit, navigation, onSavePress, t]);
 
   return (
-    <Card style={isMutating ? styles.disabledView : []} pointerEvents={isMutating ? 'none' : 'auto'}>
-      <Controller
-        control={control}
-        render={({field: {onChange, onBlur, value}}) => (
-          <Input
-            ref={titleRef}
-            // placeholder={t('Components.TagEditor.Title')}
-            value={value}
-            style={{fontSize: 16}}
-            onBlur={onBlur}
-            onChangeText={(text) => onChange(text)}
-          />
-        )}
-        name="title"
-        rules={{required: true}}
-      />
+    <ScrollView keyboardShouldPersistTaps="never">
+      <Card style={isMutating ? styles.disabledView : []} pointerEvents={isMutating ? 'none' : 'auto'}>
+        <Controller
+          control={control}
+          render={({field: {onChange, onBlur, value}}) => (
+            <ListItem bottomDivider>
+              <Input
+                value={value}
+                style={{fontSize: 16}}
+                placeholder={t('Components.TagEditor.Title')}
+                onBlur={onBlur}
+                onChangeText={(text) => onChange(text)}
+              />
+            </ListItem>
+          )}
+          name="title"
+          rules={{required: true}}
+        />
 
-      <Controller
-        control={control}
-        render={({field: {onChange, value}}) => (
-          <PickerListItem
-            title={t('Screen.EditAccount.AccountType')}
-            value={accounTypes.get(value!) ?? ''}
-            onPress={() => navigation.navigate('AccountTypePickerScreen', {type: value, onSelect: onChange})}
-          />
-        )}
-        name="type"
-        rules={{required: true}}
-      />
-
-      <Controller
-        control={control}
-        render={({field: {onChange, value}}) => {
-          return (
+        <Controller
+          control={control}
+          render={({field: {onChange, value}}) => (
             <PickerListItem
-              title={t('Screen.EditAccount.Instrument')}
-              value={instruments.get(value!)?.title!}
-              onPress={() => navigation.navigate('InstrumentPickerScreen', {instrument: value, onSelect: onChange})}
+              title={t('Screen.EditAccount.AccountType')}
+              value={accounTypes.get(value!) ?? ''}
+              onPress={() => navigation.navigate('AccountTypePickerScreen', {type: value, onSelect: onChange})}
             />
-          );
-        }}
-        name="instrument"
-        rules={{required: true}}
-      />
+          )}
+          name="type"
+          rules={{required: true}}
+        />
 
-      <Controller
-        control={control}
-        render={({field: {onChange, value}}) => (
-          <SwitchListItem title={t('Screen.EditAccount.Savings')} value={!!value} onValueChange={onChange} />
-        )}
-        name="savings"
-      />
+        <Controller
+          control={control}
+          render={({field: {onChange, value}}) => {
+            return (
+              <PickerListItem
+                title={t('Screen.EditAccount.Instrument')}
+                value={instruments.get(value!)?.title!}
+                onPress={() => navigation.navigate('InstrumentPickerScreen', {instrument: value, onSelect: onChange})}
+              />
+            );
+          }}
+          name="instrument"
+          rules={{required: true}}
+        />
 
-      <Controller
-        control={control}
-        render={({field: {onChange, value}}) => (
-          <SwitchListItem title={t('Screen.EditAccount.InBalance')} value={!!value} onValueChange={onChange} />
-        )}
-        name="inBalance"
-      />
+        <Controller
+          control={control}
+          render={({field: {onChange, value}}) => (
+            <SwitchListItem title={t('Screen.EditAccount.Savings')} value={!!value} onValueChange={onChange} />
+          )}
+          name="savings"
+        />
 
-      <Controller
-        control={control}
-        render={({field: {onChange, value}}) => (
-          <SwitchListItem title={t('Screen.EditAccount.Archive')} value={!!value} onValueChange={onChange} />
-        )}
-        name="archive"
-      />
-    </Card>
+        <Controller
+          control={control}
+          render={({field: {onChange, value}}) => (
+            <SwitchListItem title={t('Screen.EditAccount.InBalance')} value={!!value} onValueChange={onChange} />
+          )}
+          name="inBalance"
+        />
+
+        <Controller
+          control={control}
+          render={({field: {onChange, value}}) => (
+            <SwitchListItem title={t('Screen.EditAccount.Archive')} value={!!value} onValueChange={onChange} />
+          )}
+          name="archive"
+        />
+      </Card>
+    </ScrollView>
   );
 };
 

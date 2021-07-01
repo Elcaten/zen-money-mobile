@@ -8,9 +8,29 @@ const InputComponent: ForwardRefRenderFunction<InputHandles, InputProps> = (prop
     return {color: text};
   }, [text]);
 
-  return <RNEInput ref={ref as any} placeholderTextColor={placeholder} {...props} style={[baseStyles, props.style]} />;
+  return (
+    <RNEInput
+      ref={ref as any}
+      placeholderTextColor={placeholder}
+      errorStyle={[styles.error, props.errorStyle]}
+      containerStyle={[styles.container, props.containerStyle]}
+      style={[baseStyles, props.style]}
+      {...props}
+    />
+  );
 };
 
 export const Input = forwardRef(InputComponent);
 
 typeof RNEInput.displayName;
+
+import {StyleSheet} from 'react-native';
+
+const styles = StyleSheet.create({
+  error: {
+    display: 'none',
+  },
+  container: {
+    paddingHorizontal: 0,
+  },
+});
