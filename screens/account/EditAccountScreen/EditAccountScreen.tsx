@@ -83,7 +83,7 @@ export const EditAccountScreen: React.FC<AccountDetailsScreenProps> = ({navigati
           <Item
             title={t('Screen.Tag.Save')}
             IconComponent={Ionicons}
-            iconName="save-outline"
+            iconName="save"
             iconSize={24}
             onPress={handleSubmit(onSavePress)}
           />
