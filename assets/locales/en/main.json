@@ -33,6 +33,7 @@
         },
         "Accounts": {
             "Accounts": "Accounts",
+            "AddAccount": "Add Account",
             "Collapse": "Collapse",
             "ShowArchived": "Show archived"
         },

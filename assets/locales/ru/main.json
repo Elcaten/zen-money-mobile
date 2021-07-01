@@ -33,6 +33,7 @@
         },
         "Accounts": {
             "Accounts": "Счета",
+            "AddAccount": "Добавить Счет",
             "Collapse": "Свернуть",
             "ShowArchived": "Показать архивные"
         },

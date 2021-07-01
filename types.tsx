@@ -22,7 +22,7 @@ export type BottomTabParamList = {
 };
 
 export type AccountsParamList = {
-  AccountsScreen: undefined;
+  AccountsScreen: {};
   AccountDetailsScreen: {
     accountId: string;
   };

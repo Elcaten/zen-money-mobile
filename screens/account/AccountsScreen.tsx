@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {useCallback, useMemo, useState} from 'react';
+import {useCallback, useLayoutEffect, useMemo, useState} from 'react';
 import {FlatList, ListRenderItemInfo, StyleSheet} from 'react-native';
 import Collapsible from 'react-native-collapsible';
 import {AccountModel, useAccountModels} from '../../api-hooks/';
@@ -10,6 +10,8 @@ import {extractId} from '../../utils';
 import {useTranslation} from 'react-i18next';
 
 import {AccountListItem} from './AccountListItem';
+import {HeaderButtons, Item} from 'react-navigation-header-buttons';
+import {Ionicons, MaterialIcons} from '@expo/vector-icons';
 
 export const AccountsScreen: React.FC<AccountsScreenProps> = ({navigation}) => {
   const {data, isLoading, invalidate} = useAccountModels();
@@ -47,6 +49,29 @@ export const AccountsScreen: React.FC<AccountsScreenProps> = ({navigation}) => {
       </View>
     );
   }, [archivedAccounts, displayShowArchivedButton, primary, renderAccountItem, showArchived, t]);
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <HeaderButtons>
+          <Item
+            title={t('Screen.AccountOverview.AccountOverview')}
+            IconComponent={Ionicons}
+            iconName="pie-chart-outline"
+            iconSize={24}
+            onPress={() => navigation.navigate('AccountOverviewScreen')}
+          />
+          <Item
+            title={t('Screen.Accounts.AddAccount')}
+            IconComponent={MaterialIcons}
+            iconName="add"
+            iconSize={24}
+            onPress={() => navigation.navigate('EditAccountScreen', {accountId: undefined})}
+          />
+        </HeaderButtons>
+      ),
+    });
+  }, [navigation, t]);
 
   return (
     <FlatList

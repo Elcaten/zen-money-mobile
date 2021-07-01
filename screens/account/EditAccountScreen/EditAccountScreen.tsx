@@ -100,6 +100,7 @@ export const EditAccountScreen: React.FC<AccountDetailsScreenProps> = ({navigati
           render={({field: {onChange, onBlur, value}}) => (
             <ListItem bottomDivider>
               <Input
+                ref={titleRef}
                 value={value}
                 style={{fontSize: 16}}
                 placeholder={t('Components.TagEditor.Title')}

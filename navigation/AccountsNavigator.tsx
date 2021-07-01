@@ -1,4 +1,4 @@
-import {Ionicons} from '@expo/vector-icons';
+import {Ionicons, MaterialIcons} from '@expo/vector-icons';
 import {createStackNavigator} from '@react-navigation/stack';
 import * as React from 'react';
 import {useTranslation} from 'react-i18next';
@@ -20,20 +20,7 @@ export function AccountsNavigator() {
       <Stack.Screen
         name="AccountsScreen"
         component={AccountsScreen}
-        options={({navigation}) => ({
-          headerTitle: t('Screen.Accounts.Accounts'),
-          headerRight: () => (
-            <HeaderButtons>
-              <Item
-                title={t('Screen.AccountOverview.AccountOverview')}
-                IconComponent={Ionicons}
-                iconName="pie-chart-outline"
-                iconSize={24}
-                onPress={() => navigation.navigate('AccountOverviewScreen')}
-              />
-            </HeaderButtons>
-          ),
-        })}
+        options={{headerTitle: t('Screen.Accounts.Accounts')}}
       />
       <Stack.Screen
         name="AccountOverviewScreen"
