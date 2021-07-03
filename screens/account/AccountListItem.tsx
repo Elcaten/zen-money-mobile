@@ -1,26 +1,10 @@
 import * as React from 'react';
 import {StyleSheet} from 'react-native';
 import {AccountModel} from '../../api-hooks/';
-import {AccountType} from '../../api/models';
-import {BankIcon, HelpIcon, IconProps, Text, WalletIcon} from '../../components';
+import {Text} from '../../components';
 import {ListItem} from '../../components/ListItem';
 import {CINNABAR} from '../../constants/Colors';
-
-type AccountIconProps = IconProps & {
-  type: AccountType;
-};
-
-const AccountIcon: React.FC<AccountIconProps> = ({type, ...props}) => {
-  switch (type) {
-    case AccountType.Cash:
-      return <WalletIcon {...props} />;
-    case AccountType.Card:
-    case AccountType.Checking:
-      return <BankIcon {...props} />;
-    default:
-      return <HelpIcon {...props} />;
-  }
-};
+import {AccountIcon} from './AccountIcon';
 
 const Balance: React.FC<{account: AccountModel}> = ({account}) => {
   return (
