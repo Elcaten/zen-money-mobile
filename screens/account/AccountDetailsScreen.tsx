@@ -1,20 +1,29 @@
 import {MaterialCommunityIcons, MaterialIcons} from '@expo/vector-icons';
 import * as React from 'react';
-import {useCallback, useLayoutEffect} from 'react';
+import {useCallback, useEffect, useLayoutEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
-import {Alert, ScrollView, StyleSheet} from 'react-native';
+import {Alert, Animated, Dimensions, RefreshControl, ScrollView, StyleSheet} from 'react-native';
+import {Avatar, Card, IconButton, Surface, Title} from 'react-native-paper';
 import {HeaderButtons, Item} from 'react-navigation-header-buttons';
 import {useQueryClient} from 'react-query';
-import {useAccountModels} from '../../api-hooks';
+import {BaseScrollView} from 'recyclerlistview';
+import {TransactionModel, useAccountModels, useTransactionModels} from '../../api-hooks';
 import {QueryKeys} from '../../api-hooks/query-keys';
 import {useDeleteAccount} from '../../api-hooks/useMutateAccount';
-import {Text} from '../../components';
+import {Text, View} from '../../components';
+import {useToolbarOpacity} from '../../hooks';
+import {useNavigatorThemeColors} from '../../themes';
 import {AccountDetailsScreenProps} from '../../types';
 import {showToast} from '../../utils';
+import {TransactionList} from '../components/TransactionList';
+import {AccountIcon} from './AccountIcon';
+
+const HEADER_HEIGHT = 190;
 
 export const AccountDetailsScreen: React.FC<AccountDetailsScreenProps> = ({navigation, route}) => {
+  const accountId = route.params.accountId;
   const accounts = useAccountModels();
-  const account = accounts.data.find(({id}) => id === route.params.accountId);
+  const account = accounts.data.find(({id}) => id === accountId);
 
   const {t} = useTranslation();
   const queryClient = useQueryClient();
@@ -48,6 +57,8 @@ export const AccountDetailsScreen: React.FC<AccountDetailsScreenProps> = ({navig
     route.params.accountId,
   ]);
 
+  const {opacity, onScroll} = useToolbarOpacity(HEADER_HEIGHT);
+
   useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => (
@@ -68,18 +79,77 @@ export const AccountDetailsScreen: React.FC<AccountDetailsScreenProps> = ({navig
           />
         </HeaderButtons>
       ),
+      headerTitle: () => (
+        <Animated.View style={[styles.navigationTitle, {opacity}]}>
+          <AccountIcon size={24} type={account?.type!} style={styles.navigationIcon} />
+          <Text>{account?.title}</Text>
+        </Animated.View>
+      ),
     });
-  }, [navigation, onDeletePress, onEditPress, t]);
+  }, [account?.title, account?.type, navigation, onDeletePress, onEditPress, opacity, t]);
+
+  const {data, isLoading, invalidate} = useTransactionModels();
+
+  const [isFiltering, setIsFiltering] = useState(true);
+  const [transactions, setTransactions] = useState<TransactionModel[]>([]);
+  useEffect(() => {
+    setTransactions(data.filter((tr) => tr.outcomeAccount?.id === accountId));
+    setIsFiltering(false);
+  }, [accountId, data]);
+
+  const {primary} = useNavigatorThemeColors();
 
   return (
-    <ScrollView style={isDeleting ? styles.disabledView : []} pointerEvents={isDeleting ? 'none' : 'auto'}>
-      <Text>{JSON.stringify(account, null, 2)}</Text>
-    </ScrollView>
+    <View
+      style={[styles.container, isDeleting ? styles.disabledView : {}]}
+      pointerEvents={isDeleting ? 'none' : 'auto'}>
+      <TransactionList
+        renderHeader={() => (
+          <Card>
+            <Card.Content style={styles.listHeader}>
+              <View style={[styles.listHeaderIcon, {backgroundColor: primary}]}>
+                <AccountIcon type={account?.type!} size={64} color={'#fff'} />
+              </View>
+              <Title>{account?.title}</Title>
+              <Title>{account?.balanceFormatted}</Title>
+            </Card.Content>
+          </Card>
+        )}
+        onScroll={onScroll}
+        headerHeight={250}
+        scrollViewProps={{
+          refreshControl: <RefreshControl refreshing={isLoading || isFiltering} onRefresh={invalidate} />,
+        }}
+        data={transactions}
+        onItemPress={(transactionId) =>
+          navigation.navigate('Transactions', {screen: 'TransactionDetailsScreen', params: {transactionId}})
+        }
+      />
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
+  navigationTitle: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  navigationIcon: {
+    marginRight: 8,
+  },
+  container: {
+    flex: 1,
+  },
   disabledView: {
     opacity: 0.5,
+  },
+  listHeader: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  listHeaderIcon: {
+    borderRadius: 64,
+    padding: 16,
+    margin: 16,
   },
 });

@@ -21,8 +21,14 @@ export interface TransactionModel {
   date: string;
   income: number;
   incomeFormatted: string;
-  incomeAccount?: string;
-  outcomeAccount?: string;
+  incomeAccount?: {
+    id: string;
+    title: string;
+  };
+  outcomeAccount?: {
+    id: string;
+    title: string;
+  };
   outcome: number;
   outcomeFormatted: string;
   tag?: TagModel;
@@ -50,6 +56,8 @@ export const useTransactionModels = () => {
           const parenTag = firstTag?.parent ? tags.data?.get(firstTag.parent) : undefined;
           const incomeSymbol = instruments.data?.get(transaction.incomeInstrument)?.symbol ?? '';
           const outcomeSymbol = instruments.data?.get(transaction.outcomeInstrument)?.symbol ?? '';
+          const incomeAccount = accounts.get(transaction.incomeAccount);
+          const outcomeAccount = accounts.get(transaction.outcomeAccount);
           return {
             id: transaction.id,
             tag: firstTag ? {icon: firstTag.icon, title: firstTag.title, iconColor: firstTag.color} : undefined,
@@ -57,8 +65,8 @@ export const useTransactionModels = () => {
             date: transaction.date,
             income: transaction.income,
             incomeFormatted: formatCurrency(transaction.income, incomeSymbol, 0),
-            incomeAccount: accounts.get(transaction.incomeAccount)?.title,
-            outcomeAccount: accounts.get(transaction.outcomeAccount)?.title,
+            incomeAccount: incomeAccount ? {id: incomeAccount.id, title: incomeAccount.title} : undefined,
+            outcomeAccount: outcomeAccount ? {id: outcomeAccount.id, title: outcomeAccount.title} : undefined,
             outcome: transaction.outcome,
             outcomeFormatted: formatCurrency(transaction.outcome, outcomeSymbol, 0),
             comment: transaction.comment ?? undefined,

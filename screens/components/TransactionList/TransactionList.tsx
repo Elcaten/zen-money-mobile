@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 import * as React from 'react';
 import {Component} from 'react';
 import {Dimensions, RefreshControl, StyleSheet, View} from 'react-native';
-import {DataProvider, LayoutProvider, RecyclerListView} from 'recyclerlistview';
+import {DataProvider, LayoutProvider, RecyclerListView, RecyclerListViewProps} from 'recyclerlistview';
 import {TransactionModel} from '../../../api-hooks';
 import {OneWayTransaction, TwoWayTransaction} from './TransactionItem';
 import {TransactionSectionHeader} from './TransactionSectionHeader';
@@ -11,19 +11,20 @@ let {width} = Dimensions.get('window');
 
 const ViewType = {
   SectionHeader: 0,
-  OneWayTransaction: 1,
-  TwoWayTransaction: 2,
+  ListHeader: 1,
+  OneWayTransaction: 2,
+  TwoWayTransaction: 3,
 };
 interface TransactionListItem {
   type: number | string;
   value: TransactionModel | string;
 }
-interface TransactionsListProps {
+export type TransactionsListProps = {
   data: TransactionModel[];
-  isLoading: boolean;
-  onRefresh: () => void;
   onItemPress: (transactionId: string) => void;
-}
+  renderHeader?: () => JSX.Element;
+  headerHeight?: number;
+} & Pick<RecyclerListViewProps, 'externalScrollView' | 'scrollViewProps' | 'onScroll' | 'style'>;
 interface TransactionListState {
   dataProvider: DataProvider;
 }
@@ -57,6 +58,10 @@ export class TransactionList extends Component<TransactionsListProps, Transactio
             dim.width = width;
             dim.height = 36;
             break;
+          case ViewType.ListHeader:
+            dim.width = width;
+            dim.height = this.props.headerHeight ?? 0;
+            break;
           default:
             dim.width = width;
             dim.height = 0;
@@ -83,21 +88,25 @@ export class TransactionList extends Component<TransactionsListProps, Transactio
     const sortedDates = Array.from(transactionsByDate.keys())
       .map((dateString) => ({dateString, dateDayJs: dayjs(dateString)}))
       .sort((a, b) => (a.dateDayJs.isBefore(b.dateDayJs) ? 1 : -1));
-    const items = sortedDates.map<TransactionListItem[]>(({dateString, dateDayJs}) => {
-      const sectionHeader: TransactionListItem = {
-        type: ViewType.SectionHeader,
-        value: dateDayJs.format('MMMM D, dddd'),
-      };
-      const transactionItems: TransactionListItem[] = (transactionsByDate.get(dateString) ?? []).map((i) =>
-        i.income && i.outcome
-          ? {type: ViewType.TwoWayTransaction, value: i}
-          : {type: ViewType.OneWayTransaction, value: i},
-      );
-      return [sectionHeader].concat(transactionItems);
-    });
+    const items = sortedDates
+      .map<TransactionListItem[]>(({dateString, dateDayJs}) => {
+        const sectionHeader: TransactionListItem = {
+          type: ViewType.SectionHeader,
+          value: dateDayJs.format('MMMM D, dddd'),
+        };
+        const transactionItems: TransactionListItem[] = (transactionsByDate.get(dateString) ?? []).map((i) =>
+          i.income && i.outcome
+            ? {type: ViewType.TwoWayTransaction, value: i}
+            : {type: ViewType.OneWayTransaction, value: i},
+        );
+        return [sectionHeader].concat(transactionItems);
+      })
+      .flatten();
 
     this.setState({
-      dataProvider: this.state.dataProvider.cloneWithRows(items.flatten()),
+      dataProvider: this.state.dataProvider.cloneWithRows(
+        this.props.renderHeader ? [{type: ViewType.ListHeader}, ...items] : items,
+      ),
     });
   }
 
@@ -109,6 +118,8 @@ export class TransactionList extends Component<TransactionsListProps, Transactio
         return <TwoWayTransaction transaction={data.value as TransactionModel} onPress={this.props.onItemPress} />;
       case ViewType.SectionHeader:
         return <TransactionSectionHeader title={data.value as string} />;
+      case ViewType.ListHeader:
+        return this.props.renderHeader ? <this.props.renderHeader /> : null;
       default:
         return null;
     }
@@ -119,12 +130,12 @@ export class TransactionList extends Component<TransactionsListProps, Transactio
       <React.Fragment>
         {this.state.dataProvider.getSize() > 0 && (
           <RecyclerListView
+            externalScrollView={this.props.externalScrollView}
+            scrollViewProps={this.props.scrollViewProps}
+            onScroll={this.props.onScroll}
             rowRenderer={this.renderRow}
             dataProvider={this.state.dataProvider}
             layoutProvider={this.layoutProvider}
-            scrollViewProps={{
-              refreshControl: <RefreshControl refreshing={this.props.isLoading} onRefresh={this.props.onRefresh} />,
-            }}
           />
         )}
       </React.Fragment>

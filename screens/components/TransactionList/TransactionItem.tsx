@@ -41,7 +41,7 @@ export class OneWayTransaction extends React.Component<TransactionItemProps> {
         <TagIcon icon={tag?.icon} color={tag?.iconColor} size={24} />
         <View style={owStyles.info}>
           <Text size="large">{tag?.title}</Text>
-          <Text style={owStyles.subtitle}>{income ? incomeAccount : outcomeAccount}</Text>
+          <Text style={owStyles.subtitle}>{income ? incomeAccount?.title : outcomeAccount?.title}</Text>
         </View>
         <React.Fragment>
           {income ? (
@@ -80,8 +80,8 @@ export class TwoWayTransaction extends React.Component<TransactionItemProps> {
       <ListItem onPress={() => this.props.onPress(this.props.transaction.id)}>
         <SubdirArrowRightIcon size={24} />
         <View style={twStyles.titleContainer}>
-          <Text size="large">{outcomeAccount}</Text>
-          <Text size="large">{incomeAccount}</Text>
+          <Text size="large">{outcomeAccount?.title}</Text>
+          <Text size="large">{incomeAccount?.title}</Text>
         </View>
         {isSameAmount ? (
           <Text>{outcomeFormatted}</Text>
