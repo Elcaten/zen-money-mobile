@@ -27,9 +27,9 @@
     "Screen": {
         "AccountDetails": {
             "CancelButtonText": "Удалить",
-            "DeleteButtonText": "Отмена",
             "DeleteAccountMessage": "Счет будет удален вместе со всеми операциями.",
             "DeleteAccountTitle": "Удалить счет?",
+            "DeleteButtonText": "Отмена",
             "DeleteSuccessMessage": "Счет удален"
         },
         "AccountOverview": {
@@ -37,6 +37,9 @@
             "DistributionByCurrency": "Распределение по валютам",
             "OnAllAccounts": "На всех счетах",
             "OnBalanceAccounts": "На выбранных счетах"
+        },
+        "AccountSettings": {
+            "AccountSettings": "Настройки аккаунта"
         },
         "Accounts": {
             "Accounts": "Счета",

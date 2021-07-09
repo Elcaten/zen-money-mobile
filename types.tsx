@@ -58,6 +58,7 @@ export type MoreParamList = {
   MoreScreen: undefined;
   ThemesScreen: undefined;
   LocalesScreen: undefined;
+  AccountSettingsScreen: undefined;
   IconPickerScreen: {
     icon: TagIconName | null | undefined;
     color: number | null | undefined;

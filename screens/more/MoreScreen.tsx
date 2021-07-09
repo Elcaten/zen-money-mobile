@@ -34,6 +34,10 @@ export const MoreScreen: React.FC<MoreScreenProps> = ({navigation}) => {
         onPress: () => navigation.navigate('TagsScreen', {}),
       },
       {
+        title: t('Screen.AccountSettings.AccountSettings'),
+        onPress: () => navigation.navigate('AccountSettingsScreen'),
+      },
+      {
         title: t('SignOut'),
         onPress: logout,
       },

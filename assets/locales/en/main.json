@@ -38,6 +38,9 @@
             "OnAllAccounts": "On all accounts",
             "OnBalanceAccounts": "On balance accounts"
         },
+        "AccountSettings": {
+            "AccountSettings": "Account settings"
+        },
         "Accounts": {
             "Accounts": "Accounts",
             "AddAccount": "Add Account",
@@ -55,14 +58,14 @@
         "Analytics": "Analytics",
         "EditAccount": {
             "AccountSaved": "Account saved",
-            "AccountSettings": "Account Settings",
+            "AccountSettings": "Account settings",
             "AccountType": "Account type",
             "Archive": "Archived account",
             "InBalance": "Include in total balance",
             "Instrument": "Account сurrency",
             "Savings": "Savings account"
         },
-        "Locales": "App Language",
+        "Locales": "App language",
         "More": "More",
         "Tag": {
             "Edit": "Edit",
