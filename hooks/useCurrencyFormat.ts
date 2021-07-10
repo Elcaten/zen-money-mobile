@@ -1,8 +1,8 @@
 import {useCallback} from 'react';
-import {AppLocale, useStore} from '../store/use-store';
+import {AppLocale, localeSelector, useStore} from '../store/use-store';
 
 export const useCurrencyFormat = () => {
-  const locale = useStore((x) => x.locale);
+  const locale = useStore(localeSelector);
 
   return useCallback(
     (num: number, currencySymbol = '', fractionDigit = 2) => {

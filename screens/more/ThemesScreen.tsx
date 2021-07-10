@@ -3,7 +3,7 @@ import {useTranslation} from 'react-i18next';
 import {StyleSheet} from 'react-native';
 import {ListItem} from '../../components/ListItem';
 import {GRAY} from '../../constants/Colors';
-import {useStore} from '../../store/use-store';
+import {setThemeSelector, themeSelector, useStore} from '../../store/use-store';
 import {RadioButton} from '../components';
 
 const styles = StyleSheet.create({
@@ -13,8 +13,8 @@ const styles = StyleSheet.create({
 });
 
 export const ThemesScreen: React.FC = () => {
-  const {setTheme} = useStore();
-  const theme = useStore((x) => x.theme);
+  const setTheme = useStore(setThemeSelector);
+  const theme = useStore(themeSelector);
   const {t} = useTranslation();
 
   return (

@@ -1,14 +1,12 @@
-import {Ionicons, MaterialIcons} from '@expo/vector-icons';
 import {createStackNavigator} from '@react-navigation/stack';
 import * as React from 'react';
 import {useTranslation} from 'react-i18next';
-import {HeaderButtons, Item} from 'react-navigation-header-buttons';
 import {AccountOverviewScreen, AccountsScreen} from '../screens/account';
 import {AccountDetailsScreen} from '../screens/account/AccountDetailsScreen';
-import {AccountsParamList} from '../types';
-import {EditAccountScreen} from '../screens/account/EditAccountScreen';
-import {InstrumentPickerScreen} from '../screens/account/InstrumentPickerScreen';
 import {AccountTypePickerScreen} from '../screens/account/AccountTypePickerScreen';
+import {EditAccountScreen} from '../screens/account/EditAccountScreen';
+import {InstrumentPickerScreen} from '../screens/shared/InstrumentPickerScreen';
+import {AccountsParamList} from '../types';
 
 const Stack = createStackNavigator<AccountsParamList>();
 

@@ -2,7 +2,7 @@ import * as React from 'react';
 import {useCallback} from 'react';
 import {useTranslation} from 'react-i18next';
 import {ListItem} from '../../components/ListItem';
-import {AppLocale, useStore} from '../../store/use-store';
+import {AppLocale, setLocaleSelector, useStore} from '../../store/use-store';
 import {RadioButton} from '../components';
 
 export interface LocalesScreenProps {}
@@ -11,13 +11,13 @@ export const LocalesScreen: React.FC<LocalesScreenProps> = (props) => {
   const {i18n} = useTranslation();
   const localePrefix = i18n.language.substring(0, 2);
 
-  const {setLocale: saveLocalToStore} = useStore();
+  const saveLocaleToStore = useStore(setLocaleSelector);
   const setLocale = useCallback(
     (locale: AppLocale) => {
       i18n.changeLanguage(locale);
-      saveLocalToStore(locale);
+      saveLocaleToStore(locale);
     },
-    [i18n, saveLocalToStore],
+    [i18n, saveLocaleToStore],
   );
 
   return (

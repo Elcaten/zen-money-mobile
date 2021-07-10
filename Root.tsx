@@ -7,7 +7,7 @@ import {LoadingScreen} from './components/LoadingScreen';
 import {LoginScreen} from './components/LoginScreen';
 import {initI18n} from './init-i18n';
 import Navigation from './navigation';
-import {useStore} from './store/use-store';
+import {localeSelector, themeSelector, useStore} from './store/use-store';
 import {
   DarkElementsTheme,
   DarkNavigatorTheme,
@@ -22,12 +22,12 @@ export const Root: React.FC = () => {
   const isLoggedIn = isSuccess && user != null;
 
   const [isLoadingLocales, setIsLoadingLocales] = useState(true);
-  const locale = useStore((x) => x.locale);
+  const locale = useStore(localeSelector);
   useEffect(() => {
     initI18n(locale).then(() => setIsLoadingLocales(false));
   }, [locale]);
 
-  const theme = useStore((x) => x.theme);
+  const theme = useStore(themeSelector);
   const {setNavigatorTheme} = useNavigatorTheme();
   const {setElementsTheme} = useElementsTheme();
 

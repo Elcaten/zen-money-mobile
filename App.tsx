@@ -10,7 +10,7 @@ import {createAsyncStoragePersistor} from './api/create-async-storage-persistor'
 import {LoadingScreen} from './components';
 import useCachedResources from './hooks/useCachedResources';
 import {Root} from './Root';
-import {useStore} from './store/use-store';
+import {themeSelector, useStore} from './store/use-store';
 import {ElementsThemeProvider, NavigatorThemeProvider} from './themes';
 import {composeProviders} from './utils';
 import {RootSiblingParent} from 'react-native-root-siblings';
@@ -43,7 +43,7 @@ export default function App() {
   const isLoadingComplete = useCachedResources();
 
   // Must call useStore to bootstrap persistence or will stop on loading screen
-  useStore();
+  useStore(themeSelector);
 
   const WrappedApp = composeProviders(
     RootSiblingParent,
