@@ -2,21 +2,20 @@ import * as React from 'react';
 import {StyleSheet} from 'react-native';
 import {GRAY} from '../../constants/Colors';
 import {Text} from '../Text';
-import {ListItem} from './ListItem';
+import {ListItem, ListItemProps} from './ListItem';
 
-interface PickerhListItemProps {
+type PickerhListItemProps = ListItemProps & {
   title: string;
-  onPress: () => void;
-  value: string;
-}
+  value?: string;
+};
 
-export function PickerListItem({title, value, onPress}: React.PropsWithChildren<PickerhListItemProps>) {
+export function PickerListItem({title, value, ...rest}: React.PropsWithChildren<PickerhListItemProps>) {
   return (
-    <ListItem bottomDivider onPress={onPress}>
-      <ListItem.Content>
-        <ListItem.Title>{title}</ListItem.Title>
-      </ListItem.Content>
-      <Text style={styles.value}>{value}</Text>
+    <ListItem bottomDivider {...rest} style={[rest.style, rest.disabled ? styles.disabled : {}]}>
+      <ListItem.Title>{title}</ListItem.Title>
+      <Text numberOfLines={1} style={styles.value}>
+        {value}
+      </Text>
       <ListItem.Chevron />
     </ListItem>
   );
@@ -25,5 +24,10 @@ export function PickerListItem({title, value, onPress}: React.PropsWithChildren<
 const styles = StyleSheet.create({
   value: {
     color: GRAY,
+    flex: 1,
+    textAlign: 'right',
+  },
+  disabled: {
+    opacity: 0.65,
   },
 });

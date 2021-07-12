@@ -65,8 +65,14 @@
             "Instrument": "Валюта счета",
             "Savings": "Накопительный счет"
         },
+        "InstrumentPicker": {
+            "NoCurrenciesFound": "Валюта не найдена"
+        },
         "Locales": "Язык приложения",
-        "More": "Еще",
+        "More": {
+            "MainCurrency": "Основная валюта",
+            "More": "Еще"
+        },
         "Tag": {
             "Edit": "Редактировать",
             "Save": "Сохранить",

@@ -65,8 +65,14 @@
             "Instrument": "Account сurrency",
             "Savings": "Savings account"
         },
+        "InstrumentPicker": {
+            "NoCurrenciesFound": "No currencies found"
+        },
         "Locales": "App language",
-        "More": "More",
+        "More": {
+            "MainCurrency": "Main Currency",
+            "More": "More"
+        },
         "Tag": {
             "Edit": "Edit",
             "Save": "Save",

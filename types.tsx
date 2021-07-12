@@ -66,6 +66,10 @@ export type MoreParamList = {
   }; // TODO: figure out what's wrong with navigation.setOptions typing
   TagsScreen: {}; // TODO: figure out what's wrong with navigation.setOptions typing
   TagDetailsScreen: {tagId?: string};
+  InstrumentPickerScreen: {
+    instrument: number | null;
+    onSelect: (instrument: number | null) => void;
+  };
 };
 
 export type AccountsScreenRouteProp = RouteProp<AccountsParamList, 'AccountsScreen'>;

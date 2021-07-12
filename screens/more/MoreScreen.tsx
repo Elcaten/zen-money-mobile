@@ -1,97 +1,61 @@
 import * as React from 'react';
-import {useMemo} from 'react';
+import {useCallback} from 'react';
 import {useTranslation} from 'react-i18next';
 import {ScrollView} from 'react-native';
-import {useMe} from '../../api-hooks';
+import {useQueryClient} from 'react-query';
+import {useInstruments, useMe} from '../../api-hooks';
+import {QueryKeys} from '../../api-hooks/query-keys';
+import {useMutateMe} from '../../api-hooks/useMutateMe';
 import {useLogout} from '../../auth';
-import {ThemeIcon} from '../../components';
-import {ListItem} from '../../components/ListItem';
+import {PickerListItem} from '../../components/ListItem';
+import {localeSelector, themeSelector, useStore} from '../../store/use-store';
 import {MoreScreenProps} from '../../types';
 
-interface MoreScreenListItem {
-  title: string;
-  onPress: () => void;
-}
-
 export const MoreScreen: React.FC<MoreScreenProps> = ({navigation}) => {
-  const {t} = useTranslation();
+  const theme = useStore(themeSelector);
+
+  const {data: me} = useMe();
+  const instrumentId = me!.currency;
+  const {data: instruments} = useInstruments();
+  const instrument = instruments.get(instrumentId!) ?? null;
+  const {mutateAsync: mutateMe, isLoading: isMutating} = useMutateMe();
+  const queryClient = useQueryClient();
+
+  const openCurrencyPicker = useCallback(() => {
+    navigation.navigate('InstrumentPickerScreen', {
+      instrument: instrumentId,
+      onSelect: async (i) => {
+        navigation.pop();
+        if (i) {
+          await mutateMe({currency: i});
+          await queryClient.invalidateQueries(QueryKeys.Users);
+        }
+      },
+    });
+  }, [instrumentId, mutateMe, navigation, queryClient]);
+
+  const locale = useStore(localeSelector);
+
   const logout = useLogout();
 
-  // useNotifications();
-
-  const options = useMemo<MoreScreenListItem[]>(
-    () => [
-      {
-        title: t('Screen.Themes.Themes'),
-        onPress: () => navigation.navigate('ThemesScreen'),
-      },
-      {
-        title: t('Screen.Locales'),
-        onPress: () => navigation.navigate('LocalesScreen'),
-      },
-      {
-        title: t('Screen.Tags'),
-        onPress: () => navigation.navigate('TagsScreen', {}),
-      },
-      {
-        title: t('Screen.AccountSettings.AccountSettings'),
-        onPress: () => navigation.navigate('AccountSettingsScreen'),
-      },
-      {
-        title: t('SignOut'),
-        onPress: logout,
-      },
-      // {
-      //   title: 'Schedule notification',
-      //   onPress: async () => {
-      //     await schedulePushNotification();
-      //   },
-      // },
-    ],
-    // .map((x) => [x, x, x, x])
-    // .flatten(),
-    [logout, navigation, t],
-  );
-
-  // const user = useMe();
+  const {t} = useTranslation();
 
   return (
-    // <CollapsibleHeaderScrollView headerHeight={56} HeaderComponent={Header}>
     <ScrollView>
-      {/* <StatusBar backgroundColor="white" /> */}
-      {/* <ListItem>
-        <ListItem.Content>
-          <ListItem.Title>{user.data?.login}</ListItem.Title>
-        </ListItem.Content>
-      </ListItem> */}
-      {options.map(({title, onPress}, idx) => (
-        <ListItem key={idx} bottomDivider onPress={onPress}>
-          <ThemeIcon />
-          <ListItem.Content>
-            <ListItem.Title>{title}</ListItem.Title>
-          </ListItem.Content>
-          <ListItem.Chevron />
-        </ListItem>
-      ))}
+      <PickerListItem
+        title={t('Screen.Themes.Themes')}
+        value={theme}
+        onPress={() => navigation.navigate('ThemesScreen')}
+      />
+      <PickerListItem
+        title={t('Screen.More.MainCurrency')}
+        value={instrument?.title}
+        disabled={isMutating}
+        onPress={openCurrencyPicker}
+      />
+      <PickerListItem title={t('Screen.Locales')} value={locale} onPress={() => navigation.navigate('LocalesScreen')} />
+      <PickerListItem title={t('Screen.Tags')} onPress={() => navigation.navigate('TagsScreen', {})} />
+      <PickerListItem title={t('SignOut')} onPress={logout} />
     </ScrollView>
-    // </CollapsibleHeaderScrollView>
   );
 };
-
-// const Header: React.FC = () => {
-//   return (
-//     <Card style={styles.container}>
-//       <Text>Collapsed</Text>
-//     </Card>
-//   );
-// };
-
-// const styles = StyleSheet.create({
-//   container: {
-//     height: 56,
-//     flexDirection: 'row',
-//     alignItems: 'center',
-//     paddingHorizontal: 4,
-//     elevation: 4,
-//   },
-// });

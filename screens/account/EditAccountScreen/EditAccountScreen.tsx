@@ -133,7 +133,15 @@ export const EditAccountScreen: React.FC<AccountDetailsScreenProps> = ({navigati
               <PickerListItem
                 title={t('Screen.EditAccount.Instrument')}
                 value={instruments.get(value!)?.title!}
-                onPress={() => navigation.navigate('InstrumentPickerScreen', {instrument: value, onSelect: onChange})}
+                onPress={() =>
+                  navigation.navigate('InstrumentPickerScreen', {
+                    instrument: value,
+                    onSelect: (i) => {
+                      onChange(i);
+                      navigation.goBack();
+                    },
+                  })
+                }
               />
             );
           }}
