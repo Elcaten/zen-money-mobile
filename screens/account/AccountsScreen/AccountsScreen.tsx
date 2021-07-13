@@ -1,25 +1,36 @@
+import {Ionicons, MaterialIcons} from '@expo/vector-icons';
 import * as React from 'react';
 import {useCallback, useLayoutEffect, useMemo, useState} from 'react';
+import {useTranslation} from 'react-i18next';
 import {FlatList, ListRenderItemInfo, StyleSheet} from 'react-native';
 import Collapsible from 'react-native-collapsible';
-import {AccountModel, useAccountModels} from '../../../api-hooks';
+import {HeaderButtons, Item} from 'react-navigation-header-buttons';
+import {AccountModel, useAccountModels, useInstruments, useMe} from '../../../api-hooks';
 import {Text, View} from '../../../components';
+import {useCurrencyFormat} from '../../../hooks';
 import {useNavigatorThemeColors} from '../../../themes';
 import {AccountsScreenProps} from '../../../types';
 import {extractId} from '../../../utils';
-import {useTranslation} from 'react-i18next';
-
 import {AccountListItem} from './AccountListItem';
-import {HeaderButtons, Item} from 'react-navigation-header-buttons';
-import {Ionicons, MaterialIcons} from '@expo/vector-icons';
 
 export const AccountsScreen: React.FC<AccountsScreenProps> = ({navigation}) => {
-  const {data, isLoading, invalidate} = useAccountModels();
+  const {data: accounts, isLoading, invalidate} = useAccountModels();
+
+  const {data: instruments} = useInstruments();
+  const {data: user} = useMe();
+  const formatCurrency = useCurrencyFormat();
+  const grandTotal = useMemo(() => {
+    const userCurrency = instruments.get(user?.currency!)!;
+    const totalAmount = accounts.reduce((prev, curr) => {
+      return prev + (curr.balance * instruments.get(curr.instrument!)?.rate!) / userCurrency.rate!;
+    }, 0);
+    return formatCurrency(totalAmount, userCurrency.symbol, 0);
+  }, [accounts, formatCurrency, instruments, user?.currency]);
 
   const [showArchived, setShowArchived] = useState(false);
-  const archivedAccounts = useMemo(() => data.filter((a) => a.archive), [data]);
+  const archivedAccounts = useMemo(() => accounts.filter((a) => a.archive), [accounts]);
   const displayShowArchivedButton = archivedAccounts.length > 0;
-  const nonArchivedAccounts = useMemo(() => data.filter((a) => !a.archive), [data]);
+  const nonArchivedAccounts = useMemo(() => accounts.filter((a) => !a.archive), [accounts]);
 
   const renderAccountItem = React.useCallback(
     (info: ListRenderItemInfo<AccountModel>) => (
@@ -52,6 +63,7 @@ export const AccountsScreen: React.FC<AccountsScreenProps> = ({navigation}) => {
 
   useLayoutEffect(() => {
     navigation.setOptions({
+      headerTitle: grandTotal,
       headerRight: () => (
         <HeaderButtons>
           <Item
@@ -71,7 +83,7 @@ export const AccountsScreen: React.FC<AccountsScreenProps> = ({navigation}) => {
         </HeaderButtons>
       ),
     });
-  }, [navigation, t]);
+  }, [navigation, t, grandTotal]);
 
   return (
     <FlatList
