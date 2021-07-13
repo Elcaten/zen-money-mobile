@@ -33,5 +33,3 @@ function formatCurrency(
     .replace(/(\d)(?=(\d{3})+(?!\d))/g, `$1${digitGroupingSeparator}`)
     .replace('.', decimalSeparator)}${currensySymbol}`;
 }
-
-type x = Parameters<typeof formatCurrency>;

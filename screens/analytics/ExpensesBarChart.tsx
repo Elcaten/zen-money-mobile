@@ -1,13 +1,9 @@
 import * as React from 'react';
 import {useMemo} from 'react';
 import {StyleSheet} from 'react-native';
-import {Text as SVGText} from 'react-native-svg';
 import {PieChart} from 'react-native-svg-charts';
-import {useInstruments, useMe} from '../../api-hooks';
 import {Text, View} from '../../components';
 import {LIGHT_GRAY} from '../../constants/Colors';
-import {useCurrencyFormat} from '../../hooks';
-import {randomColor} from '../../utils';
 import {ExpenseModel} from './expense-model';
 
 interface ExpenseData {

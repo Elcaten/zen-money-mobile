@@ -2,6 +2,7 @@ import {useCallback, useMemo} from 'react';
 import {useQuery, useQueryClient} from 'react-query';
 import {fetchInstruments} from '../api';
 import {Instrument} from '../api/models';
+import {RUB_SYMBOL} from '../constants/Strings';
 import {QueryKeys} from './query-keys';
 
 export const useInstruments = () => {
@@ -20,4 +21,4 @@ export const useInstruments = () => {
   return {isLoading, data: instruments, invalidate};
 };
 
-const fixSymbol = (symbol: string) => (symbol === 'руб.' ? '₽' : symbol);
+const fixSymbol = (symbol: string) => (symbol === 'руб.' ? RUB_SYMBOL : symbol);
