@@ -70,6 +70,7 @@
         },
         "Locales": "App language",
         "More": {
+            "FastAddTransaction": "Fast add transaction",
             "MainCurrency": "Main Currency",
             "More": "More"
         },

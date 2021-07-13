@@ -7,8 +7,14 @@ import {useInstruments, useMe} from '../../api-hooks';
 import {QueryKeys} from '../../api-hooks/query-keys';
 import {useMutateMe} from '../../api-hooks/useMutateMe';
 import {useLogout} from '../../auth';
-import {PickerListItem} from '../../components/ListItem';
-import {localeSelector, themeSelector, useStore} from '../../store/use-store';
+import {PickerListItem, SwitchListItem} from '../../components/ListItem';
+import {
+  localeSelector,
+  setFastAddTransactionSelector,
+  themeSelector,
+  fastAddTransactionSelector,
+  useStore,
+} from '../../store/use-store';
 import {MoreScreenProps} from '../../types';
 
 export const MoreScreen: React.FC<MoreScreenProps> = ({navigation}) => {
@@ -36,6 +42,9 @@ export const MoreScreen: React.FC<MoreScreenProps> = ({navigation}) => {
 
   const locale = useStore(localeSelector);
 
+  const fastAddTransaction = useStore(fastAddTransactionSelector);
+  const setFastAddTransaction = useStore(setFastAddTransactionSelector);
+
   const logout = useLogout();
 
   const {t} = useTranslation();
@@ -55,6 +64,11 @@ export const MoreScreen: React.FC<MoreScreenProps> = ({navigation}) => {
       />
       <PickerListItem title={t('Screen.Locales')} value={locale} onPress={() => navigation.navigate('LocalesScreen')} />
       <PickerListItem title={t('Screen.Tags')} onPress={() => navigation.navigate('TagsScreen', {})} />
+      <SwitchListItem
+        title={t('Screen.More.FastAddTransaction')}
+        value={fastAddTransaction}
+        onValueChange={setFastAddTransaction}
+      />
       <PickerListItem title={t('SignOut')} onPress={logout} />
     </ScrollView>
   );

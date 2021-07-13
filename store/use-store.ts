@@ -23,6 +23,8 @@ export type State = {
   // setZenMoneyToken: (value: AuthToken | null) => void;
   locale: string;
   setLocale: (value: AppLocale) => void;
+  fastAddTransaction: boolean;
+  setFastAddTransaction: (value: boolean) => void;
 };
 
 const colorScheme = (Appearance.getColorScheme() as unknown) as 'light' | 'dark';
@@ -40,6 +42,8 @@ export const useStore = createStore<State>(
       // zenMoneyToken: null,
       locale: Localization.locale,
       setLocale: (value) => set(() => ({locale: value})),
+      fastAddTransaction: false,
+      setFastAddTransaction: (value) => set(() => ({fastAddTransaction: value})),
       // setServerTimestamp: (value) => set(() => ({serverTimestamp: value})),
       // setZenMoneyToken: (value) => set(() => ({zenMoneyToken: value})),
     }),
@@ -47,6 +51,8 @@ export const useStore = createStore<State>(
 );
 
 export const themeSelector = (x: State) => x.theme;
-export const localeSelector = (x: State) => x.locale;
 export const setThemeSelector = (x: State) => x.setTheme;
+export const localeSelector = (x: State) => x.locale;
 export const setLocaleSelector = (x: State) => x.setLocale;
+export const fastAddTransactionSelector = (x: State) => x.fastAddTransaction;
+export const setFastAddTransactionSelector = (x: State) => x.setFastAddTransaction;
