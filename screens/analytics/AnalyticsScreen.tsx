@@ -47,7 +47,7 @@ export const AnalyticsScreen: React.FC<AnalyticsScreenProps> = (props) => {
                   tag: c.effectiveTagTitle,
                   tagIcon: c.effectiveTag?.icon,
                   amount: amount,
-                  amountFormatted: formatCurrency(amount, userCurrency?.symbol, 0),
+                  amountFormatted: formatCurrency(amount, userCurrency?.symbol ?? '', 0),
                   color: c.effectiveTag?.iconColor ? argbToHEX(c.effectiveTag?.iconColor) : randomColor(),
                 };
               },
@@ -60,7 +60,7 @@ export const AnalyticsScreen: React.FC<AnalyticsScreenProps> = (props) => {
         expenses,
         totalAmount: formatCurrency(
           expenses.reduce((a, c) => (a += c.amount), 0),
-          userCurrency?.symbol,
+          userCurrency?.symbol ?? '',
           0,
         ),
       }))

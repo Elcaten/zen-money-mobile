@@ -44,7 +44,7 @@ export const useAccountModels = () => {
         return {
           archive: acc.archive,
           balance: acc.balance,
-          balanceFormatted: formatCurrency(Math.abs(acc.balance), symbol),
+          balanceFormatted: formatCurrency(Math.abs(acc.balance), symbol, 0),
           creditLimit: acc.creditLimit,
           id: acc.id,
           inBalance: acc.inBalance,

@@ -42,7 +42,7 @@ export const AccountOverviewScreen: React.FC<AccountOverviewScreenProps> = () =>
         return {
           id: b.instrument!.id,
           balance: b.balance,
-          balanceFormatted: formatCurrency(b.balance, undefined, 0),
+          balanceFormatted: formatCurrency(b.balance, '', 0),
           balanceInUserCurrency: balanceInUserCurrency,
           balanceInUserCurrencyFormatted: formatCurrency(balanceInUserCurrency, userCurrencySymbol, 0),
           shortTitle: b.instrument!.shortTitle,

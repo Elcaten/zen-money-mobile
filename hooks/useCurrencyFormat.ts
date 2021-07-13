@@ -5,7 +5,7 @@ export const useCurrencyFormat = () => {
   const locale = useStore(localeSelector);
 
   return useCallback(
-    (num: number, currencySymbol = '', fractionDigit = 2) => {
+    (num: number, currencySymbol: string, fractionDigit: number) => {
       switch (locale) {
         case AppLocale.Ru:
           return formatCurrency(num, ',', ' ', currencySymbol, fractionDigit);
