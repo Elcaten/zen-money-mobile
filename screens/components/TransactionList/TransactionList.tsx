@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import * as React from 'react';
 import {Component} from 'react';
-import {Dimensions, RefreshControl, StyleSheet, View} from 'react-native';
+import {Dimensions} from 'react-native';
 import {DataProvider, LayoutProvider, RecyclerListView, RecyclerListViewProps} from 'recyclerlistview';
 import {TransactionModel} from '../../../api-hooks';
 import {OneWayTransaction, TwoWayTransaction} from './TransactionItem';
@@ -14,6 +14,8 @@ const ViewType = {
   ListHeader: 1,
   OneWayTransaction: 2,
   TwoWayTransaction: 3,
+  OneWayTransactionWithComment: 4,
+  TwoWayTransactionWithComment: 5,
 };
 interface TransactionListItem {
   type: number | string;
@@ -50,9 +52,20 @@ export class TransactionList extends Component<TransactionsListProps, Transactio
       (type, dim) => {
         switch (type) {
           case ViewType.OneWayTransaction:
+            dim.width = width;
+            dim.height = 75;
+            break;
+          case ViewType.OneWayTransactionWithComment:
+            dim.width = width;
+            dim.height = 110;
+            break;
           case ViewType.TwoWayTransaction:
             dim.width = width;
-            dim.height = 72;
+            dim.height = 80;
+            break;
+          case ViewType.TwoWayTransactionWithComment:
+            dim.width = width;
+            dim.height = 110;
             break;
           case ViewType.SectionHeader:
             dim.width = width;
@@ -96,8 +109,8 @@ export class TransactionList extends Component<TransactionsListProps, Transactio
         };
         const transactionItems: TransactionListItem[] = (transactionsByDate.get(dateString) ?? []).map((i) =>
           i.income && i.outcome
-            ? {type: ViewType.TwoWayTransaction, value: i}
-            : {type: ViewType.OneWayTransaction, value: i},
+            ? {type: i.comment ? ViewType.TwoWayTransactionWithComment : ViewType.TwoWayTransaction, value: i}
+            : {type: i.comment ? ViewType.OneWayTransactionWithComment : ViewType.OneWayTransaction, value: i},
         );
         return [sectionHeader].concat(transactionItems);
       })
@@ -113,8 +126,10 @@ export class TransactionList extends Component<TransactionsListProps, Transactio
   private renderRow(type: string | number, data: TransactionListItem) {
     switch (type) {
       case ViewType.OneWayTransaction:
+      case ViewType.OneWayTransactionWithComment:
         return <OneWayTransaction transaction={data.value as TransactionModel} onPress={this.props.onItemPress} />;
       case ViewType.TwoWayTransaction:
+      case ViewType.TwoWayTransactionWithComment:
         return <TwoWayTransaction transaction={data.value as TransactionModel} onPress={this.props.onItemPress} />;
       case ViewType.SectionHeader:
         return <TransactionSectionHeader title={data.value as string} />;
