@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {useCallback} from 'react';
-import {StyleSheet, View} from 'react-native';
+import {RefreshControl, StyleSheet, View} from 'react-native';
 import {useTransactionModels} from '../../../api-hooks';
 import {TransactionsScreenProps} from '../../../types';
 import {TransactionList} from '../../components/TransactionList';
@@ -18,7 +18,13 @@ export const TransactionsScreen: React.FC<TransactionsScreenProps> = ({navigatio
 
   return (
     <View style={styles.container}>
-      <TransactionList data={data} isLoading={isLoading} onRefresh={invalidate} onItemPress={navigateToDetails} />
+      <TransactionList
+        data={data}
+        scrollViewProps={{
+          refreshControl: <RefreshControl refreshing={isLoading} onRefresh={invalidate} />,
+        }}
+        onItemPress={navigateToDetails}
+      />
       <AddTransactionButton />
     </View>
   );
