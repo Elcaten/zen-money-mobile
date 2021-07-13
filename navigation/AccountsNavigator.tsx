@@ -1,12 +1,13 @@
 import {createStackNavigator} from '@react-navigation/stack';
 import * as React from 'react';
 import {useTranslation} from 'react-i18next';
-import {AccountOverviewScreen, AccountsScreen} from '../screens/account';
+import {AccountsScreen} from '../screens/account/AccountsScreen';
 import {AccountDetailsScreen} from '../screens/account/AccountDetailsScreen';
 import {AccountTypePickerScreen} from '../screens/account/AccountTypePickerScreen';
 import {EditAccountScreen} from '../screens/account/EditAccountScreen';
 import {InstrumentPickerScreen} from '../screens/shared/InstrumentPickerScreen';
 import {AccountsParamList} from '../types';
+import {AccountOverviewScreen} from '../screens/account';
 
 const Stack = createStackNavigator<AccountsParamList>();
 

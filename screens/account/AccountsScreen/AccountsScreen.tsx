@@ -2,11 +2,11 @@ import * as React from 'react';
 import {useCallback, useLayoutEffect, useMemo, useState} from 'react';
 import {FlatList, ListRenderItemInfo, StyleSheet} from 'react-native';
 import Collapsible from 'react-native-collapsible';
-import {AccountModel, useAccountModels} from '../../api-hooks/';
-import {Text, View} from '../../components';
-import {useNavigatorThemeColors} from '../../themes';
-import {AccountsScreenProps} from '../../types';
-import {extractId} from '../../utils';
+import {AccountModel, useAccountModels} from '../../../api-hooks';
+import {Text, View} from '../../../components';
+import {useNavigatorThemeColors} from '../../../themes';
+import {AccountsScreenProps} from '../../../types';
+import {extractId} from '../../../utils';
 import {useTranslation} from 'react-i18next';
 
 import {AccountListItem} from './AccountListItem';

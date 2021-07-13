@@ -1,10 +1,10 @@
 import * as React from 'react';
 import {StyleSheet} from 'react-native';
-import {AccountModel} from '../../api-hooks/';
-import {Text} from '../../components';
-import {ListItem} from '../../components/ListItem';
-import {CINNABAR} from '../../constants/Colors';
-import {AccountIcon} from './AccountIcon';
+import {AccountModel} from '../../../api-hooks';
+import {Text} from '../../../components';
+import {ListItem} from '../../../components/ListItem';
+import {CINNABAR} from '../../../constants/Colors';
+import {AccountIcon} from '../AccountIcon';
 
 const Balance: React.FC<{account: AccountModel}> = ({account}) => {
   return (
