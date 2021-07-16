@@ -20,7 +20,10 @@ export const AccountsScreen: React.FC<AccountsScreenProps> = ({navigation}) => {
   const {data: user} = useMe();
   const formatCurrency = useCurrencyFormat();
   const grandTotal = useMemo(() => {
-    const userCurrency = instruments.get(user?.currency!)!;
+    const userCurrency = instruments.get(user?.currency!);
+    if (!userCurrency) {
+      return 0;
+    }
     const totalAmount = accounts.reduce((prev, curr) => {
       return prev + (curr.balance * instruments.get(curr.instrument!)?.rate!) / userCurrency.rate!;
     }, 0);

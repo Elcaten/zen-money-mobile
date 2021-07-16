@@ -11,6 +11,7 @@ import {useTags} from './useTags';
 const useTransactions = () => useQuery(QueryKeys.Transactions, fetchTransactions, {staleTime: Infinity});
 
 export type TagModel = {
+  id: string;
   title: string;
   icon?: TagIconName | null;
   iconColor?: number | null;
@@ -60,8 +61,12 @@ export const useTransactionModels = () => {
           const outcomeAccount = accounts.get(transaction.outcomeAccount);
           return {
             id: transaction.id,
-            tag: firstTag ? {icon: firstTag.icon, title: firstTag.title, iconColor: firstTag.color} : undefined,
-            parentTag: parenTag ? {icon: parenTag.icon, title: parenTag.title, iconColor: parenTag.color} : undefined,
+            tag: firstTag
+              ? {icon: firstTag.icon, title: firstTag.title, iconColor: firstTag.color, id: firstTag.id}
+              : undefined,
+            parentTag: parenTag
+              ? {icon: parenTag.icon, title: parenTag.title, iconColor: parenTag.color, id: parenTag.id}
+              : undefined,
             date: transaction.date,
             income: transaction.income,
             incomeFormatted: formatCurrency(transaction.income, incomeSymbol, 0),

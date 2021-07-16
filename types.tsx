@@ -41,7 +41,7 @@ export type AccountsParamList = {
 };
 
 export type TransactionsParamList = {
-  TransactionsScreen: undefined;
+  TransactionsScreen: {};
   TransactionDetailsScreen: {
     transactionId: string;
   };

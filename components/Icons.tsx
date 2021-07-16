@@ -5,6 +5,11 @@ import {useNavigatorThemeColors} from '../themes';
 
 export type IconProps = Omit<ExpoIconProps<string>, 'name'>;
 
+export const ArrowBackIcon: React.FC<IconProps> = (props) => {
+  const {iconColor} = useNavigatorThemeColors();
+  return <MaterialIcons color={iconColor} name="arrow-back" {...props} />;
+};
+
 export const BankIcon: React.FC<IconProps> = (props) => {
   const {iconColor} = useNavigatorThemeColors();
   return <MaterialCommunityIcons color={iconColor} name="bank" {...props} />;

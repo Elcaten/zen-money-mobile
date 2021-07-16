@@ -87,7 +87,10 @@
             "SystemDefaultDescription": "Turn on dark when your device's dark theme or Battery Saver is on",
             "Themes": "Themes"
         },
-        "Transactions": "Transactions"
+        "Transactions": {
+            "NoTransactionsFound": "No transactions found",
+            "Transactions": "Transactions"
+        }
     },
     "SignOut": "Sign Out",
     "Tab": {
