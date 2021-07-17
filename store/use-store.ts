@@ -33,7 +33,7 @@ export const useStore = createStore<State>(
   persist(
     {
       key: 'persist', // required, child key of storage
-      allowlist: [/*'serverTimestamp', 'zenMoneyToken', */ 'locale', 'theme'],
+      allowlist: [/*'serverTimestamp', 'zenMoneyToken', */ 'locale', 'theme', 'fastAddTransaction'],
     },
     (set) => ({
       theme: colorScheme,
