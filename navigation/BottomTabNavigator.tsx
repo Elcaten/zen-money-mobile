@@ -1,15 +1,16 @@
+import {IconProps as ExpoIconProps} from '@expo/vector-icons/build/createIconSet';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import * as React from 'react';
 import {useTranslation} from 'react-i18next';
-import {IconProps as ExpoIconProps} from '@expo/vector-icons/build/createIconSet';
-import {CreditCardIcon, MenuIcon, ShowChartIcon, SwapHorizIcon} from '../components';
+import {CreditCardIcon, MenuIcon, ShowChartIcon, SwapHorizIcon, SyncIcon} from '../components';
 import {useNavigatorThemeColors} from '../themes';
 import {BottomTabParamList} from '../types';
-import {resetTabStackListener} from './reset-tab-stack-listeners';
-import {MoreNavigator} from './MoreNavigator';
-import {AnalyticsNavigator} from './AnalyticsNavigator';
-import {TransactionsNavigator} from './TransactionsNavigator';
 import {AccountsNavigator} from './AccountsNavigator';
+import {AnalyticsNavigator} from './AnalyticsNavigator';
+import {MoreNavigator} from './MoreNavigator';
+import {resetTabStackListener} from './reset-tab-stack-listeners';
+import {SyncNavigator} from './SyncNavigator';
+import {TransactionsNavigator} from './TransactionsNavigator';
 
 const iconProps: Omit<ExpoIconProps<string>, 'name'> = {
   size: 30,
@@ -32,6 +33,15 @@ export default function BottomTabNavigator() {
         options={{
           tabBarIcon: ({color}) => <CreditCardIcon {...iconProps} color={color} />,
           tabBarLabel: t('BottomTabNavigator.Accounts'),
+        }}
+        listeners={tabListeners as any}
+      />
+      <BottomTab.Screen
+        name="Sync"
+        component={SyncNavigator}
+        options={{
+          tabBarIcon: ({color}) => <SyncIcon {...iconProps} color={color} />,
+          tabBarLabel: t('BottomTabNavigator.Sync'),
         }}
         listeners={tabListeners as any}
       />

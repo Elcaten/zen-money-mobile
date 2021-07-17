@@ -18,6 +18,7 @@ export type RootStackParamList = {
 
 export type BottomTabParamList = {
   Accounts: NavigatorScreenParams<AccountsParamList>;
+  Sync: NavigatorScreenParams<SyncParamList>;
   Transactions: NavigatorScreenParams<TransactionsParamList>;
   Analytics: NavigatorScreenParams<AnalyticsParamList>;
   More: NavigatorScreenParams<MoreParamList>;
@@ -34,6 +35,10 @@ export type AccountsParamList = {
   AccountOverviewScreen: undefined;
   InstrumentPickerScreen: PickerScreenProps<number | null>;
   AccountTypePickerScreen: PickerScreenProps<AccountType | null>;
+};
+
+export type SyncParamList = {
+  SyncScreen: undefined;
 };
 
 export type TransactionsParamList = {

@@ -167,6 +167,11 @@ export const SwapHorizIcon: React.FC<IconProps> = (props) => {
   return <MaterialIcons color={colors.iconColor} name="swap-horiz" size={Icon.size} {...props} />;
 };
 
+export const SyncIcon: React.FC<IconProps> = (props) => {
+  const {iconColor} = useNavigatorThemeColors();
+  return <MaterialIcons color={iconColor} name="sync" {...props} />;
+};
+
 export const TagIcon: React.FC<IconProps> = (props) => {
   const {colors, Icon} = useNavigatorTheme();
   return <MaterialCommunityIcons color={colors.iconColor} name="tag-outline" size={Icon.size} {...props} />;
