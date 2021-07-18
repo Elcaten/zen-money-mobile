@@ -20,8 +20,10 @@ export namespace OperationsCommand {
     description: string;
     operationTime: ITimestamp;
     amount: IAmount;
+    accountAmount: IAmount;
     payment: IPayment;
     account: string;
+    cardNumber?: string;
     card: string;
     group: string;
     cashback: number;

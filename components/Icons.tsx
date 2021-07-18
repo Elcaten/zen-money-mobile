@@ -168,8 +168,8 @@ export const SwapHorizIcon: React.FC<IconProps> = (props) => {
 };
 
 export const SyncIcon: React.FC<IconProps> = (props) => {
-  const {iconColor} = useNavigatorThemeColors();
-  return <MaterialIcons color={iconColor} name="sync" {...props} />;
+  const {colors, Icon} = useNavigatorTheme();
+  return <MaterialIcons color={colors.iconColor} name="sync" size={Icon.size} {...props} />;
 };
 
 export const TagIcon: React.FC<IconProps> = (props) => {
