@@ -13,3 +13,5 @@ config/*.env
 # macOS
 .DS_Store
 test-entities.json
+
+/assets/json
