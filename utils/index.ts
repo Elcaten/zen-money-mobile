@@ -7,4 +7,5 @@ export * from './generate-uuid';
 export * from './manifest-extra';
 export * from './random-color';
 export * from './show-toast';
+export * from './split-array';
 export * from './to-api-date';

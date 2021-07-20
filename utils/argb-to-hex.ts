@@ -9,7 +9,7 @@ export function argbToHEX(color: number) {
 }
 
 export function hexToRgb(hex: string) {
-  var result = /^#?([a-fd]{2})([a-fd]{2})([a-fd]{2})$/i.exec(hex);
+  var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
   if (result) {
     var r = parseInt(result[1], 16);
     var g = parseInt(result[2], 16);
