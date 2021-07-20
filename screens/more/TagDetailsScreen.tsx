@@ -14,6 +14,7 @@ import {Tag} from '../../api/models';
 import {Input, View} from '../../components';
 import {Card} from '../../components/Card';
 import {ListItem} from '../../components/ListItem';
+import {useHeaderButtons} from '../../hooks/useHeaderButtons';
 import {TagDetailsScreenProps} from '../../types';
 import {showToast} from '../../utils';
 import {generateUUID} from '../../utils/generate-uuid';
@@ -58,6 +59,7 @@ export const TagDetailsScreen: React.FC<TagDetailsScreenProps> = ({navigation, r
     },
     [mutateAsync, navigation, queryClient, t],
   );
+  const onSavePressMemo = useMemo(() => handleSubmit(onSavePress), [handleSubmit, onSavePress]);
 
   const titleRef = useRef<InputHandles>(null);
   useEffect(() => {
@@ -74,28 +76,7 @@ export const TagDetailsScreen: React.FC<TagDetailsScreenProps> = ({navigation, r
     navigation.pop();
   }, [deleteAsync, navigation, queryClient, t, tag.id]);
 
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerRight: () => (
-        <HeaderButtons>
-          <Item
-            title={t('TagDetailsScreen.Edit')}
-            IconComponent={MaterialCommunityIcons}
-            iconName="delete-outline"
-            iconSize={24}
-            onPress={onDeletePress}
-          />
-          <Item
-            title={t('TagDetailsScreen.Save')}
-            IconComponent={Ionicons}
-            iconName="save-outline"
-            iconSize={24}
-            onPress={handleSubmit(onSavePress)}
-          />
-        </HeaderButtons>
-      ),
-    });
-  }, [deleteAsync, handleSubmit, navigation, onDeletePress, onSavePress, t]);
+  useHeaderButtons(navigation, {onDeletePress, onSavePress: onSavePressMemo});
 
   const [possibleParentTags, setPossibleParentTags] = useState<Tag[]>([]);
   useEffect(() => {

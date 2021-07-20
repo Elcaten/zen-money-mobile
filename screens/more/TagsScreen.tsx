@@ -7,6 +7,7 @@ import {useTags} from '../../api-hooks/useTags';
 import {Tag} from '../../api/models';
 import {Text} from '../../components';
 import {ListItem} from '../../components/ListItem';
+import {useHeaderButtons} from '../../hooks/useHeaderButtons';
 import {TagsScreenProps} from '../../types';
 import {extractId} from '../../utils';
 import {TagIcon} from '../components';
@@ -49,15 +50,7 @@ export const TagsScreen: React.FC<TagsScreenProps> = ({navigation}) => {
     [opendDetails],
   );
 
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerRight: () => (
-        <HeaderButtons>
-          <Item title="" IconComponent={MaterialIcons} iconName="add" iconSize={24} onPress={onAddPress} />
-        </HeaderButtons>
-      ),
-    });
-  }, [navigation, onAddPress]);
+  useHeaderButtons(navigation, {onAddPress});
 
   return (
     <FlatList

@@ -11,6 +11,7 @@ import {useDeleteAccount} from '../../api-hooks/useMutateAccount';
 import {Text, View} from '../../components';
 import {Card} from '../../components/Card';
 import {useToolbarOpacity} from '../../hooks';
+import {useHeaderButtons} from '../../hooks/useHeaderButtons';
 import {useNavigatorThemeColors} from '../../themes';
 import {AccountDetailsScreenProps} from '../../types';
 import {showToast} from '../../utils';
@@ -56,21 +57,12 @@ export const AccountDetailsScreen: React.FC<AccountDetailsScreenProps> = ({navig
     route.params.accountId,
   ]);
 
+  useHeaderButtons(navigation, {onDeletePress, onEditPress});
+
   const {opacity, onScroll} = useToolbarOpacity(HEADER_HEIGHT);
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      headerRight: () => (
-        <HeaderButtons>
-          <Item
-            IconComponent={MaterialCommunityIcons}
-            iconName="trash-can-outline"
-            iconSize={24}
-            onPress={onDeletePress}
-          />
-          <Item IconComponent={MaterialIcons} iconName="edit" iconSize={24} onPress={onEditPress} />
-        </HeaderButtons>
-      ),
       headerTitle: () => (
         <Animated.View style={[styles.navigationTitle, {opacity}]}>
           <AccountIcon size={24} type={account?.type!} style={styles.navigationIcon} />
@@ -78,7 +70,7 @@ export const AccountDetailsScreen: React.FC<AccountDetailsScreenProps> = ({navig
         </Animated.View>
       ),
     });
-  }, [account?.title, account?.type, navigation, onDeletePress, onEditPress, opacity, t]);
+  }, [account?.title, account?.type, navigation, opacity]);
 
   const {data, isLoading, invalidate} = useTransactionModels();
 

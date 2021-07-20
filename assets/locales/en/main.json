@@ -1,7 +1,11 @@
 {
     "Button": {
         "Cancel": "Cancel",
-        "Delete": "Delete"
+        "Delete": "Delete",
+        "Add": "Add",
+        "Edit": "Edit",
+        "Save": "Save",
+        "Search": "Search"
     },
     "AccountDetailsScreen": {
         "DeleteAccountMessage": "This account and its transactions will be deleted.",
@@ -46,12 +50,10 @@
         "Archive": "Archived account",
         "InBalance": "Include in total balance",
         "Instrument": "Account сurrency",
-        "Save": "Save",
         "Savings": "Savings account",
         "Title": "Title"
     },
     "EditTransactionScreen": {
-        "Save": "Save",
         "Comment": "Comment",
         "TransactionSaved": "Transaction saved"
     },
@@ -70,14 +72,12 @@
     "TagDetailsScreen": {
         "CategoryDeleted": "Category deleted",
         "CategorySaved": "Category saved",
-        "Edit": "Edit",
         "Expense": "in expense",
         "Fixed": "Fixed",
         "Flexible": "Flexible",
         "Icon": "Icon",
         "Income": "in income",
         "Parent": "Parent category",
-        "Save": "Save",
         "Show": "Show",
         "SpendingTitle": "Spending in category is",
         "Title": "Title"

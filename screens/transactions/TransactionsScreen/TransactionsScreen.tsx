@@ -11,6 +11,7 @@ import {Text} from '../../../components';
 import {Card} from '../../../components/Card';
 import {ListItem} from '../../../components/ListItem';
 import {SearchSuggestion, useSearchResults, useSearchSuggestions} from '../../../hooks';
+import {useHeaderButtons} from '../../../hooks/useHeaderButtons';
 import {useNavigatorThemeColors} from '../../../themes';
 import {TransactionsScreenProps} from '../../../types';
 import {TransactionList} from '../../components/TransactionList';
@@ -50,15 +51,7 @@ export const TransactionsScreen: React.FC<TransactionsScreenProps> = ({navigatio
     setSearchExpr('');
   }, [visible]);
 
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerRight: () => (
-        <HeaderButtons>
-          <Item title={''} IconComponent={MaterialIcons} iconName="search" iconSize={24} onPress={toggleOverlay} />
-        </HeaderButtons>
-      ),
-    });
-  }, [navigation, toggleOverlay]);
+  useHeaderButtons(navigation, {onSearchPress: toggleOverlay});
 
   const navigateToDetails = useCallback(
     (transactionId: string) => {

@@ -8,6 +8,7 @@ import {HeaderButtons, Item} from 'react-navigation-header-buttons';
 import {AccountModel, useAccountModels, useInstruments, useMe} from '../../../api-hooks';
 import {Text, View} from '../../../components';
 import {useCurrencyFormat} from '../../../hooks';
+import {useHeaderButtons} from '../../../hooks/useHeaderButtons';
 import {useNavigatorThemeColors} from '../../../themes';
 import {AccountsScreenProps} from '../../../types';
 import {extractId} from '../../../utils';
@@ -64,28 +65,31 @@ export const AccountsScreen: React.FC<AccountsScreenProps> = ({navigation}) => {
     );
   }, [archivedAccounts, displayShowArchivedButton, primary, renderAccountItem, showArchived, t]);
 
+  const renderButtons = useCallback(
+    () => (
+      <Item
+        title=""
+        IconComponent={Ionicons}
+        iconName="pie-chart-outline"
+        iconSize={24}
+        onPress={() => navigation.navigate('AccountOverviewScreen')}
+      />
+    ),
+    [navigation],
+  );
+  const onAddPress = useCallback(() => navigation.navigate('EditAccountScreen', {accountId: undefined}), [navigation]);
+
+  useHeaderButtons(navigation, {
+    onAddPress,
+    renderButtonPosition: 'right',
+    renderButtons: renderButtons,
+  });
+
   useLayoutEffect(() => {
     navigation.setOptions({
-      headerTitle: grandTotal,
-      headerRight: () => (
-        <HeaderButtons>
-          <Item
-            IconComponent={Ionicons}
-            iconName="pie-chart-outline"
-            iconSize={24}
-            onPress={() => navigation.navigate('AccountOverviewScreen')}
-          />
-          <Item
-            title={t('AccountsScreen.AddAccount')}
-            IconComponent={MaterialIcons}
-            iconName="add"
-            iconSize={24}
-            onPress={() => navigation.navigate('EditAccountScreen', {accountId: undefined})}
-          />
-        </HeaderButtons>
-      ),
+      headerTitle: grandTotal.toString(),
     });
-  }, [navigation, t, grandTotal]);
+  }, [grandTotal, navigation]);
 
   return (
     <FlatList

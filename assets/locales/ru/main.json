@@ -1,7 +1,11 @@
 {
     "Button": {
-        "Delete": "Отмена",
-        "Cancel": "Удалить"
+        "Delete": "Удалить",
+        "Cancel": "Отмена",
+        "Add": "Добавить",
+        "Edit": "Редактировать",
+        "Save": "Сохранить",
+        "Search": "Поиск"
     },
     "AccountDetailsScreen": {
         "DeleteAccountMessage": "Счет будет удален вместе со всеми операциями.",
@@ -48,13 +52,11 @@
         "Archive": "Архивный счет",
         "InBalance": "Включить в общий баланс",
         "Instrument": "Валюта счета",
-        "Save": "Сохранить",
         "Savings": "Накопительный счет",
         "Title": "Наименование"
     },
     "EditTransactionScreen": {
         "Comment": "Комментарий",
-        "Save": "Сохранить",
         "TransactionSaved": "Транзакция сохранена"
     },
     "InstrumentPickerScreen": {
@@ -70,14 +72,12 @@
     "TagDetailsScreen": {
         "CategoryDeleted": "Категория удалена",
         "CategorySaved": "Категория сохранена",
-        "Edit": "Редактировать",
         "Expense": "в расходе",
         "Fixed": "Обязательные",
         "Flexible": "Необязательные",
         "Icon": "Иконка",
         "Income": "в доходе",
         "Parent": "Родительская категория",
-        "Save": "Сохранить",
         "Show": "Показывать",
         "SpendingTitle": "Расходы по этой категории",
         "Title": "Наименование"

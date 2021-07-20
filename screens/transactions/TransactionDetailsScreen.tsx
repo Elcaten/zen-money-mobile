@@ -38,16 +38,7 @@ export const TransactionDetailsScreen: React.FC<TransactionDetailsScreenProps> =
     onDeleteConfirm,
   );
 
-  useHeaderButtons(navigation, () => (
-    <Item
-      title=""
-      disabled={isDeleting}
-      IconComponent={MaterialIcons}
-      iconName="delete-outline"
-      iconSize={24}
-      onPress={onDeletePress}
-    />
-  ));
+  useHeaderButtons(navigation, {onDeletePress});
 
   return (
     <ScrollView

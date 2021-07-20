@@ -1,11 +1,10 @@
-import {MaterialIcons} from '@expo/vector-icons';
 import * as React from 'react';
-import {useLayoutEffect, useState} from 'react';
+import {useCallback, useState} from 'react';
 import {ScrollView, StyleSheet, TouchableOpacity} from 'react-native';
-import {HeaderButtons, Item} from 'react-navigation-header-buttons';
 import {TagIconName} from '../../api/models';
 import {TagColor, tagColors} from '../../api/models/tag-color';
 import {View} from '../../components';
+import {useHeaderButtons} from '../../hooks/useHeaderButtons';
 import {IconPickerScreenProps} from '../../types';
 import {argbToHEX, hexToRgb} from '../../utils';
 import {TagIcon} from '../components/TagIcon';
@@ -14,24 +13,12 @@ export const IconPickerScreen: React.FC<IconPickerScreenProps> = ({navigation, r
   const [iconName, setIconName] = useState(route.params.icon);
   const [iconColor, setIconColor] = useState(route.params.color);
 
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerRight: () => (
-        <HeaderButtons>
-          <Item
-            title=""
-            IconComponent={MaterialIcons}
-            iconName="save"
-            iconSize={24}
-            onPress={() => {
-              route.params.onSave(iconName, iconColor);
-              navigation.goBack();
-            }}
-          />
-        </HeaderButtons>
-      ),
-    });
-  }, [iconColor, iconName, navigation, route.params, setIconColor, setIconName]);
+  const onSavePress = useCallback(() => {
+    route.params.onSave(iconName, iconColor);
+    navigation.goBack();
+  }, [iconColor, iconName, navigation, route.params]);
+
+  useHeaderButtons(navigation, {onSavePress});
 
   return (
     <View>

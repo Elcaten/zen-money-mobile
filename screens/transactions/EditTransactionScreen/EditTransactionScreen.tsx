@@ -17,6 +17,7 @@ import {TransferEditor, TransferEditorHandles, TransferTransaction} from './Tran
 import {useQueryClient} from 'react-query';
 import {QueryKeys} from '../../../api-hooks/query-keys';
 import {showToast} from '../../../utils';
+import {useHeaderButtons} from '../../../hooks/useHeaderButtons';
 
 export const EditTransactionScreen: React.FC<EditTransactionScreenProps> = ({route, navigation}) => {
   const incomeEditorRef = useRef<IncomeExpenseEditorHandles>(null);
@@ -81,19 +82,13 @@ export const EditTransactionScreen: React.FC<EditTransactionScreenProps> = ({rou
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
-      headerLeft: () => (
-        <HeaderButtons>
-          <HeaderBackButton onPress={() => navigation.pop()} />
-          <TransactionTypePicker onSelect={setTransactionType} selectedType={transactionType} style={{width: 130}} />
-        </HeaderButtons>
-      ),
-      headerRight: () => (
-        <HeaderButtons>
-          <Item title={t('EditTransactionScreen.Save')} onPress={onSavePress} />
-        </HeaderButtons>
+      headerTitle: () => (
+        <TransactionTypePicker onSelect={setTransactionType} selectedType={transactionType} style={{width: 130}} />
       ),
     });
-  }, [navigation, onSavePress, t, transactionType]);
+  }, [navigation, t, transactionType]);
+
+  useHeaderButtons(navigation, {onSavePress});
 
   const renderEditor = useCallback(() => {
     switch (transactionType) {

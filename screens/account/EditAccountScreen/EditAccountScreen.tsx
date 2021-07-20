@@ -1,6 +1,6 @@
 import {Ionicons} from '@expo/vector-icons';
 import * as React from 'react';
-import {useCallback, useEffect, useLayoutEffect, useRef} from 'react';
+import {useCallback, useEffect, useLayoutEffect, useMemo, useRef} from 'react';
 import {Controller, useForm} from 'react-hook-form';
 import {useTranslation} from 'react-i18next';
 import {ScrollView, StyleSheet} from 'react-native';
@@ -17,6 +17,7 @@ import {ListItem, PickerListItem} from '../../../components/ListItem';
 import {SwitchListItem} from '../../../components/ListItem/SwitchListItem';
 import {RUB_SHORT_TITLE} from '../../../constants/Constants';
 import {useAccountTypes} from '../../../hooks/useAccountTypes';
+import {useHeaderButtons} from '../../../hooks/useHeaderButtons';
 import {AccountDetailsScreenProps} from '../../../types';
 import {generateUUID, showToast} from '../../../utils';
 import {EditableAccount} from './editable-account';
@@ -75,21 +76,9 @@ export const EditAccountScreen: React.FC<AccountDetailsScreenProps> = ({navigati
     [mutateAsync, navigation, queryClient, t],
   );
 
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerRight: () => (
-        <HeaderButtons>
-          <Item
-            title={t('EditAccountScreen.Save')}
-            IconComponent={Ionicons}
-            iconName="save"
-            iconSize={24}
-            onPress={handleSubmit(onSavePress)}
-          />
-        </HeaderButtons>
-      ),
-    });
-  }, [handleSubmit, navigation, onSavePress, t]);
+  const onSavePressMemo = useMemo(() => handleSubmit(onSavePress), [handleSubmit, onSavePress]);
+
+  useHeaderButtons(navigation, {onSavePress: onSavePressMemo});
 
   return (
     <ScrollView keyboardShouldPersistTaps="never">
