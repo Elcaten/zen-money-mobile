@@ -11,8 +11,6 @@ export const useMutateMe = () => {
       ...me!,
       changed: new Date().getTime(),
       currency: currency,
-    })
-      .then(() => ({success: true}))
-      .catch(() => ({success: false}));
+    });
   });
 };

@@ -5,7 +5,7 @@ import {Text, View} from '../../../components';
 import {Card} from '../../../components/Card';
 import {ListItem} from '../../../components/ListItem';
 import {GRAY} from '../../../constants/Colors';
-import {argbToHEX, hexToRgb, splitArray} from '../../../utils';
+import {argbToHEX, hexToRgb, REACT_QUERY_PERSIST_KEY, splitArray} from '../../../utils';
 import {TagIcon} from '../TagIcon';
 
 const {width} = Dimensions.get('window');
@@ -18,7 +18,7 @@ const ICON_MARGIN = Math.floor(ICON_WIDTH / 8);
 
 export interface TagGridPickerProps {
   tags: Tag[];
-  value: Tag | null;
+  value: string | null;
   onValueChange?: (tag: Tag | null) => void;
 }
 
@@ -28,24 +28,25 @@ export const TagGridPicker: React.FC<TagGridPickerProps> = ({tags, value, onValu
     return splitArray(rootTags, ICONS_PER_PAGE).map((arr) => splitArray(arr, ICONS_PER_ROW));
   }, [tags]);
 
-  const [selectedTag, setSelectedTag] = useState<Tag | null>(value);
+  const [selectedTag, setSelectedTag] = useState<Tag | null>(tags.find((t) => t.id === value) ?? null);
   const tagsByParent = useMemo(() => tags.groupBy('parent'), [tags]);
   const selectedTagChildren = useMemo(() => tagsByParent.get(selectedTag?.id) ?? [], [selectedTag?.id, tagsByParent]);
 
   return (
-    <ScrollView horizontal={true} snapToInterval={width} persistentScrollbar={true} style={styles.wrapper}>
+    <ScrollView horizontal={true} snapToInterval={width} persistentScrollbar={true}>
       {tagPages.map((tagPage, pageIdx) => (
-        <TagPage
-          key={pageIdx}
-          rows={tagPage}
-          selectedTag={selectedTag}
-          childTags={selectedTagChildren}
-          onTagPress={(tag) => {
-            const newTag = tag.id === selectedTag?.id ? null : tag;
-            setSelectedTag(newTag);
-            onValueChange?.(newTag ?? null);
-          }}
-        />
+        <Card style={styles.wrapper} key={pageIdx}>
+          <TagPage
+            rows={tagPage}
+            selectedTag={selectedTag}
+            childTags={selectedTagChildren}
+            onTagPress={(tag) => {
+              const newTag = tag.id === selectedTag?.id ? null : tag;
+              setSelectedTag(newTag);
+              onValueChange?.(newTag ?? null);
+            }}
+          />
+        </Card>
       ))}
     </ScrollView>
   );
@@ -58,7 +59,7 @@ const TagPage: React.FC<{
   onTagPress: (tag: Tag) => void;
 }> = ({rows, childTags, selectedTag, onTagPress}) => {
   return (
-    <Card>
+    <React.Fragment>
       {rows.map((tags, rowIdx) => (
         <TagRow
           key={rowIdx}
@@ -68,7 +69,7 @@ const TagPage: React.FC<{
           onTagPress={(tag) => onTagPress(tag)}
         />
       ))}
-    </Card>
+    </React.Fragment>
   );
 };
 

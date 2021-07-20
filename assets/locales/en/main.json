@@ -50,7 +50,8 @@
     },
     "EditTransactionScreen": {
         "Save": "Save",
-        "Comment": "Comment"
+        "Comment": "Comment",
+        "TransactionSaved": "Transaction saved"
     },
     "InstrumentPickerScreen": {
         "NoCurrenciesFound": "No currencies found"

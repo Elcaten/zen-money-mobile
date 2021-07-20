@@ -1,22 +1,22 @@
 import * as React from 'react';
-import {useEffect, useImperativeHandle, useMemo, useState} from 'react';
+import {useEffect, useImperativeHandle, useMemo} from 'react';
 import {Controller, useForm} from 'react-hook-form';
 import {useTranslation} from 'react-i18next';
-import {StyleSheet} from 'react-native';
+import {ScrollView, StyleSheet} from 'react-native';
 import {InputHandles} from 'react-native-elements';
 import {useAccounts, useInstruments, useTags} from '../../../api-hooks';
-import {UserAccount, Transaction} from '../../../api/models';
-import {CommentIcon, Input, Text, View} from '../../../components';
+import {Transaction, UserAccount} from '../../../api/models';
+import {CommentIcon, Input, Text} from '../../../components';
 import {DateTimeInput} from '../../../components/DateTimeInput';
-import {TagPicker} from '../../components/TagPicker';
+import {ListItem} from '../../../components/ListItem';
+import {TagGridPicker} from '../../components/TagGridPicker';
 import {AccountPicker} from './AccountPicker';
 
 export type IncomeExpenseTransaction = Pick<Transaction, 'comment'> & {
   amount: string;
   account: UserAccount;
   date: Date;
-  parentTag?: string | null;
-  childTag?: string | null;
+  tag: string | null;
 };
 
 export interface IncomeExpenseEditorHandles {
@@ -44,8 +44,7 @@ const IncomeExpenseEditorComponent: React.ForwardRefRenderFunction<
     defaultValues: {
       amount: '',
       account: accounts![0],
-      parentTag: null,
-      childTag: null,
+      tag: null,
       comment: null,
       date: new Date(),
     },
@@ -53,22 +52,10 @@ const IncomeExpenseEditorComponent: React.ForwardRefRenderFunction<
 
   const watchInstrument = watch('account.instrument');
   const instruments = useInstruments();
-  const instrumentSymbol = useMemo(() => instruments.data?.get(watchInstrument)?.symbol, [
+  const instrumentSymbol = useMemo(() => instruments.data?.get(watchInstrument!)?.symbol, [
     instruments.data,
     watchInstrument,
   ]);
-
-  const tagByParent = useMemo(() => tags.groupBy('parent'), [tags]);
-
-  const rootTags = useMemo(
-    () => tags.filter((t) => t.parent == null).sort((t1, t2) => t1.title.localeCompare(t2.title)),
-    [tags],
-  );
-  const [rootTagId, setRootTagId] = useState<string | null>(null);
-
-  const childTags = useMemo(() => {
-    return tagByParent.get(rootTagId) ?? [];
-  }, [rootTagId, tagByParent]);
 
   const amountInputRef = React.useRef<InputHandles>(null);
   useEffect(() => {
@@ -78,19 +65,23 @@ const IncomeExpenseEditorComponent: React.ForwardRefRenderFunction<
   }, [errors.amount]);
 
   useImperativeHandle(ref, () => ({submit: () => handleSubmit(onSubmit)()}), [handleSubmit, onSubmit]);
+
   const {t} = useTranslation();
+
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <Controller
         control={control}
         render={({field: {onChange, onBlur, value}}) => (
-          <Input
-            ref={amountInputRef}
-            value={value.toString()}
-            onBlur={onBlur}
-            onChangeText={onChange}
-            rightIcon={<Text>{instrumentSymbol}</Text>}
-          />
+          <ListItem bottomDivider>
+            <Input
+              ref={amountInputRef}
+              value={value.toString()}
+              onBlur={onBlur}
+              onChangeText={onChange}
+              rightIcon={<Text>{instrumentSymbol}</Text>}
+            />
+          </ListItem>
         )}
         name="amount"
         rules={{
@@ -104,24 +95,9 @@ const IncomeExpenseEditorComponent: React.ForwardRefRenderFunction<
       <Controller
         control={control}
         render={({field: {onChange, value}}) => (
-          <TagPicker
-            tags={rootTags}
-            selectedTag={value}
-            onSelect={(id) => {
-              onChange(id);
-              setRootTagId(id);
-            }}
-          />
+          <TagGridPicker tags={tags} value={value} onValueChange={(tag) => onChange(tag?.id)} />
         )}
-        name="parentTag"
-      />
-
-      <Controller
-        control={control}
-        render={({field: {onChange, value}}) => (
-          <TagPicker enabled={childTags.length > 0} tags={childTags} selectedTag={value} onSelect={onChange} />
-        )}
-        name="childTag"
+        name="tag"
       />
 
       <Controller
@@ -147,17 +123,19 @@ const IncomeExpenseEditorComponent: React.ForwardRefRenderFunction<
       <Controller
         control={control}
         render={({field: {onChange, onBlur, value}}) => (
-          <Input
-            placeholder={t('EditTransactionScreen.Comment')}
-            value={value ?? ''}
-            onChangeText={onChange}
-            onBlur={onBlur}
-            leftIcon={<CommentIcon size={24} />}
-          />
+          <ListItem bottomDivider>
+            <Input
+              placeholder={t('EditTransactionScreen.Comment')}
+              value={value ?? ''}
+              onChangeText={onChange}
+              onBlur={onBlur}
+              leftIcon={<CommentIcon size={24} />}
+            />
+          </ListItem>
         )}
         name="comment"
       />
-    </View>
+    </ScrollView>
   );
 };
 

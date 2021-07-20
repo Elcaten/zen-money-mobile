@@ -52,7 +52,8 @@
     },
     "EditTransactionScreen": {
         "Comment": "Комментарий",
-        "Save": "Сохранить"
+        "Save": "Сохранить",
+        "TransactionSaved": "Транзакция сохранена"
     },
     "InstrumentPickerScreen": {
         "NoCurrenciesFound": "Валюта не найдена"

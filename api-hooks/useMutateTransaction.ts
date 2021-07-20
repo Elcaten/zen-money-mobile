@@ -30,7 +30,7 @@ export const useMutateIncomeTransaction = () => {
       outcome: 0,
       outcomeAccount: transaction.account.id,
       outcomeInstrument: transaction.account.instrument,
-      tag: transaction.childTag ? [transaction.childTag] : transaction.parentTag ? [transaction.parentTag] : null,
+      tag: transaction.tag ? [transaction.tag] : null,
       user: user.data!.id,
 
       deleted: false,
@@ -49,6 +49,7 @@ export const useMutateIncomeTransaction = () => {
       payee: null,
       reminderMarker: null,
     };
+
     return postEntity<Transaction>(EntityType.Transaction, tr);
   });
 };
@@ -76,7 +77,7 @@ export const useMutateExpenseTransaction = () => {
       outcome: amount,
       outcomeAccount: transaction.account.id,
       outcomeInstrument: transaction.account.instrument,
-      tag: transaction.childTag ? [transaction.childTag] : transaction.parentTag ? [transaction.parentTag] : null,
+      tag: transaction.tag ? [transaction.tag] : null,
       user: user.data!.id,
 
       deleted: false,

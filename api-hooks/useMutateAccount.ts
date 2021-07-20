@@ -38,9 +38,7 @@ export const useMutateAccount = () => {
       endDateOffsetInterval: null,
       payoffStep: null,
       payoffInterval: null,
-    })
-      .then(() => ({success: true}))
-      .catch(() => ({success: false}));
+    });
   });
 };
 
