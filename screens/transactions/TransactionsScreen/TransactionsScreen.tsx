@@ -14,6 +14,7 @@ import {SearchSuggestion, useSearchResults, useSearchSuggestions} from '../../..
 import {useHeaderButtons} from '../../../hooks/useHeaderButtons';
 import {useNavigatorThemeColors} from '../../../themes';
 import {TransactionsScreenProps} from '../../../types';
+import {extractIndex} from '../../../utils';
 import {TransactionList} from '../../components/TransactionList';
 import {AddTransactionButton} from './AddTransactionButton';
 
@@ -86,7 +87,7 @@ export const TransactionsScreen: React.FC<TransactionsScreenProps> = ({navigatio
           <Card style={styles.suggestionsWrapper}>
             <FlatList
               data={suggestions}
-              keyExtractor={(x, i) => i.toString()}
+              keyExtractor={extractIndex}
               keyboardShouldPersistTaps="always"
               renderItem={({item}) => (
                 <ListItem bottomDivider onPress={() => onItemPress(item)}>

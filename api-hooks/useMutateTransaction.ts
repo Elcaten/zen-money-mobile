@@ -4,8 +4,7 @@ import {EntityType} from '../api/entyity-type';
 import {Transaction} from '../api/models';
 import {postEntity} from '../api/postEntity';
 import {IncomeExpenseTransaction, TransferTransaction} from '../screens/transactions/EditTransactionScreen';
-import {generateUUID} from '../utils/generate-uuid';
-import {toApiDate} from '../utils/to-api-date';
+import {generateUUID, toApiDate} from '../utils';
 import {useMe} from './useMe';
 
 export const useMutateIncomeTransaction = () => {

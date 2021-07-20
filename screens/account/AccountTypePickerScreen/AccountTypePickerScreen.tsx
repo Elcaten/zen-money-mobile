@@ -6,6 +6,7 @@ import {ListItem} from '../../../components/ListItem';
 import {useAccountTypes} from '../../../hooks/useAccountTypes';
 import {useNavigatorThemeColors} from '../../../themes';
 import {AccountTypePickerScreenProps} from '../../../types';
+import {extractId} from '../../../utils';
 
 interface AccountTypeListItem {
   id: AccountType;
@@ -34,9 +35,5 @@ export const AccountTypePickerScreen: React.FC<AccountTypePickerScreenProps> = (
     );
   };
 
-  return <FlatList data={options} renderItem={renderItem} keyExtractor={getId} />;
+  return <FlatList data={options} renderItem={renderItem} keyExtractor={extractId} />;
 };
-
-function getId(item: AccountTypeListItem) {
-  return item.id;
-}

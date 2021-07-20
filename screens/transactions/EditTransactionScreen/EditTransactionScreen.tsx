@@ -1,23 +1,20 @@
-import {HeaderBackButton} from '@react-navigation/stack';
 import * as React from 'react';
 import {useCallback, useRef, useState} from 'react';
 import {useTranslation} from 'react-i18next';
-import {HeaderButtons, Item} from 'react-navigation-header-buttons';
+import {useQueryClient} from 'react-query';
+import {QueryKeys} from '../../../api-hooks/query-keys';
 import {
   useMutateExpenseTransaction,
   useMutateIncomeTransaction,
   useMutateTransferTransaction,
 } from '../../../api-hooks/useMutateTransaction';
+import {useHeaderButtons} from '../../../hooks/useHeaderButtons';
 import {EditTransactionScreenProps} from '../../../types';
-import {exhaustiveCheck} from '../../../utils/exhaustive-check';
-import {IncomeExpenseEditor, IncomeExpenseEditorHandles, IncomeExpenseTransaction} from './IncomeExpenseEditor';
+import {exhaustiveCheck, showToast} from '../../../utils';
 import {TransactionType} from '../transaction-type';
+import {IncomeExpenseEditor, IncomeExpenseEditorHandles, IncomeExpenseTransaction} from './IncomeExpenseEditor';
 import {TransactionTypePicker} from './TransactionTypePicker';
 import {TransferEditor, TransferEditorHandles, TransferTransaction} from './TransferEditor';
-import {useQueryClient} from 'react-query';
-import {QueryKeys} from '../../../api-hooks/query-keys';
-import {showToast} from '../../../utils';
-import {useHeaderButtons} from '../../../hooks/useHeaderButtons';
 
 export const EditTransactionScreen: React.FC<EditTransactionScreenProps> = ({route, navigation}) => {
   const incomeEditorRef = useRef<IncomeExpenseEditorHandles>(null);

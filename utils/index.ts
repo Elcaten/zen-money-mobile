@@ -2,7 +2,7 @@ export * from './argb-to-hex';
 export * from './augmentations';
 export * from './compose-providers';
 export * from './exhaustive-check';
-export * from './extract-id';
+export * from './key-extractors';
 export * from './generate-uuid';
 export * from './manifest-extra';
 export * from './random-color';

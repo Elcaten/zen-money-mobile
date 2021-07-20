@@ -2,7 +2,7 @@ import * as React from 'react';
 import {TextProps as RNTextProps} from 'react-native-elements';
 import {useNavigatorThemeColors} from '../themes';
 import {Text as RNEText} from 'react-native-elements';
-import {exhaustiveCheck} from '../utils/exhaustive-check';
+import {exhaustiveCheck} from '../utils';
 import {useMemo} from 'react';
 
 export type TextProps = RNTextProps & {
