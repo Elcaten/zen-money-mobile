@@ -11,6 +11,7 @@ import {Text} from '../../../components';
 import {Card} from '../../../components/Card';
 import {ListItem} from '../../../components/ListItem';
 import {SearchSuggestion, useSearchResults, useSearchSuggestions} from '../../../hooks';
+import {useNavigatorThemeColors} from '../../../themes';
 import {TransactionsScreenProps} from '../../../types';
 import {TransactionList} from '../../components/TransactionList';
 import {AddTransactionButton} from './AddTransactionButton';
@@ -66,11 +67,14 @@ export const TransactionsScreen: React.FC<TransactionsScreenProps> = ({navigatio
     [navigation],
   );
 
+  const {card} = useNavigatorThemeColors();
+
   return (
     <View style={styles.wrapper}>
       <Overlay
         isVisible={visible}
         animationType="slide"
+        overlayStyle={{backgroundColor: card}}
         fullScreen={true}
         onShow={() => ref.current?.focus()}
         onRequestClose={() => toggleOverlay()}>
