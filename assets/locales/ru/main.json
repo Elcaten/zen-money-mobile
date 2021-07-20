@@ -1,9 +1,11 @@
 {
+    "Button": {
+        "Delete": "Отмена",
+        "Cancel": "Удалить"
+    },
     "AccountDetailsScreen": {
-        "CancelButtonText": "Удалить",
         "DeleteAccountMessage": "Счет будет удален вместе со всеми операциями.",
         "DeleteAccountTitle": "Удалить счет?",
-        "DeleteButtonText": "Отмена",
         "DeleteSuccessMessage": "Счет удален"
     },
     "AccountOverviewScreen": {
@@ -94,5 +96,10 @@
     "TransactionsScreen": {
         "NoTransactionsFound": "Операции не найдены",
         "Transactions": "Операции"
+    },
+    "TransactionDetailsScreen": {
+        "DeleteTransactionMessage": "Транзакция будет удалена.",
+        "DeleteTransactionTitle": "Удалить транзакцию?",
+        "DeleteSuccessMessage": "Транзакция удалена"
     }
 }

@@ -27,17 +27,17 @@ export const AccountDetailsScreen: React.FC<AccountDetailsScreenProps> = ({navig
   const {t} = useTranslation();
   const queryClient = useQueryClient();
 
-  const {mutateAsync: deleteAsync, isLoading: isDeleting} = useDeleteAccount();
+  const {deleteAsync, isDeleting} = useDeleteAccount();
 
   const onDeletePress = useCallback(() => {
     Alert.alert(t('AccountDetailsScreen.DeleteAccountTitle'), t('AccountDetailsScreen.DeleteAccountMessage'), [
       {
-        text: t('AccountDetailsScreen.CancelButtonText'),
+        text: t('Button.Cancel'),
         onPress: () => {},
         style: 'cancel',
       },
       {
-        text: t('AccountDetailsScreen.DeleteButtonText'),
+        text: t('Button.Cancel'),
         onPress: async () => {
           if (account == null) {
             return;

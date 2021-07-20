@@ -44,5 +44,8 @@ export const useMutateAccount = () => {
 
 export const useDeleteAccount = () => {
   const user = useMe();
-  return useMutation((accountId: string) => deleteEntity(user.data!.id, EntityType.Account, accountId));
+  const {isLoading, mutateAsync} = useMutation((accountId: string) =>
+    deleteEntity(user.data!.id, EntityType.Account, accountId),
+  );
+  return {isDeleting: isLoading, deleteAsync: mutateAsync};
 };

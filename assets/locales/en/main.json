@@ -1,9 +1,11 @@
 {
+    "Button": {
+        "Cancel": "Cancel",
+        "Delete": "Delete"
+    },
     "AccountDetailsScreen": {
-        "CancelButtonText": "Cancel",
         "DeleteAccountMessage": "This account and its transactions will be deleted.",
         "DeleteAccountTitle": "Delete account?",
-        "DeleteButtonText": "Delete",
         "DeleteSuccessMessage": "Account deleted"
     },
     "AccountOverviewScreen": {
@@ -94,5 +96,10 @@
     "TransactionsScreen": {
         "NoTransactionsFound": "No transactions found",
         "Transactions": "Transactions"
+    },
+    "TransactionDetailsScreen": {
+        "DeleteTransactionMessage": "This transaction will be deleted.",
+        "DeleteTransactionTitle": "Delete transaction?",
+        "DeleteSuccessMessage": "Transaction deleted"
     }
 }

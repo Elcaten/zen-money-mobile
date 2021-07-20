@@ -1,4 +1,5 @@
 import {useMutation} from 'react-query';
+import {deleteEntity} from '../api/deleteEntity';
 import {EntityType} from '../api/entyity-type';
 import {Transaction} from '../api/models';
 import {postEntity} from '../api/postEntity';
@@ -146,4 +147,12 @@ export const useMutateTransferTransaction = () => {
       tag: null,
     });
   });
+};
+
+export const useDeleteTransaction = () => {
+  const user = useMe();
+  const {isLoading, mutateAsync} = useMutation((transactionId: string) =>
+    deleteEntity(user.data!.id, EntityType.Transaction, transactionId),
+  );
+  return {isDeleting: isLoading, deleteAsync: mutateAsync};
 };
