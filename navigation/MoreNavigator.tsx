@@ -12,11 +12,11 @@ export const MoreNavigator: React.FC = () => {
 
   return (
     <Stack.Navigator>
-      <Stack.Screen name="MoreScreen" component={MoreScreen} options={{headerTitle: t('Screen.More.More')}} />
-      <Stack.Screen name="ThemesScreen" component={ThemesScreen} options={{headerTitle: t('Screen.Themes.Themes')}} />
-      <Stack.Screen name="LocalesScreen" component={LocalesScreen} options={{headerTitle: t('Screen.Locales')}} />
-      <Stack.Screen name="TagsScreen" component={TagsScreen} options={{headerTitle: t('Screen.Tags')}} />
-      <Stack.Screen name="TagDetailsScreen" component={TagDetailsScreen} options={{headerTitle: t('Screen.Tag.Tag')}} />
+      <Stack.Screen name="MoreScreen" component={MoreScreen} options={{headerTitle: t('MoreScreen.More')}} />
+      <Stack.Screen name="ThemesScreen" component={ThemesScreen} options={{headerTitle: t('MoreScreen.Themes')}} />
+      <Stack.Screen name="LocalesScreen" component={LocalesScreen} options={{headerTitle: t('MoreScreen.Locales')}} />
+      <Stack.Screen name="TagsScreen" component={TagsScreen} options={{headerTitle: t('MoreScreen.Tags')}} />
+      <Stack.Screen name="TagDetailsScreen" component={TagDetailsScreen} options={{headerTitle: ''}} />
       <Stack.Screen name="IconPickerScreen" component={IconPickerScreen} options={{headerTitle: ''}} />
       <Stack.Screen name="InstrumentPickerScreen" component={InstrumentPickerScreen} options={{headerTitle: ''}} />
     </Stack.Navigator>

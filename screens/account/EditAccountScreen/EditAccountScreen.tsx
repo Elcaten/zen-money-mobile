@@ -3,7 +3,7 @@ import * as React from 'react';
 import {useCallback, useEffect, useLayoutEffect, useRef} from 'react';
 import {Controller, useForm} from 'react-hook-form';
 import {useTranslation} from 'react-i18next';
-import {ScrollView, StyleSheet, TextInput} from 'react-native';
+import {ScrollView, StyleSheet} from 'react-native';
 import {InputHandles} from 'react-native-elements';
 import {HeaderButtons, Item} from 'react-navigation-header-buttons';
 import {useQueryClient} from 'react-query';
@@ -20,7 +20,6 @@ import {useAccountTypes} from '../../../hooks/useAccountTypes';
 import {AccountDetailsScreenProps} from '../../../types';
 import {generateUUID, showToast} from '../../../utils';
 import {EditableAccount} from './editable-account';
-import {List} from 'react-native-paper';
 
 export const EditAccountScreen: React.FC<AccountDetailsScreenProps> = ({navigation, route}) => {
   const accounts = useAccountModels();
@@ -67,7 +66,7 @@ export const EditAccountScreen: React.FC<AccountDetailsScreenProps> = ({navigati
       const {success} = await mutateAsync(editableAccount);
       if (success) {
         await queryClient.invalidateQueries(QueryKeys.Accounts);
-        showToast(t('Screen.EditAccount.AccountSaved'));
+        showToast(t('EditAccountScreen.AccountSaved'));
         navigation.pop();
       } else {
         showToast('Error');
@@ -81,7 +80,7 @@ export const EditAccountScreen: React.FC<AccountDetailsScreenProps> = ({navigati
       headerRight: () => (
         <HeaderButtons>
           <Item
-            title={t('Screen.Tag.Save')}
+            title={t('EditAccountScreen.Save')}
             IconComponent={Ionicons}
             iconName="save"
             iconSize={24}
@@ -103,7 +102,7 @@ export const EditAccountScreen: React.FC<AccountDetailsScreenProps> = ({navigati
                 ref={titleRef}
                 value={value}
                 style={{fontSize: 16}}
-                placeholder={t('Components.TagEditor.Title')}
+                placeholder={t('EditAccountScreen.Title')}
                 onBlur={onBlur}
                 onChangeText={(text) => onChange(text)}
               />
@@ -117,7 +116,7 @@ export const EditAccountScreen: React.FC<AccountDetailsScreenProps> = ({navigati
           control={control}
           render={({field: {onChange, value}}) => (
             <PickerListItem
-              title={t('Screen.EditAccount.AccountType')}
+              title={t('EditAccountScreen.AccountType')}
               value={accounTypes.get(value!) ?? ''}
               onPress={() => navigation.navigate('AccountTypePickerScreen', {type: value, onSelect: onChange})}
             />
@@ -131,7 +130,7 @@ export const EditAccountScreen: React.FC<AccountDetailsScreenProps> = ({navigati
           render={({field: {onChange, value}}) => {
             return (
               <PickerListItem
-                title={t('Screen.EditAccount.Instrument')}
+                title={t('EditAccountScreen.Instrument')}
                 value={instruments.get(value!)?.title!}
                 onPress={() =>
                   navigation.navigate('InstrumentPickerScreen', {
@@ -152,7 +151,7 @@ export const EditAccountScreen: React.FC<AccountDetailsScreenProps> = ({navigati
         <Controller
           control={control}
           render={({field: {onChange, value}}) => (
-            <SwitchListItem title={t('Screen.EditAccount.Savings')} value={!!value} onValueChange={onChange} />
+            <SwitchListItem title={t('EditAccountScreen.Savings')} value={!!value} onValueChange={onChange} />
           )}
           name="savings"
         />
@@ -160,7 +159,7 @@ export const EditAccountScreen: React.FC<AccountDetailsScreenProps> = ({navigati
         <Controller
           control={control}
           render={({field: {onChange, value}}) => (
-            <SwitchListItem title={t('Screen.EditAccount.InBalance')} value={!!value} onValueChange={onChange} />
+            <SwitchListItem title={t('EditAccountScreen.InBalance')} value={!!value} onValueChange={onChange} />
           )}
           name="inBalance"
         />
@@ -168,7 +167,7 @@ export const EditAccountScreen: React.FC<AccountDetailsScreenProps> = ({navigati
         <Controller
           control={control}
           render={({field: {onChange, value}}) => (
-            <SwitchListItem title={t('Screen.EditAccount.Archive')} value={!!value} onValueChange={onChange} />
+            <SwitchListItem title={t('EditAccountScreen.Archive')} value={!!value} onValueChange={onChange} />
           )}
           name="archive"
         />

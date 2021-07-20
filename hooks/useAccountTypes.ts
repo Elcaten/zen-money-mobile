@@ -7,11 +7,11 @@ export const useAccountTypes = () => {
 
   return useMemo(() => {
     return new Map([
-      [AccountType.Cash, t('Components.AccountTypePicker.Cash')],
-      [AccountType.Card, t('Components.AccountTypePicker.Card')],
-      [AccountType.Checking, t('Components.AccountTypePicker.Checking')],
-      [AccountType.Deposit, t('Components.AccountTypePicker.Deposit')],
-      [AccountType.Loan, t('Components.AccountTypePicker.Loan')],
+      [AccountType.Cash, t('AccountType.Cash')],
+      [AccountType.Card, t('AccountType.Card')],
+      [AccountType.Checking, t('AccountType.Checking')],
+      [AccountType.Deposit, t('AccountType.Deposit')],
+      [AccountType.Loan, t('AccountType.Loan')],
     ]);
   }, [t]);
 };

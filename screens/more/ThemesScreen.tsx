@@ -22,17 +22,17 @@ export const ThemesScreen: React.FC = () => {
       <ListItem onPress={() => setTheme('system')}>
         <RadioButton checked={theme === 'system'} />
         <ListItem.Content>
-          <ListItem.Title>{t('Screen.Themes.SystemDefault')}</ListItem.Title>
-          <ListItem.Subtitle style={styles.subtitle}>{t('Screen.Themes.SystemDefaultDescription')}</ListItem.Subtitle>
+          <ListItem.Title>{t('ThemesScreen.SystemDefault')}</ListItem.Title>
+          <ListItem.Subtitle style={styles.subtitle}>{t('ThemesScreen.SystemDefaultDescription')}</ListItem.Subtitle>
         </ListItem.Content>
       </ListItem>
       <ListItem onPress={() => setTheme('light')}>
         <RadioButton checked={theme === 'light'} />
-        <ListItem.Title>{t('Screen.Themes.Light')}</ListItem.Title>
+        <ListItem.Title>{t('ThemesScreen.Light')}</ListItem.Title>
       </ListItem>
       <ListItem onPress={() => setTheme('dark')}>
         <RadioButton checked={theme === 'dark'} />
-        <ListItem.Title>{t('Screen.Themes.Dark')}</ListItem.Title>
+        <ListItem.Title>{t('ThemesScreen.Dark')}</ListItem.Title>
       </ListItem>
     </React.Fragment>
   );

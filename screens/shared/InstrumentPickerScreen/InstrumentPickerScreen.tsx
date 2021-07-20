@@ -97,7 +97,7 @@ export const InstrumentPickerScreen: React.FC<InstrumentPickerScreenProps> = ({r
     <View style={styles.container}>
       {filteredInstruments.length === 0 && (
         <View style={styles.emptyList}>
-          <Text>{t('Screen.InstrumentPicker.NoCurrenciesFound')}</Text>
+          <Text>{t('InstrumentPickerScreen.NoCurrenciesFound')}</Text>
         </View>
       )}
       {filteredInstruments.length > 0 && (

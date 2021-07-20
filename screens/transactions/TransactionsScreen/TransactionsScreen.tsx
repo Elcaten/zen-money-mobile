@@ -107,7 +107,7 @@ export const TransactionsScreen: React.FC<TransactionsScreenProps> = ({navigatio
         )}
         {!showSuggestions && searchResults.length === 0 && (
           <View style={styles.flexCenter}>
-            <Text>{t('Screen.Transactions.NoTransactionsFound')}</Text>
+            <Text>{t('TransactionsScreen.NoTransactionsFound')}</Text>
           </View>
         )}
         {!showSuggestions && <TransactionList data={searchResults} onItemPress={() => {}} />}

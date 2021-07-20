@@ -19,15 +19,19 @@ export function AccountsNavigator() {
       <Stack.Screen
         name="AccountsScreen"
         component={AccountsScreen}
-        options={{headerTitle: t('Screen.Accounts.Accounts')}}
+        options={{headerTitle: t('AccountsScreen.Accounts')}}
       />
       <Stack.Screen
         name="AccountOverviewScreen"
         component={AccountOverviewScreen}
-        options={{headerTitle: t('Screen.AccountOverview.AccountOverview')}}
+        options={{headerTitle: t('AccountOverviewScreen.AccountOverview')}}
       />
       <Stack.Screen name="InstrumentPickerScreen" component={InstrumentPickerScreen} options={{headerTitle: ''}} />
-      <Stack.Screen name="AccountTypePickerScreen" component={AccountTypePickerScreen} options={{headerTitle: ''}} />
+      <Stack.Screen
+        name="AccountTypePickerScreen"
+        component={AccountTypePickerScreen}
+        options={{headerTitle: t('AccountTypePickerScreen.AccountType')}}
+      />
       <Stack.Screen name="AccountDetailsScreen" component={AccountDetailsScreen} options={{headerTitle: ''}} />
       <Stack.Screen name="EditAccountScreen" component={EditAccountScreen} options={{headerTitle: ''}} />
     </Stack.Navigator>

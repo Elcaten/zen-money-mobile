@@ -52,24 +52,28 @@ export const MoreScreen: React.FC<MoreScreenProps> = ({navigation}) => {
   return (
     <ScrollView>
       <PickerListItem
-        title={t('Screen.Themes.Themes')}
+        title={t('MoreScreen.Themes')}
         value={theme}
         onPress={() => navigation.navigate('ThemesScreen')}
       />
       <PickerListItem
-        title={t('Screen.More.MainCurrency')}
+        title={t('MoreScreen.MainCurrency')}
         value={instrument?.title}
         disabled={isMutating}
         onPress={openCurrencyPicker}
       />
-      <PickerListItem title={t('Screen.Locales')} value={locale} onPress={() => navigation.navigate('LocalesScreen')} />
-      <PickerListItem title={t('Screen.Tags')} onPress={() => navigation.navigate('TagsScreen', {})} />
+      <PickerListItem
+        title={t('MoreScreen.Locales')}
+        value={locale}
+        onPress={() => navigation.navigate('LocalesScreen')}
+      />
+      <PickerListItem title={t('MoreScreen.Tags')} onPress={() => navigation.navigate('TagsScreen', {})} />
       <SwitchListItem
-        title={t('Screen.More.FastAddTransaction')}
+        title={t('MoreScreen.FastAddTransaction')}
         value={fastAddTransaction}
         onValueChange={setFastAddTransaction}
       />
-      <PickerListItem title={t('SignOut')} onPress={logout} />
+      <PickerListItem title={t('MoreScreen.SignOut')} onPress={logout} />
     </ScrollView>
   );
 };

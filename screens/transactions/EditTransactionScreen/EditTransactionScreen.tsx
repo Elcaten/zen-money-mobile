@@ -50,7 +50,7 @@ export const EditTransactionScreen: React.FC<EditTransactionScreenProps> = ({rou
       ),
       headerRight: () => (
         <HeaderButtons>
-          <Item title={t('Screen.AddTransaction.Save')} onPress={onSavePress} />
+          <Item title={t('EditTransactionScreen.Save')} onPress={onSavePress} />
         </HeaderButtons>
       ),
     });

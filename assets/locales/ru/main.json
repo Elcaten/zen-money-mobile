@@ -1,102 +1,97 @@
 {
-    "Components": {
-        "AccountTypePicker": {
-            "Card": "Карта",
-            "Cash": "Наличные",
-            "Checking": "Банковский счет",
-            "Deposit": "Депозит",
-            "Loan": "Кредит"
-        },
-        "IncomeTransactionEditor": {
-            "Comment": "Комментарий"
-        },
-        "TagEditor": {
-            "CategoryDeleted": "Категория удалена",
-            "CategorySaved": "Категория сохранена",
-            "Expense": "в расходе",
-            "Fixed": "Обязательные",
-            "Flexible": "Необязательные",
-            "Icon": "Иконка",
-            "Income": "в доходе",
-            "Parent": "Родительская категория",
-            "Show": "Показывать",
-            "SpendingTitle": "Расходы по этой категории",
-            "Title": "Наименование"
-        }
+    "AccountDetailsScreen": {
+        "CancelButtonText": "Удалить",
+        "DeleteAccountMessage": "Счет будет удален вместе со всеми операциями.",
+        "DeleteAccountTitle": "Удалить счет?",
+        "DeleteButtonText": "Отмена",
+        "DeleteSuccessMessage": "Счет удален"
     },
-    "Screen": {
-        "AccountDetails": {
-            "CancelButtonText": "Удалить",
-            "DeleteAccountMessage": "Счет будет удален вместе со всеми операциями.",
-            "DeleteAccountTitle": "Удалить счет?",
-            "DeleteButtonText": "Отмена",
-            "DeleteSuccessMessage": "Счет удален"
-        },
-        "AccountOverview": {
-            "AccountOverview": "Аналитика по счетам",
-            "DistributionByCurrency": "Распределение по валютам",
-            "OnAllAccounts": "На всех счетах",
-            "OnBalanceAccounts": "На выбранных счетах"
-        },
-        "AccountSettings": {
-            "AccountSettings": "Настройки аккаунта"
-        },
-        "Accounts": {
-            "Accounts": "Счета",
-            "AddAccount": "Добавить Счет",
-            "Collapse": "Свернуть",
-            "ShowArchived": "Показать архивные"
-        },
-        "AddTransaction": {
-            "AddTransaction": "Добавить транзакцию",
-            "Comment": "Комментарий",
-            "Expense": "Расход",
-            "Income": "Доход",
-            "Save": "Сохранить",
-            "Transfer": "Перевод"
-        },
-        "Analytics": "Аналитика",
-        "EditAccount": {
-            "AccountSaved": "Счет сохранен",
-            "AccountSettings": "Настройки счета",
-            "AccountType": "Тип счета",
-            "Archive": "Архивный счет",
-            "InBalance": "Включить в общий баланс",
-            "Instrument": "Валюта счета",
-            "Savings": "Накопительный счет"
-        },
-        "InstrumentPicker": {
-            "NoCurrenciesFound": "Валюта не найдена"
-        },
-        "Locales": "Язык приложения",
-        "More": {
-            "FastAddTransaction": "Быстрое добавление транзакций",
-            "MainCurrency": "Основная валюта",
-            "More": "Еще"
-        },
-        "Tag": {
-            "Edit": "Редактировать",
-            "Save": "Сохранить",
-            "Tag": "Категория"
-        },
-        "Tags": "Категории",
-        "Themes": {
-            "Dark": "Темная",
-            "Light": "Светлая",
-            "SystemDefault": "По-умолчанию",
-            "SystemDefaultDescription": "Turn on dark when your device's dark theme or Battery Saver is on",
-            "Themes": "Темы"
-        },
-        "Transactions": {
-            "NoTransactionsFound": "Операции не найдены",
-            "Transactions": "Операции"
-        }
+    "AccountOverviewScreen": {
+        "AccountOverview": "Аналитика по счетам",
+        "DistributionByCurrency": "Распределение по валютам",
+        "OnAllAccounts": "На всех счетах",
+        "OnBalanceAccounts": "На выбранных счетах"
     },
-    "SignOut": "Выход из аккаунта",
-    "Tab": {
+    "AccountType": {
+        "Card": "Карта",
+        "Cash": "Наличные",
+        "Checking": "Банковский счет",
+        "Deposit": "Депозит",
+        "Loan": "Кредит"
+    },
+    "AccountsScreen": {
+        "Accounts": "Счета",
+        "AddAccount": "Добавить Счет",
+        "Collapse": "Свернуть",
+        "ShowArchived": "Показать архивные"
+    },
+    "AccountTypePickerScreen": {
+        "AccountType": "Тип счета"
+    },
+    "AnalyticsScreen": {
+        "Analytics": "Аналитика"
+    },
+    "BottomTabNavigator": {
         "Accounts": "Счета",
         "Analytics": "Аналитика",
         "More": "Еще",
+        "Tags": "Категории",
+        "Themes": "Темы",
+        "Transactions": "Операции"
+    },
+    "EditAccountScreen": {
+        "AccountSaved": "Счет сохранен",
+        "AccountSettings": "Настройки счета",
+        "AccountType": "Тип счета",
+        "Archive": "Архивный счет",
+        "InBalance": "Включить в общий баланс",
+        "Instrument": "Валюта счета",
+        "Save": "Сохранить",
+        "Savings": "Накопительный счет",
+        "Title": "Наименование"
+    },
+    "EditTransactionScreen": {
+        "Comment": "Комментарий",
+        "Save": "Сохранить"
+    },
+    "InstrumentPickerScreen": {
+        "NoCurrenciesFound": "Валюта не найдена"
+    },
+    "MoreScreen": {
+        "FastAddTransaction": "Быстрое добавление транзакций",
+        "Locales": "Язык приложения",
+        "MainCurrency": "Основная валюта",
+        "More": "Еще",
+        "SignOut": "Выход из аккаунта"
+    },
+    "TagDetailsScreen": {
+        "CategoryDeleted": "Категория удалена",
+        "CategorySaved": "Категория сохранена",
+        "Edit": "Редактировать",
+        "Expense": "в расходе",
+        "Fixed": "Обязательные",
+        "Flexible": "Необязательные",
+        "Icon": "Иконка",
+        "Income": "в доходе",
+        "Parent": "Родительская категория",
+        "Save": "Сохранить",
+        "Show": "Показывать",
+        "SpendingTitle": "Расходы по этой категории",
+        "Title": "Наименование"
+    },
+    "ThemesScreen": {
+        "Dark": "Темная",
+        "Light": "Светлая",
+        "SystemDefault": "По-умолчанию",
+        "SystemDefaultDescription": "Turn on dark when your device's dark theme or Battery Saver is on"
+    },
+    "TransactionType": {
+        "Expense": "Расход",
+        "Income": "Доход",
+        "Transfer": "Перевод"
+    },
+    "TransactionsScreen": {
+        "NoTransactionsFound": "Операции не найдены",
         "Transactions": "Операции"
     }
 }

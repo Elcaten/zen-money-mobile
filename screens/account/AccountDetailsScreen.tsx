@@ -31,21 +31,21 @@ export const AccountDetailsScreen: React.FC<AccountDetailsScreenProps> = ({navig
   const {mutateAsync: deleteAsync, isLoading: isDeleting} = useDeleteAccount();
 
   const onDeletePress = useCallback(() => {
-    Alert.alert(t('Screen.AccountDetails.DeleteAccountTitle'), t('Screen.AccountDetails.DeleteAccountMessage'), [
+    Alert.alert(t('AccountDetailsScreen.DeleteAccountTitle'), t('AccountDetailsScreen.DeleteAccountMessage'), [
       {
-        text: t('Screen.AccountDetails.CancelButtonText'),
+        text: t('AccountDetailsScreen.CancelButtonText'),
         onPress: () => {},
         style: 'cancel',
       },
       {
-        text: t('Screen.AccountDetails.DeleteButtonText'),
+        text: t('AccountDetailsScreen.DeleteButtonText'),
         onPress: async () => {
           if (account == null) {
             return;
           }
           await deleteAsync(account.id);
           await queryClient.invalidateQueries([QueryKeys.Accounts, QueryKeys.Transactions]);
-          showToast(t('Screen.AccountDetails.DeleteSuccessMessage'));
+          showToast(t('AccountDetailsScreen.DeleteSuccessMessage'));
           navigation.pop();
         },
       },
@@ -64,19 +64,12 @@ export const AccountDetailsScreen: React.FC<AccountDetailsScreenProps> = ({navig
       headerRight: () => (
         <HeaderButtons>
           <Item
-            title={t('Screen.EditAccount.AccountSettings')}
             IconComponent={MaterialCommunityIcons}
             iconName="trash-can-outline"
             iconSize={24}
             onPress={onDeletePress}
           />
-          <Item
-            title={t('Screen.EditAccount.AccountSettings')}
-            IconComponent={MaterialIcons}
-            iconName="edit"
-            iconSize={24}
-            onPress={onEditPress}
-          />
+          <Item IconComponent={MaterialIcons} iconName="edit" iconSize={24} onPress={onEditPress} />
         </HeaderButtons>
       ),
       headerTitle: () => (

@@ -25,15 +25,15 @@ const useTransactionTypes = () => {
   return [
     {
       type: TransactionType.Expense,
-      label: t('Screen.AddTransaction.Expense'),
+      label: t('TransactionType.Expense'),
     },
     {
       type: TransactionType.Income,
-      label: t('Screen.AddTransaction.Income'),
+      label: t('TransactionType.Income'),
     },
     {
       type: TransactionType.Transfer,
-      label: t('Screen.AddTransaction.Transfer'),
+      label: t('TransactionType.Transfer'),
     },
   ];
 };

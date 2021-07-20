@@ -53,7 +53,7 @@ export const AccountsScreen: React.FC<AccountsScreenProps> = ({navigation}) => {
         {displayShowArchivedButton && (
           <View style={styles.toggleContainer}>
             <Text style={[styles.toggleText, {color: primary}]} onPress={() => setShowArchived((v) => !v)}>
-              {showArchived ? t('Screen.Accounts.Collapse') : t('Screen.Accounts.ShowArchived')}
+              {showArchived ? t('AccountsScreen.Collapse') : t('AccountsScreen.ShowArchived')}
             </Text>
           </View>
         )}
@@ -70,14 +70,13 @@ export const AccountsScreen: React.FC<AccountsScreenProps> = ({navigation}) => {
       headerRight: () => (
         <HeaderButtons>
           <Item
-            title={t('Screen.AccountOverview.AccountOverview')}
             IconComponent={Ionicons}
             iconName="pie-chart-outline"
             iconSize={24}
             onPress={() => navigation.navigate('AccountOverviewScreen')}
           />
           <Item
-            title={t('Screen.Accounts.AddAccount')}
+            title={t('AccountsScreen.AddAccount')}
             IconComponent={MaterialIcons}
             iconName="add"
             iconSize={24}

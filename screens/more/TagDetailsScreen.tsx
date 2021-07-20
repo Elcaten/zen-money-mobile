@@ -5,7 +5,6 @@ import {Controller, useForm} from 'react-hook-form';
 import {useTranslation} from 'react-i18next';
 import {StyleSheet} from 'react-native';
 import {Button, Divider, InputHandles} from 'react-native-elements';
-import Toast from 'react-native-root-toast';
 import {HeaderButtons, Item} from 'react-navigation-header-buttons';
 import {useQueryClient} from 'react-query';
 import {useMutateTag} from '../../api-hooks';
@@ -54,7 +53,7 @@ export const TagDetailsScreen: React.FC<TagDetailsScreenProps> = ({navigation, r
     async (editableTag: EditableTag) => {
       await mutateAsync(editableTag);
       await queryClient.invalidateQueries(QueryKeys.Tags);
-      showToast(t('Components.TagEditor.CategorySaved'));
+      showToast(t('TagDetailsScreen.CategorySaved'));
       navigation.pop();
     },
     [mutateAsync, navigation, queryClient, t],
@@ -71,7 +70,7 @@ export const TagDetailsScreen: React.FC<TagDetailsScreenProps> = ({navigation, r
   const onDeletePress = useCallback(async () => {
     await deleteAsync(tag.id);
     await queryClient.invalidateQueries(QueryKeys.Tags);
-    showToast(t('Components.TagEditor.CategoryDeleted'));
+    showToast(t('TagDetailsScreen.CategoryDeleted'));
     navigation.pop();
   }, [deleteAsync, navigation, queryClient, t, tag.id]);
 
@@ -80,14 +79,14 @@ export const TagDetailsScreen: React.FC<TagDetailsScreenProps> = ({navigation, r
       headerRight: () => (
         <HeaderButtons>
           <Item
-            title={t('Screen.Tag.Edit')}
+            title={t('TagDetailsScreen.Edit')}
             IconComponent={MaterialCommunityIcons}
             iconName="delete-outline"
             iconSize={24}
             onPress={onDeletePress}
           />
           <Item
-            title={t('Screen.Tag.Save')}
+            title={t('TagDetailsScreen.Save')}
             IconComponent={Ionicons}
             iconName="save-outline"
             iconSize={24}
@@ -145,7 +144,7 @@ export const TagDetailsScreen: React.FC<TagDetailsScreenProps> = ({navigation, r
             render={({field: {onChange, onBlur, value}}) => (
               <Input
                 ref={titleRef}
-                placeholder={t('Components.TagEditor.Title')}
+                placeholder={t('TagDetailsScreen.Title')}
                 value={value}
                 style={{fontSize: 16}}
                 onBlur={onBlur}
@@ -168,13 +167,13 @@ export const TagDetailsScreen: React.FC<TagDetailsScreenProps> = ({navigation, r
 
       <Divider />
       <Card>
-        <Card.Title>{t('Components.TagEditor.Show')}</Card.Title>
+        <Card.Title>{t('TagDetailsScreen.Show')}</Card.Title>
         <Controller
           control={control}
           render={({field: {onChange, onBlur, value}}) => (
             <ListItem onPress={() => onChange(!value)}>
               <ListItem.CheckBox checked={value} onBlur={onBlur} />
-              <ListItem.Title>{t('Components.TagEditor.Expense')}</ListItem.Title>
+              <ListItem.Title>{t('TagDetailsScreen.Expense')}</ListItem.Title>
             </ListItem>
           )}
           name="showOutcome"
@@ -184,7 +183,7 @@ export const TagDetailsScreen: React.FC<TagDetailsScreenProps> = ({navigation, r
           render={({field: {onChange, onBlur, value}}) => (
             <ListItem onPress={() => onChange(!value)}>
               <ListItem.CheckBox checked={value} onBlur={onBlur} />
-              <ListItem.Title>{t('Components.TagEditor.Income')}</ListItem.Title>
+              <ListItem.Title>{t('TagDetailsScreen.Income')}</ListItem.Title>
             </ListItem>
           )}
           name="showIncome"
@@ -196,17 +195,17 @@ export const TagDetailsScreen: React.FC<TagDetailsScreenProps> = ({navigation, r
         control={control}
         render={({field: {onChange, value}}) => (
           <Card>
-            <Card.Title>{t('Components.TagEditor.SpendingTitle')}</Card.Title>
+            <Card.Title>{t('TagDetailsScreen.SpendingTitle')}</Card.Title>
             <ListItem onPress={() => onChange(true)}>
               <RadioButton checked={!!value} />
               <ListItem.Content>
-                <ListItem.Title>{t('Components.TagEditor.Fixed')}</ListItem.Title>
+                <ListItem.Title>{t('TagDetailsScreen.Fixed')}</ListItem.Title>
               </ListItem.Content>
             </ListItem>
             <ListItem onPress={() => onChange(false)}>
               <RadioButton checked={!value} />
               <ListItem.Content>
-                <ListItem.Title>{t('Components.TagEditor.Flexible')}</ListItem.Title>
+                <ListItem.Title>{t('TagDetailsScreen.Flexible')}</ListItem.Title>
               </ListItem.Content>
             </ListItem>
           </Card>

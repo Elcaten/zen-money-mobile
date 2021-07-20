@@ -68,20 +68,20 @@ export const AddTransactionButton: React.FC<AddTransactionButtonProps> = (props)
         {
           icon: 'minus',
           style: {backgroundColor: primary},
-          label: t('Screen.AddTransaction.Expense'),
+          label: t('TransactionType.Expense'),
           onPress: () => nav.navigate('EditTransactionScreen', {transactionType: TransactionType.Expense}),
           small: false,
         },
         {
           icon: 'plus',
           style: {backgroundColor: primary},
-          label: t('Screen.AddTransaction.Income'),
+          label: t('TransactionType.Income'),
           onPress: () => nav.navigate('EditTransactionScreen', {transactionType: TransactionType.Income}),
         },
         {
           icon: 'swap-horizontal',
           style: {backgroundColor: primary},
-          label: t('Screen.AddTransaction.Transfer'),
+          label: t('TransactionType.Transfer'),
           onPress: () => nav.navigate('EditTransactionScreen', {transactionType: TransactionType.Transfer}),
         },
       ]}

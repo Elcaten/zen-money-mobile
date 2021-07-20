@@ -11,7 +11,11 @@ export function AnalyticsNavigator() {
 
   return (
     <Stack.Navigator>
-      <Stack.Screen name="AnalyticsScreen" component={AnalyticsScreen} options={{headerTitle: t('Screen.Analytics')}} />
+      <Stack.Screen
+        name="AnalyticsScreen"
+        component={AnalyticsScreen}
+        options={{headerTitle: t('AnalyticsScreen.Analytics')}}
+      />
     </Stack.Navigator>
   );
 }

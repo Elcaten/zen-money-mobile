@@ -161,7 +161,7 @@ const TransferEditorComponent: React.ForwardRefRenderFunction<TransferEditorHand
         control={control}
         render={({field: {onChange, onBlur, value}}) => (
           <Input
-            placeholder={t('Components.IncomeTransactionEditor.Comment')}
+            placeholder={t('EditTransactionScreen.Comment')}
             value={value ?? ''}
             onChangeText={onChange}
             onBlur={onBlur}

@@ -1,7 +1,7 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import * as React from 'react';
 import {useTranslation} from 'react-i18next';
-import {IconProps} from 'react-native-elements';
+import {IconProps as ExpoIconProps} from '@expo/vector-icons/build/createIconSet';
 import {CreditCardIcon, MenuIcon, ShowChartIcon, SwapHorizIcon} from '../components';
 import {useNavigatorThemeColors} from '../themes';
 import {BottomTabParamList} from '../types';
@@ -11,7 +11,7 @@ import {AnalyticsNavigator} from './AnalyticsNavigator';
 import {TransactionsNavigator} from './TransactionsNavigator';
 import {AccountsNavigator} from './AccountsNavigator';
 
-const iconProps: Omit<IconProps, 'name'> = {
+const iconProps: Omit<ExpoIconProps<string>, 'name'> = {
   size: 30,
   style: {marginBottom: -3},
 };
@@ -31,7 +31,7 @@ export default function BottomTabNavigator() {
         component={AccountsNavigator}
         options={{
           tabBarIcon: ({color}) => <CreditCardIcon {...iconProps} color={color} />,
-          tabBarLabel: t('Tab.Accounts'),
+          tabBarLabel: t('BottomTabNavigator.Accounts'),
         }}
         listeners={tabListeners as any}
       />
@@ -40,7 +40,7 @@ export default function BottomTabNavigator() {
         component={TransactionsNavigator}
         options={{
           tabBarIcon: ({color}) => <SwapHorizIcon {...iconProps} color={color} />,
-          tabBarLabel: t('Tab.Transactions'),
+          tabBarLabel: t('BottomTabNavigator.Transactions'),
         }}
         listeners={tabListeners as any}
       />
@@ -49,7 +49,7 @@ export default function BottomTabNavigator() {
         component={AnalyticsNavigator}
         options={{
           tabBarIcon: ({color}) => <ShowChartIcon {...iconProps} color={color} />,
-          tabBarLabel: t('Tab.Analytics'),
+          tabBarLabel: t('BottomTabNavigator.Analytics'),
         }}
         listeners={tabListeners as any}
       />
@@ -58,7 +58,7 @@ export default function BottomTabNavigator() {
         component={MoreNavigator}
         options={{
           tabBarIcon: ({color}) => <MenuIcon {...iconProps} color={color} />,
-          tabBarLabel: t('Tab.More'),
+          tabBarLabel: t('BottomTabNavigator.More'),
         }}
         listeners={tabListeners as any}
       />

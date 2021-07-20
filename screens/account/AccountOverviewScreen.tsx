@@ -58,7 +58,7 @@ export const AccountOverviewScreen: React.FC<AccountOverviewScreenProps> = () =>
   return (
     <React.Fragment>
       <Card>
-        <Card.Title>{t('Screen.AccountOverview.DistributionByCurrency')}</Card.Title>
+        <Card.Title>{t('AccountOverviewScreen.DistributionByCurrency')}</Card.Title>
         <InstrumentBalancesPieChart balances={instrumentBalances} />
       </Card>
       <InstrumentBalancesList balances={instrumentBalances} />

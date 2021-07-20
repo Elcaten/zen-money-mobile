@@ -1,102 +1,97 @@
 {
-    "Components": {
-        "AccountTypePicker": {
-            "Card": "Debit/credit card",
-            "Cash": "Cash",
-            "Checking": "Checking",
-            "Deposit": "Deposit",
-            "Loan": "Loan"
-        },
-        "IncomeTransactionEditor": {
-            "Comment": "Comment"
-        },
-        "TagEditor": {
-            "CategoryDeleted": "Category deleted",
-            "CategorySaved": "Category saved",
-            "Expense": "in expense",
-            "Fixed": "Fixed",
-            "Flexible": "Flexible",
-            "Icon": "Icon",
-            "Income": "in income",
-            "Parent": "Parent category",
-            "Show": "Show",
-            "SpendingTitle": "Spending in category is",
-            "Title": "Title"
-        }
+    "AccountDetailsScreen": {
+        "CancelButtonText": "Cancel",
+        "DeleteAccountMessage": "This account and its transactions will be deleted.",
+        "DeleteAccountTitle": "Delete account?",
+        "DeleteButtonText": "Delete",
+        "DeleteSuccessMessage": "Account deleted"
     },
-    "Screen": {
-        "AccountDetails": {
-            "CancelButtonText": "Cancel",
-            "DeleteAccountMessage": "This account and its transactions will be deleted.",
-            "DeleteAccountTitle": "Delete account?",
-            "DeleteButtonText": "Delete",
-            "DeleteSuccessMessage": "Account deleted"
-        },
-        "AccountOverview": {
-            "AccountOverview": "Account overview",
-            "DistributionByCurrency": "Distribution by currency",
-            "OnAllAccounts": "On all accounts",
-            "OnBalanceAccounts": "On balance accounts"
-        },
-        "AccountSettings": {
-            "AccountSettings": "Account settings"
-        },
-        "Accounts": {
-            "Accounts": "Accounts",
-            "AddAccount": "Add Account",
-            "Collapse": "Collapse",
-            "ShowArchived": "Show archived"
-        },
-        "AddTransaction": {
-            "AddTransaction": "Add transaction",
-            "Comment": "Comment",
-            "Expense": "Expense",
-            "Income": "Income",
-            "Save": "Save",
-            "Transfer": "Transfer"
-        },
-        "Analytics": "Analytics",
-        "EditAccount": {
-            "AccountSaved": "Account saved",
-            "AccountSettings": "Account settings",
-            "AccountType": "Account type",
-            "Archive": "Archived account",
-            "InBalance": "Include in total balance",
-            "Instrument": "Account сurrency",
-            "Savings": "Savings account"
-        },
-        "InstrumentPicker": {
-            "NoCurrenciesFound": "No currencies found"
-        },
-        "Locales": "App language",
-        "More": {
-            "FastAddTransaction": "Fast add transaction",
-            "MainCurrency": "Main Currency",
-            "More": "More"
-        },
-        "Tag": {
-            "Edit": "Edit",
-            "Save": "Save",
-            "Tag": "Categoriy"
-        },
-        "Tags": "Categories",
-        "Themes": {
-            "Dark": "Dark",
-            "Light": "Light",
-            "SystemDefault": "System default",
-            "SystemDefaultDescription": "Turn on dark when your device's dark theme or Battery Saver is on",
-            "Themes": "Themes"
-        },
-        "Transactions": {
-            "NoTransactionsFound": "No transactions found",
-            "Transactions": "Transactions"
-        }
+    "AccountOverviewScreen": {
+        "AccountOverview": "Account overview",
+        "DistributionByCurrency": "Distribution by currency",
+        "OnAllAccounts": "On all accounts",
+        "OnBalanceAccounts": "On balance accounts"
     },
-    "SignOut": "Sign Out",
-    "Tab": {
+    "AccountType": {
+        "Card": "Debit/credit card",
+        "Cash": "Cash",
+        "Checking": "Checking",
+        "Deposit": "Deposit",
+        "Loan": "Loan"
+    },
+    "AccountTypePickerScreen": {
+        "AccountType": "Account type"
+    },
+    "AccountsScreen": {
+        "Accounts": "Accounts",
+        "AddAccount": "Add Account",
+        "Collapse": "Collapse",
+        "ShowArchived": "Show archived"
+    },
+    "AnalyticsScreen": {
+        "Analytics": "Analytics"
+    },
+    "BottomTabNavigator": {
         "Accounts": "Accounts",
         "Analytics": "Analytics",
         "More": "More",
+        "Transactions": "Transactions"
+    },
+    "EditAccountScreen": {
+        "AccountSaved": "Account saved",
+        "AccountSettings": "Account settings",
+        "AccountType": "Account type",
+        "Archive": "Archived account",
+        "InBalance": "Include in total balance",
+        "Instrument": "Account сurrency",
+        "Save": "Save",
+        "Savings": "Savings account",
+        "Title": "Title"
+    },
+    "EditTransactionScreen": {
+        "Save": "Save",
+        "Comment": "Comment"
+    },
+    "InstrumentPickerScreen": {
+        "NoCurrenciesFound": "No currencies found"
+    },
+    "MoreScreen": {
+        "FastAddTransaction": "Fast add transaction",
+        "Locales": "App language",
+        "MainCurrency": "Main Currency",
+        "More": "More",
+        "SignOut": "Sign Out",
+        "Tags": "Categories",
+        "Themes": "Themes"
+    },
+    "TagDetailsScreen": {
+        "CategoryDeleted": "Category deleted",
+        "CategorySaved": "Category saved",
+        "Edit": "Edit",
+        "Expense": "in expense",
+        "Fixed": "Fixed",
+        "Flexible": "Flexible",
+        "Icon": "Icon",
+        "Income": "in income",
+        "Parent": "Parent category",
+        "Save": "Save",
+        "Show": "Show",
+        "SpendingTitle": "Spending in category is",
+        "Title": "Title"
+    },
+    "ThemesScreen": {
+        "Dark": "Dark",
+        "Light": "Light",
+        "SystemDefault": "System default",
+        "SystemDefaultDescription": "Turn on dark when your device's dark theme or Battery Saver is on"
+    },
+    "TransactionType": {
+        "Expense": "Expense",
+        "Income": "Income",
+        "Transfer": "Transfer"
+    },
+    "TransactionsScreen": {
+        "NoTransactionsFound": "No transactions found",
         "Transactions": "Transactions"
     }
 }

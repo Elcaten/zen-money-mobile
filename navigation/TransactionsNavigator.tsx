@@ -15,7 +15,7 @@ export function TransactionsNavigator() {
       <Stack.Screen
         name="TransactionsScreen"
         component={TransactionsScreen}
-        options={{headerTitle: t('Screen.Transactions.Transactions')}}
+        options={{headerTitle: t('TransactionsScreen.Transactions')}}
       />
       <Stack.Screen name="TransactionDetailsScreen" component={TransactionDetailsScreen} options={{headerTitle: ''}} />
       <Stack.Screen name="EditTransactionScreen" component={EditTransactionScreen} options={{headerTitle: ''}} />
