@@ -2,15 +2,14 @@ import {MaterialCommunityIcons, MaterialIcons} from '@expo/vector-icons';
 import * as React from 'react';
 import {useCallback, useEffect, useLayoutEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
-import {Alert, Animated, Dimensions, RefreshControl, ScrollView, StyleSheet} from 'react-native';
-import {Avatar, Card, IconButton, Surface, Title} from 'react-native-paper';
+import {Alert, Animated, RefreshControl, StyleSheet} from 'react-native';
 import {HeaderButtons, Item} from 'react-navigation-header-buttons';
 import {useQueryClient} from 'react-query';
-import {BaseScrollView} from 'recyclerlistview';
 import {TransactionModel, useAccountModels, useTransactionModels} from '../../api-hooks';
 import {QueryKeys} from '../../api-hooks/query-keys';
 import {useDeleteAccount} from '../../api-hooks/useMutateAccount';
 import {Text, View} from '../../components';
+import {Card} from '../../components/Card';
 import {useToolbarOpacity} from '../../hooks';
 import {useNavigatorThemeColors} from '../../themes';
 import {AccountDetailsScreenProps} from '../../types';
@@ -18,7 +17,7 @@ import {showToast} from '../../utils';
 import {TransactionList} from '../components/TransactionList';
 import {AccountIcon} from './AccountIcon';
 
-const HEADER_HEIGHT = 190;
+const HEADER_HEIGHT = 220;
 
 export const AccountDetailsScreen: React.FC<AccountDetailsScreenProps> = ({navigation, route}) => {
   const accountId = route.params.accountId;
@@ -98,18 +97,16 @@ export const AccountDetailsScreen: React.FC<AccountDetailsScreenProps> = ({navig
       pointerEvents={isDeleting ? 'none' : 'auto'}>
       <TransactionList
         renderHeader={() => (
-          <Card>
-            <Card.Content style={styles.listHeader}>
-              <View style={[styles.listHeaderIcon, {backgroundColor: primary}]}>
-                <AccountIcon type={account?.type!} size={64} color={'#fff'} />
-              </View>
-              <Title>{account?.title}</Title>
-              <Title>{account?.balanceFormatted}</Title>
-            </Card.Content>
+          <Card style={styles.listHeader}>
+            <View style={[styles.listHeaderIcon, {backgroundColor: primary}]}>
+              <AccountIcon type={account?.type!} size={64} color={'#fff'} />
+            </View>
+            <Text style={styles.title}>{account?.title}</Text>
+            <Text style={styles.title}>{account?.balanceFormatted}</Text>
           </Card>
         )}
+        headerHeight={HEADER_HEIGHT}
         onScroll={onScroll}
-        headerHeight={250}
         scrollViewProps={{
           refreshControl: <RefreshControl refreshing={isLoading || isFiltering} onRefresh={invalidate} />,
         }}
@@ -139,10 +136,17 @@ const styles = StyleSheet.create({
   listHeader: {
     justifyContent: 'center',
     alignItems: 'center',
+    height: HEADER_HEIGHT,
   },
   listHeaderIcon: {
     borderRadius: 64,
     padding: 16,
     margin: 16,
+  },
+  title: {
+    fontSize: 20,
+    lineHeight: 30,
+    marginVertical: 2,
+    letterSpacing: 0.15,
   },
 });
