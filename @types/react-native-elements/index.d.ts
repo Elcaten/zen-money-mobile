@@ -1,6 +1,7 @@
-declare module 'react-native-elements' {
-  import React, {TextInputProps} from 'react';
+import {TextInputProps} from 'react';
+import 'react-native-elements';
 
+declare module 'react-native-elements' {
   export class InputHandles {
     focus(): void;
     blur(): void;
