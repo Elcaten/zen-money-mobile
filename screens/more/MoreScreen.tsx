@@ -3,16 +3,15 @@ import {useCallback} from 'react';
 import {useTranslation} from 'react-i18next';
 import {ScrollView} from 'react-native';
 import {useQueryClient} from 'react-query';
-import {useInstruments, useMe} from '../../api-hooks';
+import {useInstruments, useMe, useMutateMe} from '../../api-hooks';
 import {QueryKeys} from '../../api-hooks/query-keys';
-import {useMutateMe} from '../../api-hooks/useMutateMe';
 import {useLogout} from '../../auth';
 import {PickerListItem, SwitchListItem} from '../../components/ListItem';
 import {
+  fastAddTransactionSelector,
   localeSelector,
   setFastAddTransactionSelector,
   themeSelector,
-  fastAddTransactionSelector,
   useStore,
 } from '../../store/use-store';
 import {MoreScreenProps} from '../../types';
