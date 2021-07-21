@@ -1,11 +1,9 @@
-import {Ionicons} from '@expo/vector-icons';
 import * as React from 'react';
-import {useCallback, useEffect, useLayoutEffect, useMemo, useRef} from 'react';
+import {useEffect, useMemo, useRef} from 'react';
 import {Controller, useForm} from 'react-hook-form';
 import {useTranslation} from 'react-i18next';
 import {ScrollView, StyleSheet} from 'react-native';
 import {InputHandles} from 'react-native-elements';
-import {HeaderButtons, Item} from 'react-navigation-header-buttons';
 import {useQueryClient} from 'react-query';
 import {useAccountModels, useInstruments} from '../../../api-hooks';
 import {QueryKeys} from '../../../api-hooks/query-keys';
@@ -44,8 +42,6 @@ export const EditAccountScreen: React.FC<AccountDetailsScreenProps> = ({navigati
 
   const {
     control,
-    setValue,
-    watch,
     handleSubmit,
     formState: {errors},
   } = useForm<EditableAccount>({defaultValues: account ?? emptyAccount});

@@ -32,7 +32,11 @@ export const EditTransactionScreen: React.FC<EditTransactionScreenProps> = ({rou
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: () => (
-        <TransactionTypePicker onSelect={setTransactionType} selectedType={transactionType} style={{width: 130}} />
+        <TransactionTypePicker
+          onSelect={setTransactionType}
+          selectedType={transactionType}
+          style={styles.headerTitle}
+        />
       ),
     });
   }, [navigation, t, transactionType]);
@@ -52,3 +56,11 @@ export const EditTransactionScreen: React.FC<EditTransactionScreenProps> = ({rou
 
   return renderEditor();
 };
+
+import {StyleSheet} from 'react-native';
+
+const styles = StyleSheet.create({
+  headerTitle: {
+    width: 130,
+  },
+});

@@ -30,7 +30,7 @@ export const AccountOverviewScreen: React.FC<AccountOverviewScreenProps> = () =>
     const balances = accountsByInstrument
       .entriesArray()
       .map(([instrumentId, accounts]) => {
-        const instrument = instrumentsMap?.get(instrumentId);
+        const instrument = instrumentsMap?.get(instrumentId!);
         return {
           instrument,
           balance: accounts.reduce((prev, curr) => prev + curr.balance, 0),

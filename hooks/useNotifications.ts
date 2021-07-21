@@ -2,6 +2,7 @@ import Constants from 'expo-constants';
 import * as Notifications from 'expo-notifications';
 import {useEffect, useRef, useState} from 'react';
 import {Platform} from 'react-native';
+import {Subscription} from '@unimodules/core';
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -35,12 +36,14 @@ async function registerForPushNotificationsAsync() {
       finalStatus = status;
     }
     if (finalStatus !== 'granted') {
+      // eslint-disable-next-line no-alert
       alert('Failed to get push token for push notification!');
       return;
     }
     token = (await Notifications.getExpoPushTokenAsync()).data;
     console.log(token);
   } else {
+    // eslint-disable-next-line no-alert
     alert('Must use physical device for Push Notifications');
   }
 
@@ -57,16 +60,16 @@ async function registerForPushNotificationsAsync() {
 }
 
 export const useNotifications = () => {
-  const [expoPushToken, setExpoPushToken] = useState('');
-  const [notification, setNotification] = useState(false);
-  const notificationListener = useRef();
-  const responseListener = useRef();
+  const [expoPushToken, setExpoPushToken] = useState<string | undefined | null>(undefined);
+  const [notification, setNotification] = useState<Notifications.Notification | null>(null);
+  const notificationListener = useRef<Subscription>();
+  const responseListener = useRef<Subscription>();
 
   useEffect(() => {
     registerForPushNotificationsAsync().then((token) => setExpoPushToken(token));
 
-    notificationListener.current = Notifications.addNotificationReceivedListener((notification) => {
-      setNotification(notification);
+    notificationListener.current = Notifications.addNotificationReceivedListener((value) => {
+      setNotification(value);
     });
 
     responseListener.current = Notifications.addNotificationResponseReceivedListener((response) => {
@@ -74,8 +77,12 @@ export const useNotifications = () => {
     });
 
     return () => {
-      Notifications.removeNotificationSubscription(notificationListener.current);
-      Notifications.removeNotificationSubscription(responseListener.current);
+      if (notificationListener.current) {
+        Notifications.removeNotificationSubscription(notificationListener.current);
+      }
+      if (responseListener.current) {
+        Notifications.removeNotificationSubscription(responseListener.current);
+      }
     };
   }, []);
 };

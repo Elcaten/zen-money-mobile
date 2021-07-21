@@ -1,6 +1,7 @@
 import {Picker} from '@react-native-picker/picker';
 import * as React from 'react';
 import {useMemo} from 'react';
+import {StyleSheet} from 'react-native';
 import {Icon} from 'react-native-elements';
 import {Tag} from '../../api/models';
 import {View} from '../../components';
@@ -12,15 +13,13 @@ export type TagPickerProps = {
 };
 
 export const TagPicker: React.FC<TagPickerProps> = ({tags, selectedTag, onSelect}) => {
-  // const selectedTagTitle = tags.find((t) => t.id === selectedTag)?.title;
-
-  const options = useMemo<Tag[]>(() => {
+  const options = useMemo<{title: string; id?: string}[]>(() => {
     return [{id: undefined, title: 'Select a category'}, ...tags];
   }, [tags]);
 
   return (
-    <View style={{flexDirection: 'row'}}>
-      <Picker onValueChange={onSelect} selectedValue={selectedTag ?? undefined} style={{flex: 1, color: '#000000'}}>
+    <View style={styles.wrapper}>
+      <Picker onValueChange={onSelect} selectedValue={selectedTag ?? undefined} style={styles.picker}>
         {options.map(({id, title}) => (
           <Picker.Item key={title} value={id} label={title} />
         ))}
@@ -29,3 +28,13 @@ export const TagPicker: React.FC<TagPickerProps> = ({tags, selectedTag, onSelect
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  wrapper: {
+    flexDirection: 'row',
+  },
+  picker: {
+    flex: 1,
+    color: '#000000',
+  },
+});
