@@ -12,6 +12,7 @@ import {Text, View} from '../../components';
 import {Card} from '../../components/Card';
 import {useToolbarOpacity} from '../../hooks';
 import {useHeaderButtons} from '../../hooks/useHeaderButtons';
+import {useDeletePress} from '../../hooks/useOnDeletePress';
 import {useNavigatorThemeColors} from '../../themes';
 import {AccountDetailsScreenProps} from '../../types';
 import {showToast} from '../../utils';
@@ -30,27 +31,21 @@ export const AccountDetailsScreen: React.FC<AccountDetailsScreenProps> = ({navig
 
   const {deleteAsync, isDeleting} = useDeleteAccount();
 
-  const onDeletePress = useCallback(() => {
-    Alert.alert(t('AccountDetailsScreen.DeleteAccountTitle'), t('AccountDetailsScreen.DeleteAccountMessage'), [
-      {
-        text: t('Button.Cancel'),
-        onPress: () => {},
-        style: 'cancel',
-      },
-      {
-        text: t('Button.Cancel'),
-        onPress: async () => {
-          if (account == null) {
-            return;
-          }
-          await deleteAsync(account.id);
-          await queryClient.invalidateQueries([QueryKeys.Accounts, QueryKeys.Transactions]);
-          showToast(t('AccountDetailsScreen.DeleteSuccessMessage'));
-          navigation.pop();
-        },
-      },
-    ]);
+  const onDeleteConfirm = useCallback(async () => {
+    if (account == null) {
+      return;
+    }
+    await deleteAsync(account.id);
+    await queryClient.invalidateQueries([QueryKeys.Accounts, QueryKeys.Transactions]);
+    showToast(t('AccountDetailsScreen.DeleteSuccessMessage'));
+    navigation.pop();
   }, [account, deleteAsync, navigation, queryClient, t]);
+
+  const onDeletePress = useDeletePress(
+    t('AccountDetailsScreen.DeleteAccountTitle'),
+    t('AccountDetailsScreen.DeleteAccountMessage'),
+    onDeleteConfirm,
+  );
 
   const onEditPress = useCallback(() => navigation.navigate('EditAccountScreen', {accountId: route.params.accountId}), [
     navigation,
