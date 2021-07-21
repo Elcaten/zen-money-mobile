@@ -62,23 +62,22 @@ export const EditAccountScreen: React.FC<AccountDetailsScreenProps> = ({navigati
   const {mutateAsync, isLoading: isMutating} = useMutateAccount();
   const queryClient = useQueryClient();
 
-  const onSavePress = useCallback(
-    async (editableAccount: EditableAccount) => {
-      const {success} = await mutateAsync(editableAccount);
-      if (success) {
-        await queryClient.invalidateQueries(QueryKeys.Accounts);
-        showToast(t('EditAccountScreen.AccountSaved'));
-        navigation.pop();
-      } else {
-        showToast('Error');
-      }
-    },
-    [mutateAsync, navigation, queryClient, t],
+  const onSavePress = useMemo(
+    () =>
+      handleSubmit(async (editableAccount: EditableAccount) => {
+        const {success} = await mutateAsync(editableAccount);
+        if (success) {
+          await queryClient.invalidateQueries(QueryKeys.Accounts);
+          showToast(t('EditAccountScreen.AccountSaved'));
+          navigation.pop();
+        } else {
+          showToast('Error');
+        }
+      }),
+    [handleSubmit, mutateAsync, navigation, queryClient, t],
   );
 
-  const onSavePressMemo = useMemo(() => handleSubmit(onSavePress), [handleSubmit, onSavePress]);
-
-  useHeaderButtons(navigation, {onSavePress: onSavePressMemo});
+  useHeaderButtons(navigation, {onSavePress});
 
   return (
     <ScrollView keyboardShouldPersistTaps="never">

@@ -47,16 +47,17 @@ export const TagDetailsScreen: React.FC<TagDetailsScreenProps> = ({navigation, r
   } = useForm<EditableTag>({defaultValues: tag ?? emptyTag});
 
   const {mutateAsync, isLoading: isMutating} = useMutateTag();
-  const onSavePress = useCallback(
-    async (editableTag: EditableTag) => {
-      await mutateAsync(editableTag);
-      await queryClient.invalidateQueries(QueryKeys.Tags);
-      showToast(t('TagDetailsScreen.CategorySaved'));
-      navigation.pop();
-    },
-    [mutateAsync, navigation, queryClient, t],
+
+  const onSavePress = useMemo(
+    () =>
+      handleSubmit(async (editableTag: EditableTag) => {
+        await mutateAsync(editableTag);
+        await queryClient.invalidateQueries(QueryKeys.Tags);
+        showToast(t('TagDetailsScreen.CategorySaved'));
+        navigation.pop();
+      }),
+    [handleSubmit, mutateAsync, navigation, queryClient, t],
   );
-  const onSavePressMemo = useMemo(() => handleSubmit(onSavePress), [handleSubmit, onSavePress]);
 
   const titleRef = useRef<InputHandles>(null);
   useEffect(() => {
@@ -73,7 +74,7 @@ export const TagDetailsScreen: React.FC<TagDetailsScreenProps> = ({navigation, r
     navigation.pop();
   }, [deleteAsync, navigation, queryClient, t, tag.id]);
 
-  useHeaderButtons(navigation, {onDeletePress, onSavePress: onSavePressMemo});
+  useHeaderButtons(navigation, {onDeletePress, onSavePress});
 
   const [possibleParentTags, setPossibleParentTags] = useState<Tag[]>([]);
   useEffect(() => {

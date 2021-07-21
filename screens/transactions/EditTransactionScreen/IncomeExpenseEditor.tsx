@@ -1,14 +1,22 @@
+import {useNavigation} from '@react-navigation/native';
 import * as React from 'react';
-import {useEffect, useImperativeHandle, useMemo} from 'react';
+import {useCallback, useEffect, useImperativeHandle, useMemo} from 'react';
 import {Controller, useForm} from 'react-hook-form';
 import {useTranslation} from 'react-i18next';
 import {ScrollView, StyleSheet} from 'react-native';
 import {InputHandles} from 'react-native-elements';
-import {useAccounts, useInstruments, useTags} from '../../../api-hooks';
+import {
+  useAccounts,
+  useInstruments,
+  useMutateExpenseTransaction,
+  useMutateIncomeTransaction,
+  useTags,
+} from '../../../api-hooks';
 import {Transaction, UserAccount} from '../../../api/models';
 import {CommentIcon, Input, Text} from '../../../components';
 import {DateTimeInput} from '../../../components/DateTimeInput';
 import {ListItem} from '../../../components/ListItem';
+import {useHeaderButtons} from '../../../hooks/useHeaderButtons';
 import {TagGridPicker} from '../../components/TagGridPicker';
 import {AccountPicker} from './AccountPicker';
 
@@ -19,18 +27,10 @@ export type IncomeExpenseTransaction = Pick<Transaction, 'comment'> & {
   tag: string | null;
 };
 
-export interface IncomeExpenseEditorHandles {
-  submit: () => void;
-}
-
-export interface IncomeExpenseEditorProps {
-  onSubmit: (t: IncomeExpenseTransaction) => void;
-}
-
-const IncomeExpenseEditorComponent: React.ForwardRefRenderFunction<
-  IncomeExpenseEditorHandles,
-  IncomeExpenseEditorProps
-> = ({onSubmit}, ref) => {
+export const IncomeExpenseEditor: React.FC<{onSubmit: (success: boolean) => void; type: 'income' | 'expense'}> = ({
+  onSubmit,
+  type,
+}) => {
   const {data: accounts} = useAccounts();
   const {data: tagDict} = useTags();
   const tags = useMemo(() => (tagDict.values ? Array.from(tagDict.values()) : []), [tagDict]);
@@ -50,6 +50,20 @@ const IncomeExpenseEditorComponent: React.ForwardRefRenderFunction<
     },
   });
 
+  const {mutateAsync: mutateIncomeAsync} = useMutateIncomeTransaction();
+  const {mutateAsync: mutateExpenseAsync} = useMutateExpenseTransaction();
+
+  const onSavePress = useMemo(
+    () =>
+      handleSubmit(async (tr: IncomeExpenseTransaction) => {
+        const {success} = type === 'income' ? await mutateIncomeAsync(tr) : await mutateExpenseAsync(tr);
+        onSubmit(success);
+      }),
+    [handleSubmit, mutateExpenseAsync, mutateIncomeAsync, onSubmit, type],
+  );
+
+  useHeaderButtons(useNavigation(), {onSavePress});
+
   const watchInstrument = watch('account.instrument');
   const instruments = useInstruments();
   const instrumentSymbol = useMemo(() => instruments.data?.get(watchInstrument!)?.symbol, [
@@ -63,8 +77,6 @@ const IncomeExpenseEditorComponent: React.ForwardRefRenderFunction<
       amountInputRef.current?.shake();
     }
   }, [errors.amount]);
-
-  useImperativeHandle(ref, () => ({submit: () => handleSubmit(onSubmit)()}), [handleSubmit, onSubmit]);
 
   const {t} = useTranslation();
 
@@ -144,5 +156,3 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 });
-
-export const IncomeExpenseEditor = React.forwardRef(IncomeExpenseEditorComponent);

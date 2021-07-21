@@ -1,13 +1,15 @@
+import {useNavigation} from '@react-navigation/native';
 import * as React from 'react';
-import {useEffect, useImperativeHandle, useMemo} from 'react';
+import {useCallback, useEffect, useImperativeHandle, useMemo} from 'react';
 import {Controller, useForm} from 'react-hook-form';
 import {useTranslation} from 'react-i18next';
 import {StyleSheet} from 'react-native';
 import {InputHandles} from 'react-native-elements';
-import {useAccounts, useInstruments} from '../../../api-hooks';
+import {useAccounts, useInstruments, useMutateTransferTransaction} from '../../../api-hooks';
 import {Transaction, UserAccount} from '../../../api/models';
 import {CommentIcon, Input, Text, View} from '../../../components';
 import {DateTimeInput} from '../../../components/DateTimeInput';
+import {useHeaderButtons} from '../../../hooks/useHeaderButtons';
 import {AccountPicker} from './AccountPicker';
 
 export type TransferTransaction = Pick<Transaction, 'comment'> & {
@@ -18,17 +20,7 @@ export type TransferTransaction = Pick<Transaction, 'comment'> & {
   date: Date;
 };
 
-export interface TransferEditorHandles {
-  submit: () => void;
-}
-export interface TransferEditorProps {
-  onSubmit: (t: TransferTransaction) => void;
-}
-
-const TransferEditorComponent: React.ForwardRefRenderFunction<TransferEditorHandles, TransferEditorProps> = (
-  {onSubmit},
-  ref,
-) => {
+export const TransferEditor: React.FC<{onSubmit: (success: boolean) => void}> = ({onSubmit}) => {
   const {data: accounts} = useAccounts();
 
   const {
@@ -61,16 +53,25 @@ const TransferEditorComponent: React.ForwardRefRenderFunction<TransferEditorHand
     }
   }, [errors.outcome]);
 
-  useImperativeHandle(ref, () => ({submit: () => handleSubmit(onSubmit)()}), [handleSubmit, onSubmit]);
+  const {mutateAsync: mutateTransferAsync} = useMutateTransferTransaction();
+  const onSavePress = useMemo(
+    () =>
+      handleSubmit(async (tr: TransferTransaction) => {
+        const {success} = await mutateTransferAsync(tr);
+        onSubmit(success);
+      }),
+    [handleSubmit, mutateTransferAsync, onSubmit],
+  );
+  useHeaderButtons(useNavigation(), {onSavePress});
 
   const instruments = useInstruments();
   const watchOutcomeAccount = watch('outcomeAccount');
-  const outcomeSymbol = useMemo(() => instruments.data?.get(watchOutcomeAccount.instrument)?.symbol, [
+  const outcomeSymbol = useMemo(() => instruments.data?.get(watchOutcomeAccount.instrument!)?.symbol, [
     instruments.data,
     watchOutcomeAccount,
   ]);
   const watchIncomeAccount = watch('incomeAccount');
-  const incomeSymbol = useMemo(() => instruments.data?.get(watchIncomeAccount.instrument)?.symbol, [
+  const incomeSymbol = useMemo(() => instruments.data?.get(watchIncomeAccount.instrument!)?.symbol, [
     instruments.data,
     watchIncomeAccount,
   ]);
@@ -185,5 +186,3 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 });
-
-export const TransferEditor = React.forwardRef(TransferEditorComponent);
