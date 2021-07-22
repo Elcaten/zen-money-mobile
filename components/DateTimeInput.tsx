@@ -22,7 +22,7 @@ export const DateTimeInput: React.FC<DateTimeInputProps> = ({date, onChange: _on
 
   return (
     <View>
-      <ListItem onPress={() => setShow(true)}>
+      <ListItem onPress={() => setShow(true)} bottomDivider>
         <CalendarIcon size={24} />
         <ListItem.Title>{dayjs(date).format('DD MMM YYYY')}</ListItem.Title>
       </ListItem>

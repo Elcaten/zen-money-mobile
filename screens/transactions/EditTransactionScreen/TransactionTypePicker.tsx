@@ -1,21 +1,38 @@
 import * as React from 'react';
+import {useCallback, useState} from 'react';
 import {useTranslation} from 'react-i18next';
-import {Picker, PickerProps} from 'react-native';
+import {ButtonGroup, ButtonGroupProps} from 'react-native-elements';
+import {ListItem} from '../../../components/ListItem';
 import {TransactionType} from '../transaction-type';
 
 export type TransactionTypePickerProps = {
   selectedType: TransactionType | null;
-  onSelect: (tag: TransactionType) => void;
-} & Pick<PickerProps, 'style'>;
+  onSelect: (type: TransactionType) => void;
+} & ButtonGroupProps;
 
-export const TransactionTypePicker: React.FC<TransactionTypePickerProps> = ({selectedType, onSelect, style}) => {
+export const TransactionTypePicker: React.FC<TransactionTypePickerProps> = ({selectedType, onSelect, ...rest}) => {
   const types = useTransactionTypes();
+
+  const buttons = types.map((t) => t.label);
+  const [selectedIndex, setSelectedIndex] = useState(types.findIndex((x) => x.type === selectedType));
+  const onPress = useCallback(
+    (index: number) => {
+      setSelectedIndex(index);
+      onSelect(types[index].type);
+    },
+    [onSelect, types],
+  );
+
   return (
-    <Picker onValueChange={onSelect} selectedValue={selectedType} style={style}>
-      {types.map((t) => (
-        <Picker.Item key={t.type} value={t.type} label={t.label} />
-      ))}
-    </Picker>
+    <ListItem bottomDivider>
+      <ButtonGroup
+        {...rest}
+        onPress={onPress}
+        selectedIndex={selectedIndex}
+        buttons={buttons}
+        containerStyle={styles.buttons}
+      />
+    </ListItem>
   );
 };
 
@@ -37,3 +54,13 @@ const useTransactionTypes = () => {
     },
   ];
 };
+
+import {StyleSheet} from 'react-native';
+
+const styles = StyleSheet.create({
+  buttons: {
+    marginHorizontal: 0,
+    marginVertical: 0,
+    flex: 1,
+  },
+});

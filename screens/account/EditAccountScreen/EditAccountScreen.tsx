@@ -85,7 +85,6 @@ export const EditAccountScreen: React.FC<AccountDetailsScreenProps> = ({navigati
               <Input
                 ref={titleRef}
                 value={value}
-                style={{fontSize: 16}}
                 placeholder={t('EditAccountScreen.Title')}
                 onBlur={onBlur}
                 onChangeText={(text) => onChange(text)}

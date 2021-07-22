@@ -125,7 +125,6 @@ export const TagDetailsScreen: React.FC<TagDetailsScreenProps> = ({navigation, r
                 ref={titleRef}
                 placeholder={t('TagDetailsScreen.Title')}
                 value={value}
-                style={{fontSize: 16}}
                 onBlur={onBlur}
                 onChangeText={(text) => onChange(text)}
               />

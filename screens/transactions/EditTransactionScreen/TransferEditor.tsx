@@ -1,6 +1,6 @@
 import {useNavigation} from '@react-navigation/native';
 import * as React from 'react';
-import {useCallback, useEffect, useImperativeHandle, useMemo} from 'react';
+import {useEffect, useMemo} from 'react';
 import {Controller, useForm} from 'react-hook-form';
 import {useTranslation} from 'react-i18next';
 import {StyleSheet} from 'react-native';
@@ -9,6 +9,7 @@ import {useAccounts, useInstruments, useMutateTransferTransaction} from '../../.
 import {Transaction, UserAccount} from '../../../api/models';
 import {CommentIcon, Input, Text, View} from '../../../components';
 import {DateTimeInput} from '../../../components/DateTimeInput';
+import {ListItem} from '../../../components/ListItem';
 import {useHeaderButtons} from '../../../hooks/useHeaderButtons';
 import {AccountPicker} from './AccountPicker';
 
@@ -78,8 +79,8 @@ export const TransferEditor: React.FC<{onSubmit: (success: boolean) => void}> = 
 
   const {t} = useTranslation();
   return (
-    <View style={styles.container}>
-      <View style={styles.row}>
+    <View style={styles.wrapper}>
+      <ListItem style={styles.row} bottomDivider>
         <Controller
           control={control}
           render={({field: {onChange, onBlur, value}}) => (
@@ -120,7 +121,7 @@ export const TransferEditor: React.FC<{onSubmit: (success: boolean) => void}> = 
             },
           }}
         />
-      </View>
+      </ListItem>
 
       <View style={styles.row}>
         <Controller
@@ -161,13 +162,15 @@ export const TransferEditor: React.FC<{onSubmit: (success: boolean) => void}> = 
       <Controller
         control={control}
         render={({field: {onChange, onBlur, value}}) => (
-          <Input
-            placeholder={t('EditTransactionScreen.Comment')}
-            value={value ?? ''}
-            onChangeText={onChange}
-            onBlur={onBlur}
-            leftIcon={<CommentIcon size={24} />}
-          />
+          <ListItem bottomDivider>
+            <CommentIcon size={24} />
+            <Input
+              placeholder={t('EditTransactionScreen.Comment')}
+              value={value ?? ''}
+              onChangeText={onChange}
+              onBlur={onBlur}
+            />
+          </ListItem>
         )}
         name="comment"
       />
@@ -176,11 +179,13 @@ export const TransferEditor: React.FC<{onSubmit: (success: boolean) => void}> = 
 };
 
 const styles = StyleSheet.create({
-  container: {
+  wrapper: {
     flex: 1,
   },
   row: {
     flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'flex-start',
   },
   col: {
     flex: 1,

@@ -5,7 +5,7 @@ import {useNavigatorThemeColors} from '../themes';
 const InputComponent: ForwardRefRenderFunction<InputHandles, InputProps> = (props, ref) => {
   const {text, placeholder} = useNavigatorThemeColors();
   const baseStyles = useMemo(() => {
-    return {color: text};
+    return {color: text, fontSize: 16};
   }, [text]);
 
   return (

@@ -1,8 +1,10 @@
 import * as React from 'react';
 import {useCallback, useState} from 'react';
 import {useTranslation} from 'react-i18next';
+import {ScrollView, StyleSheet} from 'react-native';
 import {useQueryClient} from 'react-query';
 import {QueryKeys} from '../../../api-hooks/query-keys';
+import {Card} from '../../../components/Card';
 import {EditTransactionScreenProps} from '../../../types';
 import {exhaustiveCheck, showToast} from '../../../utils';
 import {TransactionType} from '../transaction-type';
@@ -29,18 +31,6 @@ export const EditTransactionScreen: React.FC<EditTransactionScreenProps> = ({rou
     [navigation, queryClient, t],
   );
 
-  React.useLayoutEffect(() => {
-    navigation.setOptions({
-      headerTitle: () => (
-        <TransactionTypePicker
-          onSelect={setTransactionType}
-          selectedType={transactionType}
-          style={styles.headerTitle}
-        />
-      ),
-    });
-  }, [navigation, t, transactionType]);
-
   const renderEditor = useCallback(() => {
     switch (transactionType) {
       case TransactionType.Income:
@@ -54,13 +44,19 @@ export const EditTransactionScreen: React.FC<EditTransactionScreenProps> = ({rou
     }
   }, [onTransactionSave, transactionType]);
 
-  return renderEditor();
+  return (
+    <Card style={styles.wrapper}>
+      <TransactionTypePicker onSelect={setTransactionType} selectedType={transactionType} />
+      <ScrollView style={styles.editor}>{renderEditor()}</ScrollView>
+    </Card>
+  );
 };
 
-import {StyleSheet} from 'react-native';
-
 const styles = StyleSheet.create({
-  headerTitle: {
-    width: 130,
+  wrapper: {
+    flex: 1,
+  },
+  editor: {
+    flex: 1,
   },
 });
