@@ -27,7 +27,7 @@ const LAYOUT_PROVIDER = new LayoutProvider(
 );
 
 export const InstrumentPickerScreen: React.FC<InstrumentPickerScreenProps> = ({route, navigation}) => {
-  const instrumentId = route.params.instrument;
+  const instrumentId = route.params.value;
   const [dataProvider, setDataProvider] = React.useState(DATA_PROVIDER);
   const [layoutProvider] = React.useState(LAYOUT_PROVIDER);
 

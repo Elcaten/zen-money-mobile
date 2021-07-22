@@ -22,17 +22,17 @@ export const MoreScreen: React.FC<MoreScreenProps> = ({navigation}) => {
   const {data: me} = useMe();
   const instrumentId = me!.currency;
   const {data: instruments} = useInstruments();
-  const instrument = instruments.get(instrumentId!) ?? null;
+  const instrumentTitle = instruments.get(instrumentId!)?.title;
   const {mutateAsync: mutateMe, isLoading: isMutating} = useMutateMe();
   const queryClient = useQueryClient();
 
   const openCurrencyPicker = useCallback(() => {
     navigation.navigate('InstrumentPickerScreen', {
-      instrument: instrumentId,
-      onSelect: async (i) => {
+      value: instrumentId,
+      onSelect: async (instrument) => {
         navigation.pop();
-        if (i) {
-          await mutateMe({currency: i});
+        if (instrument) {
+          await mutateMe({currency: instrument});
           await queryClient.invalidateQueries(QueryKeys.Users);
         }
       },
@@ -57,7 +57,7 @@ export const MoreScreen: React.FC<MoreScreenProps> = ({navigation}) => {
       />
       <PickerListItem
         title={t('MoreScreen.MainCurrency')}
-        value={instrument?.title}
+        value={instrumentTitle}
         disabled={isMutating}
         onPress={openCurrencyPicker}
       />

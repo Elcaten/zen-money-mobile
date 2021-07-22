@@ -1,13 +1,13 @@
-/**
- * Learn more about using TypeScript with React Navigation:
- * https://reactnavigation.org/docs/typescript/
- */
-
 import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
 import {CompositeNavigationProp, NavigatorScreenParams, RouteProp} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {AccountType, TagIconName} from './api/models';
 import {TransactionType} from './screens/transactions/transaction-type';
+
+interface PickerScreenProps<T> {
+  value: T;
+  onSelect: (value: T) => void;
+}
 
 export type RootStackParamList = {
   Root: undefined;
@@ -30,14 +30,8 @@ export type AccountsParamList = {
     accountId?: string;
   };
   AccountOverviewScreen: undefined;
-  InstrumentPickerScreen: {
-    instrument: number | null;
-    onSelect: (instrument: number | null) => void;
-  };
-  AccountTypePickerScreen: {
-    type: AccountType | null;
-    onSelect: (type: AccountType | null) => void;
-  };
+  InstrumentPickerScreen: PickerScreenProps<number | null>;
+  AccountTypePickerScreen: PickerScreenProps<AccountType | null>;
 };
 
 export type TransactionsParamList = {
@@ -48,6 +42,7 @@ export type TransactionsParamList = {
   EditTransactionScreen: {
     transactionType: TransactionType;
   };
+  AccountPickerScreen: PickerScreenProps<number | null>;
 };
 
 export type AnalyticsParamList = {
@@ -66,10 +61,7 @@ export type MoreParamList = {
   }; // TODO: figure out what's wrong with navigation.setOptions typing
   TagsScreen: {}; // TODO: figure out what's wrong with navigation.setOptions typing
   TagDetailsScreen: {tagId?: string};
-  InstrumentPickerScreen: {
-    instrument: number | null;
-    onSelect: (instrument: number | null) => void;
-  };
+  InstrumentPickerScreen: PickerScreenProps<number | null>;
 };
 
 export type AccountsScreenRouteProp = RouteProp<AccountsParamList, 'AccountsScreen'>;

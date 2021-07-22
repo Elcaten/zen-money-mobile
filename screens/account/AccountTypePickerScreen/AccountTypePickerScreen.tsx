@@ -14,6 +14,8 @@ interface AccountTypeListItem {
 }
 
 export const AccountTypePickerScreen: React.FC<AccountTypePickerScreenProps> = ({route, navigation}) => {
+  const accountId = route.params.value;
+
   const options = useAccountTypes()
     .entriesArray()
     .map<AccountTypeListItem>(([id, title]) => ({id, title}));
@@ -30,7 +32,7 @@ export const AccountTypePickerScreen: React.FC<AccountTypePickerScreenProps> = (
         <ListItem.Content>
           <ListItem.Title>{item.title}</ListItem.Title>
         </ListItem.Content>
-        {item.id === route.params.type ? <CheckIcon size={20} color={primary} /> : <></>}
+        {item.id === accountId ? <CheckIcon size={20} color={primary} /> : <></>}
       </ListItem>
     );
   };

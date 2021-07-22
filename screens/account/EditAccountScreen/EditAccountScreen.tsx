@@ -101,7 +101,7 @@ export const EditAccountScreen: React.FC<AccountDetailsScreenProps> = ({navigati
             <PickerListItem
               title={t('EditAccountScreen.AccountType')}
               value={accounTypes.get(value!) ?? ''}
-              onPress={() => navigation.navigate('AccountTypePickerScreen', {type: value, onSelect: onChange})}
+              onPress={() => navigation.navigate('AccountTypePickerScreen', {value: value, onSelect: onChange})}
             />
           )}
           name="type"
@@ -117,7 +117,7 @@ export const EditAccountScreen: React.FC<AccountDetailsScreenProps> = ({navigati
                 value={instruments.get(value!)?.title!}
                 onPress={() =>
                   navigation.navigate('InstrumentPickerScreen', {
-                    instrument: value,
+                    value: value,
                     onSelect: (i) => {
                       onChange(i);
                       navigation.goBack();
