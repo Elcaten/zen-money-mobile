@@ -1,11 +1,9 @@
-import {MaterialIcons} from '@expo/vector-icons';
 import {HeaderBackButton} from '@react-navigation/stack';
 import * as React from 'react';
-import {useCallback, useEffect, useLayoutEffect, useRef, useState} from 'react';
+import {useCallback, useEffect, useRef, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {FlatList, Keyboard, RefreshControl, StyleSheet, View} from 'react-native';
 import {Overlay, SearchBar} from 'react-native-elements';
-import {HeaderButtons, Item} from 'react-navigation-header-buttons';
 import {useTransactionModels} from '../../../api-hooks';
 import {Text} from '../../../components';
 import {Card} from '../../../components/Card';

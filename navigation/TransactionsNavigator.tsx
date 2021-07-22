@@ -1,9 +1,10 @@
 import {createStackNavigator} from '@react-navigation/stack';
 import * as React from 'react';
 import {useTranslation} from 'react-i18next';
-import {TransactionDetailsScreen, TransactionsScreen} from '../screens/transactions';
+import {TransactionsScreen} from '../screens/transactions';
 import {TransactionsParamList} from '../types';
 import {EditTransactionScreen} from '../screens/transactions/EditTransactionScreen';
+import {TransactionDetailsScreen} from '../screens/transactions/TransactionDetailsScreen';
 
 const Stack = createStackNavigator<TransactionsParamList>();
 

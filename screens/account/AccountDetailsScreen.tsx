@@ -1,9 +1,7 @@
-import {MaterialCommunityIcons, MaterialIcons} from '@expo/vector-icons';
 import * as React from 'react';
 import {useCallback, useEffect, useLayoutEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
-import {Alert, Animated, RefreshControl, StyleSheet} from 'react-native';
-import {HeaderButtons, Item} from 'react-navigation-header-buttons';
+import {Animated, RefreshControl, StyleSheet} from 'react-native';
 import {useQueryClient} from 'react-query';
 import {TransactionModel, useAccountModels, useTransactionModels} from '../../api-hooks';
 import {QueryKeys} from '../../api-hooks/query-keys';

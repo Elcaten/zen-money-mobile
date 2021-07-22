@@ -1,17 +1,15 @@
-import {MaterialIcons} from '@expo/vector-icons';
 import * as React from 'react';
-import {ScrollView} from 'react-native';
-import {Item} from 'react-navigation-header-buttons';
-import {useDeleteTransaction, useTransactionModels} from '../../api-hooks';
-import {Text} from '../../components';
-import {useHeaderButtons} from '../../hooks/useHeaderButtons';
-import {useDeletePress} from '../../hooks/useOnDeletePress';
-import {TransactionDetailsScreenProps} from '../../types';
-import {useTranslation} from 'react-i18next';
-import {useQueryClient} from 'react-query';
-import {QueryKeys} from '../../api-hooks/query-keys';
-import {showToast} from '../../utils';
 import {useCallback} from 'react';
+import {useTranslation} from 'react-i18next';
+import {ScrollView, StyleSheet} from 'react-native';
+import {useQueryClient} from 'react-query';
+import {useDeleteTransaction, useTransactionModels} from '../../../api-hooks';
+import {QueryKeys} from '../../../api-hooks/query-keys';
+import {Text} from '../../../components';
+import {useHeaderButtons} from '../../../hooks/useHeaderButtons';
+import {useDeletePress} from '../../../hooks/useOnDeletePress';
+import {TransactionDetailsScreenProps} from '../../../types';
+import {showToast} from '../../../utils';
 
 export const TransactionDetailsScreen: React.FC<TransactionDetailsScreenProps> = ({route, navigation}) => {
   const {data} = useTransactionModels();
@@ -48,8 +46,6 @@ export const TransactionDetailsScreen: React.FC<TransactionDetailsScreenProps> =
     </ScrollView>
   );
 };
-
-import {StyleSheet} from 'react-native';
 
 const styles = StyleSheet.create({
   wrapper: {},
