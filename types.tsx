@@ -9,6 +9,7 @@ interface PickerScreenProps<T> {
   onSelect: (value: T) => void;
 }
 
+//===============================================||  PARAM LISTS  ||===================================================
 export type RootStackParamList = {
   Root: undefined;
   NotFound: undefined;
@@ -64,6 +65,7 @@ export type MoreParamList = {
   InstrumentPickerScreen: PickerScreenProps<number | null>;
 };
 
+//=================================================||  ACCOUNTS  ||====================================================
 export type AccountsScreenRouteProp = RouteProp<AccountsParamList, 'AccountsScreen'>;
 export type AccountsScreenNavigationProp = CompositeNavigationProp<
   StackNavigationProp<AccountsParamList, 'AccountsScreen'>,
@@ -104,6 +106,7 @@ export type AccountTypePickerScreenProps = {
   navigation: AccountTypePickerScreenNavigationProp;
 };
 
+//===============================================||  TRANSACTIONS  ||==================================================
 export type TransactionsScreenRouteProp = RouteProp<TransactionsParamList, 'TransactionsScreen'>;
 export type TransactionsScreenNavigationProp = CompositeNavigationProp<
   StackNavigationProp<TransactionsParamList, 'TransactionsScreen'>,
@@ -134,6 +137,7 @@ export type EditTransactionScreenProps = {
   navigation: EditTransactionScreenNavigationProp;
 };
 
+//===================================================||  MORE  ||======================================================
 export type MoreScreenRouteProp = RouteProp<MoreParamList, 'MoreScreen'>;
 export type MoreScreenNavigationProp = CompositeNavigationProp<
   StackNavigationProp<MoreParamList, 'MoreScreen'>,
