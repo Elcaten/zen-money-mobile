@@ -9,9 +9,9 @@ import {useAccountModels, useInstruments} from '../../../api-hooks';
 import {QueryKeys} from '../../../api-hooks/query-keys';
 import {useMutateAccount} from '../../../api-hooks/useMutateAccount';
 import {AccountType} from '../../../api/models';
-import {Input} from '../../../components';
 import {Card} from '../../../components/Card';
-import {ListItem, PickerListItem} from '../../../components/ListItem';
+import {TextInputField} from '../../../components/Field';
+import {PickerListItem} from '../../../components/ListItem';
 import {SwitchListItem} from '../../../components/ListItem/SwitchListItem';
 import {RUB_SHORT_TITLE} from '../../../constants/Constants';
 import {useAccountTypes} from '../../../hooks/useAccountTypes';
@@ -80,17 +80,7 @@ export const EditAccountScreen: React.FC<AccountDetailsScreenProps> = ({navigati
       <Card style={isMutating ? styles.disabledView : []} pointerEvents={isMutating ? 'none' : 'auto'}>
         <Controller
           control={control}
-          render={({field: {onChange, onBlur, value}}) => (
-            <ListItem bottomDivider>
-              <Input
-                ref={titleRef}
-                value={value}
-                placeholder={t('EditAccountScreen.Title')}
-                onBlur={onBlur}
-                onChangeText={(text) => onChange(text)}
-              />
-            </ListItem>
-          )}
+          render={({field}) => <TextInputField field={field} placeholder={t('EditAccountScreen.Title')} sty />}
           name="title"
           rules={{required: true}}
         />

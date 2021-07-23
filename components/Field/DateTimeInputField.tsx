@@ -3,34 +3,36 @@ import dayjs from 'dayjs';
 import * as React from 'react';
 import {useState} from 'react';
 import {Platform} from 'react-native';
-import {CalendarIcon} from './Icons';
-import {ListItem} from './ListItem';
-import {View} from './View';
+import {CalendarIcon} from '../Icons';
+import {ListItem} from '../ListItem';
+import {View} from '../View';
 
-export interface DateTimeInputProps {
-  date: Date;
-  onChange: (date: Date) => void;
+export interface DateTimeInputFieldProps {
+  field: {
+    value: Date;
+    onChange: (date: Date) => void;
+  };
 }
 
-export const DateTimeInput: React.FC<DateTimeInputProps> = ({date, onChange: _onChange}) => {
+export const DateTimeInputField: React.FC<DateTimeInputFieldProps> = ({field: {value, onChange: _onChange}}) => {
   const [show, setShow] = useState(false);
 
   const onChange = (_: any, selectedDate?: Date) => {
     setShow(Platform.OS === 'ios');
-    _onChange(selectedDate || date);
+    _onChange(selectedDate || value);
   };
 
   return (
     <View>
       <ListItem onPress={() => setShow(true)} bottomDivider>
         <CalendarIcon size={24} />
-        <ListItem.Title>{dayjs(date).format('DD MMM YYYY')}</ListItem.Title>
+        <ListItem.Title>{dayjs(value).format('DD MMM YYYY')}</ListItem.Title>
       </ListItem>
 
       {show && (
         <DateTimePicker
           testID="dateTimePicker"
-          value={date}
+          value={value}
           mode="date"
           is24Hour={true}
           display="default"

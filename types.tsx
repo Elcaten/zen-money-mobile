@@ -43,7 +43,7 @@ export type TransactionsParamList = {
   EditTransactionScreen: {
     transactionType: TransactionType;
   };
-  AccountPickerScreen: PickerScreenProps<number | null>;
+  AccountPickerScreen: PickerScreenProps<string | null>;
 };
 
 export type AnalyticsParamList = {
@@ -135,6 +135,16 @@ export type EditTransactionScreenNavigationProp = CompositeNavigationProp<
 export type EditTransactionScreenProps = {
   route: EditTransactionScreenRouteProp;
   navigation: EditTransactionScreenNavigationProp;
+};
+
+export type AccountPickerScreenRouteProp = RouteProp<TransactionsParamList, 'AccountPickerScreen'>;
+export type AccountPickerScreenNavigationProp = CompositeNavigationProp<
+  StackNavigationProp<TransactionsParamList, 'AccountPickerScreen'>,
+  BottomTabNavigationProp<BottomTabParamList>
+>;
+export type AccountPickerScreenProps = {
+  route: AccountPickerScreenRouteProp;
+  navigation: AccountPickerScreenNavigationProp;
 };
 
 //===================================================||  MORE  ||======================================================

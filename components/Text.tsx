@@ -1,12 +1,11 @@
 import * as React from 'react';
-import {TextProps as RNTextProps} from 'react-native-elements';
-import {useNavigatorThemeColors} from '../themes';
-import {Text as RNEText} from 'react-native-elements';
-import {exhaustiveCheck} from '../utils';
 import {useMemo} from 'react';
+import {Text as RNEText, TextProps as RNTextProps} from 'react-native-elements';
+import {useNavigatorThemeColors} from '../themes';
+import {FontSize, getFontSize} from '../utils';
 
 export type TextProps = RNTextProps & {
-  size?: 'tiny' | 'small' | 'medium' | 'large' | 'giant';
+  size?: FontSize;
 };
 
 export const Text: React.FC<TextProps> = (props) => {
@@ -16,21 +15,3 @@ export const Text: React.FC<TextProps> = (props) => {
   }, [props.size, text]);
   return <RNEText {...props} style={[baseStyles, props.style]} />;
 };
-
-function getFontSize(size?: 'tiny' | 'small' | 'medium' | 'large' | 'giant') {
-  switch (size) {
-    case 'tiny':
-      return 12;
-    case 'small':
-      return 14;
-    case undefined:
-    case 'medium':
-      return 16;
-    case 'large':
-      return 18;
-    case 'giant':
-      return 20;
-    default:
-      exhaustiveCheck(size);
-  }
-}

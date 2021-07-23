@@ -4,7 +4,7 @@ import {Tag} from '../../../api/models';
 import {Text, View} from '../../../components';
 import {Card} from '../../../components/Card';
 import {ListItem} from '../../../components/ListItem';
-import {GRAY} from '../../../constants/Colors';
+import {LIGHT_GRAY} from '../../../constants/Colors';
 import {argbToHEX, hexToRgb, REACT_QUERY_PERSIST_KEY, splitArray} from '../../../utils';
 import {TagIcon} from '../TagIcon';
 
@@ -91,7 +91,7 @@ const TagRow: React.FC<{tags: Tag[]; selectedTag: Tag | null; onTagPress: (tag: 
           }
           const isSelected = tag.id === selectedTag?.id;
           const color = isSelected ? hexToRgb('#ffffff')! : undefined;
-          const backgroundColor = isSelected ? tag.color ?? hexToRgb(GRAY)! : undefined;
+          const backgroundColor = isSelected ? tag.color ?? hexToRgb(LIGHT_GRAY)! : undefined;
           return (
             <TagButton
               tag={tag}
@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
     padding: ICON_PADDING,
     margin: ICON_MARGIN,
     borderWidth: 1,
-    borderColor: GRAY,
+    borderColor: LIGHT_GRAY,
     borderRadius: 100,
   },
   view: {

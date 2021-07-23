@@ -7,11 +7,14 @@ import {StyleSheet} from 'react-native';
 import {InputHandles} from 'react-native-elements';
 import {useAccounts, useInstruments, useMutateTransferTransaction} from '../../../api-hooks';
 import {Transaction, UserAccount} from '../../../api/models';
-import {CommentIcon, Input, Text, View} from '../../../components';
-import {DateTimeInput} from '../../../components/DateTimeInput';
-import {ListItem} from '../../../components/ListItem';
+import {CommentIcon, MinusBoxOutlineIcon, PlusBoxOutlineIcon, Text, View, WalletIcon} from '../../../components';
+import {TextInputField} from '../../../components/Field';
+import {DateTimeInputField} from '../../../components/Field/DateTimeInputField';
+import {NumberInputField} from '../../../components/Field/NumberInputField';
+import {PickerListItem} from '../../../components/ListItem';
 import {useHeaderButtons} from '../../../hooks/useHeaderButtons';
-import {AccountPicker} from './AccountPicker';
+import {EditTransactionScreenNavigationProp} from '../../../types';
+import {validateNumericString} from '../../../utils';
 
 export type TransferTransaction = Pick<Transaction, 'comment'> & {
   income: string;
@@ -78,99 +81,87 @@ export const TransferEditor: React.FC<{onSubmit: (success: boolean) => void}> = 
   ]);
 
   const {t} = useTranslation();
+  const navigation = useNavigation<EditTransactionScreenNavigationProp>();
+
   return (
     <View style={styles.wrapper}>
-      <ListItem style={styles.row} bottomDivider>
-        <Controller
-          control={control}
-          render={({field: {onChange, onBlur, value}}) => (
-            <Input
-              ref={outcomeInputRef}
-              containerStyle={styles.col}
-              value={value.toString()}
-              onBlur={onBlur}
-              onChangeText={onChange}
-              rightIcon={<Text>{outcomeSymbol}</Text>}
-            />
-          )}
-          name="outcome"
-          rules={{
-            validate: (text) => {
-              const num = Number.parseInt(text, 10);
-              return !isNaN(num) && num > 0;
-            },
-          }}
-        />
-        <Controller
-          control={control}
-          render={({field: {onChange, onBlur, value}}) => (
-            <Input
-              ref={incomeInputRef}
-              containerStyle={styles.col}
-              value={value.toString()}
-              onBlur={onBlur}
-              onChangeText={onChange}
-              rightIcon={<Text>{incomeSymbol}</Text>}
-            />
-          )}
-          name="income"
-          rules={{
-            validate: (text) => {
-              const num = Number.parseInt(text, 10);
-              return !isNaN(num) && num > 0;
-            },
-          }}
-        />
-      </ListItem>
-
-      <View style={styles.row}>
-        <Controller
-          control={control}
-          render={({field: {onChange, value}}) => (
-            <AccountPicker
-              style={styles.col}
-              accounts={accounts ?? []}
-              selectedAccount={value?.id}
-              onSelect={(id) => onChange(accounts?.find((a) => a.id === id))}
-            />
-          )}
-          name="outcomeAccount"
-          rules={{required: true}}
-        />
-        <Controller
-          control={control}
-          render={({field: {onChange, value}}) => (
-            <AccountPicker
-              style={styles.col}
-              accounts={accounts ?? []}
-              selectedAccount={value?.id}
-              onSelect={(id) => onChange(accounts?.find((a) => a.id === id))}
-            />
-          )}
-          name="incomeAccount"
-          rules={{required: true}}
-        />
-      </View>
+      <Controller
+        control={control}
+        render={({field}) => (
+          <NumberInputField
+            field={field}
+            leftIcon={() => <MinusBoxOutlineIcon size={24} />}
+            rightIcon={() => <Text>{outcomeSymbol}</Text>}
+          />
+        )}
+        name="outcome"
+        rules={{validate: validateNumericString}}
+      />
 
       <Controller
         control={control}
-        render={({field: {onChange, value}}) => <DateTimeInput date={value} onChange={onChange} />}
+        render={({field: {onChange, value}}) => (
+          <PickerListItem
+            leftIcon={() => <WalletIcon size={24} />}
+            title={value.title}
+            onPress={() =>
+              navigation.navigate('AccountPickerScreen', {
+                value: value.id,
+                onSelect: (x) => onChange(accounts?.find((a) => a.id === x)),
+              })
+            }
+          />
+        )}
+        name="outcomeAccount"
+        rules={{required: true}}
+      />
+
+      <Controller
+        control={control}
+        render={({field: {onChange, value}}) => (
+          <PickerListItem
+            leftIcon={() => <WalletIcon size={24} />}
+            title={value.title}
+            onPress={() =>
+              navigation.navigate('AccountPickerScreen', {
+                value: value.id,
+                onSelect: (x) => onChange(accounts?.find((a) => a.id === x)),
+              })
+            }
+          />
+        )}
+        name="incomeAccount"
+        rules={{required: true}}
+      />
+
+      <Controller
+        control={control}
+        render={({field}) => (
+          <NumberInputField
+            field={field}
+            leftIcon={() => <PlusBoxOutlineIcon size={24} />}
+            rightIcon={() => <Text>{incomeSymbol}</Text>}
+          />
+        )}
+        name="income"
+        rules={{validate: validateNumericString}}
+      />
+
+      <Controller
+        control={control}
+        render={({field}) => <DateTimeInputField field={field} />}
         name="date"
         rules={{required: true}}
       />
 
       <Controller
         control={control}
-        render={({field: {onChange, onBlur, value}}) => (
-          <ListItem bottomDivider>
-            <CommentIcon size={24} />
-            <Input
-              placeholder={t('EditTransactionScreen.Comment')}
-              value={value ?? ''}
-              onChangeText={onChange}
-              onBlur={onBlur}
-            />
-          </ListItem>
+        render={({field}) => (
+          <TextInputField
+            field={field}
+            placeholder={t('EditTransactionScreen.Comment')}
+            leftIcon={() => <CommentIcon size={24} />}
+          />
         )}
         name="comment"
       />

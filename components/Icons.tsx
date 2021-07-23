@@ -1,5 +1,5 @@
 import React from 'react';
-import {Ionicons, MaterialCommunityIcons, MaterialIcons} from '@expo/vector-icons';
+import {FontAwesome5, Ionicons, MaterialCommunityIcons, MaterialIcons} from '@expo/vector-icons';
 import {IconProps as ExpoIconProps} from '@expo/vector-icons/build/createIconSet';
 import {useNavigatorThemeColors} from '../themes';
 
@@ -23,6 +23,11 @@ export const CalendarIcon: React.FC<IconProps> = (props) => {
 export const CheckIcon: React.FC<IconProps> = (props) => {
   const {iconColor} = useNavigatorThemeColors();
   return <MaterialIcons color={iconColor} name="check" {...props} />;
+};
+
+export const CoinsIcon: React.FC<IconProps> = (props) => {
+  const {iconColor} = useNavigatorThemeColors();
+  return <FontAwesome5 color={iconColor} name="coins" {...props} />;
 };
 
 export const CreditCardIcon: React.FC<IconProps> = (props) => {
@@ -60,6 +65,11 @@ export const MinusIcon: React.FC<IconProps> = (props) => {
   return <MaterialCommunityIcons color={iconColor} name="minus" {...props} />;
 };
 
+export const MinusBoxOutlineIcon: React.FC<IconProps> = (props) => {
+  const {iconColor} = useNavigatorThemeColors();
+  return <MaterialCommunityIcons color={iconColor} name="minus-box-outline" {...props} />;
+};
+
 export const PieChartIcon: React.FC<IconProps> = (props) => {
   const {iconColor} = useNavigatorThemeColors();
   return <Ionicons color={iconColor} name="pie-chart-outline" {...props} />;
@@ -68,6 +78,11 @@ export const PieChartIcon: React.FC<IconProps> = (props) => {
 export const PlusIcon: React.FC<IconProps> = (props) => {
   const {iconColor} = useNavigatorThemeColors();
   return <MaterialCommunityIcons color={iconColor} name="plus" {...props} />;
+};
+
+export const PlusBoxOutlineIcon: React.FC<IconProps> = (props) => {
+  const {iconColor} = useNavigatorThemeColors();
+  return <MaterialCommunityIcons color={iconColor} name="plus-box-outline" {...props} />;
 };
 
 export const RadioboxBlankIcon: React.FC<IconProps> = (props) => {

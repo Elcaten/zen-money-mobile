@@ -7,16 +7,18 @@ import {ListItem, ListItemProps} from './ListItem';
 type PickerhListItemProps = ListItemProps & {
   title: string;
   value?: string;
+  leftIcon?: () => React.ReactNode;
 };
 
-export function PickerListItem({title, value, ...rest}: React.PropsWithChildren<PickerhListItemProps>) {
+export function PickerListItem({title, value, leftIcon, ...rest}: React.PropsWithChildren<PickerhListItemProps>) {
   return (
     <ListItem bottomDivider {...rest} style={[rest.style, rest.disabled ? styles.disabled : {}]}>
+      {leftIcon && leftIcon()}
       <ListItem.Title>{title}</ListItem.Title>
       <Text numberOfLines={1} style={styles.value}>
         {value}
       </Text>
-      <ListItem.Chevron />
+      <ListItem.Chevron size={24} />
     </ListItem>
   );
 }

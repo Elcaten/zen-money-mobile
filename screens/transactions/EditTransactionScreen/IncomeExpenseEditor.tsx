@@ -1,10 +1,9 @@
-import {useNavigation} from '@react-navigation/native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import * as React from 'react';
-import {useCallback, useEffect, useImperativeHandle, useMemo} from 'react';
+import {useCallback, useEffect, useMemo} from 'react';
 import {Controller, useForm} from 'react-hook-form';
 import {useTranslation} from 'react-i18next';
 import {ScrollView, StyleSheet} from 'react-native';
-import {InputHandles} from 'react-native-elements';
 import {
   useAccounts,
   useInstruments,
@@ -13,12 +12,17 @@ import {
   useTags,
 } from '../../../api-hooks';
 import {Transaction, UserAccount} from '../../../api/models';
-import {CommentIcon, Input, Text} from '../../../components';
-import {DateTimeInput} from '../../../components/DateTimeInput';
-import {ListItem} from '../../../components/ListItem';
+import {CoinsIcon, CommentIcon, Text, WalletIcon} from '../../../components';
+import {TextInputField} from '../../../components/Field';
+import {DateTimeInputField} from '../../../components/Field/DateTimeInputField';
+import {NumberInputField} from '../../../components/Field/NumberInputField';
+import {ListItem, PickerListItem} from '../../../components/ListItem';
+import {ZenTextInput} from '../../../components/ZenTextInput';
+import {ZenTextInputHandles} from '../../../components/ZenTextInput/ZenTextInput';
 import {useHeaderButtons} from '../../../hooks/useHeaderButtons';
+import {EditTransactionScreenNavigationProp} from '../../../types';
+import {validateNumericString} from '../../../utils/validate-numeric-string';
 import {TagGridPicker} from '../../components/TagGridPicker';
-import {AccountPicker} from './AccountPicker';
 
 export type IncomeExpenseTransaction = Pick<Transaction, 'comment'> & {
   amount: string;
@@ -71,7 +75,7 @@ export const IncomeExpenseEditor: React.FC<{onSubmit: (success: boolean) => void
     watchInstrument,
   ]);
 
-  const amountInputRef = React.useRef<InputHandles>(null);
+  const amountInputRef = React.useRef<ZenTextInputHandles>(null);
   useEffect(() => {
     if (errors.amount) {
       amountInputRef.current?.shake();
@@ -79,29 +83,31 @@ export const IncomeExpenseEditor: React.FC<{onSubmit: (success: boolean) => void
   }, [errors.amount]);
 
   const {t} = useTranslation();
+  const navigation = useNavigation<EditTransactionScreenNavigationProp>();
+
+  useFocusEffect(
+    useCallback(() => {
+      setTimeout(() => {
+        if (amountInputRef.current) {
+          amountInputRef.current.focus();
+        }
+      }, 0);
+    }, [amountInputRef]),
+  );
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView style={styles.flexFill}>
       <Controller
         control={control}
-        render={({field: {onChange, onBlur, value}}) => (
-          <ListItem bottomDivider>
-            <Input
-              ref={amountInputRef}
-              value={value.toString()}
-              onBlur={onBlur}
-              onChangeText={onChange}
-              rightIcon={<Text>{instrumentSymbol}</Text>}
-            />
-          </ListItem>
+        render={({field}) => (
+          <NumberInputField
+            field={field}
+            leftIcon={() => <CoinsIcon size={24} />}
+            rightIcon={() => <Text>{instrumentSymbol}</Text>}
+          />
         )}
         name="amount"
-        rules={{
-          validate: (text) => {
-            const num = Number.parseInt(text, 10);
-            return !isNaN(num) && num > 0;
-          },
-        }}
+        rules={{validate: validateNumericString}}
       />
 
       <Controller
@@ -115,10 +121,15 @@ export const IncomeExpenseEditor: React.FC<{onSubmit: (success: boolean) => void
       <Controller
         control={control}
         render={({field: {onChange, value}}) => (
-          <AccountPicker
-            accounts={accounts ?? []}
-            selectedAccount={value?.id}
-            onSelect={(id) => onChange(accounts?.find((a) => a.id === id))}
+          <PickerListItem
+            leftIcon={() => <WalletIcon size={24} />}
+            title={value.title}
+            onPress={() =>
+              navigation.navigate('AccountPickerScreen', {
+                value: value.id,
+                onSelect: (x) => onChange(accounts?.find((a) => a.id === x)),
+              })
+            }
           />
         )}
         name="account"
@@ -127,23 +138,19 @@ export const IncomeExpenseEditor: React.FC<{onSubmit: (success: boolean) => void
 
       <Controller
         control={control}
-        render={({field: {onChange, value}}) => <DateTimeInput date={value} onChange={onChange} />}
+        render={({field}) => <DateTimeInputField field={field} />}
         name="date"
         rules={{required: true}}
       />
 
       <Controller
         control={control}
-        render={({field: {onChange, onBlur, value}}) => (
-          <ListItem bottomDivider>
-            <Input
-              placeholder={t('EditTransactionScreen.Comment')}
-              value={value ?? ''}
-              onChangeText={onChange}
-              onBlur={onBlur}
-              leftIcon={<CommentIcon size={24} />}
-            />
-          </ListItem>
+        render={({field}) => (
+          <TextInputField
+            field={field}
+            placeholder={t('EditTransactionScreen.Comment')}
+            leftIcon={() => <CommentIcon size={24} />}
+          />
         )}
         name="comment"
       />
@@ -152,7 +159,7 @@ export const IncomeExpenseEditor: React.FC<{onSubmit: (success: boolean) => void
 };
 
 const styles = StyleSheet.create({
-  container: {
+  flexFill: {
     flex: 1,
   },
 });
