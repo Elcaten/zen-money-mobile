@@ -6,6 +6,7 @@ import {useQueryClient} from 'react-query';
 import {useInstruments, useMe, useMutateMe} from '../../api-hooks';
 import {QueryKeys} from '../../api-hooks/query-keys';
 import {useLogout} from '../../auth';
+import {LanguageIcon, LogoutIcon, MoneyIcon, PlusCircleOutlineIcon, TagIcon, ThemeIcon} from '../../components';
 import {PickerListItem, SwitchListItem} from '../../components/ListItem';
 import {
   fastAddTransactionSelector,
@@ -51,28 +52,37 @@ export const MoreScreen: React.FC<MoreScreenProps> = ({navigation}) => {
   return (
     <ScrollView>
       <PickerListItem
+        leftIcon={() => <ThemeIcon size={24} />}
         title={t('MoreScreen.Themes')}
         value={theme}
         onPress={() => navigation.navigate('ThemesScreen')}
       />
       <PickerListItem
+        leftIcon={() => <MoneyIcon size={24} />}
         title={t('MoreScreen.MainCurrency')}
         value={instrumentTitle}
         disabled={isMutating}
         onPress={openCurrencyPicker}
       />
       <PickerListItem
+        leftIcon={() => <LanguageIcon size={24} />}
         title={t('MoreScreen.Locales')}
         value={locale}
         onPress={() => navigation.navigate('LocalesScreen')}
       />
-      <PickerListItem title={t('MoreScreen.Tags')} onPress={() => navigation.navigate('TagsScreen', {})} />
+      <PickerListItem
+        leftIcon={() => <TagIcon size={24} />}
+        title={t('MoreScreen.Tags')}
+        onPress={() => navigation.navigate('TagsScreen', {})}
+      />
       <SwitchListItem
+        leftIcon={() => <PlusCircleOutlineIcon size={24} />}
         title={t('MoreScreen.FastAddTransaction')}
         value={fastAddTransaction}
         onValueChange={setFastAddTransaction}
+        style={{paddingBottom: 12}}
       />
-      <PickerListItem title={t('MoreScreen.SignOut')} onPress={logout} />
+      <PickerListItem leftIcon={() => <LogoutIcon size={24} />} title={t('MoreScreen.SignOut')} onPress={logout} />
     </ScrollView>
   );
 };

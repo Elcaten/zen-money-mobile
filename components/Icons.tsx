@@ -50,6 +50,11 @@ export const HelpIcon: React.FC<IconProps> = (props) => {
   return <MaterialIcons color={iconColor} name="help-outline" {...props} />;
 };
 
+export const LanguageIcon: React.FC<IconProps> = (props) => {
+  const {iconColor} = useNavigatorThemeColors();
+  return <MaterialIcons color={iconColor} name="language" {...props} />;
+};
+
 export const LogoutIcon: React.FC<IconProps> = (props) => {
   const {iconColor} = useNavigatorThemeColors();
   return <MaterialIcons color={iconColor} name="logout" {...props} />;
@@ -70,6 +75,11 @@ export const MinusBoxOutlineIcon: React.FC<IconProps> = (props) => {
   return <MaterialCommunityIcons color={iconColor} name="minus-box-outline" {...props} />;
 };
 
+export const MoneyIcon: React.FC<IconProps> = (props) => {
+  const {iconColor} = useNavigatorThemeColors();
+  return <MaterialIcons color={iconColor} name="attach-money" {...props} />;
+};
+
 export const PieChartIcon: React.FC<IconProps> = (props) => {
   const {iconColor} = useNavigatorThemeColors();
   return <Ionicons color={iconColor} name="pie-chart-outline" {...props} />;
@@ -78,6 +88,11 @@ export const PieChartIcon: React.FC<IconProps> = (props) => {
 export const PlusIcon: React.FC<IconProps> = (props) => {
   const {iconColor} = useNavigatorThemeColors();
   return <MaterialCommunityIcons color={iconColor} name="plus" {...props} />;
+};
+
+export const PlusCircleOutlineIcon: React.FC<IconProps> = (props) => {
+  const {iconColor} = useNavigatorThemeColors();
+  return <MaterialCommunityIcons color={iconColor} name="plus-circle-outline" {...props} />;
 };
 
 export const PlusBoxOutlineIcon: React.FC<IconProps> = (props) => {
