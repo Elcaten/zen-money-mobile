@@ -1,11 +1,12 @@
-import {Ionicons, MaterialIcons} from '@expo/vector-icons';
+import {Ionicons} from '@expo/vector-icons';
 import * as React from 'react';
 import {useCallback, useLayoutEffect, useMemo, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {FlatList, ListRenderItemInfo, StyleSheet} from 'react-native';
 import Collapsible from 'react-native-collapsible';
-import {HeaderButtons, Item} from 'react-navigation-header-buttons';
+import {Item} from 'react-navigation-header-buttons';
 import {AccountModel, useAccountModels, useInstruments, useMe} from '../../../api-hooks';
+import {AccountType} from '../../../api/models';
 import {Text, View} from '../../../components';
 import {useCurrencyFormat} from '../../../hooks';
 import {useHeaderButtons} from '../../../hooks/useHeaderButtons';
@@ -15,7 +16,8 @@ import {extractId} from '../../../utils';
 import {AccountListItem} from './AccountListItem';
 
 export const AccountsScreen: React.FC<AccountsScreenProps> = ({navigation}) => {
-  const {data: accounts, isLoading, invalidate} = useAccountModels();
+  const {data, isLoading, invalidate} = useAccountModels();
+  const accounts = useMemo(() => data.filter((a) => a.type !== AccountType.Debt), [data]);
 
   const {data: instruments} = useInstruments();
   const {data: user} = useMe();
