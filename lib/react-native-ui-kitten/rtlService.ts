@@ -23,7 +23,7 @@ class RTLServiceStatic {
    */
   public ignoreRTL(source: ViewStyle, rtl: boolean = this.isRTL()): ViewStyle {
     const rtlStyle: ViewStyle = Object.keys(RtlFlexMap).reduce((style: ViewStyle, prop: string): ViewStyle => {
-      const currentStyleValue = source[prop];
+      const currentStyleValue = (source as any)[prop];
       if (currentStyleValue) {
         const i18nStyleValue = RtlFlexMap[prop].toRTL(currentStyleValue, rtl);
         return {

@@ -3,7 +3,7 @@ import {InputHandles, Input as RNEInput, InputProps} from 'react-native-elements
 import {useNavigatorThemeColors} from '../themes';
 
 const InputComponent: ForwardRefRenderFunction<InputHandles, InputProps> = (props, ref) => {
-  const {text, placeholder} = useNavigatorThemeColors();
+  const {text, secondaryText} = useNavigatorThemeColors();
   const baseStyles = useMemo(() => {
     return {color: text, fontSize: 16};
   }, [text]);
@@ -11,7 +11,7 @@ const InputComponent: ForwardRefRenderFunction<InputHandles, InputProps> = (prop
   return (
     <RNEInput
       ref={ref as any}
-      placeholderTextColor={placeholder}
+      placeholderTextColor={secondaryText}
       errorStyle={[styles.error, props.errorStyle]}
       containerStyle={[styles.container, props.containerStyle]}
       style={[baseStyles, props.style]}

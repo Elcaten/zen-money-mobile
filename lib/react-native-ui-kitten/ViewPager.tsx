@@ -89,7 +89,7 @@ export class ViewPager<ChildrenProps = {}>
 
   public componentDidUpdate(prevProps: ViewPagerProps): void {
     if (prevProps.selectedIndex !== this.props.selectedIndex) {
-      const index: number = this.props.selectedIndex;
+      const index: number = this.props.selectedIndex!;
       this.scrollToIndex({index, animated: true});
     }
   }
@@ -103,7 +103,7 @@ export class ViewPager<ChildrenProps = {}>
 
     if (isHorizontalMove) {
       const i18nOffset: number = RTLService.select(state.dx, -state.dx);
-      const nextSelectedIndex: number = this.props.selectedIndex - Math.sign(i18nOffset);
+      const nextSelectedIndex: number = this.props.selectedIndex! - Math.sign(i18nOffset);
       return nextSelectedIndex >= 0 && nextSelectedIndex < this.children.length;
     }
 
@@ -112,7 +112,7 @@ export class ViewPager<ChildrenProps = {}>
 
   public onPanResponderMove = (_event: GestureResponderEvent, state: PanResponderGestureState): void => {
     const i18nOffset: number = RTLService.select(this.contentWidth, -this.contentWidth);
-    const selectedPageOffset: number = this.props.selectedIndex * i18nOffset;
+    const selectedPageOffset: number = this.props.selectedIndex! * i18nOffset;
 
     this.contentOffset.setValue(state.dx - selectedPageOffset);
   };
@@ -120,10 +120,10 @@ export class ViewPager<ChildrenProps = {}>
   public onPanResponderRelease = (event: GestureResponderEvent, state: PanResponderGestureState) => {
     if (Math.abs(state.vx) >= 0.5 || Math.abs(state.dx) >= 0.5 * this.contentWidth) {
       const i18nOffset: number = RTLService.select(state.dx, -state.dx);
-      const index: number = i18nOffset > 0 ? this.props.selectedIndex - 1 : this.props.selectedIndex + 1;
+      const index: number = i18nOffset > 0 ? this.props.selectedIndex! - 1 : this.props.selectedIndex! + 1;
       this.scrollToIndex({index, animated: true});
     } else {
-      const index: number = this.props.selectedIndex;
+      const index: number = this.props.selectedIndex!;
       this.scrollToIndex({index, animated: true});
     }
   };
@@ -142,7 +142,7 @@ export class ViewPager<ChildrenProps = {}>
 
   private onLayout = (event: LayoutChangeEvent): void => {
     this.contentWidth = event.nativeEvent.layout.width / this.children.length;
-    this.scrollToIndex({index: this.props.selectedIndex});
+    this.scrollToIndex({index: this.props.selectedIndex!});
   };
 
   private onContentOffsetAnimationStateChanged = (state: {value: number}): void => {
@@ -182,7 +182,7 @@ export class ViewPager<ChildrenProps = {}>
   };
 
   private renderComponentChild = (source: React.ReactElement<ChildrenProps>, index: number): React.ReactElement => {
-    const contentView = this.props.shouldLoadComponent(index) ? source : null;
+    const contentView = this.props.shouldLoadComponent?.(index) ? source : null;
 
     return <View style={styles.contentContainer}>{contentView}</View>;
   };
@@ -192,7 +192,7 @@ export class ViewPager<ChildrenProps = {}>
   };
 
   public render(): React.ReactElement<ViewProps> {
-    const {style, children, swipeEnabled, ...viewProps} = this.props;
+    const {style, swipeEnabled, ...viewProps} = this.props;
 
     const panResponderConfig = swipeEnabled ? this.panResponder.panHandlers : null;
     const animatedViewProps = {...viewProps, ...panResponderConfig};
