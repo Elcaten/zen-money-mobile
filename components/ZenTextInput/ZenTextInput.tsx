@@ -1,5 +1,6 @@
 import React, {forwardRef, ForwardRefRenderFunction, useImperativeHandle, useMemo, useRef} from 'react';
-import {TextInput, TextInputProps, Easing, Animated, StyleProp, ViewStyle, StyleSheet} from 'react-native';
+import {Animated, StyleProp, StyleSheet, TextInput, TextInputProps, ViewStyle} from 'react-native';
+import {useShake} from '../../hooks';
 import {useNavigatorThemeColors} from '../../themes';
 import {FontSize, getFontSize} from '../../utils';
 
@@ -21,12 +22,7 @@ const ZenTextInputComponent: ForwardRefRenderFunction<ZenTextInputHandles, ZenTe
     return {color: text, fontSize: getFontSize(size)};
   }, [size, text]);
 
-  const {current: shakeAnimationValue} = useRef(new Animated.Value(0));
-
-  const translateX = shakeAnimationValue.interpolate({
-    inputRange: [0, 0.5, 1, 1.5, 2, 2.5, 3],
-    outputRange: [0, -15, 0, 15, 0, -15, 0],
-  });
+  const {translateX, shake} = useShake();
 
   const textInputRef = useRef<TextInput>(null);
   useImperativeHandle(
@@ -37,18 +33,10 @@ const ZenTextInputComponent: ForwardRefRenderFunction<ZenTextInputHandles, ZenTe
         blur: () => textInputRef.current?.blur(),
         clear: () => textInputRef.current?.clear(),
         isFocused: () => !!textInputRef.current?.isFocused(),
-        shake: () => {
-          shakeAnimationValue.setValue(0);
-          Animated.timing(shakeAnimationValue, {
-            duration: 375,
-            toValue: 3,
-            easing: Easing.bounce,
-            useNativeDriver: true,
-          }).start();
-        },
+        shake,
       };
     },
-    [shakeAnimationValue],
+    [shake],
   );
 
   return (

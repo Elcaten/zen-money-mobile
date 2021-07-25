@@ -2,8 +2,7 @@ import * as React from 'react';
 import {useEffect, useMemo, useRef} from 'react';
 import {Controller, useForm} from 'react-hook-form';
 import {useTranslation} from 'react-i18next';
-import {ScrollView, StyleSheet} from 'react-native';
-import {InputHandles} from 'react-native-elements';
+import {Alert, ScrollView, StyleSheet} from 'react-native';
 import {useQueryClient} from 'react-query';
 import {useAccountModels, useInstruments} from '../../../api-hooks';
 import {QueryKeys} from '../../../api-hooks/query-keys';
@@ -11,6 +10,7 @@ import {useMutateAccount} from '../../../api-hooks/useMutateAccount';
 import {AccountType} from '../../../api/models';
 import {Card} from '../../../components/Card';
 import {TextInputField} from '../../../components/Field';
+import {TextInputFieldHandle} from '../../../components/Field/TextInputField';
 import {PickerListItem} from '../../../components/ListItem';
 import {SwitchListItem} from '../../../components/ListItem/SwitchListItem';
 import {RUB_SHORT_TITLE} from '../../../constants/Constants';
@@ -46,14 +46,20 @@ export const EditAccountScreen: React.FC<AccountDetailsScreenProps> = ({navigati
     formState: {errors},
   } = useForm<EditableAccount>({defaultValues: account ?? emptyAccount});
 
-  const titleRef = useRef<InputHandles>(null);
+  const {t} = useTranslation();
+
+  const titleRef = useRef<TextInputFieldHandle>(null);
   useEffect(() => {
     if (errors.title) {
       titleRef.current?.shake();
     }
   }, [errors.title]);
 
-  const {t} = useTranslation();
+  useEffect(() => {
+    if (errors.type) {
+      Alert.alert(t('EditAccountScreen.UnsupportedTypeTitle'), t('EditAccountScreen.UnsupportedTypeMessage'));
+    }
+  }, [errors.type, t]);
 
   const {mutateAsync, isLoading: isMutating} = useMutateAccount();
   const queryClient = useQueryClient();
@@ -80,7 +86,9 @@ export const EditAccountScreen: React.FC<AccountDetailsScreenProps> = ({navigati
       <Card style={isMutating ? styles.disabledView : []} pointerEvents={isMutating ? 'none' : 'auto'}>
         <Controller
           control={control}
-          render={({field}) => <TextInputField field={field} placeholder={t('EditAccountScreen.Title')} sty />}
+          render={({field}) => (
+            <TextInputField ref={titleRef} field={field} placeholder={t('EditAccountScreen.Title')} />
+          )}
           name="title"
           rules={{required: true}}
         />
@@ -95,7 +103,7 @@ export const EditAccountScreen: React.FC<AccountDetailsScreenProps> = ({navigati
             />
           )}
           name="type"
-          rules={{required: true}}
+          rules={{validate: (val) => val === AccountType.Card || val === AccountType.Cash}}
         />
 
         <Controller

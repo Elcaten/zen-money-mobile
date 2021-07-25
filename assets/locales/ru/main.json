@@ -53,7 +53,9 @@
         "InBalance": "Включить в общий баланс",
         "Instrument": "Валюта счета",
         "Savings": "Накопительный счет",
-        "Title": "Наименование"
+        "Title": "Наименование",
+        "UnsupportedTypeTitle": "Не поддерживается",
+        "UnsupportedTypeMessage": "Данный тип счета пока не поддерживается."
     },
     "EditTransactionScreen": {
         "Comment": "Комментарий",

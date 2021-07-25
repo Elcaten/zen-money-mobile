@@ -51,7 +51,9 @@
         "InBalance": "Include in total balance",
         "Instrument": "Account сurrency",
         "Savings": "Savings account",
-        "Title": "Title"
+        "Title": "Title",
+        "UnsupportedTypeTitle": "Unsupported",
+        "UnsupportedTypeMessage": "This account type is not yet supported."
     },
     "EditTransactionScreen": {
         "Comment": "Comment",
