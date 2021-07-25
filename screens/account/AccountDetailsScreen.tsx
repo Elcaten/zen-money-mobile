@@ -97,7 +97,11 @@ export const AccountDetailsScreen: React.FC<AccountDetailsScreenProps> = ({navig
         }}
         data={transactions}
         onItemPress={(transactionId) =>
-          navigation.navigate('Transactions', {screen: 'TransactionDetailsScreen', params: {transactionId}})
+          navigation.navigate('Transactions', {
+            screen: 'TransactionDetailsScreen',
+            initial: false,
+            params: {transactionId},
+          })
         }
       />
     </View>
