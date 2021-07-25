@@ -18,7 +18,11 @@ export const MoreNavigator: React.FC = () => {
       <Stack.Screen name="TagsScreen" component={TagsScreen} options={{headerTitle: t('MoreScreen.Tags')}} />
       <Stack.Screen name="TagDetailsScreen" component={TagDetailsScreen} options={{headerTitle: ''}} />
       <Stack.Screen name="IconPickerScreen" component={IconPickerScreen} options={{headerTitle: ''}} />
-      <Stack.Screen name="InstrumentPickerScreen" component={InstrumentPickerScreen} options={{headerTitle: ''}} />
+      <Stack.Screen
+        name="InstrumentPickerScreen"
+        component={InstrumentPickerScreen}
+        options={{headerTitle: t('MoreScreen.MainCurrency')}}
+      />
     </Stack.Navigator>
   );
 };
