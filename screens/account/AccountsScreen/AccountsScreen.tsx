@@ -17,7 +17,7 @@ import {AccountListItem} from './AccountListItem';
 
 export const AccountsScreen: React.FC<AccountsScreenProps> = ({navigation}) => {
   const {data, isLoading, invalidate} = useAccountModels();
-  const accounts = useMemo(() => data.filter((a) => a.type !== AccountType.Debt), [data]);
+  const accounts = useMemo(() => data, [data]);
 
   const {data: instruments} = useInstruments();
   const {data: user} = useMe();
@@ -27,16 +27,20 @@ export const AccountsScreen: React.FC<AccountsScreenProps> = ({navigation}) => {
     if (!userCurrency) {
       return 0;
     }
-    const totalAmount = accounts.reduce((prev, curr) => {
-      return prev + (curr.balance * instruments.get(curr.instrument!)?.rate!) / userCurrency.rate!;
-    }, 0);
+    const totalAmount = accounts
+      .filter((a) => a.inBalance)
+      .reduce((prev, curr) => {
+        return prev + (curr.balance * instruments.get(curr.instrument!)?.rate!) / userCurrency.rate!;
+      }, 0);
     return formatCurrency(totalAmount, userCurrency.symbol, 0);
   }, [accounts, formatCurrency, instruments, user?.currency]);
 
   const [showArchived, setShowArchived] = useState(false);
-  const archivedAccounts = useMemo(() => accounts.filter((a) => a.archive), [accounts]);
+  const archivedAccounts = useMemo(() => accounts.filter((a) => a.archive && a.type !== AccountType.Debt), [accounts]);
   const displayShowArchivedButton = archivedAccounts.length > 0;
-  const nonArchivedAccounts = useMemo(() => accounts.filter((a) => !a.archive), [accounts]);
+  const nonArchivedAccounts = useMemo(() => accounts.filter((a) => !a.archive && a.type !== AccountType.Debt), [
+    accounts,
+  ]);
 
   const renderAccountItem = React.useCallback(
     (info: ListRenderItemInfo<AccountModel>) => (
