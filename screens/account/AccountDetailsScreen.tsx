@@ -33,10 +33,16 @@ export const AccountDetailsScreen: React.FC<AccountDetailsScreenProps> = ({navig
     if (account == null) {
       return;
     }
-    await deleteAsync(account.id);
-    await queryClient.invalidateQueries([QueryKeys.Accounts, QueryKeys.Transactions]);
-    showToast(t('AccountDetailsScreen.DeleteSuccessMessage'));
-    navigation.pop();
+
+    const {success} = await deleteAsync(account.id);
+    if (success) {
+      await queryClient.invalidateQueries(QueryKeys.Accounts);
+      await queryClient.invalidateQueries(QueryKeys.Transactions);
+      showToast(t('AccountDetailsScreen.DeleteSuccessMessage'));
+      navigation.pop();
+    } else {
+      showToast('Error');
+    }
   }, [account, deleteAsync, navigation, queryClient, t]);
 
   const onDeletePress = useDeletePress(

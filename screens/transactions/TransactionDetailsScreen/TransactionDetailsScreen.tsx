@@ -25,7 +25,7 @@ export const TransactionDetailsScreen: React.FC<TransactionDetailsScreenProps> =
       return;
     }
     await deleteAsync(transaction.id);
-    await queryClient.invalidateQueries([QueryKeys.Transactions]);
+    await queryClient.invalidateQueries(QueryKeys.Transactions);
     showToast(t('TransactionDetailsScreen.DeleteSuccessMessage'));
     navigation.pop();
   }, [deleteAsync, navigation, queryClient, t, transaction]);
