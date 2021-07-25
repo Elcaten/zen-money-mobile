@@ -6,7 +6,8 @@
         "foregroundImage": "./assets/images/adaptive-icon.png"
       },
       "package": "com.nameless1one.zenmoney",
-      "versionCode": 1
+      "versionCode": 1,
+      "userInterfaceStyle": "automatic"
     },
     "assetBundlePatterns": [
       "**/*"
@@ -15,7 +16,8 @@
     "ios": {
       "buildNumber": "1.0.0",
       "bundleIdentifier": "com.nameless1one.zenmoney",
-      "supportsTablet": true
+      "supportsTablet": true,
+      "userInterfaceStyle": "automatic"
     },
     "name": "zen-money-mobile",
     "orientation": "portrait",

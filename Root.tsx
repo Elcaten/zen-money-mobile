@@ -1,10 +1,9 @@
 import {StatusBar} from 'expo-status-bar';
 import React, {useCallback, useEffect, useState} from 'react';
-import {Appearance, Text} from 'react-native';
 import {useMe} from './api-hooks';
-import {View} from './components';
 import {LoadingScreen} from './components/LoadingScreen';
 import {LoginScreen} from './components/LoginScreen';
+import useColorScheme from './hooks/useColorSheme';
 import {initI18n} from './init-i18n';
 import Navigation from './navigation';
 import {localeSelector, themeSelector, useStore} from './store/use-store';
@@ -27,40 +26,21 @@ export const Root: React.FC = () => {
     initI18n(locale).then(() => setIsLoadingLocales(false));
   }, [locale]);
 
-  const theme = useStore(themeSelector);
+  const appTheme = useStore(themeSelector);
+  const systemTheme = useColorScheme();
   const {setNavigatorTheme} = useNavigatorTheme();
   const {setElementsTheme} = useElementsTheme();
 
-  const setComponentThemes = useCallback(
-    (colorScheme: 'dark' | 'light' | null | undefined) => {
-      if (colorScheme === 'dark') {
-        setNavigatorTheme(DarkNavigatorTheme);
-        setElementsTheme(DarkElementsTheme);
-      } else {
-        setNavigatorTheme(DefaultNavigatorTheme);
-        setElementsTheme(DefaultElementsTheme);
-      }
-    },
-    [setElementsTheme, setNavigatorTheme],
-  );
-
   useEffect(() => {
-    const onSystemThemeChange = ({colorScheme}: {colorScheme?: 'light' | 'dark' | null}) => {
-      if (theme === 'system') {
-        setComponentThemes(colorScheme);
-      }
-    };
-    Appearance.addChangeListener(onSystemThemeChange);
-    setComponentThemes(Appearance.getColorScheme());
-    return () => Appearance.removeChangeListener(onSystemThemeChange);
-  }, [setComponentThemes, theme]);
-
-  useEffect(() => {
-    if (theme !== 'system') {
-      setComponentThemes(theme);
+    const effectiveTheme = appTheme === 'system' ? systemTheme : appTheme;
+    if (effectiveTheme === 'dark') {
+      setNavigatorTheme(DarkNavigatorTheme);
+      setElementsTheme(DarkElementsTheme);
+    } else {
+      setNavigatorTheme(DefaultNavigatorTheme);
+      setElementsTheme(DefaultElementsTheme);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [theme]);
+  }, [setElementsTheme, setNavigatorTheme, systemTheme, appTheme]);
 
   if (isLoading || isLoadingLocales) {
     return <LoadingScreen />;
