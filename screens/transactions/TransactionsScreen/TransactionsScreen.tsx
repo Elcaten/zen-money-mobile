@@ -8,7 +8,13 @@ import {useTransactionModels} from '../../../api-hooks';
 import {Text} from '../../../components';
 import {Card} from '../../../components/Card';
 import {ListItem} from '../../../components/ListItem';
-import {SearchSuggestion, useSearchResults, useSearchSuggestions} from '../../../hooks';
+import {
+  SearchSuggestion,
+  useGrandTotal,
+  useNativeHeaderTitle,
+  useSearchResults,
+  useSearchSuggestions,
+} from '../../../hooks';
 import {useHeaderButtons} from '../../../hooks/useHeaderButtons';
 import {useNavigatorThemeColors} from '../../../themes';
 import {TransactionsScreenProps} from '../../../types';
@@ -46,11 +52,15 @@ export const TransactionsScreen: React.FC<TransactionsScreenProps> = ({navigatio
     }
   }, [showSuggestions, toggleOverlay]);
 
+  const grandTotal = useGrandTotal();
+
   useEffect(() => {
     setSearchExpr('');
   }, [visible]);
 
   useHeaderButtons(navigation, {onSearchPress: toggleOverlay});
+
+  useNativeHeaderTitle(navigation, grandTotal.toString());
 
   const navigateToDetails = useCallback(
     (transactionId: string) => {

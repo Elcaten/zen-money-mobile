@@ -5,11 +5,12 @@ import {useTranslation} from 'react-i18next';
 import {FlatList, ListRenderItemInfo, StyleSheet} from 'react-native';
 import Collapsible from 'react-native-collapsible';
 import {Item} from 'react-navigation-header-buttons';
-import {AccountModel, useAccountModels, useInstruments, useMe} from '../../../api-hooks';
+import {AccountModel, useAccountModels} from '../../../api-hooks';
 import {AccountType} from '../../../api/models';
 import {Text, View} from '../../../components';
-import {useCurrencyFormat} from '../../../hooks';
+import {useGrandTotal} from '../../../hooks/useGrandTotal';
 import {useHeaderButtons} from '../../../hooks/useHeaderButtons';
+import {useHeaderTitle} from '../../../hooks/useHeaderTitle';
 import {useNavigatorThemeColors} from '../../../themes';
 import {AccountsScreenProps} from '../../../types';
 import {extractId} from '../../../utils';
@@ -18,22 +19,6 @@ import {AccountListItem} from './AccountListItem';
 export const AccountsScreen: React.FC<AccountsScreenProps> = ({navigation}) => {
   const {data, isLoading, invalidate} = useAccountModels();
   const accounts = useMemo(() => data, [data]);
-
-  const {data: instruments} = useInstruments();
-  const {data: user} = useMe();
-  const formatCurrency = useCurrencyFormat();
-  const grandTotal = useMemo(() => {
-    const userCurrency = instruments.get(user?.currency!);
-    if (!userCurrency) {
-      return 0;
-    }
-    const totalAmount = accounts
-      .filter((a) => a.inBalance)
-      .reduce((prev, curr) => {
-        return prev + (curr.balance * instruments.get(curr.instrument!)?.rate!) / userCurrency.rate!;
-      }, 0);
-    return formatCurrency(totalAmount, userCurrency.symbol, 0);
-  }, [accounts, formatCurrency, instruments, user?.currency]);
 
   const [showArchived, setShowArchived] = useState(false);
   const archivedAccounts = useMemo(() => accounts.filter((a) => a.archive && a.type !== AccountType.Debt), [accounts]);
@@ -84,18 +69,14 @@ export const AccountsScreen: React.FC<AccountsScreenProps> = ({navigation}) => {
     [navigation],
   );
   const onAddPress = useCallback(() => navigation.navigate('EditAccountScreen', {accountId: undefined}), [navigation]);
+  const grandTotal = useGrandTotal();
 
   useHeaderButtons(navigation, {
     onAddPress,
+    renderButtons,
     renderButtonPosition: 'right',
-    renderButtons: renderButtons,
   });
-
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerTitle: grandTotal.toString(),
-    });
-  }, [grandTotal, navigation]);
+  useHeaderTitle(navigation, grandTotal.toString());
 
   return (
     <FlatList
