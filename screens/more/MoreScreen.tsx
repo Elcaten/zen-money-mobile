@@ -80,7 +80,6 @@ export const MoreScreen: React.FC<MoreScreenProps> = ({navigation}) => {
         title={t('MoreScreen.FastAddTransaction')}
         value={fastAddTransaction}
         onValueChange={setFastAddTransaction}
-        style={{paddingBottom: 12}}
       />
       <PickerListItem leftIcon={() => <LogoutIcon size={24} />} title={t('MoreScreen.SignOut')} onPress={logout} />
     </ScrollView>

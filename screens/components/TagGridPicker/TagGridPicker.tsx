@@ -4,8 +4,9 @@ import {Tag} from '../../../api/models';
 import {Text, View} from '../../../components';
 import {Card} from '../../../components/Card';
 import {ListItem} from '../../../components/ListItem';
-import {LIGHT_GRAY} from '../../../constants/Colors';
-import {argbToHEX, hexToRgb, REACT_QUERY_PERSIST_KEY, splitArray} from '../../../utils';
+import {BLACK} from '../../../constants/Colors';
+import {useNavigatorThemeColors} from '../../../themes';
+import {argbToHEX, splitArray} from '../../../utils';
 import {TagIcon} from '../TagIcon';
 
 const {width} = Dimensions.get('window');
@@ -80,6 +81,7 @@ const TagRow: React.FC<{tags: Tag[]; selectedTag: Tag | null; onTagPress: (tag: 
   childTags,
 }) => {
   const isRowSelected = tags.some((t) => t.id === selectedTag?.id);
+  const {card, iconColor: defaultIconColor} = useNavigatorThemeColors();
 
   return (
     <React.Fragment>
@@ -90,8 +92,8 @@ const TagRow: React.FC<{tags: Tag[]; selectedTag: Tag | null; onTagPress: (tag: 
             tag = selectedTag;
           }
           const isSelected = tag.id === selectedTag?.id;
-          const color = isSelected ? hexToRgb('#ffffff')! : undefined;
-          const backgroundColor = isSelected ? tag.color ?? hexToRgb(LIGHT_GRAY)! : undefined;
+          const backgroundColor = isSelected ? (tag.color ? argbToHEX(tag.color) : defaultIconColor) : card;
+          const color = isSelected ? card : undefined;
           return (
             <TagButton
               tag={tag}
@@ -114,17 +116,17 @@ const TagRow: React.FC<{tags: Tag[]; selectedTag: Tag | null; onTagPress: (tag: 
   );
 };
 
-const TagButton: React.FC<{tag: Tag; onPress: () => void; color?: number; backgroundColor?: number}> = ({
+const TagButton: React.FC<{tag: Tag; onPress: () => void; color?: string; backgroundColor: string}> = ({
   tag,
   onPress,
   color,
   backgroundColor,
 }) => {
+  const {border} = useNavigatorThemeColors();
+
   return (
     <View style={styles.tagButton}>
-      <TouchableOpacity
-        style={[styles.iconContainer, {backgroundColor: backgroundColor ? argbToHEX(backgroundColor) : undefined}]}
-        onPress={onPress}>
+      <TouchableOpacity style={[styles.iconContainer, {backgroundColor, borderColor: border}]} onPress={onPress}>
         <TagIcon icon={tag.icon} size={ICON_SIZE} key={tag.id} color={color} />
       </TouchableOpacity>
       <Text style={styles.tagButtonText}>{tag.title}</Text>
@@ -149,7 +151,6 @@ const styles = StyleSheet.create({
     padding: ICON_PADDING,
     margin: ICON_MARGIN,
     borderWidth: 1,
-    borderColor: LIGHT_GRAY,
     borderRadius: 100,
   },
   view: {

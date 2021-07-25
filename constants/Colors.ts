@@ -1,26 +1,15 @@
-const tintColorLight = '#2f95dc';
-const tintColorDark = '#fff';
-
-export default {
-  light: {
-    text: '#000',
-    button: 'blue',
-    background: '#fff',
-    tint: tintColorLight,
-    tabIconDefault: '#ccc',
-    tabIconSelected: tintColorLight,
-  },
-  dark: {
-    text: '#fff',
-    background: '#000',
-    button: 'cyan',
-    tint: tintColorDark,
-    tabIconDefault: '#ccc',
-    tabIconSelected: tintColorDark,
-  },
-};
-
-export const GRAY = '#8A8A8C';
-export const LIGHT_GRAY = '#E3E3E3';
-export const SUCCESS = '#4EB64E';
-export const CINNABAR = '#EC4237';
+export const BLACK = '#000000';
+export const DEEP_ORANGE_800 = '#D84315';
+export const DEEP_PURPLE_300 = '#9575CD';
+export const DEEP_PURPLE_500 = '#673AB7';
+export const ERROR_DARK = '#CF6679';
+export const ERROR_LIGHT = '#B00020';
+export const GRAY_300 = '#E0E0E0';
+export const GRAY_800 = '#424242';
+export const GREEN_500 = '#4CAF50';
+export const INDIGO_300 = '#7986CB';
+export const INDIGO_800 = '#283593';
+export const RED_500 = '#F44336';
+export const TEAL_500 = '#009688';
+export const WHITE = '#FFFFFF';
+export const YELLOW_800 = '#F9A825';

@@ -3,7 +3,8 @@ import {useMemo} from 'react';
 import {StyleSheet} from 'react-native';
 import {PieChart} from 'react-native-svg-charts';
 import {Text, View} from '../../components';
-import {LIGHT_GRAY} from '../../constants/Colors';
+import {GRAY_300, GRAY_800} from '../../constants/Colors';
+import {useNavigatorTheme} from '../../themes';
 import {ExpenseModel} from './expense-model';
 
 interface ExpenseData {
@@ -43,14 +44,17 @@ export interface ExpenseItemProps {
 }
 
 export const ExpenseItem: React.FC<ExpenseItemProps> = ({expense, expenses, totalAmount}) => {
+  const {
+    navigatorTheme: {dark},
+  } = useNavigatorTheme();
   const data = useMemo(() => {
     return expenses.map((e) => ({
       key: e.id,
       value: e.amount,
-      svg: {fill: e.id === expense.id ? e.color : LIGHT_GRAY},
+      svg: {fill: e.id === expense.id ? e.color : dark ? GRAY_800 : GRAY_300},
       arc: {padAngle: 0} as any,
     }));
-  }, [expense.id, expenses]);
+  }, [expenses, expense.id, dark]);
 
   const share = useMemo(() => {
     const value = (expense.amount / totalAmount) * 100;

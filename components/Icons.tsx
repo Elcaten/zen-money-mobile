@@ -100,6 +100,11 @@ export const PlusBoxOutlineIcon: React.FC<IconProps> = (props) => {
   return <MaterialCommunityIcons color={iconColor} name="plus-box-outline" {...props} />;
 };
 
+export const QuestionCircleIcon: React.FC<IconProps> = (props) => {
+  const {iconColor} = useNavigatorThemeColors();
+  return <FontAwesome5 color={iconColor} name="question-circle" {...props} />;
+};
+
 export const RadioboxBlankIcon: React.FC<IconProps> = (props) => {
   const {iconColor} = useNavigatorThemeColors();
   return <MaterialCommunityIcons color={iconColor} name="radiobox-blank" {...props} />;

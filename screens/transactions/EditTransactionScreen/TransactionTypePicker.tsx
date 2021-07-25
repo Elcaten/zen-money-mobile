@@ -56,6 +56,7 @@ const useTransactionTypes = () => {
 };
 
 import {StyleSheet} from 'react-native';
+import {useElementsTheme} from '../../../themes';
 
 const styles = StyleSheet.create({
   buttons: {

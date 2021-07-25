@@ -3,12 +3,12 @@ import {StyleSheet} from 'react-native';
 import {AccountModel} from '../../../api-hooks';
 import {Text} from '../../../components';
 import {ListItem} from '../../../components/ListItem';
-import {CINNABAR} from '../../../constants/Colors';
+import {RED_500} from '../../../constants/Colors';
 import {AccountIcon} from '../AccountIcon';
 
 const Balance: React.FC<{account: AccountModel}> = ({account}) => {
   return (
-    <Text size="large" style={account.balance < 0 ? {color: CINNABAR} : {}}>
+    <Text size="large" style={account.balance < 0 ? {color: RED_500} : {}}>
       {account.balance < 0 && '−'}
       {account.balanceFormatted}
     </Text>

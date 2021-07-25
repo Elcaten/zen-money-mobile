@@ -1,27 +1,30 @@
-/* eslint-disable no-bitwise */
 import React from 'react';
-import {Image, ImageStyle, StyleProp, View} from 'react-native';
+import {Image, ImageStyle, StyleProp, TextStyle} from 'react-native';
 import {TagIconName} from '../../api/models';
+import {QuestionCircleIcon} from '../../components';
+import {useNavigatorThemeColors} from '../../themes';
 import {argbToHEX} from '../../utils';
 
 export interface TagIconProps {
   icon?: TagIconName | null;
   size?: number;
-  color?: number | null;
-  style?: StyleProp<ImageStyle>;
+  color?: number | string | null;
+  style?: StyleProp<ImageStyle> & StyleProp<TextStyle>;
 }
 
 export const TagIcon: React.FC<TagIconProps> = ({icon, size, color, style}) => {
+  const {iconColor} = useNavigatorThemeColors();
+  const hexColor = typeof color === 'string' ? color : color ? argbToHEX(color) : iconColor;
+
   if (!icon) {
-    return <View style={{width: size}} />;
+    return <QuestionCircleIcon size={size} style={style} color={hexColor} />;
   }
 
-  return <Image source={pngIcons[icon]} style={[{width: size, height: size, tintColor: argbToHEX(color!)}, style]} />;
+  return <Image source={pngIcons[icon]} style={[{width: size, height: size, tintColor: hexColor}, style]} />;
 };
 
 TagIcon.defaultProps = {
   size: 48,
-  color: 10855845, // 165,165,165
 };
 
 const pngIcons: Record<TagIconName, any> = {

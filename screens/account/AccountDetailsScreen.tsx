@@ -74,7 +74,7 @@ export const AccountDetailsScreen: React.FC<AccountDetailsScreenProps> = ({navig
     setIsFiltering(false);
   }, [accountId, data]);
 
-  const {primary} = useNavigatorThemeColors();
+  const {onPrimary, secondary} = useNavigatorThemeColors();
 
   return (
     <View
@@ -83,8 +83,8 @@ export const AccountDetailsScreen: React.FC<AccountDetailsScreenProps> = ({navig
       <TransactionList
         renderHeader={() => (
           <Card style={styles.listHeader}>
-            <View style={[styles.listHeaderIcon, {backgroundColor: primary}]}>
-              <AccountIcon type={account?.type!} size={64} color={'#fff'} />
+            <View style={[styles.listHeaderIcon, {backgroundColor: secondary}]}>
+              <AccountIcon type={account?.type!} size={64} color={onPrimary} />
             </View>
             <Text style={styles.title}>{account?.title}</Text>
             <Text style={styles.title}>{account?.balanceFormatted}</Text>

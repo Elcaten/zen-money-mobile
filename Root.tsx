@@ -59,7 +59,8 @@ export const Root: React.FC = () => {
     if (theme !== 'system') {
       setComponentThemes(theme);
     }
-  }, [setComponentThemes, theme]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [theme]);
 
   if (isLoading || isLoadingLocales) {
     return <LoadingScreen />;

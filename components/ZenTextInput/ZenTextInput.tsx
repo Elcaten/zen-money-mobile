@@ -16,7 +16,7 @@ const ZenTextInputComponent: ForwardRefRenderFunction<ZenTextInputHandles, ZenTe
   {size, containerStyle, ...rest},
   ref,
 ) => {
-  const {text, placeholder} = useNavigatorThemeColors();
+  const {text, secondaryText} = useNavigatorThemeColors();
   const baseStyles = useMemo(() => {
     return {color: text, fontSize: getFontSize(size)};
   }, [size, text]);
@@ -61,7 +61,7 @@ const ZenTextInputComponent: ForwardRefRenderFunction<ZenTextInputHandles, ZenTe
         containerStyle as any,
         {transform: [{translateX}]},
       ])}>
-      <TextInput ref={textInputRef} placeholderTextColor={placeholder} {...rest} style={[baseStyles, rest.style]} />
+      <TextInput ref={textInputRef} placeholderTextColor={secondaryText} {...rest} style={[baseStyles, rest.style]} />
     </Animated.View>
   );
 };

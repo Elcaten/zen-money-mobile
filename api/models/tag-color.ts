@@ -1,8 +1,5 @@
-import {LIGHT_GRAY} from '../../constants/Colors';
-import {hexToRgb} from '../../utils';
-
 export const TagColor = {
-  NoColor: hexToRgb(LIGHT_GRAY)!, //TODO: fix wrong color
+  NoColor: null,
   /** #fb8d01 */
   VividOrange: 16485633,
   /** #43a047 */
@@ -17,4 +14,4 @@ export const TagColor = {
   DarkMagenta: 10233520,
 };
 
-export const tagColors = Object.values(TagColor) as number[];
+export const tagColors = Object.values(TagColor);

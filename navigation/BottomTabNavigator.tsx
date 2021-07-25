@@ -21,11 +21,11 @@ const tabListeners = resetTabStackListener();
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
 export default function BottomTabNavigator() {
-  const {tintColor} = useNavigatorThemeColors();
+  const {primary} = useNavigatorThemeColors();
   const {t} = useTranslation();
 
   return (
-    <BottomTab.Navigator initialRouteName="Accounts" tabBarOptions={{activeTintColor: tintColor}}>
+    <BottomTab.Navigator initialRouteName="Accounts" tabBarOptions={{activeTintColor: primary}}>
       <BottomTab.Screen
         name="Accounts"
         component={AccountsNavigator}

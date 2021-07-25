@@ -1,21 +1,15 @@
 import * as React from 'react';
 import {useTranslation} from 'react-i18next';
-import {StyleSheet} from 'react-native';
 import {ListItem} from '../../components/ListItem';
-import {GRAY} from '../../constants/Colors';
 import {setThemeSelector, themeSelector, useStore} from '../../store/use-store';
+import {useNavigatorThemeColors} from '../../themes';
 import {RadioButton} from '../components';
-
-const styles = StyleSheet.create({
-  subtitle: {
-    color: GRAY,
-  },
-});
 
 export const ThemesScreen: React.FC = () => {
   const setTheme = useStore(setThemeSelector);
   const theme = useStore(themeSelector);
   const {t} = useTranslation();
+  const {secondaryText} = useNavigatorThemeColors();
 
   return (
     <React.Fragment>
@@ -23,7 +17,9 @@ export const ThemesScreen: React.FC = () => {
         <RadioButton checked={theme === 'system'} />
         <ListItem.Content>
           <ListItem.Title>{t('ThemesScreen.SystemDefault')}</ListItem.Title>
-          <ListItem.Subtitle style={styles.subtitle}>{t('ThemesScreen.SystemDefaultDescription')}</ListItem.Subtitle>
+          <ListItem.Subtitle style={{color: secondaryText}}>
+            {t('ThemesScreen.SystemDefaultDescription')}
+          </ListItem.Subtitle>
         </ListItem.Content>
       </ListItem>
       <ListItem onPress={() => setTheme('light')}>

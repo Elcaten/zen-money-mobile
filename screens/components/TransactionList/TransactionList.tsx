@@ -4,6 +4,7 @@ import {Component} from 'react';
 import {Dimensions} from 'react-native';
 import {DataProvider, LayoutProvider, RecyclerListView, RecyclerListViewProps} from 'recyclerlistview';
 import {TransactionModel} from '../../../api-hooks';
+import {NavigatorTheme, NavigatorThemeContextConsumer} from '../../../themes/navigator-themes';
 import {OneWayTransaction, TwoWayTransaction} from './TransactionItem';
 import {TransactionSectionHeader} from './TransactionSectionHeader';
 
@@ -123,16 +124,31 @@ export class TransactionList extends Component<TransactionsListProps, Transactio
     });
   }
 
-  private renderRow(type: string | number, data: TransactionListItem) {
+  private renderRow(type: string | number, data: TransactionListItem, _index: number, extendedState?: object) {
+    const theme = extendedState as NavigatorTheme;
     switch (type) {
       case ViewType.OneWayTransaction:
       case ViewType.OneWayTransactionWithComment:
-        return <OneWayTransaction transaction={data.value as TransactionModel} onPress={this.props.onItemPress} />;
+        return (
+          <OneWayTransaction
+            transaction={data.value as TransactionModel}
+            onPress={this.props.onItemPress}
+            secondaryTextColor={theme.colors.secondaryText}
+            commentBackgroundColor={theme.colors.background}
+          />
+        );
       case ViewType.TwoWayTransaction:
       case ViewType.TwoWayTransactionWithComment:
-        return <TwoWayTransaction transaction={data.value as TransactionModel} onPress={this.props.onItemPress} />;
+        return (
+          <TwoWayTransaction
+            transaction={data.value as TransactionModel}
+            onPress={this.props.onItemPress}
+            secondaryTextColor={theme.colors.secondaryText}
+            commentBackgroundColor={theme.colors.background}
+          />
+        );
       case ViewType.SectionHeader:
-        return <TransactionSectionHeader title={data.value as string} />;
+        return <TransactionSectionHeader title={data.value as string} color={theme.colors.secondaryText} />;
       case ViewType.ListHeader:
         return this.props.renderHeader ? <this.props.renderHeader /> : null;
       default:
@@ -142,18 +158,21 @@ export class TransactionList extends Component<TransactionsListProps, Transactio
 
   render() {
     return (
-      <React.Fragment>
-        {this.state.dataProvider.getSize() > 0 && (
-          <RecyclerListView
-            externalScrollView={this.props.externalScrollView}
-            scrollViewProps={this.props.scrollViewProps}
-            onScroll={this.props.onScroll}
-            rowRenderer={this.renderRow}
-            dataProvider={this.state.dataProvider}
-            layoutProvider={this.layoutProvider}
-          />
-        )}
-      </React.Fragment>
+      <NavigatorThemeContextConsumer>
+        {({navigatorTheme}) =>
+          this.state.dataProvider.getSize() > 0 && (
+            <RecyclerListView
+              extendedState={navigatorTheme}
+              externalScrollView={this.props.externalScrollView}
+              scrollViewProps={this.props.scrollViewProps}
+              onScroll={this.props.onScroll}
+              rowRenderer={this.renderRow}
+              dataProvider={this.state.dataProvider}
+              layoutProvider={this.layoutProvider}
+            />
+          )
+        }
+      </NavigatorThemeContextConsumer>
     );
   }
 }

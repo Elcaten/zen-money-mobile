@@ -12,7 +12,7 @@ import {TransactionType} from '../transaction-type';
 export interface AddTransactionButtonProps {}
 
 export const AddTransactionButton: React.FC<AddTransactionButtonProps> = (props) => {
-  const {primary} = useNavigatorThemeColors();
+  const {secondary} = useNavigatorThemeColors();
   const {t} = useTranslation();
   const nav = useNavigation<TransactionsScreenNavigationProp>();
 
@@ -63,11 +63,11 @@ export const AddTransactionButton: React.FC<AddTransactionButtonProps> = (props)
       visible
       open={open}
       icon={open ? 'close' : 'plus'}
-      fabStyle={{backgroundColor: primary}}
+      fabStyle={{backgroundColor: secondary}}
       actions={[
         {
           icon: 'minus',
-          style: {backgroundColor: primary},
+          style: {backgroundColor: secondary},
           label: t('TransactionType.Expense'),
           onPress: () => {
             setOpen(false);
@@ -77,7 +77,7 @@ export const AddTransactionButton: React.FC<AddTransactionButtonProps> = (props)
         },
         {
           icon: 'plus',
-          style: {backgroundColor: primary},
+          style: {backgroundColor: secondary},
           label: t('TransactionType.Income'),
           onPress: () => {
             setOpen(false);
@@ -86,7 +86,7 @@ export const AddTransactionButton: React.FC<AddTransactionButtonProps> = (props)
         },
         {
           icon: 'swap-horizontal',
-          style: {backgroundColor: primary},
+          style: {backgroundColor: secondary},
           label: t('TransactionType.Transfer'),
           onPress: () => {
             setOpen(false);

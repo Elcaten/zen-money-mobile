@@ -5,6 +5,7 @@ import {StyleSheet} from 'react-native';
 import {Icon} from 'react-native-elements';
 import {Tag} from '../../api/models';
 import {View} from '../../components';
+import {useNavigatorThemeColors} from '../../themes';
 
 export type TagPickerProps = {
   tags: Tag[];
@@ -17,9 +18,11 @@ export const TagPicker: React.FC<TagPickerProps> = ({tags, selectedTag, onSelect
     return [{id: undefined, title: 'Select a category'}, ...tags];
   }, [tags]);
 
+  const {text} = useNavigatorThemeColors();
+
   return (
     <View style={styles.wrapper}>
-      <Picker onValueChange={onSelect} selectedValue={selectedTag ?? undefined} style={styles.picker}>
+      <Picker onValueChange={onSelect} selectedValue={selectedTag ?? undefined} style={[styles.picker, {color: text}]}>
         {options.map(({id, title}) => (
           <Picker.Item key={title} value={id} label={title} />
         ))}
@@ -35,6 +38,5 @@ const styles = StyleSheet.create({
   },
   picker: {
     flex: 1,
-    color: '#000000',
   },
 });

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {StyleSheet} from 'react-native';
-import {GRAY} from '../../constants/Colors';
+import {useNavigatorThemeColors} from '../../themes';
 import {Text} from '../Text';
 import {ListItem, ListItemProps} from './ListItem';
 
@@ -11,11 +11,12 @@ type PickerhListItemProps = ListItemProps & {
 };
 
 export function PickerListItem({title, value, leftIcon, ...rest}: React.PropsWithChildren<PickerhListItemProps>) {
+  const {secondaryText} = useNavigatorThemeColors();
   return (
     <ListItem bottomDivider {...rest} style={[rest.style, rest.disabled ? styles.disabled : {}]}>
       {leftIcon && leftIcon()}
       <ListItem.Title>{title}</ListItem.Title>
-      <Text numberOfLines={1} style={styles.value}>
+      <Text numberOfLines={1} style={[styles.value, {color: secondaryText}]}>
         {value}
       </Text>
       <ListItem.Chevron size={24} />
@@ -25,7 +26,6 @@ export function PickerListItem({title, value, leftIcon, ...rest}: React.PropsWit
 
 const styles = StyleSheet.create({
   value: {
-    color: GRAY,
     flex: 1,
     textAlign: 'right',
   },

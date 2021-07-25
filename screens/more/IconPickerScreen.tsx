@@ -5,8 +5,9 @@ import {TagIconName} from '../../api/models';
 import {TagColor, tagColors} from '../../api/models/tag-color';
 import {View} from '../../components';
 import {useHeaderButtons} from '../../hooks/useHeaderButtons';
+import {useNavigatorThemeColors} from '../../themes';
 import {IconPickerScreenProps} from '../../types';
-import {argbToHEX, hexToRgb} from '../../utils';
+import {argbToHEX} from '../../utils';
 import {TagIcon} from '../components/TagIcon';
 
 export const IconPickerScreen: React.FC<IconPickerScreenProps> = ({navigation, route}) => {
@@ -20,34 +21,30 @@ export const IconPickerScreen: React.FC<IconPickerScreenProps> = ({navigation, r
 
   useHeaderButtons(navigation, {onSavePress});
 
+  const {card, iconColor: defaultIconColor} = useNavigatorThemeColors();
+
   return (
     <View>
       <View style={styles.colorsContainer}>
-        {tagColors.map((color) => (
-          <View
-            key={color}
-            style={[
-              styles.selectedColorContainer,
-              color === iconColor ? [{backgroundColor: argbToHEX(iconColor ?? TagColor.NoColor)}] : {},
-            ]}>
-            <TouchableOpacity onPress={() => setIconColor(color)}>
-              <View style={[styles.colorItem, {backgroundColor: argbToHEX(color)}]} />
-            </TouchableOpacity>
-          </View>
-        ))}
+        {tagColors.map((color) => {
+          const isSelectedColor = color === iconColor;
+          const hexColor = color != null ? argbToHEX(color) : defaultIconColor;
+          const style = isSelectedColor ? {padding: 16, backgroundColor: hexColor} : {backgroundColor: hexColor};
+          return <TouchableOpacity key={color} onPress={() => setIconColor(color)} style={[styles.colorItem, style]} />;
+        })}
       </View>
       <ScrollView contentContainerStyle={styles.container}>
-        {tagIconNames.map((value) => (
-          <TouchableOpacity
-            style={[
-              styles.iconContainer,
-              value === iconName ? [{backgroundColor: argbToHEX(iconColor ?? TagColor.NoColor)}] : {},
-            ]}
-            key={value}
-            onPress={() => setIconName(value)}>
-            <TagIcon icon={value} size={32} color={value === iconName ? hexToRgb('#ffffff') : undefined} />
-          </TouchableOpacity>
-        ))}
+        {tagIconNames.map((value) => {
+          const isSelectedIcon = value === iconName;
+          const hexColor = iconColor != null ? argbToHEX(iconColor) : defaultIconColor;
+          const style = isSelectedIcon ? {backgroundColor: hexColor} : {};
+
+          return (
+            <TouchableOpacity style={[styles.iconContainer, style]} key={value} onPress={() => setIconName(value)}>
+              <TagIcon icon={value} size={32} color={value === iconName ? card : undefined} />
+            </TouchableOpacity>
+          );
+        })}
       </ScrollView>
     </View>
   );
@@ -56,12 +53,9 @@ export const IconPickerScreen: React.FC<IconPickerScreenProps> = ({navigation, r
 const styles = StyleSheet.create({
   colorsContainer: {
     flexDirection: 'row',
+    alignItems: 'center',
     justifyContent: 'space-between',
     margin: 16,
-  },
-  selectedColorContainer: {
-    padding: 6,
-    borderRadius: 100,
   },
   colorItem: {
     padding: 12,

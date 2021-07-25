@@ -9,7 +9,7 @@ import {AccountType} from '../../api/models';
 import {Text, View} from '../../components';
 import {Card} from '../../components/Card';
 import {ListItem} from '../../components/ListItem';
-import {LIGHT_GRAY} from '../../constants/Colors';
+import {DEEP_ORANGE_800, INDIGO_300, INDIGO_800, WHITE, YELLOW_800} from '../../constants/Colors';
 import {useCurrencyFormat} from '../../hooks';
 
 //=====================================================================================================================
@@ -73,7 +73,7 @@ export interface InstrumentBalancesPieChartProps {
 }
 
 export const InstrumentBalancesPieChart: React.FC<InstrumentBalancesPieChartProps> = ({balances}) => {
-  const [pieData, setPieData] = useState<PieChartData[]>([{key: 'pie-0', value: 10, svg: {fill: LIGHT_GRAY}}]);
+  const [pieData, setPieData] = useState<PieChartData[]>([{key: 'pie-0', value: 10, svg: {fill: WHITE}}]);
 
   useEffect(() => {
     const data = balances.map((b, index) => ({
@@ -146,7 +146,7 @@ const infoStyles = StyleSheet.create({
 });
 
 //=====================================================================================================================
-const getColor = (index: number) => ['#b35806', '#f1a340', '#998ec3', '#542788'][index % 4];
+const getColor = (index: number) => [DEEP_ORANGE_800, YELLOW_800, INDIGO_300, INDIGO_800][index % 4];
 
 interface InstrumentBalance {
   id: number;
