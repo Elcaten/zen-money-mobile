@@ -1,11 +1,11 @@
-import {createStackNavigator} from '@react-navigation/stack';
 import * as React from 'react';
 import {useTranslation} from 'react-i18next';
 import {IconPickerScreen, LocalesScreen, MoreScreen, TagDetailsScreen, TagsScreen, ThemesScreen} from '../screens/more';
 import {InstrumentPickerScreen} from '../screens/shared/InstrumentPickerScreen';
 import {MoreParamList} from '../types';
+import {createNativeStackNavigator} from 'react-native-screens/native-stack';
 
-const Stack = createStackNavigator<MoreParamList>();
+const Stack = createNativeStackNavigator<MoreParamList>();
 
 export const MoreNavigator: React.FC = () => {
   const {t} = useTranslation();

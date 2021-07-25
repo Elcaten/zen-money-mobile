@@ -1,4 +1,4 @@
-import {createStackNavigator} from '@react-navigation/stack';
+import {createNativeStackNavigator} from 'react-native-screens/native-stack';
 import * as React from 'react';
 import {useTranslation} from 'react-i18next';
 import {TransactionsScreen} from '../screens/transactions';
@@ -7,7 +7,7 @@ import {EditTransactionScreen} from '../screens/transactions/EditTransactionScre
 import {TransactionDetailsScreen} from '../screens/transactions/TransactionDetailsScreen';
 import {AccountPickerScreen} from '../screens/shared/AccountPickerScreen';
 
-const Stack = createStackNavigator<TransactionsParamList>();
+const Stack = createNativeStackNavigator<TransactionsParamList>();
 
 export function TransactionsNavigator() {
   const {t} = useTranslation();

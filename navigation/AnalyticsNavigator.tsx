@@ -1,10 +1,10 @@
-import {createStackNavigator} from '@react-navigation/stack';
+import {createNativeStackNavigator} from 'react-native-screens/native-stack';
 import * as React from 'react';
 import {useTranslation} from 'react-i18next';
 import {AnalyticsScreen} from '../screens/analytics';
 import {AnalyticsParamList} from '../types';
 
-const Stack = createStackNavigator<AnalyticsParamList>();
+const Stack = createNativeStackNavigator<AnalyticsParamList>();
 
 export function AnalyticsNavigator() {
   const {t} = useTranslation();

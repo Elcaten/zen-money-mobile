@@ -1,6 +1,7 @@
 import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
 import {CompositeNavigationProp, NavigatorScreenParams, RouteProp} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
+import {NativeStackNavigationProp} from 'react-native-screens/native-stack';
 import {AccountType, TagIconName} from './api/models';
 import {TransactionType} from './screens/transactions/transaction-type';
 
@@ -109,7 +110,7 @@ export type AccountTypePickerScreenProps = {
 //===============================================||  TRANSACTIONS  ||==================================================
 export type TransactionsScreenRouteProp = RouteProp<TransactionsParamList, 'TransactionsScreen'>;
 export type TransactionsScreenNavigationProp = CompositeNavigationProp<
-  StackNavigationProp<TransactionsParamList, 'TransactionsScreen'>,
+  NativeStackNavigationProp<TransactionsParamList, 'TransactionsScreen'>,
   BottomTabNavigationProp<BottomTabParamList>
 >;
 export type TransactionsScreenProps = {
@@ -119,7 +120,7 @@ export type TransactionsScreenProps = {
 
 export type TransactionDetailsScreenRouteProp = RouteProp<TransactionsParamList, 'TransactionDetailsScreen'>;
 export type TransactionDetailsScreenNavigationProp = CompositeNavigationProp<
-  StackNavigationProp<TransactionsParamList, 'TransactionDetailsScreen'>,
+  NativeStackNavigationProp<TransactionsParamList, 'TransactionDetailsScreen'>,
   BottomTabNavigationProp<BottomTabParamList>
 >;
 export type TransactionDetailsScreenProps = {
@@ -129,7 +130,7 @@ export type TransactionDetailsScreenProps = {
 
 export type EditTransactionScreenRouteProp = RouteProp<TransactionsParamList, 'EditTransactionScreen'>;
 export type EditTransactionScreenNavigationProp = CompositeNavigationProp<
-  StackNavigationProp<TransactionsParamList, 'EditTransactionScreen'>,
+  NativeStackNavigationProp<TransactionsParamList, 'EditTransactionScreen'>,
   BottomTabNavigationProp<BottomTabParamList>
 >;
 export type EditTransactionScreenProps = {
@@ -139,7 +140,7 @@ export type EditTransactionScreenProps = {
 
 export type AccountPickerScreenRouteProp = RouteProp<TransactionsParamList, 'AccountPickerScreen'>;
 export type AccountPickerScreenNavigationProp = CompositeNavigationProp<
-  StackNavigationProp<TransactionsParamList, 'AccountPickerScreen'>,
+  NativeStackNavigationProp<TransactionsParamList, 'AccountPickerScreen'>,
   BottomTabNavigationProp<BottomTabParamList>
 >;
 export type AccountPickerScreenProps = {
@@ -150,7 +151,7 @@ export type AccountPickerScreenProps = {
 //===================================================||  MORE  ||======================================================
 export type MoreScreenRouteProp = RouteProp<MoreParamList, 'MoreScreen'>;
 export type MoreScreenNavigationProp = CompositeNavigationProp<
-  StackNavigationProp<MoreParamList, 'MoreScreen'>,
+  NativeStackNavigationProp<MoreParamList, 'MoreScreen'>,
   BottomTabNavigationProp<BottomTabParamList>
 >;
 export type MoreScreenProps = {
@@ -160,7 +161,7 @@ export type MoreScreenProps = {
 
 export type TagsScreenRouteProp = RouteProp<MoreParamList, 'TagsScreen'>;
 export type TagsScreenNavigationProp = CompositeNavigationProp<
-  StackNavigationProp<MoreParamList, 'TagsScreen'>,
+  NativeStackNavigationProp<MoreParamList, 'TagsScreen'>,
   BottomTabNavigationProp<BottomTabParamList>
 >;
 export type TagsScreenProps = {
@@ -170,7 +171,7 @@ export type TagsScreenProps = {
 
 export type TagDetailsScreenRouteProp = RouteProp<MoreParamList, 'TagDetailsScreen'>;
 export type TagDetailsScreenNavigationProp = CompositeNavigationProp<
-  StackNavigationProp<MoreParamList, 'TagDetailsScreen'>,
+  NativeStackNavigationProp<MoreParamList, 'TagDetailsScreen'>,
   BottomTabNavigationProp<BottomTabParamList>
 >;
 export type TagDetailsScreenProps = {
@@ -180,7 +181,7 @@ export type TagDetailsScreenProps = {
 
 export type IconPickerScreenRouteProp = RouteProp<MoreParamList, 'IconPickerScreen'>;
 export type IconPickerScreenNavigationProp = CompositeNavigationProp<
-  StackNavigationProp<MoreParamList, 'IconPickerScreen'>,
+  NativeStackNavigationProp<MoreParamList, 'IconPickerScreen'>,
   BottomTabNavigationProp<BottomTabParamList>
 >;
 export type IconPickerScreenProps = {

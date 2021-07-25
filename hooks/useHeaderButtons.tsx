@@ -2,10 +2,11 @@ import {MaterialCommunityIcons, MaterialIcons} from '@expo/vector-icons';
 import {StackHeaderOptions} from '@react-navigation/stack/lib/typescript/src/types';
 import React, {useLayoutEffect} from 'react';
 import {useTranslation} from 'react-i18next';
+import {NativeStackNavigationOptions} from 'react-native-screens/lib/typescript/native-stack';
 import {HeaderButtons, Item} from 'react-navigation-header-buttons';
 
 export const useHeaderButtons = (
-  navigation: {setOptions: (options: StackHeaderOptions) => void},
+  navigation: {setOptions: (options: NativeStackNavigationOptions & StackHeaderOptions) => void},
   {
     onAddPress,
     onEditPress,
