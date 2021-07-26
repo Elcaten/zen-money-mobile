@@ -60,13 +60,6 @@ export const TagDetailsScreen: React.FC<TagDetailsScreenProps> = ({navigation, r
     [handleSubmit, mutateAsync, navigation, queryClient, t],
   );
 
-  const titleRef = useRef<ZenTextInputHandles>(null);
-  useEffect(() => {
-    if (errors.title) {
-      titleRef.current?.shake();
-    }
-  }, [errors.title]);
-
   const {mutateAsync: deleteAsync, isLoading: isDeleting} = useDeleteTag();
   const onDeletePress = useCallback(async () => {
     await deleteAsync(tag.id);
@@ -75,7 +68,8 @@ export const TagDetailsScreen: React.FC<TagDetailsScreenProps> = ({navigation, r
     navigation.pop();
   }, [deleteAsync, navigation, queryClient, t, tag.id]);
 
-  useHeaderButtons(navigation, {onDeletePress, onSavePress});
+  const isNewTag = route.params.tagId == null;
+  useHeaderButtons(navigation, isNewTag ? {onSavePress} : {onDeletePress, onSavePress});
 
   const [possibleParentTags, setPossibleParentTags] = useState<Tag[]>([]);
   useEffect(() => {
@@ -95,6 +89,13 @@ export const TagDetailsScreen: React.FC<TagDetailsScreenProps> = ({navigation, r
 
   const iconColor = watch('color');
   const iconName = watch('icon');
+
+  const titleRef = useRef<ZenTextInputHandles>(null);
+  useEffect(() => {
+    if (errors.title) {
+      titleRef.current?.shake();
+    }
+  }, [errors.title]);
 
   return (
     <View disabled={isMutating || isDeleting}>
