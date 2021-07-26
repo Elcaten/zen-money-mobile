@@ -26,6 +26,7 @@ function getEnv() {
     API_URL: str(),
     USE_PROXY: bool(),
     DEMO_TOKEN: json(),
+    BUGSNAG_API_KEY: str(),
   });
 }
 

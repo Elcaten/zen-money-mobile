@@ -1,6 +1,7 @@
 import ky from 'ky';
 import {persistToken, pullTokenFromStorage} from '../auth';
 import {refreshToken} from '../auth/refresh-token';
+import {bugsnag} from '../utils/bugsnag';
 import {API_URL} from '../utils/manifest-extra';
 
 export const publicClient = ky.extend({
@@ -27,6 +28,23 @@ export const privateClient = publicClient.extend({
 
         if (token) {
           request.headers.set('Authorization', `Bearer ${token.accessToken}`);
+        }
+      },
+    ],
+    afterResponse: [
+      async (req, opt, resp) => {
+        if (!resp.ok) {
+          bugsnag.notify(
+            {
+              name: `Network error ${resp.status}`,
+              message: await resp.text(),
+            },
+            (event) =>
+              event.addMetadata('Details', {
+                request: JSON.stringify(req, null, 2),
+                response: JSON.stringify(resp, null, 2),
+              }),
+          );
         }
       },
     ],
