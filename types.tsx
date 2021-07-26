@@ -66,6 +66,21 @@ export type MoreParamList = {
   InstrumentPickerScreen: PickerScreenProps<number | null>;
 };
 
+//==================================================||  SHARED  ||=====================================================
+// https://stackoverflow.com/questions/65422185/proper-typescript-type-for-a-reused-screen-in-react-navigation-v5
+type AccountsAndMoreKeys = keyof AccountsParamList & keyof MoreParamList;
+type AccountsAndMoreParamList = Pick<AccountsParamList, AccountsAndMoreKeys> & Pick<MoreParamList, AccountsAndMoreKeys>;
+
+export type InstrumentPickerScreenRouteProp = RouteProp<AccountsAndMoreParamList, 'InstrumentPickerScreen'>;
+export type InstrumentPickerScreenNavigationProp = CompositeNavigationProp<
+  StackNavigationProp<AccountsAndMoreParamList, 'InstrumentPickerScreen'>,
+  BottomTabNavigationProp<BottomTabParamList>
+>;
+export type InstrumentPickerScreenProps = {
+  route: InstrumentPickerScreenRouteProp;
+  navigation: InstrumentPickerScreenNavigationProp;
+};
+
 //=================================================||  ACCOUNTS  ||====================================================
 export type AccountsScreenRouteProp = RouteProp<AccountsParamList, 'AccountsScreen'>;
 export type AccountsScreenNavigationProp = CompositeNavigationProp<
@@ -85,16 +100,6 @@ export type AccountDetailsScreenNavigationProp = CompositeNavigationProp<
 export type AccountDetailsScreenProps = {
   route: AccountDetailsScreenRouteProp;
   navigation: AccountDetailsScreenNavigationProp;
-};
-
-export type InstrumentPickerScreenRouteProp = RouteProp<AccountsParamList, 'InstrumentPickerScreen'>;
-export type InstrumentPickerScreenNavigationProp = CompositeNavigationProp<
-  StackNavigationProp<AccountsParamList, 'InstrumentPickerScreen'>,
-  BottomTabNavigationProp<BottomTabParamList>
->;
-export type InstrumentPickerScreenProps = {
-  route: InstrumentPickerScreenRouteProp;
-  navigation: InstrumentPickerScreenNavigationProp;
 };
 
 export type AccountTypePickerScreenRouteProp = RouteProp<AccountsParamList, 'AccountTypePickerScreen'>;
