@@ -4,7 +4,6 @@ import {Tag} from '../../../api/models';
 import {Text, View} from '../../../components';
 import {Card} from '../../../components/Card';
 import {ListItem} from '../../../components/ListItem';
-import {BLACK} from '../../../constants/Colors';
 import {useNavigatorThemeColors} from '../../../themes';
 import {argbToHEX, splitArray} from '../../../utils';
 import {TagIcon} from '../TagIcon';

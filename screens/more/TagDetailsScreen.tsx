@@ -96,9 +96,7 @@ export const TagDetailsScreen: React.FC<TagDetailsScreenProps> = ({navigation, r
   const iconName = watch('icon');
 
   return (
-    <View
-      style={isMutating || isDeleting ? styles.disabledView : []}
-      pointerEvents={isMutating || isDeleting ? 'none' : 'auto'}>
+    <View disabled={isMutating || isDeleting}>
       <View style={{flexDirection: 'row', margin: 8}}>
         <View>
           <TagIcon icon={iconName} color={iconColor} style={{margin: 16}} />
@@ -193,9 +191,3 @@ export const TagDetailsScreen: React.FC<TagDetailsScreenProps> = ({navigation, r
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  disabledView: {
-    opacity: 0.5,
-  },
-});

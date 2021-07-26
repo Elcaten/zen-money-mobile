@@ -1,7 +1,7 @@
 import * as React from 'react';
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet} from 'react-native';
 import {TransactionModel} from '../../../api-hooks';
-import {SubdirArrowRightIcon, Text} from '../../../components';
+import {SubdirArrowRightIcon, Text, View} from '../../../components';
 import {ListItem} from '../../../components/ListItem';
 import {GREEN_500} from '../../../constants/Colors';
 import {TagIcon} from '../../components/TagIcon';

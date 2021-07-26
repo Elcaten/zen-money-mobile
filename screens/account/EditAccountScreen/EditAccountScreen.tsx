@@ -8,6 +8,7 @@ import {useAccountModels, useInstruments} from '../../../api-hooks';
 import {QueryKeys} from '../../../api-hooks/query-keys';
 import {useMutateAccount} from '../../../api-hooks/useMutateAccount';
 import {AccountType} from '../../../api/models';
+import {View} from '../../../components';
 import {Card} from '../../../components/Card';
 import {TextInputField} from '../../../components/Field';
 import {TextInputFieldHandle} from '../../../components/Field/TextInputField';
@@ -83,7 +84,7 @@ export const EditAccountScreen: React.FC<AccountDetailsScreenProps> = ({navigati
 
   return (
     <ScrollView keyboardShouldPersistTaps="never">
-      <Card style={isMutating ? styles.disabledView : []} pointerEvents={isMutating ? 'none' : 'auto'}>
+      <View disabled={isMutating}>
         <Controller
           control={control}
           render={({field}) => (
@@ -152,13 +153,7 @@ export const EditAccountScreen: React.FC<AccountDetailsScreenProps> = ({navigati
           )}
           name="archive"
         />
-      </Card>
+      </View>
     </ScrollView>
   );
 };
-
-const styles = StyleSheet.create({
-  disabledView: {
-    opacity: 0.5,
-  },
-});

@@ -83,9 +83,7 @@ export const AccountDetailsScreen: React.FC<AccountDetailsScreenProps> = ({navig
   const {onPrimary, secondary} = useNavigatorThemeColors();
 
   return (
-    <View
-      style={[styles.container, isDeleting ? styles.disabledView : {}]}
-      pointerEvents={isDeleting ? 'none' : 'auto'}>
+    <View style={styles.container} disabled={isDeleting}>
       <TransactionList
         renderHeader={() => (
           <Card style={styles.listHeader}>

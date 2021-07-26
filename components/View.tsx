@@ -1,8 +1,19 @@
 import * as React from 'react';
-import {View as RNView, ViewProps} from 'react-native';
-import {useNavigatorThemeColors} from '../themes';
+import {StyleSheet, View as RNView, ViewProps as RNViewProps} from 'react-native';
 
-export const View: React.FC<ViewProps> = (props) => {
-  const {card} = useNavigatorThemeColors();
-  return <RNView {...props} style={[{backgroundColor: card}, props.style]} />;
+export interface ViewProps extends RNViewProps {
+  disabled?: boolean;
+}
+
+export const View: React.FC<ViewProps> = ({disabled, ...rest}) => {
+  const baseStyles = disabled ? styles.disabledView : {};
+  return (
+    <RNView {...rest} style={StyleSheet.flatten([baseStyles, rest.style])} pointerEvents={disabled ? 'none' : 'auto'} />
+  );
 };
+
+const styles = StyleSheet.create({
+  disabledView: {
+    opacity: 0.5,
+  },
+});

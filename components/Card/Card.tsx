@@ -1,6 +1,6 @@
 import * as React from 'react';
-import {View, ViewProps} from 'react-native';
 import {useNavigatorThemeColors} from '../../themes';
+import {View, ViewProps} from '../View';
 import {CardTitle} from './CardTitle';
 
 export type CardProps = ViewProps;
