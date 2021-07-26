@@ -2,7 +2,6 @@ import * as React from 'react';
 import {useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import {Controller, useForm} from 'react-hook-form';
 import {useTranslation} from 'react-i18next';
-import {StyleSheet} from 'react-native';
 import {Button, Divider, InputHandles} from 'react-native-elements';
 import {useQueryClient} from 'react-query';
 import {useMutateTag} from '../../api-hooks';
@@ -12,6 +11,8 @@ import {Tag} from '../../api/models';
 import {Input, View} from '../../components';
 import {Card} from '../../components/Card';
 import {ListItem} from '../../components/ListItem';
+import {ZenTextInput} from '../../components/ZenTextInput';
+import {ZenTextInputHandles} from '../../components/ZenTextInput/ZenTextInput';
 import {useHeaderButtons} from '../../hooks/useHeaderButtons';
 import {TagDetailsScreenProps} from '../../types';
 import {generateUUID, showToast} from '../../utils';
@@ -59,7 +60,7 @@ export const TagDetailsScreen: React.FC<TagDetailsScreenProps> = ({navigation, r
     [handleSubmit, mutateAsync, navigation, queryClient, t],
   );
 
-  const titleRef = useRef<InputHandles>(null);
+  const titleRef = useRef<ZenTextInputHandles>(null);
   useEffect(() => {
     if (errors.title) {
       titleRef.current?.shake();
@@ -119,7 +120,7 @@ export const TagDetailsScreen: React.FC<TagDetailsScreenProps> = ({navigation, r
           <Controller
             control={control}
             render={({field: {onChange, onBlur, value}}) => (
-              <Input
+              <ZenTextInput
                 ref={titleRef}
                 placeholder={t('TagDetailsScreen.Title')}
                 value={value}
