@@ -6,8 +6,9 @@ import {useQueryClient} from 'react-query';
 import {TransactionModel, useAccountModels, useTransactionModels} from '../../api-hooks';
 import {QueryKeys} from '../../api-hooks/query-keys';
 import {useDeleteAccount} from '../../api-hooks/useMutateAccount';
-import {Text, View} from '../../components';
+import {View} from '../../components';
 import {Card} from '../../components/Card';
+import {ZenText} from '../../components/ZenText';
 import {useToolbarOpacity} from '../../hooks';
 import {useHeaderButtons} from '../../hooks/useHeaderButtons';
 import {useDeletePress} from '../../hooks/useOnDeletePress';
@@ -65,7 +66,7 @@ export const AccountDetailsScreen: React.FC<AccountDetailsScreenProps> = ({navig
       headerTitle: () => (
         <Animated.View style={[styles.navigationTitle, {opacity}]}>
           <AccountIcon size={24} type={account?.type!} style={styles.navigationIcon} />
-          <Text>{account?.title}</Text>
+          <ZenText>{account?.title}</ZenText>
         </Animated.View>
       ),
     });
@@ -90,8 +91,8 @@ export const AccountDetailsScreen: React.FC<AccountDetailsScreenProps> = ({navig
             <View style={[styles.listHeaderIcon, {backgroundColor: secondary}]}>
               <AccountIcon type={account?.type!} size={64} color={onPrimary} />
             </View>
-            <Text style={styles.title}>{account?.title}</Text>
-            <Text style={styles.title}>{account?.balanceFormatted}</Text>
+            <ZenText style={styles.title}>{account?.title}</ZenText>
+            <ZenText style={styles.title}>{account?.balanceFormatted}</ZenText>
           </Card>
         )}
         headerHeight={HEADER_HEIGHT}

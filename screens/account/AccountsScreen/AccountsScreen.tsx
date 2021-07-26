@@ -7,7 +7,8 @@ import Collapsible from 'react-native-collapsible';
 import {Item} from 'react-navigation-header-buttons';
 import {AccountModel, useAccountModels} from '../../../api-hooks';
 import {AccountType} from '../../../api/models';
-import {Text, View} from '../../../components';
+import {View} from '../../../components';
+import {ZenText} from '../../../components/ZenText';
 import {useGrandTotal} from '../../../hooks/useGrandTotal';
 import {useHeaderButtons} from '../../../hooks/useHeaderButtons';
 import {useHeaderTitle} from '../../../hooks/useHeaderTitle';
@@ -44,9 +45,9 @@ export const AccountsScreen: React.FC<AccountsScreenProps> = ({navigation}) => {
       <View>
         {displayShowArchivedButton && (
           <View style={styles.toggleContainer}>
-            <Text style={[styles.toggleText, {color: primary}]} onPress={() => setShowArchived((v) => !v)}>
+            <ZenText style={[styles.toggleText, {color: primary}]} onPress={() => setShowArchived((v) => !v)}>
               {showArchived ? t('AccountsScreen.Collapse') : t('AccountsScreen.ShowArchived')}
-            </Text>
+            </ZenText>
           </View>
         )}
         <Collapsible collapsed={!showArchived}>

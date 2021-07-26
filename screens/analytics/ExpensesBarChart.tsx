@@ -2,10 +2,11 @@ import * as React from 'react';
 import {useMemo} from 'react';
 import {StyleSheet} from 'react-native';
 import {PieChart} from 'react-native-svg-charts';
-import {Text, View} from '../../components';
+import {View} from '../../components';
 import {GRAY_300, GRAY_800} from '../../constants/Colors';
 import {useNavigatorTheme} from '../../themes';
 import {ExpenseModel} from './expense-model';
+import {ZenText} from '../../components/ZenText';
 
 interface ExpenseData {
   value: number;
@@ -66,11 +67,11 @@ export const ExpenseItem: React.FC<ExpenseItemProps> = ({expense, expenses, tota
       <View>
         <PieChart innerRadius={12} outerRadius={16} style={styles.pieChart} data={data} />
         <View style={styles.pieChartText}>
-          <Text size="tiny">{share}</Text>
+          <ZenText size="tiny">{share}</ZenText>
         </View>
       </View>
-      <Text style={styles.tag}>{expense.tag}</Text>
-      <Text>{expense.amountFormatted}</Text>
+      <ZenText style={styles.tag}>{expense.tag}</ZenText>
+      <ZenText>{expense.amountFormatted}</ZenText>
     </View>
   );
 };

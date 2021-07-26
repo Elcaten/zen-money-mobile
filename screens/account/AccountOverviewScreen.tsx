@@ -6,9 +6,10 @@ import {PieChart, PieChartData} from 'react-native-svg-charts';
 import {Fade, Placeholder, PlaceholderLine} from 'rn-placeholder';
 import {useAccounts, useInstruments, useMe} from '../../api-hooks';
 import {AccountType} from '../../api/models';
-import {Text, View} from '../../components';
+import {View} from '../../components';
 import {Card} from '../../components/Card';
 import {ListItem} from '../../components/ListItem';
+import {ZenText} from '../../components/ZenText';
 import {DEEP_ORANGE_800, INDIGO_300, INDIGO_800, WHITE, YELLOW_800} from '../../constants/Colors';
 import {useCurrencyFormat} from '../../hooks';
 
@@ -118,12 +119,12 @@ const InstrumentBalancesList: React.FC<{balances: InstrumentBalance[]}> = ({bala
     <React.Fragment>
       {balances.map((b) => (
         <ListItem key={b.id}>
-          <Text style={[infoStyles.percentage, {color: b.color}]}>
+          <ZenText style={[infoStyles.percentage, {color: b.color}]}>
             {((b.balanceInUserCurrency / grandTotal) * 100).toFixed(2)}%
-          </Text>
-          <Text style={infoStyles.shortTitle}>{b.shortTitle}</Text>
-          <Text style={infoStyles.balance}>{b.balanceFormatted}</Text>
-          <Text>{b.balanceInUserCurrencyFormatted}</Text>
+          </ZenText>
+          <ZenText style={infoStyles.shortTitle}>{b.shortTitle}</ZenText>
+          <ZenText style={infoStyles.balance}>{b.balanceFormatted}</ZenText>
+          <ZenText>{b.balanceInUserCurrencyFormatted}</ZenText>
         </ListItem>
       ))}
     </React.Fragment>

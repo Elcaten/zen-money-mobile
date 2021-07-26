@@ -1,17 +1,17 @@
 import * as React from 'react';
 import {StyleSheet} from 'react-native';
 import {AccountModel} from '../../../api-hooks';
-import {Text} from '../../../components';
+import {ZenText} from '../../../components/ZenText';
 import {ListItem} from '../../../components/ListItem';
 import {RED_500} from '../../../constants/Colors';
 import {AccountIcon} from '../AccountIcon';
 
 const Balance: React.FC<{account: AccountModel}> = ({account}) => {
   return (
-    <Text size="large" style={account.balance < 0 ? {color: RED_500} : {}}>
+    <ZenText size="large" style={account.balance < 0 ? {color: RED_500} : {}}>
       {account.balance < 0 && '−'}
       {account.balanceFormatted}
-    </Text>
+    </ZenText>
   );
 };
 
@@ -19,9 +19,9 @@ export const AccountListItem: React.FC<{account: AccountModel; onPress: () => vo
   return (
     <ListItem onPress={onPress}>
       <AccountIcon type={account.type} size={24} />
-      <Text size="large" style={styles.title}>
+      <ZenText size="large" style={styles.title}>
         {account.title}
-      </Text>
+      </ZenText>
       <Balance account={account} />
     </ListItem>
   );

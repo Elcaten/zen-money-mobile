@@ -1,12 +1,10 @@
-import {MaterialIcons} from '@expo/vector-icons';
 import * as React from 'react';
-import {useCallback, useEffect, useLayoutEffect, useMemo} from 'react';
+import {useCallback, useMemo} from 'react';
 import {FlatList, ListRenderItemInfo} from 'react-native';
-import {HeaderButtons, Item} from 'react-navigation-header-buttons';
 import {useTags} from '../../api-hooks/useTags';
 import {Tag} from '../../api/models';
-import {Text} from '../../components';
 import {ListItem} from '../../components/ListItem';
+import {ZenText} from '../../components/ZenText';
 import {useHeaderButtons} from '../../hooks/useHeaderButtons';
 import {TagsScreenProps} from '../../types';
 import {extractId} from '../../utils';
@@ -24,7 +22,7 @@ const TagItem: React.FC<TagItemProps> = ({tag, onPress}) => {
   return (
     <ListItem onPress={onPressCb} topDivider={!tag.parent}>
       <TagIcon style={[{marginLeft: tag.parent ? 32 : 0}]} icon={tag.icon} color={tag.color} size={24} />
-      <Text>{tag.title}</Text>
+      <ZenText>{tag.title}</ZenText>
     </ListItem>
   );
 };

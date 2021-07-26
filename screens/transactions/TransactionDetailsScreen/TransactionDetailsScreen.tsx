@@ -4,7 +4,8 @@ import {useTranslation} from 'react-i18next';
 import {useQueryClient} from 'react-query';
 import {useDeleteTransaction, useTransactionModels} from '../../../api-hooks';
 import {QueryKeys} from '../../../api-hooks/query-keys';
-import {Text, View} from '../../../components';
+import {View} from '../../../components';
+import {ZenText} from '../../../components/ZenText';
 import {useHeaderButtons} from '../../../hooks/useHeaderButtons';
 import {useDeletePress} from '../../../hooks/useOnDeletePress';
 import {TransactionDetailsScreenProps} from '../../../types';
@@ -39,7 +40,7 @@ export const TransactionDetailsScreen: React.FC<TransactionDetailsScreenProps> =
 
   return (
     <View disabled={isDeleting}>
-      <Text>{JSON.stringify(transaction, null, 2)}</Text>
+      <ZenText>{JSON.stringify(transaction, null, 2)}</ZenText>
     </View>
   );
 };

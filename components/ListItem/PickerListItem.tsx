@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {StyleSheet} from 'react-native';
 import {useNavigatorThemeColors} from '../../themes';
-import {Text} from '../Text';
+import {ZenText} from '../ZenText';
 import {ListItem, ListItemProps} from './ListItem';
 
 type PickerhListItemProps = ListItemProps & {
@@ -16,9 +16,9 @@ export function PickerListItem({title, value, leftIcon, ...rest}: React.PropsWit
     <ListItem bottomDivider {...rest} style={[rest.style, rest.disabled ? styles.disabled : {}]}>
       {leftIcon && leftIcon()}
       <ListItem.Title>{title}</ListItem.Title>
-      <Text numberOfLines={1} style={[styles.value, {color: secondaryText}]}>
+      <ZenText numberOfLines={1} style={[styles.value, {color: secondaryText}]}>
         {value}
-      </Text>
+      </ZenText>
       <ListItem.Chevron size={24} />
     </ListItem>
   );

@@ -12,12 +12,12 @@ import {
   useTags,
 } from '../../../api-hooks';
 import {Transaction, UserAccount} from '../../../api/models';
-import {CoinsIcon, CommentIcon, Text, WalletIcon} from '../../../components';
+import {CoinsIcon, CommentIcon, WalletIcon} from '../../../components';
 import {TextInputField} from '../../../components/Field';
 import {DateTimeInputField} from '../../../components/Field/DateTimeInputField';
 import {NumberInputField} from '../../../components/Field/NumberInputField';
-import {ListItem, PickerListItem} from '../../../components/ListItem';
-import {ZenTextInput} from '../../../components/ZenTextInput';
+import {PickerListItem} from '../../../components/ListItem';
+import {ZenText} from '../../../components/ZenText';
 import {ZenTextInputHandles} from '../../../components/ZenTextInput/ZenTextInput';
 import {useHeaderButtons} from '../../../hooks/useHeaderButtons';
 import {EditTransactionScreenNavigationProp} from '../../../types';
@@ -103,7 +103,7 @@ export const IncomeExpenseEditor: React.FC<{onSubmit: (success: boolean) => void
           <NumberInputField
             field={field}
             leftIcon={() => <CoinsIcon size={24} />}
-            rightIcon={() => <Text>{instrumentSymbol}</Text>}
+            rightIcon={() => <ZenText>{instrumentSymbol}</ZenText>}
           />
         )}
         name="amount"

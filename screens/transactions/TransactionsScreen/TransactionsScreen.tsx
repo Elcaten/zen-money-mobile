@@ -5,9 +5,10 @@ import {useTranslation} from 'react-i18next';
 import {FlatList, Keyboard, RefreshControl, StyleSheet} from 'react-native';
 import {Overlay, SearchBar} from 'react-native-elements';
 import {useTransactionModels} from '../../../api-hooks';
-import {Text, View} from '../../../components';
+import {View} from '../../../components';
 import {Card} from '../../../components/Card';
 import {ListItem} from '../../../components/ListItem';
+import {ZenText} from '../../../components/ZenText';
 import {
   SearchSuggestion,
   useGrandTotal,
@@ -100,7 +101,8 @@ export const TransactionsScreen: React.FC<TransactionsScreenProps> = ({navigatio
               renderItem={({item}) => (
                 <ListItem bottomDivider onPress={() => onItemPress(item)}>
                   <ListItem.Title>
-                    <Text style={styles.bold}>{item.match}</Text> - <Text style={styles.italic}>{item.type}</Text>
+                    <ZenText style={styles.bold}>{item.match}</ZenText> -{' '}
+                    <ZenText style={styles.italic}>{item.type}</ZenText>
                   </ListItem.Title>
                 </ListItem>
               )}
@@ -109,7 +111,7 @@ export const TransactionsScreen: React.FC<TransactionsScreenProps> = ({navigatio
         )}
         {!showSuggestions && searchResults.length === 0 && (
           <View style={styles.flexCenter}>
-            <Text>{t('TransactionsScreen.NoTransactionsFound')}</Text>
+            <ZenText>{t('TransactionsScreen.NoTransactionsFound')}</ZenText>
           </View>
         )}
         {!showSuggestions && <TransactionList data={searchResults} onItemPress={() => {}} />}

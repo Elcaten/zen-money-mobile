@@ -5,11 +5,12 @@ import {SearchBar} from 'react-native-elements';
 import {DataProvider, LayoutProvider, RecyclerListView} from 'recyclerlistview';
 import {useInstruments} from '../../../api-hooks';
 import {Instrument} from '../../../api/models';
-import {CheckIcon, Text, View} from '../../../components';
+import {CheckIcon, View} from '../../../components';
 import {ListItem} from '../../../components/ListItem';
 import {useNavigatorThemeColors} from '../../../themes';
 import {InstrumentPickerScreenProps} from '../../../types';
 import {useTranslation} from 'react-i18next';
+import {ZenText} from '../../../components/ZenText';
 
 const ITEM_HEIGHT = 54;
 
@@ -98,7 +99,7 @@ export const InstrumentPickerScreen: React.FC<InstrumentPickerScreenProps> = ({r
     <View style={styles.container}>
       {filteredInstruments.length === 0 && (
         <View style={styles.emptyList}>
-          <Text>{t('InstrumentPickerScreen.NoCurrenciesFound')}</Text>
+          <ZenText>{t('InstrumentPickerScreen.NoCurrenciesFound')}</ZenText>
         </View>
       )}
       {filteredInstruments.length > 0 && (

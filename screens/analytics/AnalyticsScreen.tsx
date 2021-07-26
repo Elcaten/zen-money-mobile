@@ -3,7 +3,8 @@ import * as React from 'react';
 import {useMemo} from 'react';
 import {ScrollView, StyleSheet} from 'react-native';
 import {useInstruments, useMe, useTransactionModels} from '../../api-hooks';
-import {Text, View} from '../../components';
+import {View} from '../../components';
+import {ZenText} from '../../components/ZenText';
 import {useCurrencyFormat} from '../../hooks';
 import {ViewPager} from '../../lib/react-native-ui-kitten';
 import {argbToHEX, randomColor} from '../../utils';
@@ -82,8 +83,8 @@ export const AnalyticsScreen: React.FC<AnalyticsScreenProps> = (props) => {
         <ScrollView key={`${month}`}>
           <ExpensesPieChart expenses={expenses}>
             <View style={styles.pieChartText}>
-              <Text>{month}</Text>
-              <Text style={styles.totalAmount}>{totalAmount}</Text>
+              <ZenText>{month}</ZenText>
+              <ZenText style={styles.totalAmount}>{totalAmount}</ZenText>
             </View>
           </ExpensesPieChart>
           <ExpensesBarChart expenses={expenses} />

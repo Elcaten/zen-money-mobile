@@ -1,9 +1,10 @@
 import React, {useMemo, useState} from 'react';
 import {Dimensions, ScrollView, StyleSheet, TouchableOpacity} from 'react-native';
 import {Tag} from '../../../api/models';
-import {Text, View} from '../../../components';
+import {View} from '../../../components';
 import {Card} from '../../../components/Card';
 import {ListItem} from '../../../components/ListItem';
+import {ZenText} from '../../../components/ZenText';
 import {useNavigatorThemeColors} from '../../../themes';
 import {argbToHEX, splitArray} from '../../../utils';
 import {TagIcon} from '../TagIcon';
@@ -128,7 +129,7 @@ const TagButton: React.FC<{tag: Tag; onPress: () => void; color?: string; backgr
       <TouchableOpacity style={[styles.iconContainer, {backgroundColor, borderColor: border}]} onPress={onPress}>
         <TagIcon icon={tag.icon} size={ICON_SIZE} key={tag.id} color={color} />
       </TouchableOpacity>
-      <Text style={styles.tagButtonText}>{tag.title}</Text>
+      <ZenText style={styles.tagButtonText}>{tag.title}</ZenText>
     </View>
   );
 };

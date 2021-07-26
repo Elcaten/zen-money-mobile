@@ -7,11 +7,12 @@ import {StyleSheet} from 'react-native';
 import {InputHandles} from 'react-native-elements';
 import {useAccounts, useInstruments, useMutateTransferTransaction} from '../../../api-hooks';
 import {Transaction, UserAccount} from '../../../api/models';
-import {CommentIcon, MinusBoxOutlineIcon, PlusBoxOutlineIcon, Text, View, WalletIcon} from '../../../components';
+import {CommentIcon, MinusBoxOutlineIcon, PlusBoxOutlineIcon, View, WalletIcon} from '../../../components';
 import {TextInputField} from '../../../components/Field';
 import {DateTimeInputField} from '../../../components/Field/DateTimeInputField';
 import {NumberInputField} from '../../../components/Field/NumberInputField';
 import {PickerListItem} from '../../../components/ListItem';
+import {ZenText} from '../../../components/ZenText';
 import {useHeaderButtons} from '../../../hooks/useHeaderButtons';
 import {EditTransactionScreenNavigationProp} from '../../../types';
 import {validateNumericString} from '../../../utils';
@@ -91,7 +92,7 @@ export const TransferEditor: React.FC<{onSubmit: (success: boolean) => void}> = 
           <NumberInputField
             field={field}
             leftIcon={() => <MinusBoxOutlineIcon size={24} />}
-            rightIcon={() => <Text>{outcomeSymbol}</Text>}
+            rightIcon={() => <ZenText>{outcomeSymbol}</ZenText>}
           />
         )}
         name="outcome"
@@ -140,7 +141,7 @@ export const TransferEditor: React.FC<{onSubmit: (success: boolean) => void}> = 
           <NumberInputField
             field={field}
             leftIcon={() => <PlusBoxOutlineIcon size={24} />}
-            rightIcon={() => <Text>{incomeSymbol}</Text>}
+            rightIcon={() => <ZenText>{incomeSymbol}</ZenText>}
           />
         )}
         name="income"

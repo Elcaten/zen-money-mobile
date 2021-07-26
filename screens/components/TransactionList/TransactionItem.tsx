@@ -1,7 +1,8 @@
 import * as React from 'react';
 import {StyleSheet} from 'react-native';
 import {TransactionModel} from '../../../api-hooks';
-import {SubdirArrowRightIcon, Text, View} from '../../../components';
+import {SubdirArrowRightIcon, View} from '../../../components';
+import {ZenText} from '../../../components/ZenText';
 import {ListItem} from '../../../components/ListItem';
 import {GREEN_500} from '../../../constants/Colors';
 import {TagIcon} from '../../components/TagIcon';
@@ -51,28 +52,28 @@ export class OneWayTransaction extends React.Component<TransactionItemProps> {
       <ListItem onPress={() => this.props.onPress(this.props.transaction.id)}>
         <TagIcon icon={tag?.icon} color={tag?.iconColor} size={24} />
         <View style={styles.centralSection}>
-          <Text size="large">{tag?.title}</Text>
-          <Text style={[styles.subtitle, {color: this.props.secondaryTextColor}]}>
+          <ZenText size="large">{tag?.title}</ZenText>
+          <ZenText style={[styles.subtitle, {color: this.props.secondaryTextColor}]}>
             {income ? incomeAccount?.title : outcomeAccount?.title}
-          </Text>
+          </ZenText>
           {comment && (
-            <Text
+            <ZenText
               numberOfLines={1}
               style={[
                 styles.comment,
                 {color: this.props.secondaryTextColor, backgroundColor: this.props.commentBackgroundColor},
               ]}>
               {comment}
-            </Text>
+            </ZenText>
           )}
         </View>
         <React.Fragment>
           {income ? (
-            <Text size="large" style={styles.income}>
+            <ZenText size="large" style={styles.income}>
               + {incomeFormatted}
-            </Text>
+            </ZenText>
           ) : null}
-          {outcome ? <Text size="large">− {outcomeFormatted}</Text> : null}
+          {outcome ? <ZenText size="large">− {outcomeFormatted}</ZenText> : null}
         </React.Fragment>
       </ListItem>
     );
@@ -101,22 +102,22 @@ export class TwoWayTransaction extends React.Component<TransactionItemProps> {
       <ListItem onPress={() => this.props.onPress(this.props.transaction.id)}>
         <SubdirArrowRightIcon size={24} />
         <View style={styles.centralSection}>
-          <Text size="large">{outcomeAccount?.title}</Text>
-          <Text size="large">{incomeAccount?.title}</Text>
+          <ZenText size="large">{outcomeAccount?.title}</ZenText>
+          <ZenText size="large">{incomeAccount?.title}</ZenText>
           {comment && (
-            <Text numberOfLines={1} style={styles.comment}>
+            <ZenText numberOfLines={1} style={styles.comment}>
               {comment}
-            </Text>
+            </ZenText>
           )}
         </View>
         {isSameAmount ? (
-          <Text size="large">{outcomeFormatted}</Text>
+          <ZenText size="large">{outcomeFormatted}</ZenText>
         ) : (
           <View>
-            <Text size="large">− {outcomeFormatted}</Text>
-            <Text size="large" style={styles.income}>
+            <ZenText size="large">− {outcomeFormatted}</ZenText>
+            <ZenText size="large" style={styles.income}>
               + {incomeFormatted}
-            </Text>
+            </ZenText>
           </View>
         )}
       </ListItem>
