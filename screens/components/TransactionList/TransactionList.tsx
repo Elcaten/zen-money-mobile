@@ -8,8 +8,6 @@ import {NavigatorTheme, NavigatorThemeContextConsumer} from '../../../themes/nav
 import {OneWayTransaction, TwoWayTransaction} from './TransactionItem';
 import {TransactionSectionHeader} from './TransactionSectionHeader';
 
-let {width} = Dimensions.get('window');
-
 const ViewType = {
   SectionHeader: 0,
   ListHeader: 1,
@@ -51,6 +49,7 @@ export class TransactionList extends Component<TransactionsListProps, Transactio
         return this.state.dataProvider.getDataForIndex(i).type;
       },
       (type, dim) => {
+        let {width} = Dimensions.get('window');
         switch (type) {
           case ViewType.OneWayTransaction:
             dim.width = width;

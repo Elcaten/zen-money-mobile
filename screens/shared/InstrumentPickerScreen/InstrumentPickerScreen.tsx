@@ -11,25 +11,26 @@ import {useNavigatorThemeColors} from '../../../themes';
 import {InstrumentPickerScreenProps} from '../../../types';
 import {useTranslation} from 'react-i18next';
 
-const {width} = Dimensions.get('window');
 const ITEM_HEIGHT = 54;
 
 const DATA_PROVIDER = new DataProvider((r1: Instrument, r2: Instrument) => {
   return r1.id !== r2.id;
 });
 
-const LAYOUT_PROVIDER = new LayoutProvider(
-  (index) => 'item',
-  (type, dim) => {
-    dim.width = width;
-    dim.height = ITEM_HEIGHT;
-  },
-);
-
 export const InstrumentPickerScreen: React.FC<InstrumentPickerScreenProps> = ({route, navigation}) => {
   const instrumentId = route.params.value;
   const [dataProvider, setDataProvider] = React.useState(DATA_PROVIDER);
-  const [layoutProvider] = React.useState(LAYOUT_PROVIDER);
+  const layoutProvider = useMemo(
+    () =>
+      new LayoutProvider(
+        (_index) => 'item',
+        (_type, dim) => {
+          dim.width = Dimensions.get('window').width;
+          dim.height = ITEM_HEIGHT;
+        },
+      ),
+    [],
+  );
 
   const {data} = useInstruments();
   const sortedInstruments = useMemo(() => {
