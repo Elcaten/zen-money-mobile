@@ -22,7 +22,9 @@ export const EditTransactionScreen: React.FC<EditTransactionScreenProps> = ({rou
       if (success) {
         await queryClient.invalidateQueries(QueryKeys.Transactions);
         showToast(t('EditTransactionScreen.TransactionSaved'));
-        navigation.pop();
+        if (navigation.isFocused()) {
+          navigation.pop();
+        }
       } else {
         showToast(t('Error.UnexpectedError'));
       }

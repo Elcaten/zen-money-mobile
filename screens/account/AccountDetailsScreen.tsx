@@ -41,7 +41,9 @@ export const AccountDetailsScreen: React.FC<AccountDetailsScreenProps> = ({navig
         await queryClient.invalidateQueries(QueryKeys.Accounts);
         await queryClient.invalidateQueries(QueryKeys.Transactions);
         showToast(t('AccountDetailsScreen.DeleteSuccessMessage'));
-        navigation.pop();
+        if (navigation.isFocused()) {
+          navigation.pop();
+        }
       } else {
         showToast(t('Error.UnexpectedError'));
       }

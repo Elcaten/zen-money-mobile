@@ -55,7 +55,9 @@ export const TagDetailsScreen: React.FC<TagDetailsScreenProps> = ({navigation, r
         await mutateAsync(editableTag);
         await queryClient.invalidateQueries(QueryKeys.Tags);
         showToast(t('TagDetailsScreen.CategorySaved'));
-        navigation.pop();
+        if (navigation.isFocused()) {
+          navigation.pop();
+        }
       }),
     [handleSubmit, mutateAsync, navigation, queryClient, t],
   );
@@ -73,7 +75,9 @@ export const TagDetailsScreen: React.FC<TagDetailsScreenProps> = ({navigation, r
       if (success) {
         await queryClient.invalidateQueries(QueryKeys.Tags);
         showToast(t('TagDetailsScreen.DeleteCategorySuccessMessage'));
-        navigation.pop();
+        if (navigation.isFocused()) {
+          navigation.pop();
+        }
       } else {
         showToast(t('Error.UnexpectedError'));
       }

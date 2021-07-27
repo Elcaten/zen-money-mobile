@@ -72,7 +72,9 @@ export const EditAccountScreen: React.FC<AccountDetailsScreenProps> = ({navigati
         if (success) {
           await queryClient.invalidateQueries(QueryKeys.Accounts);
           showToast(t('EditAccountScreen.AccountSaved'));
-          navigation.pop();
+          if (navigation.isFocused()) {
+            navigation.pop();
+          }
         } else {
           showToast(t('Error.UnexpectedError'));
         }
