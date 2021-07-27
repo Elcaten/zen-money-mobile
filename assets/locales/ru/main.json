@@ -7,6 +7,9 @@
         "Save": "Сохранить",
         "Search": "Поиск"
     },
+    "Error": {
+        "UnexpectedError": "Ошибка"
+    },
     "AccountDetailsScreen": {
         "DeleteAccountMessage": "Счет будет удален вместе со всеми операциями.",
         "DeleteAccountTitle": "Удалить счет?",
@@ -54,7 +57,6 @@
         "Instrument": "Валюта счета",
         "Savings": "Накопительный счет",
         "Title": "Наименование",
-        "UnsupportedTypeTitle": "Не поддерживается",
         "UnsupportedTypeMessage": "Данный тип счета пока не поддерживается."
     },
     "EditTransactionScreen": {
@@ -72,7 +74,9 @@
         "SignOut": "Выход из аккаунта"
     },
     "TagDetailsScreen": {
-        "CategoryDeleted": "Категория удалена",
+        "DeleteCategoryMessage": "Категория будет удалена.",
+        "DeleteCategoryTitle": "Удалить категорию?",
+        "DeleteCategorySuccessMessage": "Категория удалена",
         "CategorySaved": "Категория сохранена",
         "Expense": "в расходе",
         "Fixed": "Обязательные",

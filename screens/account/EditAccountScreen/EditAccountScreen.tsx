@@ -58,7 +58,7 @@ export const EditAccountScreen: React.FC<AccountDetailsScreenProps> = ({navigati
 
   useEffect(() => {
     if (errors.type) {
-      Alert.alert(t('EditAccountScreen.UnsupportedTypeTitle'), t('EditAccountScreen.UnsupportedTypeMessage'));
+      showToast(t('EditAccountScreen.UnsupportedTypeMessage'));
     }
   }, [errors.type, t]);
 
@@ -74,7 +74,7 @@ export const EditAccountScreen: React.FC<AccountDetailsScreenProps> = ({navigati
           showToast(t('EditAccountScreen.AccountSaved'));
           navigation.pop();
         } else {
-          showToast('Error');
+          showToast(t('Error.UnexpectedError'));
         }
       }),
     [handleSubmit, mutateAsync, navigation, queryClient, t],

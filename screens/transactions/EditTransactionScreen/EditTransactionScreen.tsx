@@ -14,10 +14,9 @@ import {TransferEditor} from './TransferEditor';
 
 export const EditTransactionScreen: React.FC<EditTransactionScreenProps> = ({route, navigation}) => {
   const [transactionType, setTransactionType] = useState(route.params.transactionType);
-
   const {t} = useTranslation();
-
   const queryClient = useQueryClient();
+
   const onTransactionSave = useCallback(
     async (success: boolean) => {
       if (success) {
@@ -25,7 +24,7 @@ export const EditTransactionScreen: React.FC<EditTransactionScreenProps> = ({rou
         showToast(t('EditTransactionScreen.TransactionSaved'));
         navigation.pop();
       } else {
-        showToast('Error');
+        showToast(t('Error.UnexpectedError'));
       }
     },
     [navigation, queryClient, t],

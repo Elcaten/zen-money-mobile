@@ -15,7 +15,7 @@ import {ZenTextInput} from '../../components/ZenTextInput';
 import {ZenTextInputHandles} from '../../components/ZenTextInput/ZenTextInput';
 import {useHeaderButtons} from '../../hooks/useHeaderButtons';
 import {TagDetailsScreenProps} from '../../types';
-import {generateUUID, showToast} from '../../utils';
+import {confirmDelete, generateUUID, showToast} from '../../utils';
 import {TagIcon} from '../components';
 import {RadioButton} from '../components/RadioButton';
 import {TagPicker} from '../components/TagPicker';
@@ -61,11 +61,23 @@ export const TagDetailsScreen: React.FC<TagDetailsScreenProps> = ({navigation, r
   );
 
   const {mutateAsync: deleteAsync, isLoading: isDeleting} = useDeleteTag();
+
   const onDeletePress = useCallback(async () => {
-    await deleteAsync(tag.id);
-    await queryClient.invalidateQueries(QueryKeys.Tags);
-    showToast(t('TagDetailsScreen.CategoryDeleted'));
-    navigation.pop();
+    const confirm = confirmDelete(
+      t('TagDetailsScreen.DeleteCategoryTitle'),
+      t('TagDetailsScreen.DeleteCategoryMessage'),
+    );
+
+    if (confirm) {
+      const {success} = await deleteAsync(tag.id);
+      if (success) {
+        await queryClient.invalidateQueries(QueryKeys.Tags);
+        showToast(t('TagDetailsScreen.DeleteCategorySuccessMessage'));
+        navigation.pop();
+      } else {
+        showToast(t('Error.UnexpectedError'));
+      }
+    }
   }, [deleteAsync, navigation, queryClient, t, tag.id]);
 
   const isNewTag = route.params.tagId == null;

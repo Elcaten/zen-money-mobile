@@ -7,9 +7,8 @@ import {QueryKeys} from '../../../api-hooks/query-keys';
 import {View} from '../../../components';
 import {ZenText} from '../../../components/ZenText';
 import {useHeaderButtons} from '../../../hooks/useHeaderButtons';
-import {useDeletePress} from '../../../hooks/useOnDeletePress';
 import {TransactionDetailsScreenProps} from '../../../types';
-import {showToast} from '../../../utils';
+import {confirmDelete, showToast} from '../../../utils';
 
 export const TransactionDetailsScreen: React.FC<TransactionDetailsScreenProps> = ({route, navigation}) => {
   const {data} = useTransactionModels();
@@ -20,21 +19,19 @@ export const TransactionDetailsScreen: React.FC<TransactionDetailsScreenProps> =
 
   const {deleteAsync, isDeleting} = useDeleteTransaction();
 
-  const onDeleteConfirm = useCallback(async () => {
-    if (transaction == null) {
-      return;
-    }
-    await deleteAsync(transaction.id);
-    await queryClient.invalidateQueries(QueryKeys.Transactions);
-    showToast(t('TransactionDetailsScreen.DeleteSuccessMessage'));
-    navigation.pop();
-  }, [deleteAsync, navigation, queryClient, t, transaction]);
+  const onDeletePress = useCallback(async () => {
+    const confirmed = await confirmDelete(
+      t('TransactionDetailsScreen.DeleteTransactionTitle'),
+      t('TransactionDetailsScreen.DeleteTransactionMessage'),
+    );
 
-  const onDeletePress = useDeletePress(
-    t('TransactionDetailsScreen.DeleteTransactionTitle'),
-    t('TransactionDetailsScreen.DeleteTransactionMessage'),
-    onDeleteConfirm,
-  );
+    if (confirmed && transaction != null) {
+      await deleteAsync(transaction.id);
+      await queryClient.invalidateQueries(QueryKeys.Transactions);
+      showToast(t('TransactionDetailsScreen.DeleteSuccessMessage'));
+      navigation.pop();
+    }
+  }, [deleteAsync, navigation, queryClient, t, transaction]);
 
   useHeaderButtons(navigation, {onDeletePress});
 

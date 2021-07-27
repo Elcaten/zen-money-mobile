@@ -11,10 +11,9 @@ import {Card} from '../../components/Card';
 import {ZenText} from '../../components/ZenText';
 import {useToolbarOpacity} from '../../hooks';
 import {useHeaderButtons} from '../../hooks/useHeaderButtons';
-import {useDeletePress} from '../../hooks/useOnDeletePress';
 import {useNavigatorThemeColors} from '../../themes';
 import {AccountDetailsScreenProps} from '../../types';
-import {showToast} from '../../utils';
+import {confirmDelete, showToast} from '../../utils';
 import {TransactionList} from '../components/TransactionList';
 import {AccountIcon} from './AccountIcon';
 
@@ -30,27 +29,24 @@ export const AccountDetailsScreen: React.FC<AccountDetailsScreenProps> = ({navig
 
   const {deleteAsync, isDeleting} = useDeleteAccount();
 
-  const onDeleteConfirm = useCallback(async () => {
-    if (account == null) {
-      return;
-    }
+  const onDeletePress = useCallback(async () => {
+    const confirm = confirmDelete(
+      t('AccountDetailsScreen.DeleteAccountTitle'),
+      t('AccountDetailsScreen.DeleteAccountMessage'),
+    );
 
-    const {success} = await deleteAsync(account.id);
-    if (success) {
-      await queryClient.invalidateQueries(QueryKeys.Accounts);
-      await queryClient.invalidateQueries(QueryKeys.Transactions);
-      showToast(t('AccountDetailsScreen.DeleteSuccessMessage'));
-      navigation.pop();
-    } else {
-      showToast('Error');
+    if (confirm && account != null) {
+      const {success} = await deleteAsync(account.id);
+      if (success) {
+        await queryClient.invalidateQueries(QueryKeys.Accounts);
+        await queryClient.invalidateQueries(QueryKeys.Transactions);
+        showToast(t('AccountDetailsScreen.DeleteSuccessMessage'));
+        navigation.pop();
+      } else {
+        showToast(t('Error.UnexpectedError'));
+      }
     }
   }, [account, deleteAsync, navigation, queryClient, t]);
-
-  const onDeletePress = useDeletePress(
-    t('AccountDetailsScreen.DeleteAccountTitle'),
-    t('AccountDetailsScreen.DeleteAccountMessage'),
-    onDeleteConfirm,
-  );
 
   const onEditPress = useCallback(() => navigation.navigate('EditAccountScreen', {accountId: route.params.accountId}), [
     navigation,

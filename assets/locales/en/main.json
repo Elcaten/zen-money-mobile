@@ -7,6 +7,9 @@
         "Save": "Save",
         "Search": "Search"
     },
+    "Error": {
+        "UnexpectedError": "Error"
+    },
     "AccountDetailsScreen": {
         "DeleteAccountMessage": "This account and its transactions will be deleted.",
         "DeleteAccountTitle": "Delete account?",
@@ -52,7 +55,6 @@
         "Instrument": "Account сurrency",
         "Savings": "Savings account",
         "Title": "Title",
-        "UnsupportedTypeTitle": "Unsupported",
         "UnsupportedTypeMessage": "This account type is not yet supported."
     },
     "EditTransactionScreen": {
@@ -72,7 +74,9 @@
         "Themes": "Themes"
     },
     "TagDetailsScreen": {
-        "CategoryDeleted": "Category deleted",
+        "DeleteCategoryMessage": "This category will be deleted.",
+        "DeleteCategoryTitle": "Delete category?",
+        "DeleteCategorySuccessMessage": "Category deleted",
         "CategorySaved": "Category saved",
         "Expense": "in expense",
         "Fixed": "Fixed",
