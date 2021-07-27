@@ -20,9 +20,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'flex-start',
   },
-  subtitle: {
-    fontSize: 14,
-  },
   income: {
     color: GREEN_500,
   },
@@ -30,7 +27,6 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     paddingVertical: 4,
     paddingHorizontal: 8,
-    fontSize: 14,
     marginTop: 8,
   },
 });
@@ -53,12 +49,13 @@ export class OneWayTransaction extends React.Component<TransactionItemProps> {
         <TagIcon icon={tag?.icon} color={tag?.iconColor} />
         <View style={styles.centralSection}>
           <ZenText size="large">{tag?.title}</ZenText>
-          <ZenText style={[styles.subtitle, {color: this.props.secondaryTextColor}]}>
+          <ZenText size="small" style={{color: this.props.secondaryTextColor}}>
             {income ? incomeAccount?.title : outcomeAccount?.title}
           </ZenText>
           {comment && (
             <ZenText
               numberOfLines={1}
+              size="small"
               style={[
                 styles.comment,
                 {color: this.props.secondaryTextColor, backgroundColor: this.props.commentBackgroundColor},
@@ -105,7 +102,13 @@ export class TwoWayTransaction extends React.Component<TransactionItemProps> {
           <ZenText size="large">{outcomeAccount?.title}</ZenText>
           <ZenText size="large">{incomeAccount?.title}</ZenText>
           {comment && (
-            <ZenText numberOfLines={1} style={styles.comment}>
+            <ZenText
+              numberOfLines={1}
+              size="small"
+              style={[
+                styles.comment,
+                {color: this.props.secondaryTextColor, backgroundColor: this.props.commentBackgroundColor},
+              ]}>
               {comment}
             </ZenText>
           )}

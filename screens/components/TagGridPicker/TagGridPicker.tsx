@@ -129,7 +129,9 @@ const TagButton: React.FC<{tag: Tag; onPress: () => void; color?: string; backgr
       <TouchableOpacity style={[styles.iconContainer, {backgroundColor, borderColor: border}]} onPress={onPress}>
         <TagIcon icon={tag.icon} size={ICON_SIZE} key={tag.id} color={color} />
       </TouchableOpacity>
-      <ZenText style={styles.tagButtonText}>{tag.title}</ZenText>
+      <ZenText size="tiny" style={styles.tagButtonText}>
+        {tag.title}
+      </ZenText>
     </View>
   );
 };
@@ -163,7 +165,6 @@ const styles = StyleSheet.create({
     maxWidth: ICON_WIDTH,
   },
   tagButtonText: {
-    fontSize: 12,
     textAlign: 'center',
   },
 });

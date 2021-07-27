@@ -89,8 +89,8 @@ export const AccountDetailsScreen: React.FC<AccountDetailsScreenProps> = ({navig
             <View style={[styles.listHeaderIcon, {backgroundColor: secondary}]}>
               <AccountIcon type={account?.type!} size={64} color={onPrimary} />
             </View>
-            <ZenText style={styles.title}>{account?.title}</ZenText>
-            <ZenText style={styles.title}>{account?.balanceFormatted}</ZenText>
+            <ZenText size="giant">{account?.title}</ZenText>
+            <ZenText size="giant">{account?.balanceFormatted}</ZenText>
           </Card>
         )}
         headerHeight={HEADER_HEIGHT}
@@ -134,11 +134,5 @@ const styles = StyleSheet.create({
     borderRadius: 64,
     padding: 16,
     margin: 16,
-  },
-  title: {
-    fontSize: 20,
-    lineHeight: 30,
-    marginVertical: 2,
-    letterSpacing: 0.15,
   },
 });
