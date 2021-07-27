@@ -2,13 +2,14 @@ import * as React from 'react';
 import {useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import {Controller, useForm} from 'react-hook-form';
 import {useTranslation} from 'react-i18next';
-import {Button, Divider, InputHandles} from 'react-native-elements';
+import {StyleSheet} from 'react-native';
+import {Button, Divider} from 'react-native-elements';
 import {useQueryClient} from 'react-query';
 import {useMutateTag} from '../../api-hooks';
 import {QueryKeys} from '../../api-hooks/query-keys';
 import {useDeleteTag, useTags} from '../../api-hooks/useTags';
 import {Tag} from '../../api/models';
-import {Input, View} from '../../components';
+import {View} from '../../components';
 import {Card} from '../../components/Card';
 import {ListItem} from '../../components/ListItem';
 import {ZenTextInput} from '../../components/ZenTextInput';
@@ -115,9 +116,9 @@ export const TagDetailsScreen: React.FC<TagDetailsScreenProps> = ({navigation, r
 
   return (
     <View disabled={isMutating || isDeleting}>
-      <View style={{flexDirection: 'row', margin: 8}}>
+      <View style={styles.headerContainer}>
         <View>
-          <TagIcon icon={iconName} size={48} color={iconColor} style={{margin: 16}} />
+          <TagIcon icon={iconName} size={48} color={iconColor} style={styles.headerIcon} />
           <Button
             type="clear"
             title="Edit"
@@ -133,7 +134,7 @@ export const TagDetailsScreen: React.FC<TagDetailsScreenProps> = ({navigation, r
             }
           />
         </View>
-        <View style={{flex: 1}}>
+        <View style={styles.flexFill}>
           <Controller
             control={control}
             render={({field: {onChange, onBlur, value}}) => (
@@ -209,3 +210,16 @@ export const TagDetailsScreen: React.FC<TagDetailsScreenProps> = ({navigation, r
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  headerContainer: {
+    flexDirection: 'row',
+    margin: 8,
+  },
+  headerIcon: {
+    marginRight: 16,
+  },
+  flexFill: {
+    flex: 1,
+  },
+});
