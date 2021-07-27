@@ -1,6 +1,6 @@
 import type Bugsnag from '@bugsnag/expo/types/bugsnag';
 import type {NotifiableError, OnErrorCallback} from '@bugsnag/expo/types/bugsnag';
-import {BUGSNAG_API_KEY} from '../utils';
+import {BUGSNAG_API_KEY} from '../utils/manifest-extra';
 
 // For some reason initializing Bugsnag / Sentry as per docs was causing app to stuck at the splash screeen.
 // I had to make this workaround.
