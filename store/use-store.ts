@@ -23,6 +23,8 @@ export type State = {
   // setZenMoneyToken: (value: AuthToken | null) => void;
   locale: string;
   setLocale: (value: AppLocale) => void;
+  biometricUnlock: boolean;
+  setBiometricUnlock: (value: boolean) => void;
   fastAddTransaction: boolean;
   setFastAddTransaction: (value: boolean) => void;
 };
@@ -44,6 +46,8 @@ export const useStore = createStore<State>(
       setLocale: (value) => set(() => ({locale: value})),
       fastAddTransaction: false,
       setFastAddTransaction: (value) => set(() => ({fastAddTransaction: value})),
+      biometricUnlock: false,
+      setBiometricUnlock: (value) => set(() => ({biometricUnlock: value})),
       // setServerTimestamp: (value) => set(() => ({serverTimestamp: value})),
       // setZenMoneyToken: (value) => set(() => ({zenMoneyToken: value})),
     }),
@@ -56,3 +60,5 @@ export const localeSelector = (x: State) => x.locale;
 export const setLocaleSelector = (x: State) => x.setLocale;
 export const fastAddTransactionSelector = (x: State) => x.fastAddTransaction;
 export const setFastAddTransactionSelector = (x: State) => x.setFastAddTransaction;
+export const biometricUnlockSelector = (x: State) => x.biometricUnlock;
+export const setBiometricUnlockSelector = (x: State) => x.setBiometricUnlock;

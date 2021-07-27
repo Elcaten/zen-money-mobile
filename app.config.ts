@@ -1,7 +1,7 @@
 // WARNING THIS ISN'T VERSIONED
 import {ConfigContext, ExpoConfig} from '@expo/config';
 import dotenv from 'dotenv';
-import {bool, cleanEnv, EnvError, json, makeValidator, str} from 'envalid';
+import {bool, cleanEnv, EnvError, json, makeValidator, num, str} from 'envalid';
 import path from 'path';
 
 dotenv.config({path: path.resolve(__dirname, `./config/${process.env.ENVIRONMENT}.env`)});
@@ -18,6 +18,8 @@ function getEnv() {
     ENVIRONMENT: environmentValidator(),
     REACT_QUERY_PERSIST_KEY: str(),
     PERSISIT_TOKEN_KEY: str(),
+    PERSIST_LAST_TIMESTAMP_KEY: str(),
+    LOCK_SCREEN_TIMEOUT: num(),
     CLIENT_ID: str(),
     REDIRECT_URL: str(),
     AUTH_URL: str(),

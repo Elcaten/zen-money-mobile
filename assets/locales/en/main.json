@@ -5,7 +5,8 @@
         "Add": "Add",
         "Edit": "Edit",
         "Save": "Save",
-        "Search": "Search"
+        "Search": "Search",
+        "Unlock": "Unlock"
     },
     "Error": {
         "UnexpectedError": "Error"
@@ -66,6 +67,7 @@
     },
     "MoreScreen": {
         "FastAddTransaction": "Fast add transaction",
+        "BiometricUnlock": "Biometric unlock",
         "Locales": "App language",
         "MainCurrency": "Main Currency",
         "More": "More",

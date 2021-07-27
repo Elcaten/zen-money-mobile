@@ -6,11 +6,21 @@ import {useQueryClient} from 'react-query';
 import {useInstruments, useMe, useMutateMe} from '../../api-hooks';
 import {QueryKeys} from '../../api-hooks/query-keys';
 import {useLogout} from '../../auth';
-import {LanguageIcon, LogoutIcon, MoneyIcon, PlusCircleOutlineIcon, TagIcon, ThemeIcon} from '../../components';
+import {
+  FingerprintIcon,
+  LanguageIcon,
+  LogoutIcon,
+  MoneyIcon,
+  PlusCircleOutlineIcon,
+  TagIcon,
+  ThemeIcon,
+} from '../../components';
 import {PickerListItem, SwitchListItem} from '../../components/ListItem';
 import {
+  biometricUnlockSelector,
   fastAddTransactionSelector,
   localeSelector,
+  setBiometricUnlockSelector,
   setFastAddTransactionSelector,
   themeSelector,
   useStore,
@@ -44,6 +54,8 @@ export const MoreScreen: React.FC<MoreScreenProps> = ({navigation}) => {
 
   const fastAddTransaction = useStore(fastAddTransactionSelector);
   const setFastAddTransaction = useStore(setFastAddTransactionSelector);
+  const biometricUnlock = useStore(biometricUnlockSelector);
+  const setBiometricUnlock = useStore(setBiometricUnlockSelector);
 
   const logout = useLogout();
 
@@ -74,6 +86,12 @@ export const MoreScreen: React.FC<MoreScreenProps> = ({navigation}) => {
         leftIcon={() => <TagIcon />}
         title={t('MoreScreen.Tags')}
         onPress={() => navigation.navigate('TagsScreen', {})}
+      />
+      <SwitchListItem
+        leftIcon={() => <FingerprintIcon />}
+        title={t('MoreScreen.BiometricUnlock')}
+        value={biometricUnlock}
+        onValueChange={setBiometricUnlock}
       />
       <SwitchListItem
         leftIcon={() => <PlusCircleOutlineIcon />}

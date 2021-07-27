@@ -4,8 +4,10 @@ import {useMe} from './api-hooks';
 import {LoadingScreen} from './components/LoadingScreen';
 import {LoginScreen} from './components/LoginScreen';
 import useColorScheme from './hooks/useColorSheme';
+import {useLocalAuthentication} from './hooks/useLocalAuthentication';
 import {initI18n} from './init-i18n';
 import Navigation from './navigation';
+import {UnlockScreen} from './screens/UnlockScreen';
 import {localeSelector, themeSelector, useStore} from './store/use-store';
 import {
   DarkElementsTheme,
@@ -42,8 +44,17 @@ export const Root: React.FC = () => {
     }
   }, [setElementsTheme, setNavigatorTheme, systemTheme, appTheme]);
 
+  const {isAuthenticated, showAuthPopup} = useLocalAuthentication();
+
   if (isLoading || isLoadingLocales) {
     return <LoadingScreen />;
+  }
+
+  // It's crucial that components using `useTranslation` (like UnlockScreen) were rendered AFTER initI18n completes.
+  // Ignoring that will cause misleading `React has detected a change in the order of Hooks` error to appear.
+  // https://github.com/i18next/react-i18next/issues/960
+  if (!isAuthenticated) {
+    return <UnlockScreen onUnlockPress={showAuthPopup} />;
   }
 
   if (isLoggedIn) {
