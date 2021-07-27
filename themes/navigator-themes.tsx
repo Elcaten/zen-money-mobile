@@ -12,6 +12,9 @@ export type NavigatorTheme = Theme & {
     onPrimary: string;
     onSecondary: string;
   };
+  Icon: {
+    size: number;
+  };
 };
 
 export const DefaultNavigatorTheme: NavigatorTheme = {
@@ -33,6 +36,9 @@ export const DefaultNavigatorTheme: NavigatorTheme = {
     iconColor: `${BLACK}61`,
 
     notification: DEEP_PURPLE_500,
+  },
+  Icon: {
+    size: 24,
   },
 };
 
@@ -56,20 +62,21 @@ export const DarkNavigatorTheme: NavigatorTheme = {
 
     notification: DEEP_PURPLE_300,
   },
+  Icon: {
+    size: 24,
+  },
 };
 
-const NavigatorThemeContext = React.createContext({
-  navigatorTheme: DefaultNavigatorTheme,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  setNavigatorTheme: (theme: NavigatorTheme) => {},
-});
+const NavigatorThemeContext = React.createContext(DefaultNavigatorTheme);
+
+const SetNavigatorThemeContext = React.createContext((_theme: NavigatorTheme) => {});
 
 export const NavigatorThemeProvider: React.FC = ({children}) => {
   const [navigatorTheme, setNavigatorTheme] = useState(DefaultNavigatorTheme);
 
   return (
-    <NavigatorThemeContext.Provider value={{navigatorTheme, setNavigatorTheme}}>
-      {children}
+    <NavigatorThemeContext.Provider value={navigatorTheme}>
+      <SetNavigatorThemeContext.Provider value={setNavigatorTheme}>{children}</SetNavigatorThemeContext.Provider>
     </NavigatorThemeContext.Provider>
   );
 };
@@ -78,4 +85,6 @@ export const NavigatorThemeContextConsumer = NavigatorThemeContext.Consumer;
 
 export const useNavigatorTheme = () => useContext(NavigatorThemeContext);
 
-export const useNavigatorThemeColors = () => useContext(NavigatorThemeContext).navigatorTheme.colors;
+export const useSetNavigatorTheme = () => useContext(SetNavigatorThemeContext);
+
+export const useNavigatorThemeColors = () => useContext(NavigatorThemeContext).colors;

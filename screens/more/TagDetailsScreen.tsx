@@ -117,7 +117,7 @@ export const TagDetailsScreen: React.FC<TagDetailsScreenProps> = ({navigation, r
     <View disabled={isMutating || isDeleting}>
       <View style={{flexDirection: 'row', margin: 8}}>
         <View>
-          <TagIcon icon={iconName} color={iconColor} style={{margin: 16}} />
+          <TagIcon icon={iconName} size={48} color={iconColor} style={{margin: 16}} />
           <Button
             type="clear"
             title="Edit"

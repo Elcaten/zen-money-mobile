@@ -50,7 +50,7 @@ export class OneWayTransaction extends React.Component<TransactionItemProps> {
     } = this.props.transaction;
     return (
       <ListItem onPress={() => this.props.onPress(this.props.transaction.id)}>
-        <TagIcon icon={tag?.icon} color={tag?.iconColor} size={24} />
+        <TagIcon icon={tag?.icon} color={tag?.iconColor} />
         <View style={styles.centralSection}>
           <ZenText size="large">{tag?.title}</ZenText>
           <ZenText style={[styles.subtitle, {color: this.props.secondaryTextColor}]}>
@@ -100,7 +100,7 @@ export class TwoWayTransaction extends React.Component<TransactionItemProps> {
 
     return (
       <ListItem onPress={() => this.props.onPress(this.props.transaction.id)}>
-        <SubdirArrowRightIcon size={24} />
+        <SubdirArrowRightIcon />
         <View style={styles.centralSection}>
           <ZenText size="large">{outcomeAccount?.title}</ZenText>
           <ZenText size="large">{incomeAccount?.title}</ZenText>

@@ -1,5 +1,5 @@
 import {StatusBar} from 'expo-status-bar';
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useMe} from './api-hooks';
 import {LoadingScreen} from './components/LoadingScreen';
 import {LoginScreen} from './components/LoginScreen';
@@ -13,7 +13,7 @@ import {
   DefaultElementsTheme,
   DefaultNavigatorTheme,
   useElementsTheme,
-  useNavigatorTheme,
+  useSetNavigatorTheme,
 } from './themes';
 
 export const Root: React.FC = () => {
@@ -28,7 +28,7 @@ export const Root: React.FC = () => {
 
   const appTheme = useStore(themeSelector);
   const systemTheme = useColorScheme();
-  const {setNavigatorTheme} = useNavigatorTheme();
+  const setNavigatorTheme = useSetNavigatorTheme();
   const {setElementsTheme} = useElementsTheme();
 
   useEffect(() => {

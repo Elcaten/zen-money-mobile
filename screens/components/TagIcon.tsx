@@ -2,7 +2,7 @@ import React from 'react';
 import {Image, ImageStyle, StyleProp, TextStyle} from 'react-native';
 import {TagIconName} from '../../api/models';
 import {QuestionCircleIcon} from '../../components';
-import {useNavigatorThemeColors} from '../../themes';
+import {useNavigatorTheme} from '../../themes';
 import {argbToHEX} from '../../utils';
 
 export interface TagIconProps {
@@ -13,18 +13,15 @@ export interface TagIconProps {
 }
 
 export const TagIcon: React.FC<TagIconProps> = ({icon, size, color, style}) => {
-  const {iconColor} = useNavigatorThemeColors();
-  const hexColor = typeof color === 'string' ? color : color ? argbToHEX(color) : iconColor;
+  const {colors, Icon} = useNavigatorTheme();
+  const hexColor = typeof color === 'string' ? color : color ? argbToHEX(color) : colors.iconColor;
+  size = size ?? Icon.size;
 
   if (!icon) {
     return <QuestionCircleIcon size={size} style={style} color={hexColor} />;
   }
 
   return <Image source={pngIcons[icon]} style={[{width: size, height: size, tintColor: hexColor}, style]} />;
-};
-
-TagIcon.defaultProps = {
-  size: 48,
 };
 
 const pngIcons: Record<TagIconName, any> = {

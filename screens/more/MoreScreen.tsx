@@ -52,36 +52,36 @@ export const MoreScreen: React.FC<MoreScreenProps> = ({navigation}) => {
   return (
     <ScrollView>
       <PickerListItem
-        leftIcon={() => <ThemeIcon size={24} />}
+        leftIcon={() => <ThemeIcon />}
         title={t('MoreScreen.Themes')}
         value={theme}
         onPress={() => navigation.navigate('ThemesScreen')}
       />
       <PickerListItem
-        leftIcon={() => <MoneyIcon size={24} />}
+        leftIcon={() => <MoneyIcon />}
         title={t('MoreScreen.MainCurrency')}
         value={instrumentTitle}
         disabled={isMutating}
         onPress={openCurrencyPicker}
       />
       <PickerListItem
-        leftIcon={() => <LanguageIcon size={24} />}
+        leftIcon={() => <LanguageIcon />}
         title={t('MoreScreen.Locales')}
         value={locale}
         onPress={() => navigation.navigate('LocalesScreen')}
       />
       <PickerListItem
-        leftIcon={() => <TagIcon size={24} />}
+        leftIcon={() => <TagIcon />}
         title={t('MoreScreen.Tags')}
         onPress={() => navigation.navigate('TagsScreen', {})}
       />
       <SwitchListItem
-        leftIcon={() => <PlusCircleOutlineIcon size={24} />}
+        leftIcon={() => <PlusCircleOutlineIcon />}
         title={t('MoreScreen.FastAddTransaction')}
         value={fastAddTransaction}
         onValueChange={setFastAddTransaction}
       />
-      <PickerListItem leftIcon={() => <LogoutIcon size={24} />} title={t('MoreScreen.SignOut')} onPress={logout} />
+      <PickerListItem leftIcon={() => <LogoutIcon />} title={t('MoreScreen.SignOut')} onPress={logout} />
     </ScrollView>
   );
 };

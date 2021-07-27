@@ -102,7 +102,7 @@ export const IncomeExpenseEditor: React.FC<{onSubmit: (success: boolean) => void
         render={({field}) => (
           <NumberInputField
             field={field}
-            leftIcon={() => <CoinsIcon size={24} />}
+            leftIcon={() => <CoinsIcon />}
             rightIcon={() => <ZenText>{instrumentSymbol}</ZenText>}
           />
         )}
@@ -122,7 +122,7 @@ export const IncomeExpenseEditor: React.FC<{onSubmit: (success: boolean) => void
         control={control}
         render={({field: {onChange, value}}) => (
           <PickerListItem
-            leftIcon={() => <WalletIcon size={24} />}
+            leftIcon={() => <WalletIcon />}
             title={value.title}
             onPress={() =>
               navigation.navigate('AccountPickerScreen', {
@@ -149,7 +149,7 @@ export const IncomeExpenseEditor: React.FC<{onSubmit: (success: boolean) => void
           <TextInputField
             field={field}
             placeholder={t('EditTransactionScreen.Comment')}
-            leftIcon={() => <CommentIcon size={24} />}
+            leftIcon={() => <CommentIcon />}
           />
         )}
         name="comment"

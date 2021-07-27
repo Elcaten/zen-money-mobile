@@ -91,7 +91,7 @@ export const TransferEditor: React.FC<{onSubmit: (success: boolean) => void}> = 
         render={({field}) => (
           <NumberInputField
             field={field}
-            leftIcon={() => <MinusBoxOutlineIcon size={24} />}
+            leftIcon={() => <MinusBoxOutlineIcon />}
             rightIcon={() => <ZenText>{outcomeSymbol}</ZenText>}
           />
         )}
@@ -103,7 +103,7 @@ export const TransferEditor: React.FC<{onSubmit: (success: boolean) => void}> = 
         control={control}
         render={({field: {onChange, value}}) => (
           <PickerListItem
-            leftIcon={() => <WalletIcon size={24} />}
+            leftIcon={() => <WalletIcon />}
             title={value.title}
             onPress={() =>
               navigation.navigate('AccountPickerScreen', {
@@ -121,7 +121,7 @@ export const TransferEditor: React.FC<{onSubmit: (success: boolean) => void}> = 
         control={control}
         render={({field: {onChange, value}}) => (
           <PickerListItem
-            leftIcon={() => <WalletIcon size={24} />}
+            leftIcon={() => <WalletIcon />}
             title={value.title}
             onPress={() =>
               navigation.navigate('AccountPickerScreen', {
@@ -140,7 +140,7 @@ export const TransferEditor: React.FC<{onSubmit: (success: boolean) => void}> = 
         render={({field}) => (
           <NumberInputField
             field={field}
-            leftIcon={() => <PlusBoxOutlineIcon size={24} />}
+            leftIcon={() => <PlusBoxOutlineIcon />}
             rightIcon={() => <ZenText>{incomeSymbol}</ZenText>}
           />
         )}
@@ -161,7 +161,7 @@ export const TransferEditor: React.FC<{onSubmit: (success: boolean) => void}> = 
           <TextInputField
             field={field}
             placeholder={t('EditTransactionScreen.Comment')}
-            leftIcon={() => <CommentIcon size={24} />}
+            leftIcon={() => <CommentIcon />}
           />
         )}
         name="comment"

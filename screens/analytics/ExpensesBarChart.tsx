@@ -45,9 +45,7 @@ export interface ExpenseItemProps {
 }
 
 export const ExpenseItem: React.FC<ExpenseItemProps> = ({expense, expenses, totalAmount}) => {
-  const {
-    navigatorTheme: {dark},
-  } = useNavigatorTheme();
+  const {dark} = useNavigatorTheme();
   const data = useMemo(() => {
     return expenses.map((e) => ({
       key: e.id,

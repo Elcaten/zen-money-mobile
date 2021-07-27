@@ -18,7 +18,7 @@ const Balance: React.FC<{account: AccountModel}> = ({account}) => {
 export const AccountListItem: React.FC<{account: AccountModel; onPress: () => void}> = ({account, onPress}) => {
   return (
     <ListItem onPress={onPress}>
-      <AccountIcon type={account.type} size={24} />
+      <AccountIcon type={account.type} />
       <ZenText size="large" style={styles.title}>
         {account.title}
       </ZenText>

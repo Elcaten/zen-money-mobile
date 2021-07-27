@@ -25,7 +25,7 @@ export const DateTimeInputField: React.FC<DateTimeInputFieldProps> = ({field: {v
   return (
     <View>
       <ListItem onPress={() => setShow(true)} bottomDivider>
-        <CalendarIcon size={24} />
+        <CalendarIcon />
         <ListItem.Title>{dayjs(value).format('DD MMM YYYY')}</ListItem.Title>
       </ListItem>
 

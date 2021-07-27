@@ -137,7 +137,7 @@ const TagButton: React.FC<{tag: Tag; onPress: () => void; color?: string; backgr
 const TagListItem: React.FC<{tag: Tag; onPress: () => void}> = ({tag, onPress}) => {
   return (
     <ListItem bottomDivider onPress={onPress}>
-      <TagIcon icon={tag.icon} size={24} />
+      <TagIcon icon={tag.icon} />
       <ListItem.Title>{tag.title}</ListItem.Title>
     </ListItem>
   );

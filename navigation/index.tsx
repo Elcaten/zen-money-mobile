@@ -8,7 +8,7 @@ import BottomTabNavigator from './BottomTabNavigator';
 import LinkingConfiguration from './linking-configuration';
 
 export default function Navigation() {
-  const {navigatorTheme} = useNavigatorTheme();
+  const navigatorTheme = useNavigatorTheme();
 
   return (
     <NavigationContainer linking={LinkingConfiguration} theme={navigatorTheme}>

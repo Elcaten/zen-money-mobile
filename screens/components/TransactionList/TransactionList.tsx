@@ -158,7 +158,7 @@ export class TransactionList extends Component<TransactionsListProps, Transactio
   render() {
     return (
       <NavigatorThemeContextConsumer>
-        {({navigatorTheme}) =>
+        {(navigatorTheme) =>
           this.state.dataProvider.getSize() > 0 && (
             <RecyclerListView
               extendedState={navigatorTheme}

@@ -63,7 +63,7 @@ export const AccountDetailsScreen: React.FC<AccountDetailsScreenProps> = ({navig
     navigation.setOptions({
       headerTitle: () => (
         <Animated.View style={[styles.navigationTitle, {opacity}]}>
-          <AccountIcon size={24} type={account?.type!} style={styles.navigationIcon} />
+          <AccountIcon type={account?.type!} style={styles.navigationIcon} />
           <ZenText>{account?.title}</ZenText>
         </Animated.View>
       ),
