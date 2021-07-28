@@ -6,6 +6,8 @@ export * from './confirmDelete';
 export * from './exhaustive-check';
 export * from './generate-uuid';
 export * from './get-font-size';
+export * from './getLocaleName';
+export * from './getLocalePrefix';
 export * from './key-extractors';
 export * from './manifest-extra';
 export * from './random-color';

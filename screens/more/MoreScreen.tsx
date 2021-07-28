@@ -16,6 +16,7 @@ import {
   ThemeIcon,
 } from '../../components';
 import {PickerListItem, SwitchListItem} from '../../components/ListItem';
+import {useThemeName} from '../../hooks/useThemeName';
 import {
   biometricUnlockSelector,
   fastAddTransactionSelector,
@@ -26,9 +27,11 @@ import {
   useStore,
 } from '../../store/use-store';
 import {MoreScreenProps} from '../../types';
+import {getLocaleName} from '../../utils';
 
 export const MoreScreen: React.FC<MoreScreenProps> = ({navigation}) => {
   const theme = useStore(themeSelector);
+  const themeName = useThemeName(theme);
 
   const {data: me} = useMe();
   const instrumentId = me!.currency;
@@ -51,6 +54,7 @@ export const MoreScreen: React.FC<MoreScreenProps> = ({navigation}) => {
   }, [instrumentId, mutateMe, navigation, queryClient]);
 
   const locale = useStore(localeSelector);
+  const localeName = getLocaleName(locale);
 
   const fastAddTransaction = useStore(fastAddTransactionSelector);
   const setFastAddTransaction = useStore(setFastAddTransactionSelector);
@@ -66,7 +70,7 @@ export const MoreScreen: React.FC<MoreScreenProps> = ({navigation}) => {
       <PickerListItem
         leftIcon={() => <ThemeIcon />}
         title={t('MoreScreen.Themes')}
-        value={theme}
+        value={themeName}
         onPress={() => navigation.navigate('ThemesScreen')}
       />
       <PickerListItem
@@ -79,7 +83,7 @@ export const MoreScreen: React.FC<MoreScreenProps> = ({navigation}) => {
       <PickerListItem
         leftIcon={() => <LanguageIcon />}
         title={t('MoreScreen.Locales')}
-        value={locale}
+        value={localeName}
         onPress={() => navigation.navigate('LocalesScreen')}
       />
       <PickerListItem

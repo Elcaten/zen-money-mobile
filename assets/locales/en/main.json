@@ -34,7 +34,7 @@
     },
     "AccountsScreen": {
         "Accounts": "Accounts",
-        "AddAccount": "Add Account",
+        "AddAccount": "Add account",
         "Collapse": "Collapse",
         "ShowArchived": "Show archived"
     },
@@ -69,9 +69,9 @@
         "FastAddTransaction": "Fast add transaction",
         "BiometricUnlock": "Biometric unlock",
         "Locales": "App language",
-        "MainCurrency": "Main Currency",
+        "MainCurrency": "Main currency",
         "More": "More",
-        "SignOut": "Sign Out",
+        "SignOut": "Sign out",
         "Tags": "Categories",
         "Themes": "Themes"
     },

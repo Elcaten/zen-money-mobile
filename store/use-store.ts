@@ -14,9 +14,11 @@ export enum AppLocale {
   En = 'en',
 }
 
+export type AppTheme = 'dark' | 'light' | 'system';
+
 export type State = {
-  theme: 'dark' | 'light' | 'system';
-  setTheme: (value: 'dark' | 'light' | 'system') => void;
+  theme: AppTheme;
+  setTheme: (value: AppTheme) => void;
   // serverTimestamp: number;
   // setServerTimestamp: (value: number) => void;
   // zenMoneyToken: AuthToken | null;
