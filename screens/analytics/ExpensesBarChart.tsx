@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {useMemo} from 'react';
-import {StyleSheet} from 'react-native';
+import {StyleSheet, TouchableOpacity} from 'react-native';
 import {PieChart} from 'react-native-svg-charts';
 import {View} from '../../components';
 import {GRAY_300, GRAY_800} from '../../constants/Colors';
@@ -23,6 +23,7 @@ interface LabelsProps {
 
 export interface ExpensesBarChartProps {
   expenses: ExpenseModel[];
+  onItemPress: (tagId: string | undefined) => void;
 }
 
 export const ExpensesBarChart: React.FC<ExpensesBarChartProps> = (props) => {
@@ -32,7 +33,13 @@ export const ExpensesBarChart: React.FC<ExpensesBarChartProps> = (props) => {
   return (
     <React.Fragment>
       {expenses.map((expense) => (
-        <ExpenseItem key={expense.id} expense={expense} expenses={expenses} totalAmount={totalAmount} />
+        <ExpenseItem
+          key={expense.id}
+          expense={expense}
+          expenses={expenses}
+          totalAmount={totalAmount}
+          onPress={() => props.onItemPress(expense.tagId)}
+        />
       ))}
     </React.Fragment>
   );
@@ -42,9 +49,10 @@ export interface ExpenseItemProps {
   expense: ExpenseModel;
   expenses: ExpenseModel[];
   totalAmount: number;
+  onPress: () => void;
 }
 
-export const ExpenseItem: React.FC<ExpenseItemProps> = ({expense, expenses, totalAmount}) => {
+export const ExpenseItem: React.FC<ExpenseItemProps> = ({expense, expenses, totalAmount, onPress}) => {
   const {dark} = useNavigatorTheme();
   const data = useMemo(() => {
     return expenses.map((e) => ({
@@ -61,16 +69,16 @@ export const ExpenseItem: React.FC<ExpenseItemProps> = ({expense, expenses, tota
   }, [expense.amount, totalAmount]);
 
   return (
-    <View style={styles.container}>
+    <TouchableOpacity style={styles.container} onPress={onPress}>
       <View>
         <PieChart innerRadius={12} outerRadius={16} style={styles.pieChart} data={data} />
         <View style={styles.pieChartText}>
           <ZenText size="tiny">{share}</ZenText>
         </View>
       </View>
-      <ZenText style={styles.tag}>{expense.tag}</ZenText>
+      <ZenText style={styles.tag}>{expense.title}</ZenText>
       <ZenText>{expense.amountFormatted}</ZenText>
-    </View>
+    </TouchableOpacity>
   );
 };
 

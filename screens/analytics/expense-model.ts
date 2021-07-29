@@ -1,10 +1,8 @@
-import {TagIconName} from '../../api/models';
-
 export interface ExpenseModel {
   id: string;
+  tagId: string | undefined;
+  title: string | null | undefined;
   amount: number;
   amountFormatted: string;
-  tag?: string | null;
-  tagIcon?: TagIconName | null;
   color: string;
 }
