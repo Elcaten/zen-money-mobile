@@ -120,6 +120,11 @@ export const RadioboxMarkedIcon: React.FC<IconProps> = (props) => {
   return <MaterialCommunityIcons color={colors.iconColor} name="radiobox-marked" size={Icon.size} {...props} />;
 };
 
+export const SendIcon: React.FC<IconProps> = (props) => {
+  const {colors, Icon} = useNavigatorTheme();
+  return <MaterialCommunityIcons color={colors.iconColor} name="send" size={Icon.size} {...props} />;
+};
+
 export const SearchIcon: React.FC<IconProps> = (props) => {
   const {colors, Icon} = useNavigatorTheme();
   return <MaterialIcons color={colors.iconColor} name="search" size={Icon.size} {...props} />;

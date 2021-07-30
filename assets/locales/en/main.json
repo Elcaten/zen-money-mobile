@@ -1,4 +1,9 @@
 {
+    "LoginScreen": {
+        "SignIn": "Sign in",
+        "Demo": "Demo",
+        "Proceed": "Proceed"
+    },
     "Button": {
         "Cancel": "Cancel",
         "Delete": "Delete",

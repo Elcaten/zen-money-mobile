@@ -17,6 +17,8 @@ export enum AppLocale {
 export type AppTheme = 'dark' | 'light' | 'system';
 
 export type State = {
+  signInPressed: boolean;
+  setSignInPressed: (value: boolean) => void;
   theme: AppTheme;
   setTheme: (value: AppTheme) => void;
   // serverTimestamp: number;
@@ -40,6 +42,8 @@ export const useStore = createStore<State>(
       allowlist: [/*'serverTimestamp', 'zenMoneyToken', */ 'locale', 'theme', 'fastAddTransaction'],
     },
     (set) => ({
+      signInPressed: false,
+      setSignInPressed: (value) => set(() => ({signInPressed: value})),
       theme: colorScheme,
       setTheme: (value) => set(() => ({theme: value})),
       // serverTimestamp: 0,
@@ -56,6 +60,8 @@ export const useStore = createStore<State>(
   ),
 );
 
+export const signInPressedSelector = (x: State) => x.signInPressed;
+export const setSignInPressedSelector = (x: State) => x.setSignInPressed;
 export const themeSelector = (x: State) => x.theme;
 export const setThemeSelector = (x: State) => x.setTheme;
 export const localeSelector = (x: State) => x.locale;
