@@ -7,9 +7,10 @@ import {useQueryClient} from 'react-query';
 import {AuthToken, persistToken, useLogin, validateAuthTokenResponse} from '../auth';
 import {setSignInPressedSelector, signInPressedSelector, useStore} from '../store/use-store';
 import {DEMO_TOKEN} from '../utils';
-import {Logo} from './Logo';
-import {View} from './View';
-import {ZenText} from './ZenText';
+import {Logo} from '../components/Logo';
+import {View} from '../components/View';
+import {ZenText} from '../components/ZenText';
+import {Card} from '../components/Card';
 
 export interface LoginScreenProps {}
 
@@ -49,8 +50,10 @@ export const LoginScreen: React.FC<LoginScreenProps> = (props) => {
   }, [queryClient]);
 
   return (
-    <View style={styles.container}>
-      <Logo size={128} style={styles.logo} />
+    <Card style={styles.container}>
+      <View style={styles.logoContainer}>
+        <Logo style={styles.logo} />
+      </View>
       {!signInPressed && (
         <Button
           title={t('LoginScreen.SignIn')}
@@ -61,13 +64,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = (props) => {
       )}
       {signInPressed && (
         <React.Fragment>
-          <Input
-            placeholder="Token"
-            value={token}
-            onChangeText={setToken}
-            inputContainerStyle={styles.inputContainer}
-            ref={ref as any}
-          />
+          <Input placeholder="Token" value={token} onChangeText={setToken} ref={ref as any} />
           <Button
             title={t('LoginScreen.Proceed')}
             onPress={onProceedPress}
@@ -83,7 +80,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = (props) => {
         containerStyle={styles.buttonContainer}
         titleStyle={styles.buttonTitle}
       />
-    </View>
+    </Card>
   );
 };
 
@@ -93,13 +90,17 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'stretch',
     textAlign: 'center',
+    padding: 16,
+  },
+  logoContainer: {
+    alignSelf: 'center',
+    marginHorizontal: 120,
+    marginVertical: 16,
   },
   logo: {
-    alignSelf: 'center',
-    margin: 32,
-  },
-  inputContainer: {
-    marginHorizontal: 16,
+    width: '100%',
+    height: undefined,
+    aspectRatio: 1,
   },
   buttonContainer: {
     margin: 8,

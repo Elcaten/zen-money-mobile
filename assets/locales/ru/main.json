@@ -4,6 +4,9 @@
         "Demo": "Демо",
         "Proceed": "Продолжить"
     },
+    "LoadingScreen": {
+        "Loading": "Загрузка..."
+    },
     "Button": {
         "Delete": "Удалить",
         "Cancel": "Отмена",

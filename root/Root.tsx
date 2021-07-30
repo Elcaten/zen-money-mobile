@@ -1,14 +1,14 @@
 import {StatusBar} from 'expo-status-bar';
 import React, {useEffect, useState} from 'react';
-import {useMe} from './api-hooks';
-import {LoadingScreen} from './components/LoadingScreen';
-import {LoginScreen} from './components/LoginScreen';
-import useColorScheme from './hooks/useColorSheme';
-import {useLocalAuthentication} from './hooks/useLocalAuthentication';
-import {initI18n} from './init-i18n';
-import Navigation from './navigation';
-import {UnlockScreen} from './screens/UnlockScreen';
-import {localeSelector, themeSelector, useStore} from './store/use-store';
+import {useMe} from '../api-hooks';
+import {LoadingScreen} from './LoadingScreen';
+import {LoginScreen} from './LoginScreen';
+import useColorScheme from '../hooks/useColorSheme';
+import {useLocalAuthentication} from '../hooks/useLocalAuthentication';
+import {initI18n} from '../init-i18n';
+import Navigation from '../navigation';
+import {UnlockScreen} from './UnlockScreen';
+import {localeSelector, themeSelector, useStore} from '../store/use-store';
 import {
   DarkElementsTheme,
   DarkNavigatorTheme,
@@ -16,10 +16,10 @@ import {
   DefaultNavigatorTheme,
   useElementsTheme,
   useSetNavigatorTheme,
-} from './themes';
+} from '../themes';
 
 export const Root: React.FC = () => {
-  const {isLoading, isSuccess, data: user} = useMe();
+  const {isLoading: isLoadingUser, isSuccess, data: user} = useMe();
   const isLoggedIn = isSuccess && user != null;
 
   const [isLoadingLocales, setIsLoadingLocales] = useState(true);
@@ -46,7 +46,7 @@ export const Root: React.FC = () => {
 
   const {isAuthenticated, showAuthPopup} = useLocalAuthentication();
 
-  if (isLoading || isLoadingLocales) {
+  if (isLoadingUser || isLoadingLocales) {
     return <LoadingScreen />;
   }
 

@@ -4,6 +4,9 @@
         "Demo": "Demo",
         "Proceed": "Proceed"
     },
+    "LoadingScreen": {
+        "Loading": "Loading..."
+    },
     "Button": {
         "Cancel": "Cancel",
         "Delete": "Delete",

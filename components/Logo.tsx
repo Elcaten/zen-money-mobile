@@ -1,41 +1,10 @@
 import React from 'react';
-import {StyleProp, ViewStyle} from 'react-native';
-import Svg, {G, Path} from 'react-native-svg';
-import {useNavigatorThemeColors} from '../themes';
+import {Image, ImageStyle, StyleProp} from 'react-native';
 
 export interface LogoProps {
-  size: number;
-  backroundColor?: string;
-  textColor?: string;
-  style?: StyleProp<ViewStyle>;
+  style?: StyleProp<ImageStyle>;
 }
 
-export const Logo: React.FC<LogoProps> = ({size, textColor, backroundColor, style}) => {
-  const {secondary, onSecondary} = useNavigatorThemeColors();
-  backroundColor = backroundColor ?? secondary;
-  textColor = textColor ?? onSecondary;
-
-  return (
-    <Svg viewBox="0 0 265.625 265.625" width={size} height={size} style={style}>
-      <G transform="matrix(5.3125,0,0,5.3125,0,0)" fill={backroundColor}>
-        <Path d="M5 0h45v45a5 5 0 0 1-5 5H0V5a5 5 0 0 1 5-5z" />
-      </G>
-      <G transform="matrix(18.92402458190918,0,0,18.92402458190918,85.6899383983573,45.68993839835729)" fill="#ffffff">
-        <G>
-          <Path d="M2.1,3.431c0.201-0.289,0.522-0.154,0.599,0.207c0.109,0.517,0.626,0.586,0.626,0.586S2.95,4.566,2.395,4.303   C2.03,4.129,1.963,3.627,2.1,3.431z" />
-          <Path d="M2.875,3.441c-0.062-0.346,0.26-0.479,0.57-0.277c0.442,0.288,0.857-0.028,0.857-0.028S4.279,3.644,3.7,3.849   C3.319,3.985,2.917,3.676,2.875,3.441z" />
-          <Path d="M3.431,2.9C3.143,2.699,3.277,2.378,3.638,2.302c0.517-0.109,0.586-0.626,0.586-0.626s0.342,0.375,0.078,0.93   C4.129,2.971,3.627,3.037,3.431,2.9z" />
-          <Path d="M3.441,2.125c-0.346,0.062-0.479-0.261-0.277-0.57c0.288-0.442-0.028-0.857-0.028-0.857S3.644,0.721,3.85,1.3   C3.985,1.681,3.677,2.083,3.441,2.125z" />
-          <Path d="M2.9,1.569C2.699,1.858,2.378,1.723,2.302,1.362C2.193,0.846,1.676,0.775,1.676,0.775s0.375-0.341,0.93-0.078   C2.971,0.871,3.037,1.374,2.9,1.569z" />
-          <Path d="M2.125,1.559c0.062,0.347-0.261,0.479-0.57,0.277C1.113,1.547,0.698,1.864,0.698,1.864S0.721,1.357,1.3,1.151   C1.681,1.016,2.083,1.324,2.125,1.559z" />
-          <Path d="M1.569,2.1c0.289,0.201,0.154,0.522-0.207,0.599C0.845,2.807,0.775,3.325,0.775,3.325S0.434,2.95,0.697,2.395   C0.871,2.03,1.374,1.963,1.569,2.1z" />
-        </G>
-      </G>
-      <G
-        transform="matrix(1.9945918321609497,0,0,1.9945918321609497,45.6236307805124,128.27494385627205)"
-        fill={textColor}>
-        <Path d="M23.711 16.523 l-14.746 17.676 l8.3594 0 l0 -4.5898 l6.3477 0 l0 10.391 l-22.48 0 l0 -6.1133 l14.395 -17.695 l-7.9883 0 l0 4.6875 l-6.3672 0 l0 -10.488 l22.48 0 l0 6.1328 z M28.455046875 10.390999999999998 l23.555 0 l0 10.098 l-6.3672 0 l0 -4.1992 l-7.5977 0 l0 5.8398 l5.8789 0 l0 5.6641 l-5.8789 0 l0 6.8555 l7.5977 0 l0 -5.2539 l6.3672 0 l0 10.605 l-23.555 0 l0 -5.3516 l3.1055 0 l0 -18.359 l-3.1055 0 l0 -5.8984 z M75.17190625 10.390999999999998 l11.25 0 l0 5.3711 l-2.4023 0 l0 24.238 l-6.4844 0 l-12.324 -19.141 l0 13.789 l2.4805 0 l0 5.3516 l-11.23 0 l0 -5.3516 l2.4414 0 l0 -18.887 l-2.4023 0 l0 -5.3711 l8.9453 0 l12.246 19.395 l0 -14.023 l-2.5195 0 l0 -5.3711 z" />
-      </G>
-    </Svg>
-  );
+export const Logo: React.FC<LogoProps> = ({style}) => {
+  return <Image source={require('../assets/images/icon.png')} style={style} />;
 };
