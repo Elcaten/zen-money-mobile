@@ -66,7 +66,7 @@ export const TagDetailsScreen: React.FC<TagDetailsScreenProps> = ({navigation, r
   const {mutateAsync: deleteAsync, isLoading: isDeleting} = useDeleteTag();
 
   const onDeletePress = useCallback(async () => {
-    const confirm = confirmDelete(
+    const confirm = await confirmDelete(
       t('TagDetailsScreen.DeleteCategoryTitle'),
       t('TagDetailsScreen.DeleteCategoryMessage'),
     );

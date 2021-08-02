@@ -30,7 +30,7 @@ export const AccountDetailsScreen: React.FC<AccountDetailsScreenProps> = ({navig
   const {deleteAsync, isDeleting} = useDeleteAccount();
 
   const onDeletePress = useCallback(async () => {
-    const confirm = confirmDelete(
+    const confirm = await confirmDelete(
       t('AccountDetailsScreen.DeleteAccountTitle'),
       t('AccountDetailsScreen.DeleteAccountMessage'),
     );
