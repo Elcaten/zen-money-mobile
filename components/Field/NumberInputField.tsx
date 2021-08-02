@@ -1,4 +1,4 @@
-import React, {forwardRef, ReactNode, useImperativeHandle, useRef} from 'react';
+import React, {forwardRef, useImperativeHandle, useRef} from 'react';
 import {StyleSheet} from 'react-native';
 import {ListItem} from '../ListItem';
 import {ZenTextInput} from '../ZenTextInput';
@@ -6,6 +6,7 @@ import {ZenTextInputHandles} from '../ZenTextInput/ZenTextInput';
 
 export interface NumberInputFieldHandle {
   shake: () => void;
+  focus: () => void;
 }
 
 export interface NumberInputFieldProps {
@@ -24,7 +25,14 @@ const NumberInputFieldComponent: React.ForwardRefRenderFunction<NumberInputField
 ) => {
   const inputRef = useRef<ZenTextInputHandles>(null);
 
-  useImperativeHandle(ref, () => ({shake: () => inputRef.current?.shake()}), []);
+  useImperativeHandle(
+    ref,
+    () => ({
+      shake: () => inputRef.current?.shake(),
+      focus: () => inputRef.current?.focus(),
+    }),
+    [],
+  );
 
   return (
     <ListItem bottomDivider>

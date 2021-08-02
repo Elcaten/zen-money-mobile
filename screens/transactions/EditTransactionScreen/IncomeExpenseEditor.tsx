@@ -15,10 +15,9 @@ import {Transaction, UserAccount} from '../../../api/models';
 import {CoinsIcon, CommentIcon, WalletIcon} from '../../../components';
 import {TextInputField} from '../../../components/Field';
 import {DateTimeInputField} from '../../../components/Field/DateTimeInputField';
-import {NumberInputField} from '../../../components/Field/NumberInputField';
+import {NumberInputField, NumberInputFieldHandle} from '../../../components/Field/NumberInputField';
 import {PickerListItem} from '../../../components/ListItem';
 import {ZenText} from '../../../components/ZenText';
-import {ZenTextInputHandles} from '../../../components/ZenTextInput/ZenTextInput';
 import {useHeaderButtons} from '../../../hooks/useHeaderButtons';
 import {EditTransactionScreenNavigationProp} from '../../../types';
 import {validateNumericString} from '../../../utils/validate-numeric-string';
@@ -68,14 +67,14 @@ export const IncomeExpenseEditor: React.FC<{onSubmit: (success: boolean) => void
 
   useHeaderButtons(useNavigation(), {onSavePress});
 
-  const watchInstrument = watch('account.instrument');
+  const watchAccount = watch('account');
   const instruments = useInstruments();
-  const instrumentSymbol = useMemo(() => instruments.data?.get(watchInstrument!)?.symbol, [
+  const instrumentSymbol = useMemo(() => instruments.data?.get(watchAccount!.instrument!)?.symbol, [
     instruments.data,
-    watchInstrument,
+    watchAccount,
   ]);
 
-  const amountInputRef = React.useRef<ZenTextInputHandles>(null);
+  const amountInputRef = React.useRef<NumberInputFieldHandle>(null);
   useEffect(() => {
     if (errors.amount) {
       amountInputRef.current?.shake();
@@ -101,6 +100,7 @@ export const IncomeExpenseEditor: React.FC<{onSubmit: (success: boolean) => void
         control={control}
         render={({field}) => (
           <NumberInputField
+            ref={amountInputRef}
             field={field}
             leftIcon={() => <CoinsIcon />}
             rightIcon={() => <ZenText>{instrumentSymbol}</ZenText>}
