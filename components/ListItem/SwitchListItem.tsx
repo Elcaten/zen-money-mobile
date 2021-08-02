@@ -9,11 +9,19 @@ interface SwitchListItemProps {
   leftIcon?: () => JSX.Element;
   onValueChange: (value: boolean) => void;
   style?: StyleProp<ViewStyle>;
+  bottomDivider?: boolean;
 }
 
-export const SwitchListItem: React.FC<SwitchListItemProps> = ({title, value, leftIcon, onValueChange, style}) => {
+export const SwitchListItem: React.FC<SwitchListItemProps> = ({
+  title,
+  value,
+  leftIcon,
+  onValueChange,
+  bottomDivider,
+  style,
+}) => {
   return (
-    <ListItem bottomDivider onPress={() => onValueChange(!value)} style={style}>
+    <ListItem bottomDivider={bottomDivider} onPress={() => onValueChange(!value)} style={style}>
       {leftIcon && leftIcon()}
       <ListItem.Content>
         <ListItem.Title>{title}</ListItem.Title>

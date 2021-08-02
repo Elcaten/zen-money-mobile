@@ -39,7 +39,7 @@ export const DefaultElementsTheme: ElementsTheme = {
     warning: '#faad14',
     disabled: 'hsl(208, 8%, 90%)',
     // Darker color if hairlineWidth is not thin enough
-    divider: StyleSheet.hairlineWidth < 1 ? '#bcbbc1' : 'rgba(0, 0, 0, 0.12)',
+    divider: StyleSheet.hairlineWidth < 1 ? 'rgba(0, 0, 0, 0.24)' : 'rgba(0, 0, 0, 0.12)',
     platform: {
       ios: {
         primary: DefaultNavigatorTheme.colors.primary,
@@ -111,7 +111,7 @@ export const DarkElementsTheme: ElementsTheme = {
     warning: '#cfbe27',
     disabled: 'hsl(208, 8%, 90%)',
     // Darker color if hairlineWidth is not thin enough
-    divider: StyleSheet.hairlineWidth < 1 ? '#84838a' : 'rgba(0, 0, 0, 0.12)',
+    divider: StyleSheet.hairlineWidth < 1 ? 'rgba(255, 255, 255, 0.16)' : 'rgba(255, 255, 255, 0.12)',
     platform: {
       ios: {
         primary: DarkNavigatorTheme.colors.primary,

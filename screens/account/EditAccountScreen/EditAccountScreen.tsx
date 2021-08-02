@@ -2,14 +2,13 @@ import * as React from 'react';
 import {useEffect, useMemo, useRef} from 'react';
 import {Controller, useForm} from 'react-hook-form';
 import {useTranslation} from 'react-i18next';
-import {Alert, ScrollView, StyleSheet} from 'react-native';
+import {ScrollView} from 'react-native';
 import {useQueryClient} from 'react-query';
 import {useAccountModels, useInstruments} from '../../../api-hooks';
 import {QueryKeys} from '../../../api-hooks/query-keys';
 import {useMutateAccount} from '../../../api-hooks/useMutateAccount';
 import {AccountType} from '../../../api/models';
 import {View} from '../../../components';
-import {Card} from '../../../components/Card';
 import {TextInputField} from '../../../components/Field';
 import {TextInputFieldHandle} from '../../../components/Field/TextInputField';
 import {PickerListItem} from '../../../components/ListItem';
@@ -100,6 +99,7 @@ export const EditAccountScreen: React.FC<AccountDetailsScreenProps> = ({navigati
           control={control}
           render={({field: {onChange, value}}) => (
             <PickerListItem
+              bottomDivider
               title={t('EditAccountScreen.AccountType')}
               value={accounTypes.get(value!) ?? ''}
               onPress={() => navigation.navigate('AccountTypePickerScreen', {value: value, onSelect: onChange})}
@@ -114,6 +114,7 @@ export const EditAccountScreen: React.FC<AccountDetailsScreenProps> = ({navigati
           render={({field: {onChange, value}}) => {
             return (
               <PickerListItem
+                bottomDivider
                 title={t('EditAccountScreen.Instrument')}
                 value={instruments.get(value!)?.title!}
                 onPress={() =>
@@ -135,7 +136,12 @@ export const EditAccountScreen: React.FC<AccountDetailsScreenProps> = ({navigati
         <Controller
           control={control}
           render={({field: {onChange, value}}) => (
-            <SwitchListItem title={t('EditAccountScreen.Savings')} value={!!value} onValueChange={onChange} />
+            <SwitchListItem
+              title={t('EditAccountScreen.Savings')}
+              value={!!value}
+              onValueChange={onChange}
+              bottomDivider
+            />
           )}
           name="savings"
         />
@@ -143,7 +149,12 @@ export const EditAccountScreen: React.FC<AccountDetailsScreenProps> = ({navigati
         <Controller
           control={control}
           render={({field: {onChange, value}}) => (
-            <SwitchListItem title={t('EditAccountScreen.InBalance')} value={!!value} onValueChange={onChange} />
+            <SwitchListItem
+              title={t('EditAccountScreen.InBalance')}
+              value={!!value}
+              onValueChange={onChange}
+              bottomDivider
+            />
           )}
           name="inBalance"
         />
@@ -151,7 +162,12 @@ export const EditAccountScreen: React.FC<AccountDetailsScreenProps> = ({navigati
         <Controller
           control={control}
           render={({field: {onChange, value}}) => (
-            <SwitchListItem title={t('EditAccountScreen.Archive')} value={!!value} onValueChange={onChange} />
+            <SwitchListItem
+              title={t('EditAccountScreen.Archive')}
+              value={!!value}
+              onValueChange={onChange}
+              bottomDivider
+            />
           )}
           name="archive"
         />

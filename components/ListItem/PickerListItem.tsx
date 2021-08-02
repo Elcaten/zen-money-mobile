@@ -13,7 +13,7 @@ type PickerhListItemProps = ListItemProps & {
 export function PickerListItem({title, value, leftIcon, ...rest}: React.PropsWithChildren<PickerhListItemProps>) {
   const {secondaryText} = useNavigatorThemeColors();
   return (
-    <ListItem bottomDivider {...rest} style={[rest.style, rest.disabled ? styles.disabled : {}]}>
+    <ListItem {...rest} style={[rest.style, rest.disabled ? styles.disabled : {}]}>
       {leftIcon && leftIcon()}
       <ListItem.Title>{title}</ListItem.Title>
       <ZenText numberOfLines={1} style={[styles.value, {color: secondaryText}]}>

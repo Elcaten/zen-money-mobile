@@ -103,6 +103,7 @@ export const TransferEditor: React.FC<{onSubmit: (success: boolean) => void}> = 
         control={control}
         render={({field: {onChange, value}}) => (
           <PickerListItem
+            bottomDivider
             leftIcon={() => <WalletIcon />}
             title={value.title}
             onPress={() =>
@@ -121,6 +122,7 @@ export const TransferEditor: React.FC<{onSubmit: (success: boolean) => void}> = 
         control={control}
         render={({field: {onChange, value}}) => (
           <PickerListItem
+            bottomDivider
             leftIcon={() => <WalletIcon />}
             title={value.title}
             onPress={() =>

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {useCallback} from 'react';
 import {useTranslation} from 'react-i18next';
-import {ScrollView} from 'react-native';
+import {ScrollView, StyleSheet} from 'react-native';
 import {useQueryClient} from 'react-query';
 import {useInstruments, useMe, useMutateMe} from '../../api-hooks';
 import {QueryKeys} from '../../api-hooks/query-keys';
@@ -15,6 +15,7 @@ import {
   TagIcon,
   ThemeIcon,
 } from '../../components';
+import {Card} from '../../components/Card';
 import {PickerListItem, SwitchListItem} from '../../components/ListItem';
 import {useThemeName} from '../../hooks/useThemeName';
 import {
@@ -67,43 +68,63 @@ export const MoreScreen: React.FC<MoreScreenProps> = ({navigation}) => {
 
   return (
     <ScrollView>
-      <PickerListItem
-        leftIcon={() => <ThemeIcon />}
-        title={t('MoreScreen.Themes')}
-        value={themeName}
-        onPress={() => navigation.navigate('ThemesScreen')}
-      />
-      <PickerListItem
-        leftIcon={() => <MoneyIcon />}
-        title={t('MoreScreen.MainCurrency')}
-        value={instrumentTitle}
-        disabled={isMutating}
-        onPress={openCurrencyPicker}
-      />
-      <PickerListItem
-        leftIcon={() => <LanguageIcon />}
-        title={t('MoreScreen.Locales')}
-        value={localeName}
-        onPress={() => navigation.navigate('LocalesScreen')}
-      />
-      <PickerListItem
-        leftIcon={() => <TagIcon />}
-        title={t('MoreScreen.Tags')}
-        onPress={() => navigation.navigate('TagsScreen', {})}
-      />
-      <SwitchListItem
-        leftIcon={() => <FingerprintIcon />}
-        title={t('MoreScreen.BiometricUnlock')}
-        value={biometricUnlock}
-        onValueChange={setBiometricUnlock}
-      />
-      <SwitchListItem
-        leftIcon={() => <PlusCircleOutlineIcon />}
-        title={t('MoreScreen.FastAddTransaction')}
-        value={fastAddTransaction}
-        onValueChange={setFastAddTransaction}
-      />
-      <PickerListItem leftIcon={() => <LogoutIcon />} title={t('MoreScreen.SignOut')} onPress={logout} />
+      <Card style={styles.group}>
+        <PickerListItem
+          bottomDivider
+          leftIcon={() => <LanguageIcon />}
+          title={t('MoreScreen.Locales')}
+          value={localeName}
+          onPress={() => navigation.navigate('LocalesScreen')}
+        />
+        <PickerListItem
+          leftIcon={() => <ThemeIcon />}
+          title={t('MoreScreen.Themes')}
+          value={themeName}
+          onPress={() => navigation.navigate('ThemesScreen')}
+        />
+      </Card>
+
+      <Card style={styles.group}>
+        <PickerListItem
+          bottomDivider
+          leftIcon={() => <MoneyIcon />}
+          title={t('MoreScreen.MainCurrency')}
+          value={instrumentTitle}
+          disabled={isMutating}
+          onPress={openCurrencyPicker}
+        />
+        <PickerListItem
+          leftIcon={() => <TagIcon />}
+          title={t('MoreScreen.Tags')}
+          onPress={() => navigation.navigate('TagsScreen', {})}
+        />
+      </Card>
+
+      <Card style={styles.group}>
+        <SwitchListItem
+          bottomDivider
+          leftIcon={() => <FingerprintIcon />}
+          title={t('MoreScreen.BiometricUnlock')}
+          value={biometricUnlock}
+          onValueChange={setBiometricUnlock}
+        />
+        <SwitchListItem
+          leftIcon={() => <PlusCircleOutlineIcon />}
+          title={t('MoreScreen.FastAddTransaction')}
+          value={fastAddTransaction}
+          onValueChange={setFastAddTransaction}
+        />
+      </Card>
+
+      <Card style={styles.group}>
+        <PickerListItem leftIcon={() => <LogoutIcon />} title={t('MoreScreen.SignOut')} onPress={logout} />
+      </Card>
     </ScrollView>
   );
 };
+
+const styles = StyleSheet.create({
+  group: {
+    marginBottom: 12,
+  },
+});
