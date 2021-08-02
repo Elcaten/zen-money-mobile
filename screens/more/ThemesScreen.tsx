@@ -1,12 +1,12 @@
 import * as React from 'react';
 import {ListItem} from '../../components/ListItem';
 import {useThemeNames} from '../../hooks/useThemeName';
-import {setThemeSelector, themeSelector, useStore} from '../../store/use-store';
+import {useStore} from '../../store/use-store';
 import {RadioButton} from '../components';
 
 export const ThemesScreen: React.FC = () => {
-  const setTheme = useStore(setThemeSelector);
-  const selectedTheme = useStore(themeSelector);
+  const setTheme = useStore.use.setTheme();
+  const selectedTheme = useStore.use.theme();
 
   const themeNames = useThemeNames().entriesArray();
 

@@ -1,12 +1,12 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {useState, useEffect, useCallback} from 'react';
-import {AppState} from 'react-native';
-import {useStore, biometricUnlockSelector} from '../store/use-store';
-import {LOCK_SCREEN_TIMEOUT, PERSIST_LAST_TIMESTAMP_KEY} from '../utils';
 import * as LocalAuthentication from 'expo-local-authentication';
+import {useCallback, useEffect, useState} from 'react';
+import {AppState} from 'react-native';
+import {useStore} from '../store/use-store';
+import {LOCK_SCREEN_TIMEOUT, PERSIST_LAST_TIMESTAMP_KEY} from '../utils';
 
 export const useLocalAuthentication = () => {
-  const biometricUnlockEnabled = useStore(biometricUnlockSelector);
+  const biometricUnlockEnabled = useStore.use.biometricUnlock();
   const authExpired = useAuthExpired(LOCK_SCREEN_TIMEOUT);
 
   const [isAuthenticated, setIsAuthorized] = useState(

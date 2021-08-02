@@ -1,14 +1,11 @@
 import {StatusBar} from 'expo-status-bar';
 import React, {useEffect, useState} from 'react';
 import {useMe} from '../api-hooks';
-import {LoadingScreen} from './LoadingScreen';
-import {LoginScreen} from './LoginScreen';
 import useColorScheme from '../hooks/useColorSheme';
 import {useLocalAuthentication} from '../hooks/useLocalAuthentication';
 import {initI18n} from '../init-i18n';
 import Navigation from '../navigation';
-import {UnlockScreen} from './UnlockScreen';
-import {localeSelector, themeSelector, useStore} from '../store/use-store';
+import {useStore} from '../store/use-store';
 import {
   DarkElementsTheme,
   DarkNavigatorTheme,
@@ -17,18 +14,21 @@ import {
   useElementsTheme,
   useSetNavigatorTheme,
 } from '../themes';
+import {LoadingScreen} from './LoadingScreen';
+import {LoginScreen} from './LoginScreen';
+import {UnlockScreen} from './UnlockScreen';
 
 export const Root: React.FC = () => {
   const {isLoading: isLoadingUser, isSuccess, data: user} = useMe();
   const isLoggedIn = isSuccess && user != null;
 
   const [isLoadingLocales, setIsLoadingLocales] = useState(true);
-  const locale = useStore(localeSelector);
+  const locale = useStore.use.locale();
   useEffect(() => {
     initI18n(locale).then(() => setIsLoadingLocales(false));
   }, [locale]);
 
-  const appTheme = useStore(themeSelector);
+  const appTheme = useStore.use.theme();
   const systemTheme = useColorScheme();
   const setNavigatorTheme = useSetNavigatorTheme();
   const {setElementsTheme} = useElementsTheme();

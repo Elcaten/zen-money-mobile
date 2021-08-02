@@ -3,6 +3,7 @@ import * as Localization from 'expo-localization';
 import {Appearance} from 'react-native';
 import createStore from 'zustand';
 import {configurePersist} from 'zustand-persist';
+import {createSelectorHooks} from './create-selectors';
 
 const {persist, purge} = configurePersist({
   storage: AsyncStorage,
@@ -17,14 +18,8 @@ export enum AppLocale {
 export type AppTheme = 'dark' | 'light' | 'system';
 
 export type State = {
-  signInPressed: boolean;
-  setSignInPressed: (value: boolean) => void;
   theme: AppTheme;
   setTheme: (value: AppTheme) => void;
-  // serverTimestamp: number;
-  // setServerTimestamp: (value: number) => void;
-  // zenMoneyToken: AuthToken | null;
-  // setZenMoneyToken: (value: AuthToken | null) => void;
   locale: string;
   setLocale: (value: AppLocale) => void;
   biometricUnlock: boolean;
@@ -35,38 +30,23 @@ export type State = {
 
 const colorScheme = (Appearance.getColorScheme() as unknown) as 'light' | 'dark';
 
-export const useStore = createStore<State>(
+const useStoreBase = createStore<State>(
   persist(
     {
       key: 'persist', // required, child key of storage
       allowlist: [/*'serverTimestamp', 'zenMoneyToken', */ 'locale', 'theme', 'fastAddTransaction'],
     },
     (set) => ({
-      signInPressed: false,
-      setSignInPressed: (value) => set(() => ({signInPressed: value})),
       theme: colorScheme,
       setTheme: (value) => set(() => ({theme: value})),
-      // serverTimestamp: 0,
-      // zenMoneyToken: null,
       locale: Localization.locale,
       setLocale: (value) => set(() => ({locale: value})),
       fastAddTransaction: false,
       setFastAddTransaction: (value) => set(() => ({fastAddTransaction: value})),
       biometricUnlock: false,
       setBiometricUnlock: (value) => set(() => ({biometricUnlock: value})),
-      // setServerTimestamp: (value) => set(() => ({serverTimestamp: value})),
-      // setZenMoneyToken: (value) => set(() => ({zenMoneyToken: value})),
     }),
   ),
 );
 
-export const signInPressedSelector = (x: State) => x.signInPressed;
-export const setSignInPressedSelector = (x: State) => x.setSignInPressed;
-export const themeSelector = (x: State) => x.theme;
-export const setThemeSelector = (x: State) => x.setTheme;
-export const localeSelector = (x: State) => x.locale;
-export const setLocaleSelector = (x: State) => x.setLocale;
-export const fastAddTransactionSelector = (x: State) => x.fastAddTransaction;
-export const setFastAddTransactionSelector = (x: State) => x.setFastAddTransaction;
-export const biometricUnlockSelector = (x: State) => x.biometricUnlock;
-export const setBiometricUnlockSelector = (x: State) => x.setBiometricUnlock;
+export const useStore = createSelectorHooks(useStoreBase);

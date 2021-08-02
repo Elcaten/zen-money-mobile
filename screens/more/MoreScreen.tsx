@@ -18,20 +18,12 @@ import {
 import {Card} from '../../components/Card';
 import {PickerListItem, SwitchListItem} from '../../components/ListItem';
 import {useThemeName} from '../../hooks/useThemeName';
-import {
-  biometricUnlockSelector,
-  fastAddTransactionSelector,
-  localeSelector,
-  setBiometricUnlockSelector,
-  setFastAddTransactionSelector,
-  themeSelector,
-  useStore,
-} from '../../store/use-store';
+import {useStore} from '../../store/use-store';
 import {MoreScreenProps} from '../../types';
 import {getLocaleName} from '../../utils';
 
 export const MoreScreen: React.FC<MoreScreenProps> = ({navigation}) => {
-  const theme = useStore(themeSelector);
+  const theme = useStore.use.theme();
   const themeName = useThemeName(theme);
 
   const {data: me} = useMe();
@@ -54,13 +46,13 @@ export const MoreScreen: React.FC<MoreScreenProps> = ({navigation}) => {
     });
   }, [instrumentId, mutateMe, navigation, queryClient]);
 
-  const locale = useStore(localeSelector);
+  const locale = useStore.use.locale();
   const localeName = getLocaleName(locale);
 
-  const fastAddTransaction = useStore(fastAddTransactionSelector);
-  const setFastAddTransaction = useStore(setFastAddTransactionSelector);
-  const biometricUnlock = useStore(biometricUnlockSelector);
-  const setBiometricUnlock = useStore(setBiometricUnlockSelector);
+  const fastAddTransaction = useStore.use.fastAddTransaction();
+  const setFastAddTransaction = useStore.use.setFastAddTransaction();
+  const biometricUnlock = useStore.use.biometricUnlock();
+  const setBiometricUnlock = useStore.use.setBiometricUnlock();
 
   const logout = useLogout();
 

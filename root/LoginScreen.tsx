@@ -5,12 +5,11 @@ import {StyleSheet} from 'react-native';
 import {Button, Input, InputHandles} from 'react-native-elements';
 import {useQueryClient} from 'react-query';
 import {AuthToken, persistToken, useLogin, validateAuthTokenResponse} from '../auth';
-import {setSignInPressedSelector, signInPressedSelector, useStore} from '../store/use-store';
-import {DEMO_TOKEN} from '../utils';
+import {Card} from '../components/Card';
 import {Logo} from '../components/Logo';
 import {View} from '../components/View';
 import {ZenText} from '../components/ZenText';
-import {Card} from '../components/Card';
+import {DEMO_TOKEN} from '../utils';
 
 export interface LoginScreenProps {}
 
@@ -20,13 +19,10 @@ export const LoginScreen: React.FC<LoginScreenProps> = (props) => {
   const ref = useRef<InputHandles>(null);
   const queryClient = useQueryClient();
   const {t} = useTranslation();
-  const signInPressed = useStore(signInPressedSelector);
-  const setSignInPressed = useStore(setSignInPressedSelector);
 
   const onSignInPress = useCallback(() => {
-    setSignInPressed(true);
     login();
-  }, [login, setSignInPressed]);
+  }, [login]);
 
   const onProceedPress = useCallback(async () => {
     if (token == null) {
@@ -38,8 +34,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = (props) => {
     const authToken = new AuthToken(tokenResponse);
     await persistToken(authToken);
     await queryClient.invalidateQueries();
-    setSignInPressed(false);
-  }, [queryClient, setSignInPressed, token]);
+  }, [queryClient, token]);
 
   const onDemoPress = useCallback(async () => {
     const tokenResponse = DEMO_TOKEN;
@@ -54,25 +49,21 @@ export const LoginScreen: React.FC<LoginScreenProps> = (props) => {
       <View style={styles.logoContainer}>
         <Logo style={styles.logo} />
       </View>
-      {!signInPressed && (
+      <Button
+        title={t('LoginScreen.SignIn')}
+        onPress={onSignInPress}
+        containerStyle={styles.buttonContainer}
+        titleStyle={styles.buttonTitle}
+      />
+      <React.Fragment>
+        <Input placeholder="Token" value={token} onChangeText={setToken} ref={ref as any} />
         <Button
-          title={t('LoginScreen.SignIn')}
-          onPress={onSignInPress}
+          title={t('LoginScreen.Proceed')}
+          onPress={onProceedPress}
           containerStyle={styles.buttonContainer}
           titleStyle={styles.buttonTitle}
         />
-      )}
-      {signInPressed && (
-        <React.Fragment>
-          <Input placeholder="Token" value={token} onChangeText={setToken} ref={ref as any} />
-          <Button
-            title={t('LoginScreen.Proceed')}
-            onPress={onProceedPress}
-            containerStyle={styles.buttonContainer}
-            titleStyle={styles.buttonTitle}
-          />
-        </React.Fragment>
-      )}
+      </React.Fragment>
       <ZenText style={styles.divider}>or</ZenText>
       <Button
         title={t('LoginScreen.Demo')}

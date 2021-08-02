@@ -4,7 +4,7 @@ import {useCallback} from 'react';
 import {useTranslation} from 'react-i18next';
 import {BackHandler} from 'react-native';
 import FABGroup from '../../../lib/react-native-paper/FABGroup';
-import {fastAddTransactionSelector, useStore} from '../../../store/use-store';
+import {useStore} from '../../../store/use-store';
 import {useNavigatorThemeColors} from '../../../themes';
 import {TransactionsScreenNavigationProp} from '../../../types';
 import {TransactionType} from '../transaction-type';
@@ -18,7 +18,7 @@ export const AddTransactionButton: React.FC<AddTransactionButtonProps> = (props)
 
   const [open, setOpen] = React.useState(false);
 
-  const fastAddTransaction = useStore(fastAddTransactionSelector);
+  const fastAddTransaction = useStore.use.fastAddTransaction();
   const onPress = useCallback(() => {
     if (open) {
       setOpen(false);
@@ -35,11 +35,14 @@ export const AddTransactionButton: React.FC<AddTransactionButtonProps> = (props)
       setOpen(true);
     }
   }, [fastAddTransaction]);
-  const onStateChange = useCallback((state: {open: boolean}) => {
-    if (!fastAddTransactionSelector) {
-      setOpen(state.open);
-    }
-  }, []);
+  const onStateChange = useCallback(
+    (state: {open: boolean}) => {
+      if (!fastAddTransaction) {
+        setOpen(state.open);
+      }
+    },
+    [fastAddTransaction],
+  );
 
   useFocusEffect(
     React.useCallback(() => {
