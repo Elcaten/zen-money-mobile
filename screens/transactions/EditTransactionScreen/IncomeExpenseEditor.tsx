@@ -84,14 +84,16 @@ export const IncomeExpenseEditor: React.FC<{onSubmit: (success: boolean) => void
   const {t} = useTranslation();
   const navigation = useNavigation<EditTransactionScreenNavigationProp>();
 
+  const [isFirstFocus, setIsFirstFocus] = React.useState(true);
   useFocusEffect(
     useCallback(() => {
       setTimeout(() => {
-        if (amountInputRef.current) {
+        if (isFirstFocus && amountInputRef.current) {
           amountInputRef.current.focus();
+          setIsFirstFocus(false);
         }
       }, 0);
-    }, [amountInputRef]),
+    }, [isFirstFocus]),
   );
 
   return (
