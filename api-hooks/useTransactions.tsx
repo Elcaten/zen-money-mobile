@@ -36,6 +36,7 @@ export interface TransactionModel {
   parentTag?: TagModel;
   comment?: string;
   changed: number;
+  created: number;
 }
 
 export type TransactionModelsInfo = ReturnType<typeof useTransactionModels>;
@@ -76,6 +77,7 @@ export const useTransactionModels = () => {
             outcomeFormatted: formatCurrency(transaction.outcome, outcomeSymbol, 0),
             comment: transaction.comment ?? undefined,
             changed: transaction.changed,
+            created: transaction.created,
           };
         }) ?? [],
     [transactions.data, tags.data, instruments.data, formatCurrency, accounts],

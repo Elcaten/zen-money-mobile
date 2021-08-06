@@ -97,7 +97,9 @@ export class TransactionList extends Component<TransactionsListProps, Transactio
   }
 
   private updateDataProvider(models: TransactionModel[]) {
-    const transactionsByDate = models.groupBy('date');
+    const transactionsByDate = models
+      .groupBy('date')
+      .mapValues((transactions) => transactions.sort((t1, t2) => t2.created - t1.created));
     const sortedDates = Array.from(transactionsByDate.keys())
       .map((dateString) => ({dateString, dateDayJs: dayjs(dateString)}))
       .sort((a, b) => (a.dateDayJs.isBefore(b.dateDayJs) ? 1 : -1));
