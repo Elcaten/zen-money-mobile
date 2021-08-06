@@ -36,7 +36,10 @@ export const IncomeExpenseEditor: React.FC<{onSubmit: (success: boolean) => void
 }) => {
   const {data: accounts} = useAccounts();
   const {data: tagDict} = useTags();
-  const tags = useMemo(() => (tagDict.values ? Array.from(tagDict.values()) : []), [tagDict]);
+  const tags = useMemo(() => {
+    const allTags = tagDict.values ? Array.from(tagDict.values()) : [];
+    return allTags.filter((t) => (type === 'income' ? t.showIncome : t.showOutcome));
+  }, [tagDict, type]);
 
   const {
     control,
