@@ -5,6 +5,7 @@ export * from './useCurrencyFormat';
 export * from './useDebounce';
 export * from './useDebounceState';
 export * from './useDimensions';
+export * from './useFocusInput';
 export * from './useGrandTotal';
 export * from './useHeaderButtons';
 export * from './useHeaderTitle';

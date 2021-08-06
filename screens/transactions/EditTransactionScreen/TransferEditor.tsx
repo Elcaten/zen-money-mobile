@@ -13,6 +13,7 @@ import {DateTimeInputField} from '../../../components/Field/DateTimeInputField';
 import {NumberInputField} from '../../../components/Field/NumberInputField';
 import {PickerListItem} from '../../../components/ListItem';
 import {ZenText} from '../../../components/ZenText';
+import {useFocusInput} from '../../../hooks';
 import {useHeaderButtons} from '../../../hooks/useHeaderButtons';
 import {EditTransactionScreenNavigationProp} from '../../../types';
 import {validateNumericString} from '../../../utils';
@@ -31,8 +32,9 @@ export const TransferEditor: React.FC<{onSubmit: (success: boolean) => void}> = 
   const {
     control,
     handleSubmit,
+    setValue,
     watch,
-    formState: {errors},
+    formState: {errors, dirtyFields},
   } = useForm<TransferTransaction>({
     defaultValues: {
       income: '',
@@ -43,6 +45,13 @@ export const TransferEditor: React.FC<{onSubmit: (success: boolean) => void}> = 
       date: new Date(),
     },
   });
+
+  const outcome = watch('outcome');
+  useEffect(() => {
+    if (!dirtyFields.income) {
+      setValue('income', outcome);
+    }
+  }, [dirtyFields.income, outcome, setValue]);
 
   const incomeInputRef = React.useRef<InputHandles>(null);
   useEffect(() => {
@@ -84,12 +93,15 @@ export const TransferEditor: React.FC<{onSubmit: (success: boolean) => void}> = 
   const {t} = useTranslation();
   const navigation = useNavigation<EditTransactionScreenNavigationProp>();
 
+  useFocusInput(outcomeInputRef);
+
   return (
     <View style={styles.wrapper}>
       <Controller
         control={control}
         render={({field}) => (
           <NumberInputField
+            ref={outcomeInputRef}
             field={field}
             leftIcon={() => <MinusBoxOutlineIcon />}
             rightIcon={() => <ZenText>{outcomeSymbol}</ZenText>}
@@ -141,6 +153,7 @@ export const TransferEditor: React.FC<{onSubmit: (success: boolean) => void}> = 
         control={control}
         render={({field}) => (
           <NumberInputField
+            ref={incomeInputRef}
             field={field}
             leftIcon={() => <PlusBoxOutlineIcon />}
             rightIcon={() => <ZenText>{incomeSymbol}</ZenText>}

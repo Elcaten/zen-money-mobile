@@ -1,6 +1,6 @@
-import {useFocusEffect, useNavigation} from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import * as React from 'react';
-import {useCallback, useEffect, useMemo} from 'react';
+import {useEffect, useMemo} from 'react';
 import {Controller, useForm} from 'react-hook-form';
 import {useTranslation} from 'react-i18next';
 import {ScrollView, StyleSheet} from 'react-native';
@@ -18,6 +18,7 @@ import {DateTimeInputField} from '../../../components/Field/DateTimeInputField';
 import {NumberInputField, NumberInputFieldHandle} from '../../../components/Field/NumberInputField';
 import {PickerListItem} from '../../../components/ListItem';
 import {ZenText} from '../../../components/ZenText';
+import {useFocusInput} from '../../../hooks/useFocusInput';
 import {useHeaderButtons} from '../../../hooks/useHeaderButtons';
 import {EditTransactionScreenNavigationProp} from '../../../types';
 import {validateNumericString} from '../../../utils/validate-numeric-string';
@@ -87,17 +88,7 @@ export const IncomeExpenseEditor: React.FC<{onSubmit: (success: boolean) => void
   const {t} = useTranslation();
   const navigation = useNavigation<EditTransactionScreenNavigationProp>();
 
-  const [isFirstFocus, setIsFirstFocus] = React.useState(true);
-  useFocusEffect(
-    useCallback(() => {
-      setTimeout(() => {
-        if (isFirstFocus && amountInputRef.current) {
-          amountInputRef.current.focus();
-          setIsFirstFocus(false);
-        }
-      }, 0);
-    }, [isFirstFocus]),
-  );
+  useFocusInput(amountInputRef);
 
   return (
     <ScrollView style={styles.flexFill}>
