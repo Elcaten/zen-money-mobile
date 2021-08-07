@@ -3,7 +3,7 @@ import * as Localization from 'expo-localization';
 import {Appearance} from 'react-native';
 import createStore from 'zustand';
 import {configurePersist} from 'zustand-persist';
-import {filterMostRecent} from '../utils';
+import {filterMostRecent} from '../utils/filter';
 import {createSelectorHooks} from './create-selectors';
 
 const {persist, purge} = configurePersist({

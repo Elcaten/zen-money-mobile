@@ -1,17 +1,11 @@
 import {useNavigation} from '@react-navigation/native';
 import * as React from 'react';
-import {useEffect, useMemo} from 'react';
+import {useCallback, useEffect, useMemo} from 'react';
 import {Controller, useForm} from 'react-hook-form';
 import {useTranslation} from 'react-i18next';
 import {ScrollView, StyleSheet} from 'react-native';
-import {
-  useAccounts,
-  useInstruments,
-  useMutateExpenseTransaction,
-  useMutateIncomeTransaction,
-  useTags,
-} from '../../../api-hooks';
-import {Transaction, UserAccount} from '../../../api/models';
+import {useAccounts, useInstruments} from '../../../api-hooks';
+import {Tag, Transaction, UserAccount} from '../../../api/models';
 import {CoinsIcon, CommentIcon, WalletIcon} from '../../../components';
 import {TextInputField} from '../../../components/Field';
 import {DateTimeInputField} from '../../../components/Field/DateTimeInputField';
@@ -20,7 +14,6 @@ import {PickerListItem} from '../../../components/ListItem';
 import {ZenText} from '../../../components/ZenText';
 import {useFocusInput} from '../../../hooks/useFocusInput';
 import {useHeaderButtons} from '../../../hooks/useHeaderButtons';
-import {useStore} from '../../../store/use-store';
 import {EditTransactionScreenNavigationProp} from '../../../types';
 import {first} from '../../../utils';
 import {validateNumericString} from '../../../utils/validate-numeric-string';
@@ -33,16 +26,14 @@ export type IncomeExpenseTransaction = Pick<Transaction, 'comment'> & {
   tag: string | null;
 };
 
-export const IncomeExpenseEditor: React.FC<{onSubmit: (success: boolean) => void; type: 'income' | 'expense'}> = ({
-  onSubmit,
-  type,
-}) => {
+export interface IncomeExpenseEditorProps {
+  onSubmit: (tr: IncomeExpenseTransaction) => void;
+  tags: Tag[];
+  recentAccounts: string[];
+}
+
+export const IncomeExpenseEditor: React.FC<IncomeExpenseEditorProps> = ({onSubmit, tags, recentAccounts}) => {
   const {data: accounts} = useAccounts();
-  const {data: tagDict} = useTags();
-  const tags = useMemo(() => {
-    const allTags = tagDict.values ? Array.from(tagDict.values()) : [];
-    return allTags.filter((t) => (type === 'income' ? t.showIncome : t.showOutcome));
-  }, [tagDict, type]);
 
   const {
     control,
@@ -60,32 +51,7 @@ export const IncomeExpenseEditor: React.FC<{onSubmit: (success: boolean) => void
     },
   });
 
-  const {mutateAsync: mutateIncomeAsync} = useMutateIncomeTransaction();
-  const {mutateAsync: mutateExpenseAsync} = useMutateExpenseTransaction();
-  const addRecentExpenseAccount = useStore.use.addRecentExpenseAccount();
-  const addRecentIncomeAccount = useStore.use.addRecentIncomeAccount();
-
-  const onSavePress = useMemo(
-    () =>
-      handleSubmit(async (tr: IncomeExpenseTransaction) => {
-        if (type === 'expense') {
-          addRecentExpenseAccount(tr.account.id);
-        } else if (type === 'income') {
-          addRecentIncomeAccount(tr.account.id);
-        }
-        const {success} = type === 'income' ? await mutateIncomeAsync(tr) : await mutateExpenseAsync(tr);
-        onSubmit(success);
-      }),
-    [
-      addRecentExpenseAccount,
-      addRecentIncomeAccount,
-      handleSubmit,
-      mutateExpenseAsync,
-      mutateIncomeAsync,
-      onSubmit,
-      type,
-    ],
-  );
+  const onSavePress = useCallback(() => handleSubmit(onSubmit)(), [handleSubmit, onSubmit]);
 
   useHeaderButtons(useNavigation(), {onSavePress});
 
@@ -108,14 +74,11 @@ export const IncomeExpenseEditor: React.FC<{onSubmit: (success: boolean) => void
 
   useFocusInput(amountInputRef);
 
-  const recentExpenseAccounts = useStore.use.recentExpenseAccounts();
-  const recentIncomeAccounts = useStore.use.recentIncomeAccounts();
-
   useEffect(() => {
-    const defaultAccountId = type === 'income' ? first(recentIncomeAccounts) : first(recentExpenseAccounts);
+    const defaultAccountId = first(recentAccounts);
     const defaultAccount = defaultAccountId ? accounts?.find((a) => a.id === defaultAccountId)! : first(accounts);
     setValue('account', defaultAccount!);
-  }, [accounts, recentExpenseAccounts, recentIncomeAccounts, setValue, type]);
+  }, [accounts, recentAccounts, setValue]);
 
   return (
     <ScrollView style={styles.flexFill}>
@@ -152,7 +115,7 @@ export const IncomeExpenseEditor: React.FC<{onSubmit: (success: boolean) => void
               navigation.navigate('AccountPickerScreen', {
                 value: value.id,
                 onSelect: (x) => onChange(accounts?.find((a) => a.id === x)),
-                recentAccounts: type === 'expense' ? recentExpenseAccounts : recentIncomeAccounts,
+                recentAccounts,
               })
             }
           />
