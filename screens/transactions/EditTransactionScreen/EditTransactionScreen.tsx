@@ -11,7 +11,6 @@ import {
 } from '../../../api-hooks';
 import {QueryKeys} from '../../../api-hooks/query-keys';
 import {Card} from '../../../components/Card';
-import {ZenText} from '../../../components/ZenText';
 import {useStore} from '../../../store/use-store';
 import {EditTransactionScreenProps} from '../../../types';
 import {exhaustiveCheck, showToast} from '../../../utils';
@@ -44,6 +43,7 @@ export const EditTransactionScreen: React.FC<EditTransactionScreenProps> = ({rou
     async (success: boolean) => {
       if (success) {
         await queryClient.invalidateQueries(QueryKeys.Transactions);
+        await queryClient.invalidateQueries(QueryKeys.Accounts);
         showToast(t('EditTransactionScreen.TransactionSaved'));
         if (navigation.isFocused()) {
           navigation.pop();
@@ -104,11 +104,8 @@ export const EditTransactionScreen: React.FC<EditTransactionScreenProps> = ({rou
           <IncomeExpenseEditor
             tags={expenseTags}
             recentAccounts={recentExpenseAccounts}
-            onSubmit={saveExpenseTransaction}>
-            <ZenText>
-              <ZenText></ZenText>
-            </ZenText>
-          </IncomeExpenseEditor>
+            onSubmit={saveExpenseTransaction}
+          />
         );
       case TransactionType.Transfer:
         return <TransferEditor recentAccounts={recentTransferAccounts} onSubmit={saveTransferTransaction} />;
