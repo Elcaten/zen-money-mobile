@@ -3,16 +3,22 @@ import {useCallback, useMemo, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {ScrollView, StyleSheet} from 'react-native';
 import {useQueryClient} from 'react-query';
-import {useMutateExpenseTransaction, useMutateIncomeTransaction, useTags} from '../../../api-hooks';
+import {
+  useMutateExpenseTransaction,
+  useMutateIncomeTransaction,
+  useMutateTransferTransaction,
+  useTags,
+} from '../../../api-hooks';
 import {QueryKeys} from '../../../api-hooks/query-keys';
 import {Card} from '../../../components/Card';
+import {ZenText} from '../../../components/ZenText';
 import {useStore} from '../../../store/use-store';
 import {EditTransactionScreenProps} from '../../../types';
 import {exhaustiveCheck, showToast} from '../../../utils';
 import {TransactionType} from '../transaction-type';
 import {IncomeExpenseEditor, IncomeExpenseTransaction} from './IncomeExpenseEditor';
 import {TransactionTypePicker} from './TransactionTypePicker';
-import {TransferEditor} from './TransferEditor';
+import {TransferEditor, TransferTransaction} from './TransferEditor';
 
 export const EditTransactionScreen: React.FC<EditTransactionScreenProps> = ({route, navigation}) => {
   const [transactionType, setTransactionType] = useState(route.params.transactionType);
@@ -26,10 +32,13 @@ export const EditTransactionScreen: React.FC<EditTransactionScreenProps> = ({rou
 
   const {mutateAsync: mutateIncomeAsync} = useMutateIncomeTransaction();
   const {mutateAsync: mutateExpenseAsync} = useMutateExpenseTransaction();
+  const {mutateAsync: mutateTransferAsync} = useMutateTransferTransaction();
   const addRecentExpenseAccount = useStore.use.addRecentExpenseAccount();
   const addRecentIncomeAccount = useStore.use.addRecentIncomeAccount();
+  const addRecentTransferAccount = useStore.use.addRecentTransferAccount();
   const recentExpenseAccounts = useStore.use.recentExpenseAccounts();
   const recentIncomeAccounts = useStore.use.recentIncomeAccounts();
+  const recentTransferAccounts = useStore.use.recentTransferAccounts();
 
   const onTransactionSave = useCallback(
     async (success: boolean) => {
@@ -68,6 +77,18 @@ export const EditTransactionScreen: React.FC<EditTransactionScreenProps> = ({rou
     [addRecentExpenseAccount, mutateExpenseAsync, onTransactionSave],
   );
 
+  const saveTransferTransaction = useCallback(
+    async (tr: TransferTransaction) => {
+      const {success} = await mutateTransferAsync(tr);
+      onTransactionSave(success);
+      if (success) {
+        addRecentTransferAccount(tr.incomeAccount.id);
+        addRecentTransferAccount(tr.outcomeAccount.id);
+      }
+    },
+    [addRecentTransferAccount, mutateTransferAsync, onTransactionSave],
+  );
+
   const renderEditor = useCallback(() => {
     switch (transactionType) {
       case TransactionType.Income:
@@ -83,22 +104,26 @@ export const EditTransactionScreen: React.FC<EditTransactionScreenProps> = ({rou
           <IncomeExpenseEditor
             tags={expenseTags}
             recentAccounts={recentExpenseAccounts}
-            onSubmit={saveExpenseTransaction}
-          />
+            onSubmit={saveExpenseTransaction}>
+            <ZenText>
+              <ZenText></ZenText>
+            </ZenText>
+          </IncomeExpenseEditor>
         );
       case TransactionType.Transfer:
-        return <TransferEditor onSubmit={onTransactionSave} />;
+        return <TransferEditor recentAccounts={recentTransferAccounts} onSubmit={saveTransferTransaction} />;
       default:
         exhaustiveCheck(transactionType);
     }
   }, [
     expenseTags,
     incomeTags,
-    onTransactionSave,
     recentExpenseAccounts,
     recentIncomeAccounts,
+    recentTransferAccounts,
     saveExpenseTransaction,
     saveIncomeTransaction,
+    saveTransferTransaction,
     transactionType,
   ]);
 

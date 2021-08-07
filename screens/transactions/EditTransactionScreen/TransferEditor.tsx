@@ -1,11 +1,11 @@
 import {useNavigation} from '@react-navigation/native';
 import * as React from 'react';
-import {useEffect, useMemo} from 'react';
+import {useCallback, useEffect, useMemo} from 'react';
 import {Controller, useForm} from 'react-hook-form';
 import {useTranslation} from 'react-i18next';
 import {StyleSheet} from 'react-native';
 import {InputHandles} from 'react-native-elements';
-import {useAccounts, useInstruments, useMutateTransferTransaction} from '../../../api-hooks';
+import {useAccounts, useInstruments} from '../../../api-hooks';
 import {Transaction, UserAccount} from '../../../api/models';
 import {CommentIcon, MinusBoxOutlineIcon, PlusBoxOutlineIcon, View, WalletIcon} from '../../../components';
 import {TextInputField} from '../../../components/Field';
@@ -26,7 +26,12 @@ export type TransferTransaction = Pick<Transaction, 'comment'> & {
   date: Date;
 };
 
-export const TransferEditor: React.FC<{onSubmit: (success: boolean) => void}> = ({onSubmit}) => {
+export interface TransferEditorProps {
+  onSubmit: (tr: TransferTransaction) => void;
+  recentAccounts: string[];
+}
+
+export const TransferEditor: React.FC<TransferEditorProps> = ({onSubmit, recentAccounts}) => {
   const {data: accounts} = useAccounts();
 
   const {
@@ -67,15 +72,8 @@ export const TransferEditor: React.FC<{onSubmit: (success: boolean) => void}> = 
     }
   }, [errors.outcome]);
 
-  const {mutateAsync: mutateTransferAsync} = useMutateTransferTransaction();
-  const onSavePress = useMemo(
-    () =>
-      handleSubmit(async (tr: TransferTransaction) => {
-        const {success} = await mutateTransferAsync(tr);
-        onSubmit(success);
-      }),
-    [handleSubmit, mutateTransferAsync, onSubmit],
-  );
+  const onSavePress = useCallback(() => handleSubmit(onSubmit)(), [handleSubmit, onSubmit]);
+
   useHeaderButtons(useNavigation(), {onSavePress});
 
   const instruments = useInstruments();
@@ -94,6 +92,21 @@ export const TransferEditor: React.FC<{onSubmit: (success: boolean) => void}> = 
   const navigation = useNavigation<EditTransactionScreenNavigationProp>();
 
   useFocusInput(outcomeInputRef);
+
+  // TODO: refactor this ASAP
+  useEffect(() => {
+    const defaultOutcomeAccountId = recentAccounts[0];
+    const defaultOutcomeAccount = defaultOutcomeAccountId
+      ? accounts?.find((a) => a.id === defaultOutcomeAccountId)!
+      : accounts![0]!;
+    setValue('outcomeAccount', defaultOutcomeAccount!);
+
+    const defaultIncomeAccountId = recentAccounts[1];
+    const defaultIncomeAccount = defaultIncomeAccountId
+      ? accounts?.find((a) => a.id === defaultIncomeAccountId)!
+      : accounts![1] ?? accounts![0]!;
+    setValue('incomeAccount', defaultIncomeAccount!);
+  }, [accounts, recentAccounts, setValue]);
 
   return (
     <View style={styles.wrapper}>
@@ -122,7 +135,7 @@ export const TransferEditor: React.FC<{onSubmit: (success: boolean) => void}> = 
               navigation.navigate('AccountPickerScreen', {
                 value: value.id,
                 onSelect: (x) => onChange(accounts?.find((a) => a.id === x)),
-                recentAccounts: [],
+                recentAccounts: recentAccounts,
               })
             }
           />
@@ -142,7 +155,7 @@ export const TransferEditor: React.FC<{onSubmit: (success: boolean) => void}> = 
               navigation.navigate('AccountPickerScreen', {
                 value: value.id,
                 onSelect: (x) => onChange(accounts?.find((a) => a.id === x)),
-                recentAccounts: [],
+                recentAccounts: recentAccounts,
               })
             }
           />

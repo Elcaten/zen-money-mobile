@@ -23,6 +23,8 @@ export type State = {
   addRecentExpenseAccount: (account: string) => void;
   recentIncomeAccounts: string[];
   addRecentIncomeAccount: (account: string) => void;
+  recentTransferAccounts: string[];
+  addRecentTransferAccount: (account: string) => void;
   theme: AppTheme;
   setTheme: (value: AppTheme) => void;
   locale: string;
@@ -46,7 +48,10 @@ const useStoreBase = createStore<State>(
         set(({recentExpenseAccounts}) => ({recentExpenseAccounts: filterMostRecent(recentExpenseAccounts, value)})),
       recentIncomeAccounts: [],
       addRecentIncomeAccount: (value) =>
-        set(({recentIncomeAccounts}) => ({recentExpenseAccounts: filterMostRecent(recentIncomeAccounts, value)})),
+        set(({recentIncomeAccounts}) => ({recentIncomeAccounts: filterMostRecent(recentIncomeAccounts, value)})),
+      recentTransferAccounts: [],
+      addRecentTransferAccount: (value) =>
+        set(({recentIncomeAccounts}) => ({recentTransferAccounts: filterMostRecent(recentIncomeAccounts, value)})),
       theme: colorScheme,
       setTheme: (value) => set(() => ({theme: value})),
       locale: Localization.locale,
