@@ -122,6 +122,7 @@ export const TransferEditor: React.FC<{onSubmit: (success: boolean) => void}> = 
               navigation.navigate('AccountPickerScreen', {
                 value: value.id,
                 onSelect: (x) => onChange(accounts?.find((a) => a.id === x)),
+                recentAccounts: [],
               })
             }
           />
@@ -141,6 +142,7 @@ export const TransferEditor: React.FC<{onSubmit: (success: boolean) => void}> = 
               navigation.navigate('AccountPickerScreen', {
                 value: value.id,
                 onSelect: (x) => onChange(accounts?.find((a) => a.id === x)),
+                recentAccounts: [],
               })
             }
           />

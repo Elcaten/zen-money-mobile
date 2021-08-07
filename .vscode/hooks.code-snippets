@@ -1,0 +1,7 @@
+{
+  "useNavigatorThemeColors": {
+    "scope": "typescriptreact",
+    "prefix": "uNavCol",
+    "body": ["const {$0} = useNavigatorThemeColors();"]
+  }
+}

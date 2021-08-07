@@ -12,10 +12,10 @@ const ListItemComponent: React.FC<ListItemProps> = (props) => {
     <RNEListItem
       {...props}
       containerStyle={[
-        props.containerStyle,
         {
           backgroundColor: card,
         },
+        props.containerStyle,
       ]}
     />
   );

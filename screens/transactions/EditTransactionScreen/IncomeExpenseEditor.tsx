@@ -20,7 +20,9 @@ import {PickerListItem} from '../../../components/ListItem';
 import {ZenText} from '../../../components/ZenText';
 import {useFocusInput} from '../../../hooks/useFocusInput';
 import {useHeaderButtons} from '../../../hooks/useHeaderButtons';
+import {useStore} from '../../../store/use-store';
 import {EditTransactionScreenNavigationProp} from '../../../types';
+import {first} from '../../../utils';
 import {validateNumericString} from '../../../utils/validate-numeric-string';
 import {TagGridPicker} from '../../components/TagGridPicker';
 
@@ -46,6 +48,7 @@ export const IncomeExpenseEditor: React.FC<{onSubmit: (success: boolean) => void
     control,
     handleSubmit,
     watch,
+    setValue,
     formState: {errors},
   } = useForm<IncomeExpenseTransaction>({
     defaultValues: {
@@ -59,14 +62,29 @@ export const IncomeExpenseEditor: React.FC<{onSubmit: (success: boolean) => void
 
   const {mutateAsync: mutateIncomeAsync} = useMutateIncomeTransaction();
   const {mutateAsync: mutateExpenseAsync} = useMutateExpenseTransaction();
+  const addRecentExpenseAccount = useStore.use.addRecentExpenseAccount();
+  const addRecentIncomeAccount = useStore.use.addRecentIncomeAccount();
 
   const onSavePress = useMemo(
     () =>
       handleSubmit(async (tr: IncomeExpenseTransaction) => {
+        if (type === 'expense') {
+          addRecentExpenseAccount(tr.account.id);
+        } else if (type === 'income') {
+          addRecentIncomeAccount(tr.account.id);
+        }
         const {success} = type === 'income' ? await mutateIncomeAsync(tr) : await mutateExpenseAsync(tr);
         onSubmit(success);
       }),
-    [handleSubmit, mutateExpenseAsync, mutateIncomeAsync, onSubmit, type],
+    [
+      addRecentExpenseAccount,
+      addRecentIncomeAccount,
+      handleSubmit,
+      mutateExpenseAsync,
+      mutateIncomeAsync,
+      onSubmit,
+      type,
+    ],
   );
 
   useHeaderButtons(useNavigation(), {onSavePress});
@@ -89,6 +107,15 @@ export const IncomeExpenseEditor: React.FC<{onSubmit: (success: boolean) => void
   const navigation = useNavigation<EditTransactionScreenNavigationProp>();
 
   useFocusInput(amountInputRef);
+
+  const recentExpenseAccounts = useStore.use.recentExpenseAccounts();
+  const recentIncomeAccounts = useStore.use.recentIncomeAccounts();
+
+  useEffect(() => {
+    const defaultAccountId = type === 'income' ? first(recentIncomeAccounts) : first(recentExpenseAccounts);
+    const defaultAccount = defaultAccountId ? accounts?.find((a) => a.id === defaultAccountId)! : first(accounts);
+    setValue('account', defaultAccount!);
+  }, [accounts, recentExpenseAccounts, recentIncomeAccounts, setValue, type]);
 
   return (
     <ScrollView style={styles.flexFill}>
@@ -125,6 +152,7 @@ export const IncomeExpenseEditor: React.FC<{onSubmit: (success: boolean) => void
               navigation.navigate('AccountPickerScreen', {
                 value: value.id,
                 onSelect: (x) => onChange(accounts?.find((a) => a.id === x)),
+                recentAccounts: type === 'expense' ? recentExpenseAccounts : recentIncomeAccounts,
               })
             }
           />

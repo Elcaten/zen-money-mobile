@@ -40,6 +40,10 @@
     "AccountTypePickerScreen": {
         "AccountType": "Account type"
     },
+    "AccountPickerScreen": {
+        "RecentAccounts": "Recent accounts",
+        "Accounts": "Accounts"
+    },
     "AccountsScreen": {
         "Accounts": "Accounts",
         "AddAccount": "Add account",

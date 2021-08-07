@@ -3,6 +3,7 @@ import * as Localization from 'expo-localization';
 import {Appearance} from 'react-native';
 import createStore from 'zustand';
 import {configurePersist} from 'zustand-persist';
+import {filterMostRecent} from '../utils';
 import {createSelectorHooks} from './create-selectors';
 
 const {persist, purge} = configurePersist({
@@ -18,6 +19,10 @@ export enum AppLocale {
 export type AppTheme = 'dark' | 'light' | 'system';
 
 export type State = {
+  recentExpenseAccounts: string[];
+  addRecentExpenseAccount: (account: string) => void;
+  recentIncomeAccounts: string[];
+  addRecentIncomeAccount: (account: string) => void;
   theme: AppTheme;
   setTheme: (value: AppTheme) => void;
   locale: string;
@@ -34,9 +39,14 @@ const useStoreBase = createStore<State>(
   persist(
     {
       key: 'persist', // required, child key of storage
-      allowlist: [/*'serverTimestamp', 'zenMoneyToken', */ 'locale', 'theme', 'fastAddTransaction'],
     },
     (set) => ({
+      recentExpenseAccounts: [],
+      addRecentExpenseAccount: (value) =>
+        set(({recentExpenseAccounts}) => ({recentExpenseAccounts: filterMostRecent(recentExpenseAccounts, value)})),
+      recentIncomeAccounts: [],
+      addRecentIncomeAccount: (value) =>
+        set(({recentIncomeAccounts}) => ({recentExpenseAccounts: filterMostRecent(recentIncomeAccounts, value)})),
       theme: colorScheme,
       setTheme: (value) => set(() => ({theme: value})),
       locale: Localization.locale,

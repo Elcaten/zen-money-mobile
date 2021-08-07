@@ -46,6 +46,10 @@
     "AccountTypePickerScreen": {
         "AccountType": "Тип счета"
     },
+    "AccountPickerScreen": {
+        "RecentAccounts": "Недавние счета",
+        "Accounts": "Все счета"
+    },
     "AnalyticsScreen": {
         "Analytics": "Аналитика"
     },
