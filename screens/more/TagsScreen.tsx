@@ -21,7 +21,7 @@ const TagItem: React.FC<TagItemProps> = ({tag, onPress}) => {
   }, [onPress, tag]);
   return (
     <ListItem onPress={onPressCb} topDivider={!tag.parent}>
-      <TagIcon style={[{marginLeft: tag.parent ? 32 : 0}]} icon={tag.icon} color={tag.color} />
+      <TagIcon style={{marginLeft: tag.parent ? 32 : 0}} icon={tag.icon} color={tag.color} />
       <ZenText>{tag.title}</ZenText>
     </ListItem>
   );

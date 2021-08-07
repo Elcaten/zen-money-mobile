@@ -53,11 +53,15 @@ export const TagDetailsScreen: React.FC<TagDetailsScreenProps> = ({navigation, r
   const onSavePress = useMemo(
     () =>
       handleSubmit(async (editableTag: EditableTag) => {
-        await mutateAsync(editableTag);
-        await queryClient.invalidateQueries(QueryKeys.Tags);
-        showToast(t('TagDetailsScreen.CategorySaved'));
-        if (navigation.isFocused()) {
-          navigation.pop();
+        const {success} = await mutateAsync(editableTag);
+        if (success) {
+          showToast(t('TagDetailsScreen.CategorySaved'));
+          if (navigation.isFocused()) {
+            navigation.pop();
+          }
+          queryClient.invalidateQueries(QueryKeys.Tags);
+        } else {
+          showToast(t('Error.UnexpectedError'));
         }
       }),
     [handleSubmit, mutateAsync, navigation, queryClient, t],
@@ -74,11 +78,11 @@ export const TagDetailsScreen: React.FC<TagDetailsScreenProps> = ({navigation, r
     if (confirm) {
       const {success} = await deleteAsync(tag.id);
       if (success) {
-        await queryClient.invalidateQueries(QueryKeys.Tags);
         showToast(t('TagDetailsScreen.DeleteCategorySuccessMessage'));
         if (navigation.isFocused()) {
           navigation.pop();
         }
+        queryClient.invalidateQueries(QueryKeys.Tags);
       } else {
         showToast(t('Error.UnexpectedError'));
       }
@@ -86,7 +90,10 @@ export const TagDetailsScreen: React.FC<TagDetailsScreenProps> = ({navigation, r
   }, [deleteAsync, navigation, queryClient, t, tag.id]);
 
   const isNewTag = route.params.tagId == null;
-  useHeaderButtons(navigation, isNewTag ? {onSavePress} : {onDeletePress, onSavePress});
+  useHeaderButtons(
+    navigation,
+    isNewTag ? {onSavePress, disabled: isMutating} : {onDeletePress, onSavePress, disabled: isMutating || isDeleting},
+  );
 
   const [possibleParentTags, setPossibleParentTags] = useState<Tag[]>([]);
   useEffect(() => {

@@ -7,11 +7,12 @@ import {StyleSheet} from 'react-native';
 import {InputHandles} from 'react-native-elements';
 import {useAccounts, useInstruments} from '../../../api-hooks';
 import {Transaction, UserAccount} from '../../../api/models';
-import {CommentIcon, MinusBoxOutlineIcon, PlusBoxOutlineIcon, View, WalletIcon} from '../../../components';
+import {CommentIcon, MinusBoxOutlineIcon, PlusBoxOutlineIcon, WalletIcon} from '../../../components';
 import {TextInputField} from '../../../components/Field';
 import {DateTimeInputField} from '../../../components/Field/DateTimeInputField';
 import {NumberInputField} from '../../../components/Field/NumberInputField';
 import {PickerListItem} from '../../../components/ListItem';
+import {ScrollView} from '../../../components/ScrollView';
 import {ZenText} from '../../../components/ZenText';
 import {useFocusInput} from '../../../hooks';
 import {useHeaderButtons} from '../../../hooks/useHeaderButtons';
@@ -29,9 +30,10 @@ export type TransferTransaction = Pick<Transaction, 'comment'> & {
 export interface TransferEditorProps {
   onSubmit: (tr: TransferTransaction) => void;
   recentAccounts: string[];
+  disabled: boolean;
 }
 
-export const TransferEditor: React.FC<TransferEditorProps> = ({onSubmit, recentAccounts}) => {
+export const TransferEditor: React.FC<TransferEditorProps> = ({onSubmit, recentAccounts, disabled}) => {
   const {data: accounts} = useAccounts();
 
   const {
@@ -74,7 +76,7 @@ export const TransferEditor: React.FC<TransferEditorProps> = ({onSubmit, recentA
 
   const onSavePress = useCallback(() => handleSubmit(onSubmit)(), [handleSubmit, onSubmit]);
 
-  useHeaderButtons(useNavigation(), {onSavePress});
+  useHeaderButtons(useNavigation(), {onSavePress, disabled});
 
   const instruments = useInstruments();
   const watchOutcomeAccount = watch('outcomeAccount');
@@ -109,7 +111,7 @@ export const TransferEditor: React.FC<TransferEditorProps> = ({onSubmit, recentA
   }, [accounts, recentAccounts, setValue]);
 
   return (
-    <View style={styles.wrapper}>
+    <ScrollView disabled={disabled} style={styles.wrapper}>
       <Controller
         control={control}
         render={({field}) => (
@@ -196,7 +198,7 @@ export const TransferEditor: React.FC<TransferEditorProps> = ({onSubmit, recentA
         )}
         name="comment"
       />
-    </View>
+    </ScrollView>
   );
 };
 

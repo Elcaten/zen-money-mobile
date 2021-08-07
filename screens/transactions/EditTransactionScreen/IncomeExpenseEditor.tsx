@@ -3,7 +3,7 @@ import * as React from 'react';
 import {useCallback, useEffect, useMemo} from 'react';
 import {Controller, useForm} from 'react-hook-form';
 import {useTranslation} from 'react-i18next';
-import {ScrollView, StyleSheet} from 'react-native';
+import {StyleSheet} from 'react-native';
 import {useAccounts, useInstruments} from '../../../api-hooks';
 import {Tag, Transaction, UserAccount} from '../../../api/models';
 import {CoinsIcon, CommentIcon, WalletIcon} from '../../../components';
@@ -11,6 +11,7 @@ import {TextInputField} from '../../../components/Field';
 import {DateTimeInputField} from '../../../components/Field/DateTimeInputField';
 import {NumberInputField, NumberInputFieldHandle} from '../../../components/Field/NumberInputField';
 import {PickerListItem} from '../../../components/ListItem';
+import {ScrollView} from '../../../components/ScrollView';
 import {ZenText} from '../../../components/ZenText';
 import {useFocusInput} from '../../../hooks/useFocusInput';
 import {useHeaderButtons} from '../../../hooks/useHeaderButtons';
@@ -30,9 +31,10 @@ export interface IncomeExpenseEditorProps {
   onSubmit: (tr: IncomeExpenseTransaction) => void;
   tags: Tag[];
   recentAccounts: string[];
+  disabled: boolean;
 }
 
-export const IncomeExpenseEditor: React.FC<IncomeExpenseEditorProps> = ({onSubmit, tags, recentAccounts}) => {
+export const IncomeExpenseEditor: React.FC<IncomeExpenseEditorProps> = ({onSubmit, tags, disabled, recentAccounts}) => {
   const {data: accounts} = useAccounts();
 
   const {
@@ -53,7 +55,7 @@ export const IncomeExpenseEditor: React.FC<IncomeExpenseEditorProps> = ({onSubmi
 
   const onSavePress = useCallback(() => handleSubmit(onSubmit)(), [handleSubmit, onSubmit]);
 
-  useHeaderButtons(useNavigation(), {onSavePress});
+  useHeaderButtons(useNavigation(), {onSavePress, disabled});
 
   const watchAccount = watch('account');
   const instruments = useInstruments();
@@ -81,7 +83,7 @@ export const IncomeExpenseEditor: React.FC<IncomeExpenseEditorProps> = ({onSubmi
   }, [accounts, recentAccounts, setValue]);
 
   return (
-    <ScrollView style={styles.flexFill}>
+    <ScrollView disabled={disabled} style={styles.flexFill}>
       <Controller
         control={control}
         render={({field}) => (

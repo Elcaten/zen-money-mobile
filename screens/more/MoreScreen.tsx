@@ -40,7 +40,7 @@ export const MoreScreen: React.FC<MoreScreenProps> = ({navigation}) => {
         navigation.pop();
         if (instrument) {
           await mutateMe({currency: instrument});
-          await queryClient.invalidateQueries(QueryKeys.Users);
+          queryClient.invalidateQueries(QueryKeys.Users);
         }
       },
     });

@@ -29,9 +29,9 @@ export const EditTransactionScreen: React.FC<EditTransactionScreenProps> = ({rou
   const incomeTags = useMemo(() => tags.filter((tag) => tag.showIncome), [tags]);
   const expenseTags = useMemo(() => tags.filter((tag) => tag.showOutcome), [tags]);
 
-  const {mutateAsync: mutateIncomeAsync} = useMutateIncomeTransaction();
-  const {mutateAsync: mutateExpenseAsync} = useMutateExpenseTransaction();
-  const {mutateAsync: mutateTransferAsync} = useMutateTransferTransaction();
+  const {mutateAsync: mutateIncomeAsync, isLoading: isMutatinIncome} = useMutateIncomeTransaction();
+  const {mutateAsync: mutateExpenseAsync, isLoading: isMutatingExpense} = useMutateExpenseTransaction();
+  const {mutateAsync: mutateTransferAsync, isLoading: isMutatingTransfer} = useMutateTransferTransaction();
   const addRecentExpenseAccount = useStore.use.addRecentExpenseAccount();
   const addRecentIncomeAccount = useStore.use.addRecentIncomeAccount();
   const addRecentTransferAccount = useStore.use.addRecentTransferAccount();
@@ -42,12 +42,12 @@ export const EditTransactionScreen: React.FC<EditTransactionScreenProps> = ({rou
   const onTransactionSave = useCallback(
     async (success: boolean) => {
       if (success) {
-        await queryClient.invalidateQueries(QueryKeys.Transactions);
-        await queryClient.invalidateQueries(QueryKeys.Accounts);
         showToast(t('EditTransactionScreen.TransactionSaved'));
         if (navigation.isFocused()) {
           navigation.pop();
         }
+        queryClient.invalidateQueries(QueryKeys.Transactions);
+        queryClient.invalidateQueries(QueryKeys.Accounts);
       } else {
         showToast(t('Error.UnexpectedError'));
       }
@@ -97,6 +97,7 @@ export const EditTransactionScreen: React.FC<EditTransactionScreenProps> = ({rou
             tags={incomeTags}
             recentAccounts={recentIncomeAccounts}
             onSubmit={saveIncomeTransaction}
+            disabled={isMutatinIncome}
           />
         );
       case TransactionType.Expense:
@@ -105,16 +106,26 @@ export const EditTransactionScreen: React.FC<EditTransactionScreenProps> = ({rou
             tags={expenseTags}
             recentAccounts={recentExpenseAccounts}
             onSubmit={saveExpenseTransaction}
+            disabled={isMutatingExpense}
           />
         );
       case TransactionType.Transfer:
-        return <TransferEditor recentAccounts={recentTransferAccounts} onSubmit={saveTransferTransaction} />;
+        return (
+          <TransferEditor
+            recentAccounts={recentTransferAccounts}
+            onSubmit={saveTransferTransaction}
+            disabled={isMutatingTransfer}
+          />
+        );
       default:
         exhaustiveCheck(transactionType);
     }
   }, [
     expenseTags,
     incomeTags,
+    isMutatinIncome,
+    isMutatingExpense,
+    isMutatingTransfer,
     recentExpenseAccounts,
     recentIncomeAccounts,
     recentTransferAccounts,

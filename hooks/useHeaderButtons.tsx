@@ -15,6 +15,7 @@ export const useHeaderButtons = (
     onSearchPress,
     renderButtons,
     renderButtonPosition,
+    disabled,
   }: {
     onAddPress?: () => void;
     onEditPress?: () => void;
@@ -23,6 +24,7 @@ export const useHeaderButtons = (
     onSearchPress?: () => void;
     renderButtons?: () => React.ReactNode | React.ReactNode[];
     renderButtonPosition?: 'left' | 'right';
+    disabled?: boolean;
   },
 ) => {
   const {t} = useTranslation();
@@ -34,6 +36,7 @@ export const useHeaderButtons = (
           {renderButtonPosition === 'left' && renderButtons && renderButtons()}
           {onAddPress && (
             <Item
+              disabled={disabled}
               title={t('Button.Add')}
               IconComponent={MaterialIcons}
               iconName="add"
@@ -43,6 +46,7 @@ export const useHeaderButtons = (
           )}
           {onSavePress && (
             <Item
+              disabled={disabled}
               title={t('Button.Save')}
               IconComponent={MaterialIcons}
               iconName="save"
@@ -52,6 +56,7 @@ export const useHeaderButtons = (
           )}
           {onDeletePress && (
             <Item
+              disabled={disabled}
               title={t('Button.Delete')}
               IconComponent={MaterialCommunityIcons}
               iconName="trash-can-outline"
@@ -61,6 +66,7 @@ export const useHeaderButtons = (
           )}
           {onEditPress && (
             <Item
+              disabled={disabled}
               title={t('Button.Edit')}
               IconComponent={MaterialIcons}
               iconName="edit"
@@ -70,6 +76,7 @@ export const useHeaderButtons = (
           )}
           {onSearchPress && (
             <Item
+              disabled={disabled}
               title={t('Button.Search')}
               IconComponent={MaterialIcons}
               iconName="search"
@@ -82,6 +89,7 @@ export const useHeaderButtons = (
       ),
     });
   }, [
+    disabled,
     navigation,
     onAddPress,
     onDeletePress,

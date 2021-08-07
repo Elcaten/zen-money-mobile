@@ -27,15 +27,15 @@ export const TransactionDetailsScreen: React.FC<TransactionDetailsScreenProps> =
 
     if (confirmed && transaction != null) {
       await deleteAsync(transaction.id);
-      await queryClient.invalidateQueries(QueryKeys.Transactions);
       showToast(t('TransactionDetailsScreen.DeleteSuccessMessage'));
       if (navigation.isFocused()) {
         navigation.pop();
       }
+      queryClient.invalidateQueries(QueryKeys.Transactions);
     }
   }, [deleteAsync, navigation, queryClient, t, transaction]);
 
-  useHeaderButtons(navigation, {onDeletePress});
+  useHeaderButtons(navigation, {onDeletePress, disabled: isDeleting});
 
   return (
     <View disabled={isDeleting}>

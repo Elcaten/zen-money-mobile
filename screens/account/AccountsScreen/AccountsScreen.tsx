@@ -1,6 +1,6 @@
 import {Ionicons} from '@expo/vector-icons';
 import * as React from 'react';
-import {useCallback, useLayoutEffect, useMemo, useState} from 'react';
+import {useCallback, useMemo, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {FlatList, ListRenderItemInfo, StyleSheet} from 'react-native';
 import Collapsible from 'react-native-collapsible';

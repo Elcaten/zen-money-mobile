@@ -2,7 +2,7 @@ import * as React from 'react';
 import {useCallback, useState} from 'react';
 import {ScrollView, StyleSheet, TouchableOpacity} from 'react-native';
 import {TagIconName} from '../../api/models';
-import {TagColor, tagColors} from '../../api/models/tag-color';
+import {tagColors} from '../../api/models/tag-color';
 import {View} from '../../components';
 import {useHeaderButtons} from '../../hooks/useHeaderButtons';
 import {useNavigatorThemeColors} from '../../themes';

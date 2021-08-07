@@ -38,12 +38,12 @@ export const AccountDetailsScreen: React.FC<AccountDetailsScreenProps> = ({navig
     if (confirm && account != null) {
       const {success} = await deleteAsync(account.id);
       if (success) {
-        await queryClient.invalidateQueries(QueryKeys.Accounts);
-        await queryClient.invalidateQueries(QueryKeys.Transactions);
         showToast(t('AccountDetailsScreen.DeleteSuccessMessage'));
         if (navigation.isFocused()) {
           navigation.pop();
         }
+        queryClient.invalidateQueries(QueryKeys.Accounts);
+        queryClient.invalidateQueries(QueryKeys.Transactions);
       } else {
         showToast(t('Error.UnexpectedError'));
       }
@@ -55,7 +55,7 @@ export const AccountDetailsScreen: React.FC<AccountDetailsScreenProps> = ({navig
     route.params.accountId,
   ]);
 
-  useHeaderButtons(navigation, {onDeletePress, onEditPress});
+  useHeaderButtons(navigation, {onDeletePress, onEditPress, disabled: isDeleting});
 
   const {opacity, onScroll} = useToolbarOpacity(HEADER_HEIGHT);
 

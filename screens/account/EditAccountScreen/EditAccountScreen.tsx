@@ -69,11 +69,11 @@ export const EditAccountScreen: React.FC<AccountDetailsScreenProps> = ({navigati
       handleSubmit(async (editableAccount: EditableAccount) => {
         const {success} = await mutateAsync(editableAccount);
         if (success) {
-          await queryClient.invalidateQueries(QueryKeys.Accounts);
           showToast(t('EditAccountScreen.AccountSaved'));
           if (navigation.isFocused()) {
             navigation.pop();
           }
+          queryClient.invalidateQueries(QueryKeys.Accounts);
         } else {
           showToast(t('Error.UnexpectedError'));
         }
@@ -81,7 +81,7 @@ export const EditAccountScreen: React.FC<AccountDetailsScreenProps> = ({navigati
     [handleSubmit, mutateAsync, navigation, queryClient, t],
   );
 
-  useHeaderButtons(navigation, {onSavePress});
+  useHeaderButtons(navigation, {onSavePress, disabled: isMutating});
 
   return (
     <ScrollView keyboardShouldPersistTaps="never">
