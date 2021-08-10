@@ -1,5 +1,6 @@
 import * as React from 'react';
 import {ReactText, useCallback, useLayoutEffect, useMemo, useState} from 'react';
+import {useTranslation} from 'react-i18next';
 import {Dimensions, StyleSheet} from 'react-native';
 import {SearchBar} from 'react-native-elements';
 import {DataProvider, LayoutProvider, RecyclerListView} from 'recyclerlistview';
@@ -7,10 +8,9 @@ import {useInstruments} from '../../../api-hooks';
 import {Instrument} from '../../../api/models';
 import {CheckIcon, View} from '../../../components';
 import {ListItem} from '../../../components/ListItem';
+import {ZenText} from '../../../components/ZenText';
 import {useNavigatorThemeColors} from '../../../themes';
 import {InstrumentPickerScreenProps} from '../../../types';
-import {useTranslation} from 'react-i18next';
-import {ZenText} from '../../../components/ZenText';
 
 const ITEM_HEIGHT = 54;
 
@@ -34,28 +34,28 @@ export const InstrumentPickerScreen: React.FC<InstrumentPickerScreenProps> = ({r
   );
 
   const {data} = useInstruments();
+
+  const [searchExpr, setSearchExpr] = useState('');
+  const filteredInstruments = useMemo(
+    () => data.valuesArray().filter((i) => i.title.toLocaleLowerCase().includes(searchExpr.toLocaleLowerCase())),
+    [data, searchExpr],
+  );
   const sortedInstruments = useMemo(() => {
     const selectedInstrument: Instrument[] = [];
     const instruments: Instrument[] = [];
-    data.forEach((i) => {
+    filteredInstruments.forEach((i) => {
       if (i.id === instrumentId) {
         selectedInstrument.push(i);
       } else {
         instruments.push(i);
       }
     });
-    return selectedInstrument.concat(instruments.sort((i1, i2) => i1.title.localeCompare(i2.title)));
-  }, [data, instrumentId]);
-
-  const [searchExpr, setSearchExpr] = useState('');
-  const filteredInstruments = useMemo(
-    () => sortedInstruments.filter((i) => i.title.toLocaleLowerCase().includes(searchExpr.toLocaleLowerCase())),
-    [searchExpr, sortedInstruments],
-  );
+    return selectedInstrument.concat(instruments);
+  }, [filteredInstruments, instrumentId]);
 
   React.useEffect(() => {
-    setDataProvider((prevState) => prevState.cloneWithRows(filteredInstruments));
-  }, [filteredInstruments]);
+    setDataProvider((prevState) => prevState.cloneWithRows(sortedInstruments));
+  }, [sortedInstruments]);
 
   const {primary} = useNavigatorThemeColors();
 
@@ -103,7 +103,7 @@ export const InstrumentPickerScreen: React.FC<InstrumentPickerScreenProps> = ({r
         </View>
       )}
       {filteredInstruments.length > 0 && (
-        <RecyclerListView layoutProvider={layoutProvider} dataProvider={dataProvider} rowRenderer={rowRenderer} />
+        <RecyclerListView ind layoutProvider={layoutProvider} dataProvider={dataProvider} rowRenderer={rowRenderer} />
       )}
     </View>
   );
