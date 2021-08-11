@@ -85,7 +85,7 @@
         "More": "More",
         "SignOut": "Sign out",
         "Tags": "Categories",
-        "Themes": "Themes"
+        "Theme": "App theme"
     },
     "TagDetailsScreen": {
         "DeleteCategoryMessage": "This category will be deleted.",

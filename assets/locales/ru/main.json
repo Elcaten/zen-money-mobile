@@ -57,8 +57,6 @@
         "Accounts": "Счета",
         "Analytics": "Аналитика",
         "More": "Еще",
-        "Tags": "Категории",
-        "Themes": "Темы",
         "Transactions": "Операции"
     },
     "EditAccountScreen": {
@@ -74,18 +72,20 @@
     },
     "EditTransactionScreen": {
         "Comment": "Комментарий",
-        "TransactionSaved": "Транзакция сохранена"
+        "TransactionSaved": "Операция сохранена"
     },
     "InstrumentPickerScreen": {
         "NoCurrenciesFound": "Валюта не найдена"
     },
     "MoreScreen": {
-        "FastAddTransaction": "Быстрое добавление транзакций",
+        "FastAddTransaction": "Быстрое добавление операций",
         "BiometricUnlock": "Вход по отпечатку пальца",
         "Locales": "Язык приложения",
         "MainCurrency": "Основная валюта",
         "More": "Еще",
-        "SignOut": "Выход из аккаунта"
+        "SignOut": "Выход из аккаунта",
+        "Tags": "Категории",
+        "Theme": "Тема приложения"
     },
     "TagDetailsScreen": {
         "DeleteCategoryMessage": "Категория будет удалена.",
@@ -118,8 +118,8 @@
         "Transactions": "Операции"
     },
     "TransactionDetailsScreen": {
-        "DeleteTransactionMessage": "Транзакция будет удалена.",
-        "DeleteTransactionTitle": "Удалить транзакцию?",
-        "DeleteSuccessMessage": "Транзакция удалена"
+        "DeleteTransactionMessage": "Операция будет удалена.",
+        "DeleteTransactionTitle": "Удалить операцию?",
+        "DeleteSuccessMessage": "Операция удалена"
     }
 }
