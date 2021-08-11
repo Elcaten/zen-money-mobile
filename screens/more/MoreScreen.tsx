@@ -70,7 +70,7 @@ export const MoreScreen: React.FC<MoreScreenProps> = ({navigation}) => {
         />
         <PickerListItem
           leftIcon={() => <ThemeIcon />}
-          title={t('MoreScreen.Themes')}
+          title={t('MoreScreen.Theme')}
           value={themeName}
           onPress={() => navigation.navigate('ThemesScreen')}
         />

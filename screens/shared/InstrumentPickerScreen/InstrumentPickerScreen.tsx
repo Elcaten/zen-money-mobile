@@ -34,28 +34,27 @@ export const InstrumentPickerScreen: React.FC<InstrumentPickerScreenProps> = ({r
   );
 
   const {data} = useInstruments();
+  const selectedInstruments = useMemo(() => (data.has(instrumentId!) ? [data.get(instrumentId!)!] : []), [
+    data,
+    instrumentId,
+  ]);
+  const unselectedInstruments = useMemo(() => data.valuesArray().filter((i) => i.id !== instrumentId), [
+    data,
+    instrumentId,
+  ]);
 
   const [searchExpr, setSearchExpr] = useState('');
-  const filteredInstruments = useMemo(
-    () => data.valuesArray().filter((i) => i.title.toLocaleLowerCase().includes(searchExpr.toLocaleLowerCase())),
-    [data, searchExpr],
+  const foundInstruments = useMemo(
+    () =>
+      unselectedInstruments
+        .filter((i) => i.title.toLocaleLowerCase().includes(searchExpr.toLocaleLowerCase()))
+        .sort((i1, i2) => i1.title.localeCompare(i2.title)),
+    [searchExpr, unselectedInstruments],
   );
-  const sortedInstruments = useMemo(() => {
-    const selectedInstrument: Instrument[] = [];
-    const instruments: Instrument[] = [];
-    filteredInstruments.forEach((i) => {
-      if (i.id === instrumentId) {
-        selectedInstrument.push(i);
-      } else {
-        instruments.push(i);
-      }
-    });
-    return selectedInstrument.concat(instruments);
-  }, [filteredInstruments, instrumentId]);
 
   React.useEffect(() => {
-    setDataProvider((prevState) => prevState.cloneWithRows(sortedInstruments));
-  }, [sortedInstruments]);
+    setDataProvider((prevState) => prevState.cloneWithRows([...selectedInstruments, ...foundInstruments]));
+  }, [foundInstruments, selectedInstruments]);
 
   const {primary} = useNavigatorThemeColors();
 
@@ -78,31 +77,33 @@ export const InstrumentPickerScreen: React.FC<InstrumentPickerScreenProps> = ({r
   );
 
   useLayoutEffect(() => {
-    navigation.setOptions({
-      headerTitle: () => (
-        <SearchBar
-          containerStyle={styles.searchBar}
-          cancelIcon={false}
-          searchIcon={false as any}
-          platform="android"
-          placeholder="Search"
-          value={searchExpr}
-          onChangeText={setSearchExpr as any}
-        />
-      ),
-    });
+    setTimeout(() => {
+      navigation.setOptions({
+        headerTitle: () => (
+          <SearchBar
+            containerStyle={styles.searchBar}
+            cancelIcon={false}
+            searchIcon={false as any}
+            platform="android"
+            placeholder="Search"
+            value={searchExpr}
+            onChangeText={setSearchExpr as any}
+          />
+        ),
+      });
+    }, 500);
   }, [navigation, searchExpr]);
 
   const {t} = useTranslation();
 
   return (
     <View style={styles.container}>
-      {filteredInstruments.length === 0 && (
+      {foundInstruments.length === 0 && (
         <View style={styles.emptyList}>
           <ZenText>{t('InstrumentPickerScreen.NoCurrenciesFound')}</ZenText>
         </View>
       )}
-      {filteredInstruments.length > 0 && (
+      {foundInstruments.length > 0 && (
         <RecyclerListView ind layoutProvider={layoutProvider} dataProvider={dataProvider} rowRenderer={rowRenderer} />
       )}
     </View>
