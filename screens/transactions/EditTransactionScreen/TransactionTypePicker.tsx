@@ -1,6 +1,7 @@
 import * as React from 'react';
 import {useCallback, useState} from 'react';
 import {useTranslation} from 'react-i18next';
+import {StyleSheet} from 'react-native';
 import {ButtonGroup, ButtonGroupProps} from 'react-native-elements';
 import {ListItem} from '../../../components/ListItem';
 import {TransactionType} from '../transaction-type';
@@ -54,9 +55,6 @@ const useTransactionTypes = () => {
     },
   ];
 };
-
-import {StyleSheet} from 'react-native';
-import {useElementsTheme} from '../../../themes';
 
 const styles = StyleSheet.create({
   buttons: {
