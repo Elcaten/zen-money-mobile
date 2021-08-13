@@ -45,7 +45,6 @@ export type TransactionsParamList = {
     transactionType?: TransactionType;
     transactionId?: string;
   };
-  AccountPickerScreen: PickerScreenProps<string | null> & {recentAccounts: string[]};
 };
 
 export type AnalyticsParamList = {

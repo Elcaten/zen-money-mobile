@@ -1,34 +1,39 @@
-import * as React from 'react';
-import {useMemo} from 'react';
+import React, {useMemo} from 'react';
 import {useTranslation} from 'react-i18next';
 import {ListRenderItem, SectionList, SectionListData} from 'react-native';
+import {Overlay} from 'react-native-elements';
 import {useAccounts} from '../../../api-hooks';
 import {UserAccount} from '../../../api/models';
 import {CheckIcon} from '../../../components';
 import {ListItem} from '../../../components/ListItem';
 import {SectionHeader} from '../../../components/SectionHeader';
 import {useNavigatorThemeColors} from '../../../themes';
-import {AccountPickerScreenProps} from '../../../types';
 import {notNull} from '../../../utils';
 
-export const AccountPickerScreen: React.FC<AccountPickerScreenProps> = ({route, navigation}) => {
-  const accountId = route.params.value;
+export interface AccountPickerDialogProps {
+  visible: boolean;
+  onRequestClose: () => void;
+  value: string;
+  onSelect: (account: UserAccount) => void;
+  recentAccounts: string[];
+}
 
+export const AccountPickerDialog: React.FC<AccountPickerDialogProps> = (props) => {
   const {data: accounts} = useAccounts();
 
   const recentAccounts = useMemo(
     () =>
-      route.params.recentAccounts
+      props.recentAccounts
         .map((id) => accounts?.find((a) => a.id === id))
         .filter(notNull)
         .sort(byTitle),
-    [accounts, route.params.recentAccounts],
+    [accounts, props.recentAccounts],
   );
 
   const restAccounts = useMemo(() => {
-    const recentAccountSet = new Set(route.params.recentAccounts);
+    const recentAccountSet = new Set(props.recentAccounts);
     return (accounts ?? []).filter((a) => !recentAccountSet.has(a.id)).sort(byTitle);
-  }, [accounts, route.params.recentAccounts]);
+  }, [accounts, props.recentAccounts]);
 
   const {primary} = useNavigatorThemeColors();
 
@@ -36,13 +41,13 @@ export const AccountPickerScreen: React.FC<AccountPickerScreenProps> = ({route, 
     return (
       <ListItem
         onPress={() => {
-          route.params.onSelect(item.id);
-          navigation.goBack();
+          props.onSelect(item);
+          props.onRequestClose();
         }}>
         <ListItem.Content>
           <ListItem.Title>{item.title}</ListItem.Title>
         </ListItem.Content>
-        {item.id === accountId ? <CheckIcon size={20} color={primary} /> : <></>}
+        {item.id === props.value ? <CheckIcon size={20} color={primary} /> : <></>}
       </ListItem>
     );
   };
@@ -63,7 +68,11 @@ export const AccountPickerScreen: React.FC<AccountPickerScreenProps> = ({route, 
     },
   ];
 
-  return <SectionList sections={sections} renderItem={renderItem} renderSectionHeader={renderSectionHeader} />;
+  return (
+    <Overlay isVisible={props.visible} animationType="slide" fullScreen={true} onRequestClose={props.onRequestClose}>
+      <SectionList sections={sections} renderItem={renderItem} renderSectionHeader={renderSectionHeader} />
+    </Overlay>
+  );
 };
 
 const byTitle = (a1: UserAccount, a2: UserAccount) => a1.title.localeCompare(a2.title);

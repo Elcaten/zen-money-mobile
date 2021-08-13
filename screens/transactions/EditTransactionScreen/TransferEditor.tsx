@@ -6,18 +6,17 @@ import {useTranslation} from 'react-i18next';
 import {StyleSheet} from 'react-native';
 import {InputHandles} from 'react-native-elements';
 import {useAccounts, useInstruments} from '../../../api-hooks';
-import {CommentIcon, MinusBoxOutlineIcon, PlusBoxOutlineIcon, WalletIcon} from '../../../components';
+import {CommentIcon, MinusBoxOutlineIcon, PlusBoxOutlineIcon} from '../../../components';
 import {TextInputField} from '../../../components/Field';
 import {DateTimeInputField} from '../../../components/Field/DateTimeInputField';
 import {NumberInputField} from '../../../components/Field/NumberInputField';
-import {PickerListItem} from '../../../components/ListItem';
 import {ScrollView} from '../../../components/ScrollView';
 import {ZenText} from '../../../components/ZenText';
 import {useFocusInput} from '../../../hooks';
 import {useHeaderButtons} from '../../../hooks/useHeaderButtons';
 import {useShakeOnError} from '../../../hooks/useShakeOnError';
-import {EditTransactionScreenNavigationProp} from '../../../types';
 import {generateUUID, validateNumericString} from '../../../utils';
+import {AccountPicker} from '../../components/AccountPicker/AccountPicker';
 
 export interface TransferTransaction {
   id: string;
@@ -92,7 +91,6 @@ export const TransferEditor: React.FC<TransferEditorProps> = ({
   ]);
 
   const {t} = useTranslation();
-  const navigation = useNavigation<EditTransactionScreenNavigationProp>();
 
   useFocusInput(outcomeInputRef);
   useShakeOnError(incomeInputRef, errors.income);
@@ -132,18 +130,7 @@ export const TransferEditor: React.FC<TransferEditorProps> = ({
       <Controller
         control={control}
         render={({field: {onChange, value}}) => (
-          <PickerListItem
-            bottomDivider
-            leftIcon={() => <WalletIcon />}
-            title={value.title}
-            onPress={() =>
-              navigation.navigate('AccountPickerScreen', {
-                value: value.id,
-                onSelect: (x) => onChange(accounts?.find((a) => a.id === x)),
-                recentAccounts: recentAccounts,
-              })
-            }
-          />
+          <AccountPicker title={value.title} value={value.id} onSelect={onChange} recentAccounts={recentAccounts} />
         )}
         name="outcomeAccount"
         rules={{required: true}}
@@ -152,18 +139,7 @@ export const TransferEditor: React.FC<TransferEditorProps> = ({
       <Controller
         control={control}
         render={({field: {onChange, value}}) => (
-          <PickerListItem
-            bottomDivider
-            leftIcon={() => <WalletIcon />}
-            title={value.title}
-            onPress={() =>
-              navigation.navigate('AccountPickerScreen', {
-                value: value.id,
-                onSelect: (x) => onChange(accounts?.find((a) => a.id === x)),
-                recentAccounts: recentAccounts,
-              })
-            }
-          />
+          <AccountPicker title={value.title} value={value.id} onSelect={onChange} recentAccounts={recentAccounts} />
         )}
         name="incomeAccount"
         rules={{required: true}}

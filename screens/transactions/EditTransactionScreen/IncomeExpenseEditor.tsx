@@ -6,19 +6,18 @@ import {useTranslation} from 'react-i18next';
 import {StyleSheet} from 'react-native';
 import {useAccounts, useInstruments} from '../../../api-hooks';
 import {Tag} from '../../../api/models';
-import {CoinsIcon, CommentIcon, WalletIcon} from '../../../components';
+import {CoinsIcon, CommentIcon} from '../../../components';
 import {TextInputField} from '../../../components/Field';
 import {DateTimeInputField} from '../../../components/Field/DateTimeInputField';
 import {NumberInputField, NumberInputFieldHandle} from '../../../components/Field/NumberInputField';
-import {PickerListItem} from '../../../components/ListItem';
 import {ScrollView} from '../../../components/ScrollView';
 import {ZenText} from '../../../components/ZenText';
 import {useShakeOnError} from '../../../hooks';
 import {useFocusInput} from '../../../hooks/useFocusInput';
 import {useHeaderButtons} from '../../../hooks/useHeaderButtons';
-import {EditTransactionScreenNavigationProp} from '../../../types';
 import {generateUUID} from '../../../utils';
 import {validateNumericString} from '../../../utils/validate-numeric-string';
+import {AccountPicker} from '../../components/AccountPicker/AccountPicker';
 import {TagGridPicker} from '../../components/TagGridPicker';
 
 export interface IncomeExpenseTransaction {
@@ -80,7 +79,6 @@ export const IncomeExpenseEditor: React.FC<IncomeExpenseEditorProps> = ({
   const amountInputRef = React.useRef<NumberInputFieldHandle>(null);
 
   const {t} = useTranslation();
-  const navigation = useNavigation<EditTransactionScreenNavigationProp>();
 
   useShakeOnError(amountInputRef, errors.amount);
   useFocusInput(amountInputRef);
@@ -119,18 +117,7 @@ export const IncomeExpenseEditor: React.FC<IncomeExpenseEditorProps> = ({
       <Controller
         control={control}
         render={({field: {onChange, value}}) => (
-          <PickerListItem
-            bottomDivider
-            leftIcon={() => <WalletIcon />}
-            title={value.title}
-            onPress={() =>
-              navigation.navigate('AccountPickerScreen', {
-                value: value.id,
-                onSelect: (x) => onChange(accounts?.find((a) => a.id === x)),
-                recentAccounts,
-              })
-            }
-          />
+          <AccountPicker title={value.title} value={value.id} recentAccounts={recentAccounts} onSelect={onChange} />
         )}
         name="account"
         rules={{required: true}}
