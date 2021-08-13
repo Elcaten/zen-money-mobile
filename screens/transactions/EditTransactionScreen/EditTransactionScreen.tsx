@@ -4,23 +4,31 @@ import {useTranslation} from 'react-i18next';
 import {ScrollView, StyleSheet} from 'react-native';
 import {useQueryClient} from 'react-query';
 import {
+  TransactionModel,
+  useDeleteTransaction,
   useMutateExpenseTransaction,
   useMutateIncomeTransaction,
   useMutateTransferTransaction,
   useTags,
+  useTransactionModels,
 } from '../../../api-hooks';
 import {QueryKeys} from '../../../api-hooks/query-keys';
 import {Card} from '../../../components/Card';
 import {useStore} from '../../../store/use-store';
 import {EditTransactionScreenProps} from '../../../types';
-import {exhaustiveCheck, showToast} from '../../../utils';
+import {confirmDelete, fromApiDate, showToast} from '../../../utils';
 import {TransactionType} from '../transaction-type';
 import {IncomeExpenseEditor, IncomeExpenseTransaction} from './IncomeExpenseEditor';
 import {TransactionTypePicker} from './TransactionTypePicker';
 import {TransferEditor, TransferTransaction} from './TransferEditor';
 
 export const EditTransactionScreen: React.FC<EditTransactionScreenProps> = ({route, navigation}) => {
-  const [transactionType, setTransactionType] = useState(route.params.transactionType);
+  const {data: transactions} = useTransactionModels();
+  const transactionId = route.params.transactionId;
+  const transaction = transactions.find((tr) => tr.id === transactionId);
+
+  const initialType = transaction ? getTransactionType(transaction) : route.params.transactionType!;
+  const [transactionType, setTransactionType] = useState(initialType);
   const {t} = useTranslation();
   const queryClient = useQueryClient();
 
@@ -32,6 +40,7 @@ export const EditTransactionScreen: React.FC<EditTransactionScreenProps> = ({rou
   const {mutateAsync: mutateIncomeAsync, isLoading: isMutatinIncome} = useMutateIncomeTransaction();
   const {mutateAsync: mutateExpenseAsync, isLoading: isMutatingExpense} = useMutateExpenseTransaction();
   const {mutateAsync: mutateTransferAsync, isLoading: isMutatingTransfer} = useMutateTransferTransaction();
+  const {deleteAsync, isDeleting} = useDeleteTransaction();
   const addRecentExpenseAccount = useStore.use.addRecentExpenseAccount();
   const addRecentIncomeAccount = useStore.use.addRecentIncomeAccount();
   const addRecentTransferAccount = useStore.use.addRecentTransferAccount();
@@ -89,51 +98,60 @@ export const EditTransactionScreen: React.FC<EditTransactionScreenProps> = ({rou
     [addRecentTransferAccount, mutateTransferAsync, onTransactionSave],
   );
 
-  const renderEditor = useCallback(() => {
+  const onDelete = useCallback(async () => {
+    const confirmed = await confirmDelete(
+      t('TransactionDetailsScreen.DeleteTransactionTitle'),
+      t('TransactionDetailsScreen.DeleteTransactionMessage'),
+    );
+
+    if (confirmed && transactionId != null) {
+      await deleteAsync(transactionId);
+      showToast(t('TransactionDetailsScreen.DeleteSuccessMessage'));
+      if (navigation.isFocused()) {
+        navigation.pop();
+      }
+      queryClient.invalidateQueries(QueryKeys.Transactions);
+    }
+  }, [deleteAsync, navigation, queryClient, t, transactionId]);
+
+  const renderEditor = () => {
     switch (transactionType) {
       case TransactionType.Income:
         return (
           <IncomeExpenseEditor
+            defaultValue={transaction ? toIncomeTransaction(transaction) : undefined}
             tags={incomeTags}
             recentAccounts={recentIncomeAccounts}
             onSubmit={saveIncomeTransaction}
-            disabled={isMutatinIncome}
+            onDelete={onDelete}
+            disabled={isMutatinIncome || isDeleting}
           />
         );
       case TransactionType.Expense:
         return (
           <IncomeExpenseEditor
+            defaultValue={transaction ? toExpenseTransaction(transaction) : undefined}
             tags={expenseTags}
             recentAccounts={recentExpenseAccounts}
             onSubmit={saveExpenseTransaction}
-            disabled={isMutatingExpense}
+            onDelete={onDelete}
+            disabled={isMutatingExpense || isDeleting}
           />
         );
       case TransactionType.Transfer:
         return (
           <TransferEditor
+            defaultValue={transaction ? toTransferTransaction(transaction) : undefined}
             recentAccounts={recentTransferAccounts}
             onSubmit={saveTransferTransaction}
-            disabled={isMutatingTransfer}
+            onDelete={onDelete}
+            disabled={isMutatingTransfer || isDeleting}
           />
         );
       default:
-        exhaustiveCheck(transactionType);
+        return <React.Fragment />;
     }
-  }, [
-    expenseTags,
-    incomeTags,
-    isMutatinIncome,
-    isMutatingExpense,
-    isMutatingTransfer,
-    recentExpenseAccounts,
-    recentIncomeAccounts,
-    recentTransferAccounts,
-    saveExpenseTransaction,
-    saveIncomeTransaction,
-    saveTransferTransaction,
-    transactionType,
-  ]);
+  };
 
   return (
     <Card style={styles.wrapper}>
@@ -151,3 +169,46 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 });
+
+const getTransactionType = (tr: TransactionModel): TransactionType => {
+  if (tr.incomeAccount?.id !== tr.outcomeAccount?.id) {
+    return TransactionType.Transfer;
+  } else if (tr.incomeAccount?.id === tr.outcomeAccount?.id && tr.income) {
+    return TransactionType.Income;
+  }
+  return TransactionType.Expense;
+};
+
+const toTransferTransaction = (tr: TransactionModel): TransferTransaction => {
+  return {
+    id: tr.id,
+    outcome: tr.outcome.toString(10),
+    outcomeAccount: tr.outcomeAccount!,
+    income: tr.income.toString(10),
+    incomeAccount: tr.incomeAccount!,
+    date: fromApiDate(tr.date),
+    comment: tr.comment ?? null,
+  };
+};
+
+const toExpenseTransaction = (tr: TransactionModel): IncomeExpenseTransaction => {
+  return {
+    id: tr.id,
+    amount: tr.outcome.toString(10),
+    account: tr.outcomeAccount!,
+    tag: tr.tag?.id ?? null,
+    date: fromApiDate(tr.date),
+    comment: tr.comment ?? null,
+  };
+};
+
+const toIncomeTransaction = (tr: TransactionModel): IncomeExpenseTransaction => {
+  return {
+    id: tr.id,
+    amount: tr.income.toString(10),
+    account: tr.incomeAccount!,
+    tag: tr.tag?.id ?? null,
+    date: fromApiDate(tr.date),
+    comment: tr.comment ?? null,
+  };
+};

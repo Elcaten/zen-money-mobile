@@ -4,6 +4,7 @@ import {ListItem} from '../ListItem';
 import {ZenTextInput} from '../ZenTextInput';
 import {ZenTextInputHandles} from '../ZenTextInput/ZenTextInput';
 
+//TODO: Rename to NumberInputFieldHandleS
 export interface NumberInputFieldHandle {
   shake: () => void;
   focus: () => void;

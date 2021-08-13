@@ -1,11 +1,11 @@
-import {createNativeStackNavigator} from 'react-native-screens/native-stack';
 import * as React from 'react';
 import {useTranslation} from 'react-i18next';
+import {createNativeStackNavigator} from 'react-native-screens/native-stack';
+import {AccountPickerScreen} from '../screens/shared/AccountPickerScreen';
 import {TransactionsScreen} from '../screens/transactions';
-import {TransactionsParamList} from '../types';
 import {EditTransactionScreen} from '../screens/transactions/EditTransactionScreen';
 import {TransactionDetailsScreen} from '../screens/transactions/TransactionDetailsScreen';
-import {AccountPickerScreen} from '../screens/shared/AccountPickerScreen';
+import {TransactionsParamList} from '../types';
 
 const Stack = createNativeStackNavigator<TransactionsParamList>();
 

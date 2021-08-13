@@ -1,12 +1,11 @@
 import {useNavigation} from '@react-navigation/native';
 import * as React from 'react';
-import {useCallback, useEffect, useMemo} from 'react';
+import {useCallback, useMemo} from 'react';
 import {Controller, useForm} from 'react-hook-form';
 import {useTranslation} from 'react-i18next';
 import {StyleSheet} from 'react-native';
 import {InputHandles} from 'react-native-elements';
 import {useAccounts, useInstruments} from '../../../api-hooks';
-import {Transaction, UserAccount} from '../../../api/models';
 import {CommentIcon, MinusBoxOutlineIcon, PlusBoxOutlineIcon, WalletIcon} from '../../../components';
 import {TextInputField} from '../../../components/Field';
 import {DateTimeInputField} from '../../../components/Field/DateTimeInputField';
@@ -16,24 +15,35 @@ import {ScrollView} from '../../../components/ScrollView';
 import {ZenText} from '../../../components/ZenText';
 import {useFocusInput} from '../../../hooks';
 import {useHeaderButtons} from '../../../hooks/useHeaderButtons';
+import {useShakeOnError} from '../../../hooks/useShakeOnError';
 import {EditTransactionScreenNavigationProp} from '../../../types';
-import {validateNumericString} from '../../../utils';
+import {generateUUID, validateNumericString} from '../../../utils';
 
-export type TransferTransaction = Pick<Transaction, 'comment'> & {
+export interface TransferTransaction {
+  id: string;
   income: string;
-  incomeAccount: UserAccount;
+  incomeAccount: {id: string; title: string; instrument: number | null};
   outcome: string;
-  outcomeAccount: UserAccount;
+  outcomeAccount: {id: string; title: string; instrument: number | null};
   date: Date;
-};
+  comment: string | null;
+}
 
 export interface TransferEditorProps {
+  defaultValue: TransferTransaction | undefined;
   onSubmit: (tr: TransferTransaction) => void;
+  onDelete: () => void;
   recentAccounts: string[];
   disabled: boolean;
 }
 
-export const TransferEditor: React.FC<TransferEditorProps> = ({onSubmit, recentAccounts, disabled}) => {
+export const TransferEditor: React.FC<TransferEditorProps> = ({
+  defaultValue,
+  onSubmit,
+  onDelete,
+  recentAccounts,
+  disabled,
+}) => {
   const {data: accounts} = useAccounts();
 
   const {
@@ -43,7 +53,8 @@ export const TransferEditor: React.FC<TransferEditorProps> = ({onSubmit, recentA
     watch,
     formState: {errors, dirtyFields},
   } = useForm<TransferTransaction>({
-    defaultValues: {
+    defaultValues: defaultValue ?? {
+      id: generateUUID(),
       income: '',
       incomeAccount: accounts![0],
       outcome: '',
@@ -53,30 +64,20 @@ export const TransferEditor: React.FC<TransferEditorProps> = ({onSubmit, recentA
     },
   });
 
-  const outcome = watch('outcome');
-  useEffect(() => {
-    if (!dirtyFields.income) {
-      setValue('income', outcome);
-    }
-  }, [dirtyFields.income, outcome, setValue]);
+  //TODO: turn income - outcome sync on
+  // const outcome = watch('outcome');
+  // useEffect(() => {
+  //   if (!dirtyFields.income) {
+  //     setValue('income', outcome);
+  //   }
+  // }, [dirtyFields.income, outcome, setValue]);
 
   const incomeInputRef = React.useRef<InputHandles>(null);
-  useEffect(() => {
-    if (errors.income) {
-      incomeInputRef.current?.shake();
-    }
-  }, [errors.income]);
-
   const outcomeInputRef = React.useRef<InputHandles>(null);
-  useEffect(() => {
-    if (errors.outcome) {
-      outcomeInputRef.current?.shake();
-    }
-  }, [errors.outcome]);
 
   const onSavePress = useCallback(() => handleSubmit(onSubmit)(), [handleSubmit, onSubmit]);
-
-  useHeaderButtons(useNavigation(), {onSavePress, disabled});
+  const onDeletePress = useCallback(() => onDelete(), [onDelete]);
+  useHeaderButtons(useNavigation(), {onSavePress, onDeletePress: defaultValue ? onDeletePress : undefined, disabled});
 
   const instruments = useInstruments();
   const watchOutcomeAccount = watch('outcomeAccount');
@@ -94,21 +95,23 @@ export const TransferEditor: React.FC<TransferEditorProps> = ({onSubmit, recentA
   const navigation = useNavigation<EditTransactionScreenNavigationProp>();
 
   useFocusInput(outcomeInputRef);
+  useShakeOnError(incomeInputRef, errors.income);
+  useShakeOnError(outcomeInputRef, errors.outcome);
 
   // TODO: refactor this ASAP
-  useEffect(() => {
-    const defaultOutcomeAccountId = recentAccounts[0];
-    const defaultOutcomeAccount = defaultOutcomeAccountId
-      ? accounts?.find((a) => a.id === defaultOutcomeAccountId)!
-      : accounts![0]!;
-    setValue('outcomeAccount', defaultOutcomeAccount!);
+  // useEffect(() => {
+  //   const defaultOutcomeAccountId = recentAccounts[0];
+  //   const defaultOutcomeAccount = defaultOutcomeAccountId
+  //     ? accounts?.find((a) => a.id === defaultOutcomeAccountId)!
+  //     : accounts![0]!;
+  //   setValue('outcomeAccount', defaultOutcomeAccount!);
 
-    const defaultIncomeAccountId = recentAccounts[1];
-    const defaultIncomeAccount = defaultIncomeAccountId
-      ? accounts?.find((a) => a.id === defaultIncomeAccountId)!
-      : accounts![1] ?? accounts![0]!;
-    setValue('incomeAccount', defaultIncomeAccount!);
-  }, [accounts, recentAccounts, setValue]);
+  //   const defaultIncomeAccountId = recentAccounts[1];
+  //   const defaultIncomeAccount = defaultIncomeAccountId
+  //     ? accounts?.find((a) => a.id === defaultIncomeAccountId)!
+  //     : accounts![1] ?? accounts![0]!;
+  //   setValue('incomeAccount', defaultIncomeAccount!);
+  // }, [accounts, recentAccounts, setValue]);
 
   return (
     <ScrollView disabled={disabled} style={styles.wrapper}>

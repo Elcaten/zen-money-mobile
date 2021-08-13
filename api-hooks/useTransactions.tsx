@@ -25,10 +25,12 @@ export interface TransactionModel {
   incomeAccount?: {
     id: string;
     title: string;
+    instrument: number | null;
   };
   outcomeAccount?: {
     id: string;
     title: string;
+    instrument: number | null;
   };
   outcome: number;
   outcomeFormatted: string;
@@ -56,8 +58,10 @@ export const useTransactionModels = () => {
           const firstTag =
             transaction.tag && transaction.tag.length > 0 ? tags.data?.get(transaction.tag[0]) : undefined;
           const parenTag = firstTag?.parent ? tags.data?.get(firstTag.parent) : undefined;
-          const incomeSymbol = instruments.data?.get(transaction.incomeInstrument)?.symbol ?? '';
-          const outcomeSymbol = instruments.data?.get(transaction.outcomeInstrument)?.symbol ?? '';
+          const incomeInstrument = instruments.data?.get(transaction.incomeInstrument);
+          const incomeSymbol = incomeInstrument?.symbol ?? '';
+          const outcomeInstrument = instruments.data?.get(transaction.outcomeInstrument);
+          const outcomeSymbol = outcomeInstrument?.symbol ?? '';
           const incomeAccount = accounts.get(transaction.incomeAccount);
           const outcomeAccount = accounts.get(transaction.outcomeAccount);
           return {
@@ -71,8 +75,12 @@ export const useTransactionModels = () => {
             date: transaction.date,
             income: transaction.income,
             incomeFormatted: formatCurrency(transaction.income, incomeSymbol, 0),
-            incomeAccount: incomeAccount ? {id: incomeAccount.id, title: incomeAccount.title} : undefined,
-            outcomeAccount: outcomeAccount ? {id: outcomeAccount.id, title: outcomeAccount.title} : undefined,
+            incomeAccount: incomeAccount
+              ? {id: incomeAccount.id, title: incomeAccount.title, instrument: incomeInstrument?.id ?? null}
+              : undefined,
+            outcomeAccount: outcomeAccount
+              ? {id: outcomeAccount.id, title: outcomeAccount.title, instrument: outcomeInstrument?.id ?? null}
+              : undefined,
             outcome: transaction.outcome,
             outcomeFormatted: formatCurrency(transaction.outcome, outcomeSymbol, 0),
             comment: transaction.comment ?? undefined,

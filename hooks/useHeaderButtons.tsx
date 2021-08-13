@@ -34,6 +34,16 @@ export const useHeaderButtons = (
       headerRight: () => (
         <HeaderButtons>
           {renderButtonPosition === 'left' && renderButtons && renderButtons()}
+          {onDeletePress && (
+            <Item
+              disabled={disabled}
+              title={t('Button.Delete')}
+              IconComponent={MaterialCommunityIcons}
+              iconName="trash-can-outline"
+              iconSize={24}
+              onPress={onDeletePress}
+            />
+          )}
           {onAddPress && (
             <Item
               disabled={disabled}
@@ -52,16 +62,6 @@ export const useHeaderButtons = (
               iconName="save"
               iconSize={24}
               onPress={onSavePress}
-            />
-          )}
-          {onDeletePress && (
-            <Item
-              disabled={disabled}
-              title={t('Button.Delete')}
-              IconComponent={MaterialCommunityIcons}
-              iconName="trash-can-outline"
-              iconSize={24}
-              onPress={onDeletePress}
             />
           )}
           {onEditPress && (

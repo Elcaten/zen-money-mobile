@@ -42,7 +42,8 @@ export type TransactionsParamList = {
     transactionId: string;
   };
   EditTransactionScreen: {
-    transactionType: TransactionType;
+    transactionType?: TransactionType;
+    transactionId?: string;
   };
   AccountPickerScreen: PickerScreenProps<string | null> & {recentAccounts: string[]};
 };

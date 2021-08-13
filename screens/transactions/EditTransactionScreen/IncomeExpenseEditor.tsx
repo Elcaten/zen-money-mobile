@@ -1,11 +1,11 @@
 import {useNavigation} from '@react-navigation/native';
 import * as React from 'react';
-import {useCallback, useEffect, useMemo} from 'react';
+import {useCallback, useMemo} from 'react';
 import {Controller, useForm} from 'react-hook-form';
 import {useTranslation} from 'react-i18next';
 import {StyleSheet} from 'react-native';
 import {useAccounts, useInstruments} from '../../../api-hooks';
-import {Tag, Transaction, UserAccount} from '../../../api/models';
+import {Tag} from '../../../api/models';
 import {CoinsIcon, CommentIcon, WalletIcon} from '../../../components';
 import {TextInputField} from '../../../components/Field';
 import {DateTimeInputField} from '../../../components/Field/DateTimeInputField';
@@ -13,28 +13,40 @@ import {NumberInputField, NumberInputFieldHandle} from '../../../components/Fiel
 import {PickerListItem} from '../../../components/ListItem';
 import {ScrollView} from '../../../components/ScrollView';
 import {ZenText} from '../../../components/ZenText';
+import {useShakeOnError} from '../../../hooks';
 import {useFocusInput} from '../../../hooks/useFocusInput';
 import {useHeaderButtons} from '../../../hooks/useHeaderButtons';
 import {EditTransactionScreenNavigationProp} from '../../../types';
-import {first} from '../../../utils';
+import {generateUUID} from '../../../utils';
 import {validateNumericString} from '../../../utils/validate-numeric-string';
 import {TagGridPicker} from '../../components/TagGridPicker';
 
-export type IncomeExpenseTransaction = Pick<Transaction, 'comment'> & {
+export interface IncomeExpenseTransaction {
+  id: string;
   amount: string;
-  account: UserAccount;
+  account: {id: string; title: string; instrument: number | null};
   date: Date;
   tag: string | null;
-};
+  comment: string | null;
+}
 
 export interface IncomeExpenseEditorProps {
+  defaultValue: IncomeExpenseTransaction | undefined;
   onSubmit: (tr: IncomeExpenseTransaction) => void;
+  onDelete: () => void;
   tags: Tag[];
   recentAccounts: string[];
   disabled: boolean;
 }
 
-export const IncomeExpenseEditor: React.FC<IncomeExpenseEditorProps> = ({onSubmit, tags, disabled, recentAccounts}) => {
+export const IncomeExpenseEditor: React.FC<IncomeExpenseEditorProps> = ({
+  defaultValue,
+  onSubmit,
+  onDelete,
+  tags,
+  disabled,
+  recentAccounts,
+}) => {
   const {data: accounts} = useAccounts();
 
   const {
@@ -44,7 +56,8 @@ export const IncomeExpenseEditor: React.FC<IncomeExpenseEditorProps> = ({onSubmi
     setValue,
     formState: {errors},
   } = useForm<IncomeExpenseTransaction>({
-    defaultValues: {
+    defaultValues: defaultValue ?? {
+      id: generateUUID(),
       amount: '',
       account: accounts![0],
       tag: null,
@@ -54,8 +67,8 @@ export const IncomeExpenseEditor: React.FC<IncomeExpenseEditorProps> = ({onSubmi
   });
 
   const onSavePress = useCallback(() => handleSubmit(onSubmit)(), [handleSubmit, onSubmit]);
-
-  useHeaderButtons(useNavigation(), {onSavePress, disabled});
+  const onDeletePress = useCallback(() => onDelete(), [onDelete]);
+  useHeaderButtons(useNavigation(), {onSavePress, onDeletePress: defaultValue ? onDeletePress : undefined, disabled});
 
   const watchAccount = watch('account');
   const instruments = useInstruments();
@@ -65,22 +78,19 @@ export const IncomeExpenseEditor: React.FC<IncomeExpenseEditorProps> = ({onSubmi
   ]);
 
   const amountInputRef = React.useRef<NumberInputFieldHandle>(null);
-  useEffect(() => {
-    if (errors.amount) {
-      amountInputRef.current?.shake();
-    }
-  }, [errors.amount]);
 
   const {t} = useTranslation();
   const navigation = useNavigation<EditTransactionScreenNavigationProp>();
 
+  useShakeOnError(amountInputRef, errors.amount);
   useFocusInput(amountInputRef);
 
-  useEffect(() => {
-    const defaultAccountId = first(recentAccounts);
-    const defaultAccount = defaultAccountId ? accounts?.find((a) => a.id === defaultAccountId)! : first(accounts);
-    setValue('account', defaultAccount!);
-  }, [accounts, recentAccounts, setValue]);
+  //TODO: turn this on again
+  // useEffect(() => {
+  //   const defaultAccountId = first(recentAccounts);
+  //   const defaultAccount = defaultAccountId ? accounts?.find((a) => a.id === defaultAccountId)! : first(accounts);
+  //   setValue('account', defaultAccount!);
+  // }, [accounts, recentAccounts, setValue]);
 
   return (
     <ScrollView disabled={disabled} style={styles.flexFill}>

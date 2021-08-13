@@ -4,7 +4,7 @@ import {EntityType} from '../api/entyity-type';
 import {Transaction} from '../api/models';
 import {postEntity} from '../api/postEntity';
 import {IncomeExpenseTransaction, TransferTransaction} from '../screens/transactions/EditTransactionScreen';
-import {generateUUID, toApiDate} from '../utils';
+import {toApiDate} from '../utils';
 import {useMe} from './useMe';
 
 export const useMutateIncomeTransaction = () => {
@@ -23,7 +23,7 @@ export const useMutateIncomeTransaction = () => {
       comment: transaction.comment,
       created: now.getTime(),
       date: toApiDate(transaction.date),
-      id: generateUUID(),
+      id: transaction.id,
       income: amount,
       incomeAccount: transaction.account.id,
       incomeInstrument: transaction.account.instrument,
@@ -70,7 +70,7 @@ export const useMutateExpenseTransaction = () => {
       comment: transaction.comment,
       created: now.getTime(),
       date: toApiDate(transaction.date),
-      id: generateUUID(),
+      id: transaction.id,
       income: 0,
       incomeAccount: transaction.account.id,
       incomeInstrument: transaction.account.instrument,
@@ -119,7 +119,7 @@ export const useMutateTransferTransaction = () => {
       comment: transfer.comment,
       created: now.getTime(),
       date: toApiDate(transfer.date),
-      id: generateUUID(),
+      id: transfer.id,
       income: incomeAmount,
       incomeAccount: transfer.incomeAccount.id,
       incomeInstrument: transfer.incomeAccount.instrument,

@@ -13,5 +13,6 @@ export * from './useLocalAuthentication';
 export * from './useNotifications';
 export * from './useSearchTransactions';
 export * from './useShake';
+export * from './useShakeOnError';
 export * from './useThemeName';
 export * from './useToolbarOpacity';

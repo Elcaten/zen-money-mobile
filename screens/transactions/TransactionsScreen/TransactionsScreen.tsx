@@ -65,7 +65,7 @@ export const TransactionsScreen: React.FC<TransactionsScreenProps> = ({navigatio
 
   const navigateToDetails = useCallback(
     (transactionId: string) => {
-      navigation.navigate('TransactionDetailsScreen', {transactionId});
+      navigation.navigate('EditTransactionScreen', {transactionId});
     },
     [navigation],
   );
