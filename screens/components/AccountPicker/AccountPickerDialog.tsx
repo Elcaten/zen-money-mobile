@@ -3,7 +3,7 @@ import {useTranslation} from 'react-i18next';
 import {ListRenderItem, SectionList, SectionListData} from 'react-native';
 import {Overlay} from 'react-native-elements';
 import {useAccounts} from '../../../api-hooks';
-import {UserAccount} from '../../../api/models';
+import {AccountType, UserAccount} from '../../../api/models';
 import {CheckIcon} from '../../../components';
 import {ListItem} from '../../../components/ListItem';
 import {SectionHeader} from '../../../components/SectionHeader';
@@ -32,7 +32,7 @@ export const AccountPickerDialog: React.FC<AccountPickerDialogProps> = (props) =
 
   const restAccounts = useMemo(() => {
     const recentAccountSet = new Set(props.recentAccounts);
-    return (accounts ?? []).filter((a) => !recentAccountSet.has(a.id)).sort(byTitle);
+    return (accounts ?? []).filter((a) => !recentAccountSet.has(a.id) && a.type !== AccountType.Debt).sort(byTitle);
   }, [accounts, props.recentAccounts]);
 
   const {primary} = useNavigatorThemeColors();
