@@ -1,4 +1,4 @@
-import {useCallback, useMemo} from 'react';
+import {useCallback} from 'react';
 import {useMutation, useQuery, useQueryClient} from 'react-query';
 import {EntityType, postEntity} from '../api';
 import {deleteEntity} from '../api/deleteEntity';
@@ -9,18 +9,18 @@ import {QueryKeys} from './query-keys';
 import {useMe} from './useMe';
 
 export const useTags = () => {
-  const {data, isLoading} = useQuery(QueryKeys.Tags, fetchTags, {staleTime: Infinity});
-
-  const tags = useMemo(() => {
-    return new Map(data?.map((t) => [t.id, t]));
-  }, [data]);
+  const {data, isLoading} = useQuery(
+    QueryKeys.Tags,
+    () => fetchTags().then((tags) => new Map(tags?.map((t) => [t.id, t]))),
+    {staleTime: Infinity},
+  );
 
   const queryClient = useQueryClient();
   const invalidate = useCallback(() => {
     queryClient.invalidateQueries(QueryKeys.Tags);
   }, [queryClient]);
 
-  return {data: tags, isLoading, invalidate};
+  return {data: data ?? new Map<string, Tag>(), isLoading, invalidate};
 };
 
 export const useMutateTag = () => {

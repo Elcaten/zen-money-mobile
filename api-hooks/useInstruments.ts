@@ -1,4 +1,4 @@
-import {useCallback, useMemo} from 'react';
+import {useCallback} from 'react';
 import {useTranslation} from 'react-i18next';
 import {useQuery, useQueryClient} from 'react-query';
 import {fetchInstruments} from '../api';
@@ -7,14 +7,14 @@ import {RUB_SYMBOL} from '../constants/Strings';
 import {QueryKeys} from './query-keys';
 
 export const useInstruments = () => {
-  const {data, isLoading} = useQuery(QueryKeys.Intruments, fetchInstruments, {staleTime: Infinity});
   const {t} = useTranslation();
-
-  const instruments = useMemo(() => {
-    return new Map<number, Instrument>(
-      data?.map((i) => [i.id, {...i, symbol: fixSymbol(i.symbol), title: t(`Currencies:${i.shortTitle}` as any)}]),
-    );
-  }, [data, t]);
+  const {data, isLoading} = useQuery(
+    QueryKeys.Intruments,
+    () => fetchInstruments().then((instruments) => mapToDictionary(instruments, t)),
+    {
+      staleTime: Infinity,
+    },
+  );
 
   const queryClient = useQueryClient();
 
@@ -22,7 +22,15 @@ export const useInstruments = () => {
     queryClient.invalidateQueries(QueryKeys.Intruments);
   }, [queryClient]);
 
-  return {isLoading, data: instruments, invalidate};
+  return {isLoading, data: data ?? new Map<number, Instrument>(), invalidate};
 };
+
+const mapToDictionary = (
+  instruments: Instrument[],
+  t: ReturnType<typeof useTranslation>['t'],
+): Map<number, Instrument> =>
+  new Map<number, Instrument>(
+    instruments?.map((i) => [i.id, {...i, symbol: fixSymbol(i.symbol), title: t(`Currencies:${i.shortTitle}` as any)}]),
+  );
 
 const fixSymbol = (symbol: string) => (symbol === 'руб.' ? RUB_SYMBOL : symbol);
