@@ -48,7 +48,7 @@ export const TagDetailsScreen: React.FC<TagDetailsScreenProps> = ({navigation, r
     watch,
     handleSubmit,
     formState: {errors},
-  } = useForm<EditableTag>({defaultValues: tag ?? emptyTag});
+  } = useForm<EditableTag>({defaultValues: tag});
 
   const {mutateAsync, isLoading: isMutating} = useMutateTag();
 

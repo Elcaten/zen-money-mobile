@@ -100,13 +100,13 @@ export const EditTransactionScreen: React.FC<EditTransactionScreenProps> = ({rou
 
   const onDelete = useCallback(async () => {
     const confirmed = await confirmDelete(
-      t('TransactionDetailsScreen.DeleteTransactionTitle'),
-      t('TransactionDetailsScreen.DeleteTransactionMessage'),
+      t('EditTransactionScreen.DeleteTransactionTitle'),
+      t('EditTransactionScreen.DeleteTransactionMessage'),
     );
 
     if (confirmed && transactionId != null) {
       await deleteAsync(transactionId);
-      showToast(t('TransactionDetailsScreen.DeleteSuccessMessage'));
+      showToast(t('EditTransactionScreen.DeleteSuccessMessage'));
       if (navigation.isFocused()) {
         navigation.pop();
       }

@@ -1,24 +1,4 @@
 {
-    "LoginScreen": {
-        "SignIn": "Войти",
-        "Demo": "Демо",
-        "Proceed": "Продолжить"
-    },
-    "LoadingScreen": {
-        "Loading": "Загрузка..."
-    },
-    "Button": {
-        "Delete": "Удалить",
-        "Cancel": "Отмена",
-        "Add": "Добавить",
-        "Edit": "Редактировать",
-        "Save": "Сохранить",
-        "Search": "Поиск",
-        "Unlock": "Разблокировать"
-    },
-    "Error": {
-        "UnexpectedError": "Ошибка"
-    },
     "AccountDetailsScreen": {
         "DeleteAccountMessage": "Счет будет удален вместе со всеми операциями.",
         "DeleteAccountTitle": "Удалить счет?",
@@ -30,6 +10,10 @@
         "OnAllAccounts": "На всех счетах",
         "OnBalanceAccounts": "На выбранных счетах"
     },
+    "AccountPickerScreen": {
+        "Accounts": "Все счета",
+        "RecentAccounts": "Недавние счета"
+    },
     "AccountType": {
         "Card": "Карта",
         "Cash": "Наличные",
@@ -37,18 +21,14 @@
         "Deposit": "Депозит",
         "Loan": "Кредит"
     },
+    "AccountTypePickerScreen": {
+        "AccountType": "Тип счета"
+    },
     "AccountsScreen": {
         "Accounts": "Счета",
         "AddAccount": "Добавить счет",
         "Collapse": "Свернуть",
         "ShowArchived": "Показать архивные"
-    },
-    "AccountTypePickerScreen": {
-        "AccountType": "Тип счета"
-    },
-    "AccountPickerScreen": {
-        "RecentAccounts": "Недавние счета",
-        "Accounts": "Все счета"
     },
     "AnalyticsScreen": {
         "Analytics": "Аналитика"
@@ -58,6 +38,15 @@
         "Analytics": "Аналитика",
         "More": "Еще",
         "Transactions": "Операции"
+    },
+    "Button": {
+        "Add": "Добавить",
+        "Cancel": "Отмена",
+        "Delete": "Удалить",
+        "Edit": "Редактировать",
+        "Save": "Сохранить",
+        "Search": "Поиск",
+        "Unlock": "Разблокировать"
     },
     "EditAccountScreen": {
         "AccountSaved": "Счет сохранен",
@@ -72,14 +61,28 @@
     },
     "EditTransactionScreen": {
         "Comment": "Комментарий",
+        "DeleteSuccessMessage": "Операция удалена",
+        "DeleteTransactionMessage": "Операция будет удалена.",
+        "DeleteTransactionTitle": "Удалить операцию?",
         "TransactionSaved": "Операция сохранена"
+    },
+    "Error": {
+        "UnexpectedError": "Ошибка"
     },
     "InstrumentPickerScreen": {
         "NoCurrenciesFound": "Валюта не найдена"
     },
+    "LoadingScreen": {
+        "Loading": "Загрузка..."
+    },
+    "LoginScreen": {
+        "Demo": "Демо",
+        "Proceed": "Продолжить",
+        "SignIn": "Войти"
+    },
     "MoreScreen": {
-        "FastAddTransaction": "Быстрое добавление операций",
         "BiometricUnlock": "Вход по отпечатку пальца",
+        "FastAddTransaction": "Быстрое добавление операций",
         "Locales": "Язык приложения",
         "MainCurrency": "Основная валюта",
         "More": "Еще",
@@ -88,10 +91,10 @@
         "Theme": "Тема приложения"
     },
     "TagDetailsScreen": {
-        "DeleteCategoryMessage": "Категория будет удалена.",
-        "DeleteCategoryTitle": "Удалить категорию?",
-        "DeleteCategorySuccessMessage": "Категория удалена",
         "CategorySaved": "Категория сохранена",
+        "DeleteCategoryMessage": "Категория будет удалена.",
+        "DeleteCategorySuccessMessage": "Категория удалена",
+        "DeleteCategoryTitle": "Удалить категорию?",
         "Expense": "в расходе",
         "Fixed": "Обязательные",
         "Flexible": "Необязательные",
@@ -116,10 +119,5 @@
     "TransactionsScreen": {
         "NoTransactionsFound": "Операции не найдены",
         "Transactions": "Операции"
-    },
-    "TransactionDetailsScreen": {
-        "DeleteTransactionMessage": "Операция будет удалена.",
-        "DeleteTransactionTitle": "Удалить операцию?",
-        "DeleteSuccessMessage": "Операция удалена"
     }
 }

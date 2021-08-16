@@ -1,24 +1,4 @@
 {
-    "LoginScreen": {
-        "SignIn": "Sign in",
-        "Demo": "Demo",
-        "Proceed": "Proceed"
-    },
-    "LoadingScreen": {
-        "Loading": "Loading..."
-    },
-    "Button": {
-        "Cancel": "Cancel",
-        "Delete": "Delete",
-        "Add": "Add",
-        "Edit": "Edit",
-        "Save": "Save",
-        "Search": "Search",
-        "Unlock": "Unlock"
-    },
-    "Error": {
-        "UnexpectedError": "Error"
-    },
     "AccountDetailsScreen": {
         "DeleteAccountMessage": "This account and its transactions will be deleted.",
         "DeleteAccountTitle": "Delete account?",
@@ -30,6 +10,10 @@
         "OnAllAccounts": "On all accounts",
         "OnBalanceAccounts": "On balance accounts"
     },
+    "AccountPickerScreen": {
+        "Accounts": "Accounts",
+        "RecentAccounts": "Recent accounts"
+    },
     "AccountType": {
         "Card": "Debit/credit card",
         "Cash": "Cash",
@@ -39,10 +23,6 @@
     },
     "AccountTypePickerScreen": {
         "AccountType": "Account type"
-    },
-    "AccountPickerScreen": {
-        "RecentAccounts": "Recent accounts",
-        "Accounts": "Accounts"
     },
     "AccountsScreen": {
         "Accounts": "Accounts",
@@ -59,6 +39,15 @@
         "More": "More",
         "Transactions": "Transactions"
     },
+    "Button": {
+        "Add": "Add",
+        "Cancel": "Cancel",
+        "Delete": "Delete",
+        "Edit": "Edit",
+        "Save": "Save",
+        "Search": "Search",
+        "Unlock": "Unlock"
+    },
     "EditAccountScreen": {
         "AccountSaved": "Account saved",
         "AccountSettings": "Account settings",
@@ -72,14 +61,28 @@
     },
     "EditTransactionScreen": {
         "Comment": "Comment",
+        "DeleteSuccessMessage": "Transaction deleted",
+        "DeleteTransactionMessage": "This transaction will be deleted.",
+        "DeleteTransactionTitle": "Delete transaction?",
         "TransactionSaved": "Transaction saved"
+    },
+    "Error": {
+        "UnexpectedError": "Error"
     },
     "InstrumentPickerScreen": {
         "NoCurrenciesFound": "No currencies found"
     },
+    "LoadingScreen": {
+        "Loading": "Loading..."
+    },
+    "LoginScreen": {
+        "Demo": "Demo",
+        "Proceed": "Proceed",
+        "SignIn": "Sign in"
+    },
     "MoreScreen": {
-        "FastAddTransaction": "Fast add transaction",
         "BiometricUnlock": "Biometric unlock",
+        "FastAddTransaction": "Fast add transaction",
         "Locales": "App language",
         "MainCurrency": "Main currency",
         "More": "More",
@@ -88,10 +91,10 @@
         "Theme": "App theme"
     },
     "TagDetailsScreen": {
-        "DeleteCategoryMessage": "This category will be deleted.",
-        "DeleteCategoryTitle": "Delete category?",
-        "DeleteCategorySuccessMessage": "Category deleted",
         "CategorySaved": "Category saved",
+        "DeleteCategoryMessage": "This category will be deleted.",
+        "DeleteCategorySuccessMessage": "Category deleted",
+        "DeleteCategoryTitle": "Delete category?",
         "Expense": "in expense",
         "Fixed": "Fixed",
         "Flexible": "Flexible",
@@ -116,10 +119,5 @@
     "TransactionsScreen": {
         "NoTransactionsFound": "No transactions found",
         "Transactions": "Transactions"
-    },
-    "TransactionDetailsScreen": {
-        "DeleteTransactionMessage": "This transaction will be deleted.",
-        "DeleteTransactionTitle": "Delete transaction?",
-        "DeleteSuccessMessage": "Transaction deleted"
     }
 }

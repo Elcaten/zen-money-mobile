@@ -38,9 +38,6 @@ export type AccountsParamList = {
 
 export type TransactionsParamList = {
   TransactionsScreen: {};
-  TransactionDetailsScreen: {
-    transactionId: string;
-  };
   EditTransactionScreen: {
     transactionType?: TransactionType;
     transactionId?: string;
@@ -123,16 +120,6 @@ export type TransactionsScreenProps = {
   navigation: TransactionsScreenNavigationProp;
 };
 
-export type TransactionDetailsScreenRouteProp = RouteProp<TransactionsParamList, 'TransactionDetailsScreen'>;
-export type TransactionDetailsScreenNavigationProp = CompositeNavigationProp<
-  NativeStackNavigationProp<TransactionsParamList, 'TransactionDetailsScreen'>,
-  BottomTabNavigationProp<BottomTabParamList>
->;
-export type TransactionDetailsScreenProps = {
-  route: TransactionDetailsScreenRouteProp;
-  navigation: TransactionDetailsScreenNavigationProp;
-};
-
 export type EditTransactionScreenRouteProp = RouteProp<TransactionsParamList, 'EditTransactionScreen'>;
 export type EditTransactionScreenNavigationProp = CompositeNavigationProp<
   NativeStackNavigationProp<TransactionsParamList, 'EditTransactionScreen'>,
@@ -141,16 +128,6 @@ export type EditTransactionScreenNavigationProp = CompositeNavigationProp<
 export type EditTransactionScreenProps = {
   route: EditTransactionScreenRouteProp;
   navigation: EditTransactionScreenNavigationProp;
-};
-
-export type AccountPickerScreenRouteProp = RouteProp<TransactionsParamList, 'AccountPickerScreen'>;
-export type AccountPickerScreenNavigationProp = CompositeNavigationProp<
-  NativeStackNavigationProp<TransactionsParamList, 'AccountPickerScreen'>,
-  BottomTabNavigationProp<BottomTabParamList>
->;
-export type AccountPickerScreenProps = {
-  route: AccountPickerScreenRouteProp;
-  navigation: AccountPickerScreenNavigationProp;
 };
 
 //===================================================||  MORE  ||======================================================
