@@ -22,20 +22,22 @@ import {RadioButton} from '../components/RadioButton';
 import {TagPicker} from '../components/TagPicker';
 import {EditableTag} from './editable-tag';
 
-export const emptyTag: EditableTag = {
-  id: generateUUID(),
-  title: '',
-  parent: null,
-  icon: null,
-  color: null,
-  showIncome: true,
-  showOutcome: true,
-  required: false,
-};
-
 export const TagDetailsScreen: React.FC<TagDetailsScreenProps> = ({navigation, route}) => {
   const tags = useTags();
-  const tag = useMemo(() => tags.data?.get(route.params.tagId!) ?? emptyTag, [route.params.tagId, tags.data]);
+  const tag = useMemo<EditableTag>(
+    () =>
+      tags.data?.get(route.params.tagId!) ?? {
+        id: generateUUID(),
+        title: '',
+        parent: null,
+        icon: null,
+        color: null,
+        showIncome: true,
+        showOutcome: true,
+        required: false,
+      },
+    [route.params.tagId, tags.data],
+  );
 
   const {t} = useTranslation();
   const queryClient = useQueryClient();
