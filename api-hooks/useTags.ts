@@ -8,6 +8,8 @@ import {EditableTag} from '../screens/more';
 import {QueryKeys} from './query-keys';
 import {useMe} from './useMe';
 
+const EMPTY_MAP = new Map<string, Tag>();
+
 export const useTags = () => {
   const {data, isLoading} = useQuery(
     QueryKeys.Tags,
@@ -20,7 +22,7 @@ export const useTags = () => {
     queryClient.invalidateQueries(QueryKeys.Tags);
   }, [queryClient]);
 
-  return {data: data ?? new Map<string, Tag>(), isLoading, invalidate};
+  return {data: data ?? EMPTY_MAP, isLoading, invalidate};
 };
 
 export const useMutateTag = () => {

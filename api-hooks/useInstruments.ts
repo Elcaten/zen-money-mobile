@@ -6,6 +6,8 @@ import {Instrument} from '../api/models';
 import {RUB_SYMBOL} from '../constants/Strings';
 import {QueryKeys} from './query-keys';
 
+const EMPTY_MAP = new Map<number, Instrument>();
+
 export const useInstruments = () => {
   const {t} = useTranslation();
   const {data, isLoading} = useQuery(
@@ -22,7 +24,7 @@ export const useInstruments = () => {
     queryClient.invalidateQueries(QueryKeys.Intruments);
   }, [queryClient]);
 
-  return {isLoading, data: data ?? new Map<number, Instrument>(), invalidate};
+  return {isLoading, data: data ?? EMPTY_MAP, invalidate};
 };
 
 const mapToDictionary = (
