@@ -1,4 +1,5 @@
 import dayjs from 'dayjs';
+import Constants from 'expo-constants';
 import React from 'react';
 import {LogBox} from 'react-native';
 import {Provider as PaperProvider} from 'react-native-paper';
@@ -32,6 +33,7 @@ const queryPersistor = createAsyncStoragePersistor();
 persistQueryClient({
   queryClient,
   persistor: queryPersistor,
+  buster: Constants.manifest.version,
 });
 const QueryClientProvider: React.FC = ({children}) => {
   return <QCProvider client={queryClient}>{children}</QCProvider>;

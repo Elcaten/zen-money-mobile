@@ -16,7 +16,7 @@ export function createAsyncStoragePersistor({
 }: CreateLocalStoragePersistorOptions = {}): Persistor {
   return {
     persistClient: throttle(async (persistedClient) => {
-      await AsyncStorage.setItem(localStorageKey, JSON.stringify(persistedClient));
+      await AsyncStorage.setItem(localStorageKey, JSON.stringify(persistedClient, replacer));
     }, throttleTime),
     restoreClient: async () => {
       const cacheString = await AsyncStorage.getItem(localStorageKey);
@@ -25,7 +25,7 @@ export function createAsyncStoragePersistor({
         return;
       }
 
-      return JSON.parse(cacheString) as PersistedClient;
+      return JSON.parse(cacheString, reviver) as PersistedClient;
     },
     removeClient: async () => {
       await AsyncStorage.removeItem(localStorageKey);
@@ -44,4 +44,24 @@ function throttle<TArgs extends any[]>(func: (...args: TArgs) => any, wait = 100
       }, wait) as any;
     }
   };
+}
+
+function replacer(key: string, value: any) {
+  if (value instanceof Map) {
+    return {
+      dataType: 'Map',
+      value: [...value], // or with spread: value: [...value]
+    };
+  } else {
+    return value;
+  }
+}
+
+function reviver(key: string, value: any) {
+  if (typeof value === 'object' && value !== null) {
+    if (value.dataType === 'Map') {
+      return new Map(value.value);
+    }
+  }
+  return value;
 }
