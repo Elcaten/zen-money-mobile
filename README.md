@@ -33,6 +33,17 @@ and then run:
 
     npm install && npm run start
 
+## Screenshots
+
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/4154662/130133016-a56b3cfe-2b74-466e-9df5-1fff2d30fd8e.jpg" height="500" title="accounts">
+  <img src="https://user-images.githubusercontent.com/4154662/130133018-2dc104f8-7281-4585-982f-08e3cf171b3e.jpg" height="500" alt="transaction">
+  <img src="https://user-images.githubusercontent.com/4154662/130140779-66f559b6-0bca-490e-88d4-d8dd0f12e9a2.jpg" height="500" alt="transaction details">
+  <img src="https://user-images.githubusercontent.com/4154662/130133020-105b7e81-2cd4-486b-bdd1-738e885e1fec.jpg" height="500" alt="analytics">
+  <img src="https://user-images.githubusercontent.com/4154662/130133012-527ee141-ac7c-482d-a5b0-de46fa0aeeae.jpg" height="500" alt="settings">
+  <img src="https://user-images.githubusercontent.com/4154662/130140784-b38c15aa-d6b4-4a15-a1a3-7f814c78b7ed.jpg" height="500" alt="categories">
+</p>
+
 ## License
 
 ZenMoneyMobile is licensed under the GPL, version 3. A copy of the license is included in [LICENSE.txt](LICENSE.txt).
