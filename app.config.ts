@@ -1,7 +1,7 @@
 // WARNING THIS ISN'T VERSIONED
 import {ConfigContext, ExpoConfig} from '@expo/config';
 import dotenv from 'dotenv';
-import {bool, cleanEnv, EnvError, json, makeValidator, num, str} from 'envalid';
+import {cleanEnv, EnvError, json, makeValidator, num, str} from 'envalid';
 import path from 'path';
 
 dotenv.config({path: path.resolve(__dirname, `./config/${process.env.ENVIRONMENT}.env`)});
@@ -26,7 +26,6 @@ function getEnv() {
     TOKEN_URL: str(),
     REFRESH_TOKEN_URL: str(),
     API_URL: str(),
-    USE_PROXY: bool(),
     DEMO_TOKEN: json(),
     BUGSNAG_API_KEY: str(),
   });

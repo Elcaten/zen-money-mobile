@@ -37,6 +37,7 @@
     "version": "1.0.0",
     "web": {
       "favicon": "./assets/images/favicon.png"
-    }
+    },
+    "githubUrl": "https://github.com/Elcaten/zen-money-mobile"
   }
 }
