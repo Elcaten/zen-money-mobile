@@ -1,6 +1,5 @@
 import ky from 'ky';
-import {persistToken, pullTokenFromStorage} from '../auth';
-import {refreshToken} from '../auth/refresh-token';
+import {pullTokenFromStorage} from '../auth';
 import {bugsnag} from '../utils/bugsnag';
 import {API_URL} from '../utils/manifest-extra';
 
@@ -11,18 +10,19 @@ export const publicClient = ky.extend({
 export const privateClient = publicClient.extend({
   hooks: {
     beforeRequest: [
-      async () => {
-        const token = await pullTokenFromStorage();
+      // TODO: Zen Money API token never expires
+      // async () => {
+      //   const token = await pullTokenFromStorage();
 
-        if (token) {
-          const isTokenExpired = token.expires < new Date().getTime();
+      //   if (token) {
+      //     const isTokenExpired = token.expires < new Date().getTime();
 
-          if (isTokenExpired) {
-            const tokenData = await refreshToken(token);
-            persistToken(tokenData);
-          }
-        }
-      },
+      //     if (isTokenExpired) {
+      //       const tokenData = await refreshToken(token);
+      //       persistToken(tokenData);
+      //     }
+      //   }
+      // },
       async (request) => {
         const token = await pullTokenFromStorage();
 

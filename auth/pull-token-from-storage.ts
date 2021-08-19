@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {PERSISIT_TOKEN_KEY} from '../utils';
+import {API_TOKEN_PERISIT_KEY} from '../utils';
 import {AuthToken} from './auth-token';
 
 function validateToken(value: unknown): asserts value is AuthToken {
@@ -11,7 +11,7 @@ function validateToken(value: unknown): asserts value is AuthToken {
 
 export const pullTokenFromStorage = async () => {
   try {
-    const fromStorage = await AsyncStorage.getItem(PERSISIT_TOKEN_KEY);
+    const fromStorage = await AsyncStorage.getItem(API_TOKEN_PERISIT_KEY);
     if (fromStorage) {
       const storedToken = JSON.parse(fromStorage);
       validateToken(storedToken);
