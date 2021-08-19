@@ -77,8 +77,10 @@
     },
     "LoginScreen": {
         "Demo": "Демо",
-        "Proceed": "Продолжить",
-        "SignIn": "Войти"
+        "Confirm": "Подтвердить",
+        "SignIn": "Войти",
+        "EnterToken": "Введите токен для завершения авторизации",
+        "Token": "Токен"
     },
     "MoreScreen": {
         "BiometricUnlock": "Вход по отпечатку пальца",

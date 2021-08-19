@@ -25,6 +25,11 @@ export const CheckIcon: React.FC<IconProps> = (props) => {
   return <MaterialIcons color={colors.iconColor} name="check" size={Icon.size} {...props} />;
 };
 
+export const ClearIcon: React.FC<IconProps> = (props) => {
+  const {colors, Icon} = useNavigatorTheme();
+  return <MaterialIcons color={colors.iconColor} name="clear" size={Icon.size} {...props} />;
+};
+
 export const CoinsIcon: React.FC<IconProps> = (props) => {
   const {colors, Icon} = useNavigatorTheme();
   return <FontAwesome5 color={colors.iconColor} name="coins" size={Icon.size} {...props} />;

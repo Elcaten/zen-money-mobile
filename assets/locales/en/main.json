@@ -77,8 +77,10 @@
     },
     "LoginScreen": {
         "Demo": "Demo",
-        "Proceed": "Proceed",
-        "SignIn": "Sign in"
+        "Confirm": "Confirm",
+        "SignIn": "Sign in",
+        "EnterToken": "Enter the token to finish the authorization",
+        "Token": "Token"
     },
     "MoreScreen": {
         "BiometricUnlock": "Biometric unlock",

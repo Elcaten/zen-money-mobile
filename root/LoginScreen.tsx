@@ -5,6 +5,7 @@ import {StyleSheet} from 'react-native';
 import {Button, Input, InputHandles} from 'react-native-elements';
 import {useQueryClient} from 'react-query';
 import {AuthToken, persistToken, useLogin, validateAuthTokenResponse} from '../auth';
+import {ClearIcon} from '../components';
 import {Card} from '../components/Card';
 import {Logo} from '../components/Logo';
 import {View} from '../components/View';
@@ -55,15 +56,21 @@ export const LoginScreen: React.FC<LoginScreenProps> = (props) => {
         containerStyle={styles.buttonContainer}
         titleStyle={styles.buttonTitle}
       />
-      <React.Fragment>
-        <Input placeholder="Token" value={token} onChangeText={setToken} ref={ref as any} />
-        <Button
-          title={t('LoginScreen.Proceed')}
-          onPress={onProceedPress}
-          containerStyle={styles.buttonContainer}
-          titleStyle={styles.buttonTitle}
-        />
-      </React.Fragment>
+      <ZenText style={styles.buttonContainer}>{t('LoginScreen.EnterToken')}</ZenText>
+      <Input
+        placeholder={t('LoginScreen.Token')}
+        value={token}
+        onChangeText={setToken}
+        ref={ref as any}
+        rightIcon={<ClearIcon onPress={() => setToken(undefined)} />}
+      />
+      <Button
+        disabled={token == null || token === ''}
+        title={t('LoginScreen.Confirm')}
+        onPress={onProceedPress}
+        containerStyle={styles.buttonContainer}
+        titleStyle={styles.buttonTitle}
+      />
       <ZenText style={styles.divider}>or</ZenText>
       <Button
         title={t('LoginScreen.Demo')}
