@@ -85,12 +85,13 @@ export const AnalyticsScreen: React.FC<{}> = () => {
   const renderItem: ListRenderItem<ExpensesForPeriod<string>> = useCallback(
     ({item: {period, expenses, totalAmount}}) => {
       return (
-        <ExpensesPieChart expenses={expenses} style={{width: Dimensions.get('window').width}}>
+        <View style={{width: Dimensions.get('window').width}}>
+          <ExpensesPieChart expenses={expenses} />
           <View style={styles.pieChartText}>
             <ZenText>{period}</ZenText>
             <ZenText style={styles.totalAmount}>{totalAmount}</ZenText>
           </View>
-        </ExpensesPieChart>
+        </View>
       );
     },
     [],
