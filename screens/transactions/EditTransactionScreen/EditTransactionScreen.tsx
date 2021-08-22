@@ -186,7 +186,7 @@ const toTransferTransaction = (tr: TransactionModel): TransferTransaction => {
     outcomeAccount: tr.outcomeAccount!,
     income: tr.income.toString(10),
     incomeAccount: tr.incomeAccount!,
-    date: fromApiDate(tr.date),
+    date: fromApiDate(tr.date).toDate(),
     comment: tr.comment ?? null,
   };
 };
@@ -197,7 +197,7 @@ const toExpenseTransaction = (tr: TransactionModel): IncomeExpenseTransaction =>
     amount: tr.outcome.toString(10),
     account: tr.outcomeAccount!,
     tag: tr.tag?.id ?? null,
-    date: fromApiDate(tr.date),
+    date: fromApiDate(tr.date).toDate(),
     comment: tr.comment ?? null,
   };
 };
@@ -208,7 +208,7 @@ const toIncomeTransaction = (tr: TransactionModel): IncomeExpenseTransaction => 
     amount: tr.income.toString(10),
     account: tr.incomeAccount!,
     tag: tr.tag?.id ?? null,
-    date: fromApiDate(tr.date),
+    date: fromApiDate(tr.date).toDate(),
     comment: tr.comment ?? null,
   };
 };

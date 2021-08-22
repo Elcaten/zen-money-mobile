@@ -17,6 +17,7 @@ declare global {
 
   interface Map<K, V> {
     mapEntries<TKey, TVal>(iteratee: (e: [K, V]) => [TKey, TVal]): Map<TKey, TVal>;
+    mapKeys<TKey>(iteratee: (k: K, v: V) => TKey): Map<TKey, V>;
     mapValues<TVal>(iteratee: (o: V, k: K) => TVal): Map<K, TVal>;
     entriesArray(): [K, V][];
     valuesArray(): V[];
@@ -46,8 +47,14 @@ if (!Array.prototype.flatten) {
   };
 }
 
+if (!Map.prototype.mapKeys) {
+  Map.prototype.mapKeys = function <K, TKey, V>(iteratee: (k: K, v: V) => TKey) {
+    return new Map(Array.from(this.entries()).map(([k, v]) => [iteratee(k, v), v]));
+  };
+}
+
 if (!Map.prototype.mapValues) {
-  Map.prototype.mapValues = function <V, TVal, K>(iteratee: (o: V, k: K) => TVal) {
+  Map.prototype.mapValues = function <V, TVal, K>(iteratee: (v: V, k: K) => TVal) {
     return new Map(Array.from(this.entries()).map(([k, v]) => [k, iteratee(v, k)]));
   };
 }

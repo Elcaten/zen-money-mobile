@@ -12,6 +12,7 @@ import {
   DefaultElementsTheme,
   DefaultNavigatorTheme,
   useElementsTheme,
+  useNavigatorThemeColors,
   useSetNavigatorTheme,
 } from '../themes';
 import {LoadingScreen} from './LoadingScreen';
@@ -44,6 +45,8 @@ export const Root: React.FC = () => {
     }
   }, [setElementsTheme, setNavigatorTheme, systemTheme, appTheme]);
 
+  const {card} = useNavigatorThemeColors();
+
   const {isAuthenticated, showAuthPopup} = useLocalAuthentication();
 
   if (isLoadingUser || isLoadingLocales) {
@@ -61,7 +64,7 @@ export const Root: React.FC = () => {
     return (
       <React.Fragment>
         <Navigation />
-        <StatusBar />
+        <StatusBar backgroundColor={card} />
       </React.Fragment>
     );
   }

@@ -18,7 +18,9 @@ import {composeProviders} from './utils';
 import './utils/augmentations';
 
 var customParseFormat = require('dayjs/plugin/customParseFormat');
+var weekOfYear = require('dayjs/plugin/weekOfYear');
 dayjs.extend(customParseFormat);
+dayjs.extend(weekOfYear);
 
 LogBox.ignoreLogs(['Setting a timer', 'Non-serializable values were found in the navigation state']);
 

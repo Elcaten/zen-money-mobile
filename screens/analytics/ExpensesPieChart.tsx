@@ -20,7 +20,7 @@ export const ExpensesPieChart: React.FC<ExpensesChartProps> = ({expenses}) => {
     .map<ExpenseData>((value, index) => ({
       value: value.amount,
       svg: {fill: value.color ?? randomColor()},
-      key: `pie-${index}`,
+      key: `pie-${value.id}`,
       arc: {padAngle: 0} as any,
     }));
 

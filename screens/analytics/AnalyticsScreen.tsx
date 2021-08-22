@@ -1,158 +1,175 @@
 import dayjs from 'dayjs';
 import * as React from 'react';
 import {useCallback, useEffect, useMemo, useState} from 'react';
-import {
-  Dimensions,
-  FlatList,
-  ListRenderItem,
-  NativeScrollEvent,
-  NativeSyntheticEvent,
-  ScrollView,
-  StyleSheet,
-} from 'react-native';
+import {useTranslation} from 'react-i18next';
+import {ScrollView, StyleSheet} from 'react-native';
+import {Button} from 'react-native-elements';
+import {SafeAreaView} from 'react-native-safe-area-context';
 import {TagModel, useInstruments, useMe, useTransactionModels} from '../../api-hooks';
-import {View} from '../../components';
+import {ChevronLeftIcon, ChevronRightIcon, View} from '../../components';
 import {Card} from '../../components/Card';
 import {ZenText} from '../../components/ZenText';
-import {useCurrencyFormat} from '../../hooks';
-import {argbToHEX, randomColor} from '../../utils';
+import {useCurrencyFormat, useDebounce} from '../../hooks';
+import {argbToHEX, exhaustiveCheck, randomColor} from '../../utils';
+import {IncomeExpenseTransaction, TransactionType} from '../transactions';
 import {ExpenseModel} from './expense-model';
 import {ExpensesBarChart} from './ExpensesBarChart';
 import {ExpensesPieChart} from './ExpensesPieChart';
+import {FilterAnalyticsButton, GroupTransactionsBy} from './FilterAnalyticsButton';
 
-type ExpensesForPeriod<TPeriod> = {
-  period: TPeriod;
-  expenses: ExpenseModel[];
-  totalAmount: string;
+const UNCATEGORIZED = 'Uncategorized';
+
+const getGroupName = (groupBy: GroupTransactionsBy, date: dayjs.Dayjs) => {
+  switch (groupBy) {
+    case GroupTransactionsBy.Month:
+      return date.format(MMM_YYYY);
+    case GroupTransactionsBy.Week:
+      return `${(date as any).week()} ${date.format(YYYY)}`;
+    case GroupTransactionsBy.Year:
+      return date.format(YYYY);
+    case GroupTransactionsBy.Custom:
+      throw new Error('Unsupported');
+    default:
+      exhaustiveCheck(groupBy);
+  }
 };
 
+const YYYY = 'YYYY';
 const MMM_YYYY = 'MMM YYYY';
 
 export const AnalyticsScreen: React.FC<{}> = () => {
   const [currentTagId, setCurrentTagId] = useState<string | null | undefined>(null);
+  const [transactionType, setTransactionType] = useState<IncomeExpenseTransaction>(TransactionType.Expense);
+  const [groupBy, setGroupBy] = useState<GroupTransactionsBy>(GroupTransactionsBy.Month);
 
   const {data} = useTransactionModels();
-  const transactionsByMonth = useMemo<TransactionsByPeriod<string>>(() => {
-    return data
-      .filter((t) => t.outcome > 0 && t.income === 0) //TODO: parameter - display income / outcome charts
+  const incomeTransactions = useMemo(
+    () =>
+      data
+        .filter((t) => t.income > 0 && t.outcome === 0)
+        .map((t) => ({
+          id: t.id,
+          amount: t.income * t.incomeAccount?.instrumentRate!,
+          tag: t.tag,
+          parentTag: t.parentTag,
+          date: dayjs(t.date),
+        })),
+    [data],
+  );
+  const expenseTransactions = useMemo(
+    () =>
+      data
+        .filter((t) => t.outcome > 0 && t.income === 0)
+        .map((t) => ({
+          id: t.id,
+          amount: t.outcome * t.outcomeAccount?.instrumentRate!,
+          tag: t.tag,
+          parentTag: t.parentTag,
+          date: dayjs(t.date),
+        })),
+    [data],
+  );
+  const transactions = transactionType === TransactionType.Expense ? expenseTransactions : incomeTransactions;
+
+  const transactionGroups = useMemo<TransactionGroups>(() => {
+    return transactions
       .map((t) => ({
         id: t.id,
-        amount: t.outcome,
+        amount: t.amount,
         tag: t.tag,
         parentTag: t.parentTag,
-        period: dayjs(t.date).format(MMM_YYYY),
+        groupName: getGroupName(groupBy, t.date),
       }))
-      .groupBy('period');
-  }, [data]);
+      .groupBy('groupName');
+  }, [transactions, groupBy]);
 
-  const [currentTagTransactionsByMonth, setCurrentTagTransactionsByMonth] = useState<TransactionsByPeriod<string>>(
-    new Map(),
-  );
+  const [currentTagTransactionGroups, setCurrentTagTransactionGroups] = useState<TransactionGroups>(new Map());
   useEffect(() => {
-    setCurrentTagTransactionsByMonth(
-      transactionsByMonth.mapValues((v) =>
+    setCurrentTagTransactionGroups(
+      transactionGroups.mapValues((v) =>
         v.filter((t) => t.tag?.id === currentTagId || t.parentTag?.id === currentTagId),
       ),
     );
-  }, [currentTagId, transactionsByMonth]);
+  }, [currentTagId, transactionGroups]);
 
-  const allModels = useModels(transactionsByMonth, groupByParenTag, sortByMonth, showParentOrOwnTagTitle);
-  const currentTagModels = useModels(currentTagTransactionsByMonth, groupByTag, sortByMonth, showTagTitle);
-  const models = useMemo(() => (currentTagId === null ? allModels : currentTagModels), [
-    allModels,
-    currentTagId,
-    currentTagModels,
-  ]);
+  const allModels = useModels(transactionGroups, groupByParenTag, sortByMonth, showParentOrOwnTagTitle);
+  const currentTagModels = useModels(currentTagTransactionGroups, groupByTag, sortByMonth, showTagTitle);
+  const models = currentTagId === null ? allModels : currentTagModels;
 
   const [currentPage, setCurrentPage] = useState(0);
-  const currentPageExpenses = useMemo(() => {
-    if (models && models[currentPage] && models[currentPage] && models[currentPage].expenses) {
-      return models[currentPage].expenses;
-    } else {
-      return [];
-    }
-  }, [currentPage, models]);
+  const currentPageDebounced = useDebounce(currentPage, 150);
 
-  const onScrollEnd = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
-    let contentOffset = event.nativeEvent.contentOffset;
-    let viewSize = event.nativeEvent.layoutMeasurement;
+  const {t} = useTranslation();
 
-    // Divide the horizontal offset by the width of the view to see which page is visible
-    let pageNum = Math.floor(contentOffset.x / viewSize.width);
-    setCurrentPage(pageNum);
-  };
-
-  const renderItem: ListRenderItem<ExpensesForPeriod<string>> = useCallback(
-    ({item: {period, expenses, totalAmount}}) => {
-      return (
-        <View style={{width: Dimensions.get('window').width}}>
-          <ExpensesPieChart expenses={expenses} />
-          <View style={styles.pieChartText}>
-            <ZenText>{period}</ZenText>
-            <ZenText style={styles.totalAmount}>{totalAmount}</ZenText>
-          </View>
-        </View>
-      );
-    },
-    [],
-  );
+  const onItemPress = useCallback((v) => setCurrentTagId(v === currentTagId ? null : v), [currentTagId]);
 
   return (
-    <ScrollView>
-      <FlatList
-        horizontal
-        pagingEnabled
-        persistentScrollbar={true}
-        data={models}
-        renderItem={renderItem}
-        keyExtractor={(x) => x.period}
-        onMomentumScrollEnd={onScrollEnd}
-        // Performance settings
-        removeClippedSubviews={true} // Unmount components when outside of window
-        initialNumToRender={2} // Reduce initial render amount
-        maxToRenderPerBatch={1} // Reduce number in each render batch
-        updateCellsBatchingPeriod={100} // Increase time between renders
-        windowSize={2} // Reduce the window size
+    <SafeAreaView style={styles.flexFill}>
+      <ScrollView>
+        <Card style={{elevation: 4}}>
+          <ZenText size="giant" style={styles.headerTitle}>
+            {t('AnalyticsScreen.Analytics')}
+          </ZenText>
+          <View style={styles.flexRow}>
+            <Button
+              type="clear"
+              icon={<ChevronLeftIcon size={32} />}
+              containerStyle={styles.pieChartButton}
+              onPress={() => setCurrentPage((v) => (v > 0 ? v - 1 : v))}
+              disabled={currentPage <= 0}
+            />
+            <View style={styles.flexFill}>
+              <ExpensesPieChart expenses={models[currentPage]?.expenses ?? []} />
+              <View style={styles.pieChartText}>
+                <ZenText>{models[currentPage]?.groupName}</ZenText>
+                <ZenText style={styles.totalAmount}>{models[currentPage]?.totalAmount}</ZenText>
+              </View>
+            </View>
+            <Button
+              type="clear"
+              icon={<ChevronRightIcon size={32} />}
+              containerStyle={styles.pieChartButton}
+              onPress={() => setCurrentPage((v) => (v < models.length - 1 ? v + 1 : v))}
+              disabled={currentPage >= models.length - 1}
+            />
+          </View>
+        </Card>
+        <Card style={styles.barChartWrapper}>
+          <ExpensesBarChart expenses={models[currentPageDebounced]?.expenses ?? []} onItemPress={onItemPress} />
+        </Card>
+      </ScrollView>
+      <FilterAnalyticsButton
+        onApply={(x) => {
+          setGroupBy(x.groupBy);
+          setTransactionType(x.transactionType);
+        }}
       />
-      <Card>
-        <ExpensesBarChart
-          expenses={currentPageExpenses}
-          onItemPress={(v) => setCurrentTagId(v === currentTagId ? null : v)}
-        />
-      </Card>
-    </ScrollView>
+    </SafeAreaView>
   );
 };
 
-const styles = StyleSheet.create({
-  pieChartText: {
-    ...StyleSheet.absoluteFillObject,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'transparent',
-  },
-  totalAmount: {
-    fontSize: 32,
-  },
-});
-
-type TransactionWithPeriod<TPeriod> = {
+type TransactionGroup = {
   id: string;
   amount: number;
   tag: TagModel | undefined;
   parentTag: TagModel | undefined;
-  period: TPeriod;
+  groupName: string;
 };
-type TransactionsByPeriod<TPeriod> = Map<TPeriod, TransactionWithPeriod<TPeriod>[]>;
-type TransactionGroupBy<TPeriod> = (a: TransactionWithPeriod<TPeriod>) => string | undefined;
-type TransactionSort<TPeriod> = (a: ExpensesForPeriod<TPeriod>, b: ExpensesForPeriod<TPeriod>) => number;
-type TransactionTitleFormat<TPeriod> = (a: TransactionWithPeriod<TPeriod>) => string | undefined;
+type TransactionGroups = Map<string, TransactionGroup[]>;
+type GroupFunction = (a: TransactionGroup) => string | undefined;
+type SortFunction = (a: ExpensesGroup, b: ExpensesGroup) => number;
+type FormatTitleFunction = (a: TransactionGroup) => string | undefined;
+type ExpensesGroup = {
+  groupName: string;
+  expenses: ExpenseModel[];
+  totalAmount: string;
+};
 
-function useModels<TPeriod>(
-  transactionsByPeriod: TransactionsByPeriod<TPeriod>,
-  groupBy: TransactionGroupBy<TPeriod>,
-  sort: TransactionSort<TPeriod>,
-  formatTitle: TransactionTitleFormat<TPeriod>,
+function useModels(
+  transactionGroups: TransactionGroups,
+  groupBy: GroupFunction,
+  sorter: SortFunction,
+  formatTitle: FormatTitleFunction,
 ) {
   const formatCurrency = useCurrencyFormat();
   const {data: user} = useMe();
@@ -162,10 +179,10 @@ function useModels<TPeriod>(
     user?.currency,
   ]);
 
-  const [models, setModels] = useState<ExpensesForPeriod<TPeriod>[]>([]);
+  const [models, setModels] = useState<ExpensesGroup[]>([]);
   useEffect(() => {
     setModels(
-      transactionsByPeriod
+      transactionGroups
         .mapValues((transactions) =>
           transactions
             .groupBy(groupBy)
@@ -184,8 +201,8 @@ function useModels<TPeriod>(
             })
             .valuesArray(),
         )
-        .mapValues((expenses, period) => ({
-          period,
+        .mapValues((expenses, groupName) => ({
+          groupName,
           expenses,
           totalAmount: formatCurrency(
             expenses.reduce((a, c) => (a += c.amount), 0),
@@ -194,16 +211,46 @@ function useModels<TPeriod>(
           ),
         }))
         .valuesArray()
-        .sort(sort),
+        .sort(sorter),
     );
-  }, [formatCurrency, formatTitle, groupBy, sort, transactionsByPeriod, userCurrency?.rate, userCurrency?.symbol]);
+  }, [formatCurrency, formatTitle, groupBy, sorter, transactionGroups, userCurrency?.rate, userCurrency?.symbol]);
 
   return models;
 }
 
-const groupByParenTag: TransactionGroupBy<string> = (x) => x.parentTag?.id ?? x.tag?.id;
-const groupByTag: TransactionGroupBy<string> = (x) => x.tag?.id;
-const sortByMonth: TransactionSort<string> = ({period: d1}, {period: d2}) =>
+const groupByParenTag: GroupFunction = (x) => x.parentTag?.id ?? x.tag?.id;
+const groupByTag: GroupFunction = (x) => x.tag?.id;
+const sortByMonth: SortFunction = ({groupName: d1}, {groupName: d2}) =>
   dayjs(d2, MMM_YYYY).unix() - dayjs(d1, MMM_YYYY).unix();
-const showParentOrOwnTagTitle: TransactionTitleFormat<string> = (x) => x.parentTag?.title ?? x.tag?.title;
-const showTagTitle: TransactionTitleFormat<string> = (x) => x.tag?.title;
+const showParentOrOwnTagTitle: FormatTitleFunction = (x) => x.parentTag?.title ?? x.tag?.title ?? UNCATEGORIZED;
+const showTagTitle: FormatTitleFunction = (x) => x.tag?.title ?? UNCATEGORIZED;
+
+const styles = StyleSheet.create({
+  headerTitle: {
+    alignSelf: 'center',
+    paddingTop: 16,
+  },
+  flexFill: {
+    flex: 1,
+  },
+  flexRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  pieChartText: {
+    ...StyleSheet.absoluteFillObject,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'transparent',
+  },
+  pieChartButton: {
+    borderRadius: 100,
+    margin: 8,
+  },
+  totalAmount: {
+    fontSize: 32,
+  },
+  barChartWrapper: {
+    marginBottom: 64, // Make last item accessible over FAB
+  },
+});

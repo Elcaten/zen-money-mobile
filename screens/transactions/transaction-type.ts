@@ -3,3 +3,5 @@ export enum TransactionType {
   Income = 'Income',
   Transfer = 'Transfer',
 }
+
+export type IncomeExpenseTransaction = TransactionType.Income | TransactionType.Expense;

@@ -3,10 +3,10 @@ import {useMemo} from 'react';
 import {StyleSheet, TouchableOpacity} from 'react-native';
 import {PieChart} from 'react-native-svg-charts';
 import {View} from '../../components';
+import {ZenText} from '../../components/ZenText';
 import {GRAY_300, GRAY_800} from '../../constants/Colors';
 import {useNavigatorTheme} from '../../themes';
 import {ExpenseModel} from './expense-model';
-import {ZenText} from '../../components/ZenText';
 
 interface ExpenseData {
   value: number;

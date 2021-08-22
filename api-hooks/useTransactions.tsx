@@ -8,7 +8,7 @@ import {useAccountDictionary} from './useAccounts';
 import {useInstruments} from './useInstruments';
 import {useTags} from './useTags';
 
-const useTransactions = () => useQuery(QueryKeys.Transactions, fetchTransactions, {staleTime: Infinity});
+export const useTransactions = () => useQuery(QueryKeys.Transactions, fetchTransactions, {staleTime: Infinity});
 
 export type TagModel = {
   id: string;
@@ -25,12 +25,12 @@ export interface TransactionModel {
   incomeAccount?: {
     id: string;
     title: string;
-    instrument: number | null;
+    instrumentRate: number | null;
   };
   outcomeAccount?: {
     id: string;
     title: string;
-    instrument: number | null;
+    instrumentRate: number | null;
   };
   outcome: number;
   outcomeFormatted: string;
@@ -57,7 +57,7 @@ export const useTransactionModels = () => {
         .map<TransactionModel>((transaction) => {
           const firstTag =
             transaction.tag && transaction.tag.length > 0 ? tags.data?.get(transaction.tag[0]) : undefined;
-          const parenTag = firstTag?.parent ? tags.data?.get(firstTag.parent) : undefined;
+          const parenTag = firstTag?.parent ? tags.data?.get(firstTag.parent) : firstTag;
           const incomeInstrument = instruments.data?.get(transaction.incomeInstrument);
           const incomeSymbol = incomeInstrument?.symbol ?? '';
           const outcomeInstrument = instruments.data?.get(transaction.outcomeInstrument);
@@ -76,10 +76,10 @@ export const useTransactionModels = () => {
             income: transaction.income,
             incomeFormatted: formatCurrency(transaction.income, incomeSymbol, 0),
             incomeAccount: incomeAccount
-              ? {id: incomeAccount.id, title: incomeAccount.title, instrument: incomeInstrument?.id ?? null}
+              ? {id: incomeAccount.id, title: incomeAccount.title, instrumentRate: incomeInstrument?.rate ?? null}
               : undefined,
             outcomeAccount: outcomeAccount
-              ? {id: outcomeAccount.id, title: outcomeAccount.title, instrument: outcomeInstrument?.id ?? null}
+              ? {id: outcomeAccount.id, title: outcomeAccount.title, instrumentRate: outcomeInstrument?.rate ?? null}
               : undefined,
             outcome: transaction.outcome,
             outcomeFormatted: formatCurrency(transaction.outcome, outcomeSymbol, 0),

@@ -25,6 +25,16 @@ export const CheckIcon: React.FC<IconProps> = (props) => {
   return <MaterialIcons color={colors.iconColor} name="check" size={Icon.size} {...props} />;
 };
 
+export const ChevronLeftIcon: React.FC<IconProps> = (props) => {
+  const {colors, Icon} = useNavigatorTheme();
+  return <MaterialIcons color={colors.iconColor} name="chevron-left" size={Icon.size} {...props} />;
+};
+
+export const ChevronRightIcon: React.FC<IconProps> = (props) => {
+  const {colors, Icon} = useNavigatorTheme();
+  return <MaterialIcons color={colors.iconColor} name="chevron-right" size={Icon.size} {...props} />;
+};
+
 export const ClearIcon: React.FC<IconProps> = (props) => {
   const {colors, Icon} = useNavigatorTheme();
   return <MaterialIcons color={colors.iconColor} name="clear" size={Icon.size} {...props} />;
@@ -48,6 +58,11 @@ export const CloseIcon: React.FC<IconProps> = (props) => {
 export const CommentIcon: React.FC<IconProps> = (props) => {
   const {colors, Icon} = useNavigatorTheme();
   return <MaterialCommunityIcons color={colors.iconColor} name="comment" size={Icon.size} {...props} />;
+};
+
+export const FilterIcon: React.FC<IconProps> = (props) => {
+  const {colors, Icon} = useNavigatorTheme();
+  return <MaterialIcons color={colors.iconColor} name="filter" size={Icon.size} {...props} />;
 };
 
 export const FingerprintIcon: React.FC<IconProps> = (props) => {
