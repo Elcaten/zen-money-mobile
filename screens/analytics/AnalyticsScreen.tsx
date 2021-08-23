@@ -1,4 +1,3 @@
-import dayjs from 'dayjs';
 import * as React from 'react';
 import {useCallback, useEffect, useMemo, useState} from 'react';
 import {useTranslation} from 'react-i18next';
@@ -10,78 +9,40 @@ import {ChevronLeftIcon, ChevronRightIcon, View} from '../../components';
 import {Card} from '../../components/Card';
 import {ZenText} from '../../components/ZenText';
 import {useCurrencyFormat, useDebounce} from '../../hooks';
-import {argbToHEX, exhaustiveCheck, randomColor} from '../../utils';
-import {IncomeExpenseTransaction, TransactionType} from '../transactions';
+import {argbToHEX, randomColor} from '../../utils';
 import {ExpenseModel} from './expense-model';
 import {ExpensesBarChart} from './ExpensesBarChart';
 import {ExpensesPieChart} from './ExpensesPieChart';
-import {FilterAnalyticsButton, GroupTransactionsBy} from './FilterAnalyticsButton';
+import {FilterName, filters} from './filter-funcs';
+import {FilterAnalyticsButton} from './FilterAnalyticsButton/FilterAnalyticsButton';
+import {GroupName, grouppings} from './group-funcs';
+import {SortName, sorts} from './sort-funcs';
 
 const UNCATEGORIZED = 'Uncategorized';
 
-const getGroupName = (groupBy: GroupTransactionsBy, date: dayjs.Dayjs) => {
-  switch (groupBy) {
-    case GroupTransactionsBy.Month:
-      return date.format(MMM_YYYY);
-    case GroupTransactionsBy.Week:
-      return `${(date as any).week()} ${date.format(YYYY)}`;
-    case GroupTransactionsBy.Year:
-      return date.format(YYYY);
-    case GroupTransactionsBy.Custom:
-      throw new Error('Unsupported');
-    default:
-      exhaustiveCheck(groupBy);
-  }
-};
-
-const YYYY = 'YYYY';
-const MMM_YYYY = 'MMM YYYY';
-
 export const AnalyticsScreen: React.FC<{}> = () => {
   const [currentTagId, setCurrentTagId] = useState<string | null | undefined>(null);
-  const [transactionType, setTransactionType] = useState<IncomeExpenseTransaction>(TransactionType.Expense);
-  const [groupBy, setGroupBy] = useState<GroupTransactionsBy>(GroupTransactionsBy.Month);
+
+  const [filterName, setFilterName] = useState<FilterName>('Expense');
+  const [groupName, setGroupName] = useState<GroupName>('ByMonth');
+  const [sortName, setSortName] = useState<SortName>('ByMonth');
 
   const {data} = useTransactionModels();
-  const incomeTransactions = useMemo(
-    () =>
-      data
-        .filter((t) => t.income > 0 && t.outcome === 0)
-        .map((t) => ({
-          id: t.id,
-          amount: t.income * t.incomeAccount?.instrumentRate!,
-          tag: t.tag,
-          parentTag: t.parentTag,
-          date: dayjs(t.date),
-        })),
-    [data],
-  );
-  const expenseTransactions = useMemo(
-    () =>
-      data
-        .filter((t) => t.outcome > 0 && t.income === 0)
-        .map((t) => ({
-          id: t.id,
-          amount: t.outcome * t.outcomeAccount?.instrumentRate!,
-          tag: t.tag,
-          parentTag: t.parentTag,
-          date: dayjs(t.date),
-        })),
-    [data],
-  );
-  const transactions = transactionType === TransactionType.Expense ? expenseTransactions : incomeTransactions;
+
+  const transactions = useMemo(() => filters[filterName](data ?? []), [data, filterName]);
 
   const transactionGroups = useMemo<TransactionGroups>(() => {
+    const getGroupName = grouppings[groupName];
     return transactions
       .map((t) => ({
         id: t.id,
         amount: t.amount,
         tag: t.tag,
         parentTag: t.parentTag,
-        groupName: getGroupName(groupBy, t.date),
+        groupName: getGroupName(t),
       }))
       .groupBy('groupName');
-  }, [transactions, groupBy]);
+  }, [transactions, groupName]);
 
   const [currentTagTransactionGroups, setCurrentTagTransactionGroups] = useState<TransactionGroups>(new Map());
   useEffect(() => {
@@ -92,8 +53,8 @@ export const AnalyticsScreen: React.FC<{}> = () => {
     );
   }, [currentTagId, transactionGroups]);
 
-  const allModels = useModels(transactionGroups, groupByParenTag, sortByMonth, showParentOrOwnTagTitle);
-  const currentTagModels = useModels(currentTagTransactionGroups, groupByTag, sortByMonth, showTagTitle);
+  const allModels = useModels(transactionGroups, groupByParenTag, sorts[sortName], showParentOrOwnTagTitle);
+  const currentTagModels = useModels(currentTagTransactionGroups, groupByTag, sorts[sortName], showTagTitle);
   const models = currentTagId === null ? allModels : currentTagModels;
 
   const [currentPage, setCurrentPage] = useState(0);
@@ -139,9 +100,13 @@ export const AnalyticsScreen: React.FC<{}> = () => {
         </Card>
       </ScrollView>
       <FilterAnalyticsButton
+        filterName={filterName}
+        groupName={groupName}
+        sortName={sortName}
         onApply={(x) => {
-          setGroupBy(x.groupBy);
-          setTransactionType(x.transactionType);
+          setFilterName(x.filterName);
+          setGroupName(x.groupName);
+          setSortName(x.sortName);
         }}
       />
     </SafeAreaView>
@@ -220,8 +185,6 @@ function useModels(
 
 const groupByParenTag: GroupFunction = (x) => x.parentTag?.id ?? x.tag?.id;
 const groupByTag: GroupFunction = (x) => x.tag?.id;
-const sortByMonth: SortFunction = ({groupName: d1}, {groupName: d2}) =>
-  dayjs(d2, MMM_YYYY).unix() - dayjs(d1, MMM_YYYY).unix();
 const showParentOrOwnTagTitle: FormatTitleFunction = (x) => x.parentTag?.title ?? x.tag?.title ?? UNCATEGORIZED;
 const showTagTitle: FormatTitleFunction = (x) => x.tag?.title ?? UNCATEGORIZED;
 

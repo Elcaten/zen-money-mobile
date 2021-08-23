@@ -1,4 +1,6 @@
 import dayjs from 'dayjs';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
+import weekOfYear from 'dayjs/plugin/weekOfYear';
 import Constants from 'expo-constants';
 import React from 'react';
 import {LogBox} from 'react-native';
@@ -17,8 +19,6 @@ import {ElementsThemeProvider, NavigatorThemeProvider} from './themes';
 import {composeProviders} from './utils';
 import './utils/augmentations';
 
-var customParseFormat = require('dayjs/plugin/customParseFormat');
-var weekOfYear = require('dayjs/plugin/weekOfYear');
 dayjs.extend(customParseFormat);
 dayjs.extend(weekOfYear);
 
