@@ -1,6 +1,7 @@
 import dayjs from 'dayjs';
 import * as React from 'react';
 import {Component} from 'react';
+import {Translation} from 'react-i18next';
 import {Dimensions} from 'react-native';
 import {DataProvider, LayoutProvider, RecyclerListView, RecyclerListViewProps} from 'recyclerlistview';
 import {TransactionModel} from '../../../api-hooks';
@@ -126,7 +127,7 @@ export class TransactionList extends Component<TransactionsListProps, Transactio
   }
 
   private renderRow(type: string | number, data: TransactionListItem, _index: number, extendedState?: object) {
-    const theme = extendedState as NavigatorTheme;
+    const {theme, t} = extendedState as {theme: NavigatorTheme; t: any};
     switch (type) {
       case ViewType.OneWayTransaction:
       case ViewType.OneWayTransactionWithComment:
@@ -136,6 +137,7 @@ export class TransactionList extends Component<TransactionsListProps, Transactio
             onPress={this.props.onItemPress}
             secondaryTextColor={theme.colors.secondaryText}
             commentBackgroundColor={theme.colors.background}
+            uncategorizedTitle={t('Tags.Uncategorized')}
           />
         );
       case ViewType.TwoWayTransaction:
@@ -146,6 +148,7 @@ export class TransactionList extends Component<TransactionsListProps, Transactio
             onPress={this.props.onItemPress}
             secondaryTextColor={theme.colors.secondaryText}
             commentBackgroundColor={theme.colors.background}
+            uncategorizedTitle={t('Tags.Uncategorized')}
           />
         );
       case ViewType.SectionHeader:
@@ -160,19 +163,23 @@ export class TransactionList extends Component<TransactionsListProps, Transactio
   render() {
     return (
       <NavigatorThemeContextConsumer>
-        {(navigatorTheme) =>
-          this.state.dataProvider.getSize() > 0 && (
-            <RecyclerListView
-              extendedState={navigatorTheme}
-              externalScrollView={this.props.externalScrollView}
-              scrollViewProps={this.props.scrollViewProps}
-              onScroll={this.props.onScroll}
-              rowRenderer={this.renderRow}
-              dataProvider={this.state.dataProvider}
-              layoutProvider={this.layoutProvider}
-            />
-          )
-        }
+        {(theme) => (
+          <Translation>
+            {(t) =>
+              this.state.dataProvider.getSize() > 0 && (
+                <RecyclerListView
+                  extendedState={{theme, t}}
+                  externalScrollView={this.props.externalScrollView}
+                  scrollViewProps={this.props.scrollViewProps}
+                  onScroll={this.props.onScroll}
+                  rowRenderer={this.renderRow}
+                  dataProvider={this.state.dataProvider}
+                  layoutProvider={this.layoutProvider}
+                />
+              )
+            }
+          </Translation>
+        )}
       </NavigatorThemeContextConsumer>
     );
   }

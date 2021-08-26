@@ -122,5 +122,8 @@
     "TransactionsScreen": {
         "NoTransactionsFound": "No transactions found",
         "Transactions": "Transactions"
+    },
+    "Tags": {
+        "Uncategorized": "Uncategorized"
     }
 }

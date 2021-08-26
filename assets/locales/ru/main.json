@@ -122,5 +122,8 @@
     "TransactionsScreen": {
         "NoTransactionsFound": "Операции не найдены",
         "Transactions": "Операции"
+    },
+    "Tags": {
+        "Uncategorized": "Без категории"
     }
 }
