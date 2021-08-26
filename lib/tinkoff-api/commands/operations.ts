@@ -1,5 +1,5 @@
-import {ICommonQuery, ICommonResponse, schemaKeysICommonResponse} from './common';
 import {joi, ObjectKeysSchema} from '../lib/validation';
+import {ICommonQuery, ICommonResponse, schemaKeysICommonResponse} from './common';
 
 export namespace OperationsCommand {
   export interface IRequestQuery extends ICommonQuery {
@@ -38,12 +38,13 @@ export namespace OperationsCommand {
     loyaltyBonus: ILoyaltyBonus[];
     spendingCategory: ISpendingCategory;
     compensation: string;
-    merchant: IMerchant;
+    merchant?: IMerchant;
     brand?: IBrand;
   }
 
   export enum OperationStatus {
     OK = 'OK',
+    Failed = 'FAILED',
   }
 
   interface IBrand {
