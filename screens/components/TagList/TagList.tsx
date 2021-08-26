@@ -1,15 +1,14 @@
 import React, {useMemo} from 'react';
-import {FlatList, ListRenderItemInfo} from 'react-native';
+import {FlatList, ListRenderItem} from 'react-native';
 import {useTags} from '../../../api-hooks';
 import {Tag} from '../../../api/models';
 import {extractId} from '../../../utils';
-import {TagListItem} from './TagListItem';
 
 export interface TagListProps {
-  onPress: (tag: Tag) => void;
+  renderItem: ListRenderItem<Tag>;
 }
 
-export const TagList: React.FC<TagListProps> = ({onPress}) => {
+export const TagList: React.FC<TagListProps> = ({renderItem}) => {
   const {data, isLoading, invalidate} = useTags();
 
   const tagItems = useMemo<Tag[]>(() => {
@@ -19,18 +18,13 @@ export const TagList: React.FC<TagListProps> = ({onPress}) => {
     return rootTags.map((t) => [t, ...(tagsByParent.get(t.id) ?? [])]).flatten();
   }, [data]);
 
-  const renderTag = React.useCallback(
-    (info: ListRenderItemInfo<Tag>) => <TagListItem tag={info.item} onPress={onPress} />,
-    [onPress],
-  );
-
   return (
     <FlatList
       data={tagItems}
       onRefresh={invalidate}
       refreshing={isLoading}
       keyExtractor={extractId}
-      renderItem={renderTag}
+      renderItem={renderItem}
     />
   );
 };

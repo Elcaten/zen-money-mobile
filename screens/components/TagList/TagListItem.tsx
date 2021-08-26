@@ -7,9 +7,10 @@ import {TagIcon} from '../TagIcon';
 export interface TagListItemProps {
   tag: Tag;
   onPress: (tag: Tag) => void;
+  rightIcon?: () => React.ReactNode;
 }
 
-export const TagListItem: React.FC<TagListItemProps> = ({tag, onPress}) => {
+export const TagListItem: React.FC<TagListItemProps> = ({tag, onPress, rightIcon}) => {
   const onPressCb = useCallback(() => {
     onPress(tag);
   }, [onPress, tag]);
@@ -18,6 +19,7 @@ export const TagListItem: React.FC<TagListItemProps> = ({tag, onPress}) => {
     <ListItem onPress={onPressCb} topDivider={!tag.parent}>
       <TagIcon style={{marginLeft: tag.parent ? 32 : 0}} icon={tag.icon} color={tag.color} />
       <ZenText>{tag.title}</ZenText>
+      {rightIcon && rightIcon()}
     </ListItem>
   );
 };
