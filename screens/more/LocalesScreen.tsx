@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import * as React from 'react';
 import {useCallback} from 'react';
 import {useTranslation} from 'react-i18next';
@@ -6,6 +7,8 @@ import {AppLocale, useStore} from '../../store/use-store';
 import {getLocaleName} from '../../utils/getLocaleName';
 import {getLocalePrefix} from '../../utils/getLocalePrefix';
 import {RadioButton} from '../components';
+
+require('dayjs/locale/ru');
 
 export interface LocalesScreenProps {}
 
@@ -17,6 +20,7 @@ export const LocalesScreen: React.FC<LocalesScreenProps> = (props) => {
   const setLocale = useCallback(
     (locale: AppLocale) => {
       i18n.changeLanguage(locale);
+      dayjs.locale(locale);
       saveLocaleToStore(locale);
     },
     [i18n, saveLocaleToStore],
