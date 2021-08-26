@@ -1,12 +1,12 @@
 import React, {useMemo} from 'react';
 import {useTranslation} from 'react-i18next';
 import {ListRenderItem, SectionList, SectionListData} from 'react-native';
-import {Overlay} from 'react-native-elements';
 import {useAccounts} from '../../../api-hooks';
 import {AccountType, UserAccount} from '../../../api/models';
 import {CheckIcon} from '../../../components';
 import {ListItem} from '../../../components/ListItem';
 import {SectionHeader} from '../../../components/SectionHeader';
+import {ZenOverlay} from '../../../components/ZenOverlay';
 import {useNavigatorThemeColors} from '../../../themes';
 import {notNull} from '../../../utils';
 
@@ -69,9 +69,9 @@ export const AccountPickerDialog: React.FC<AccountPickerDialogProps> = (props) =
   ];
 
   return (
-    <Overlay isVisible={props.visible} animationType="slide" fullScreen={true} onRequestClose={props.onRequestClose}>
+    <ZenOverlay isVisible={props.visible} animationType="slide" fullScreen={true} onRequestClose={props.onRequestClose}>
       <SectionList sections={sections} renderItem={renderItem} renderSectionHeader={renderSectionHeader} />
-    </Overlay>
+    </ZenOverlay>
   );
 };
 

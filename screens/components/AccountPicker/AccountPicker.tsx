@@ -8,8 +8,9 @@ export const AccountPicker: React.FC<{
   title: string;
   value: string;
   onSelect: (account: UserAccount) => void;
-  recentAccounts: string[];
-}> = ({title, value, onSelect, recentAccounts}) => {
+  RenderAs?: React.FC<{onPress: () => void; title: string}>;
+  recentAccounts?: string[];
+}> = ({title, value, onSelect, recentAccounts, RenderAs}) => {
   const [visible, setVisible] = useState(false);
   const toggleVisible = () => setVisible((v) => !v);
 
@@ -17,12 +18,16 @@ export const AccountPicker: React.FC<{
     <React.Fragment>
       <AccountPickerDialog
         value={value}
-        recentAccounts={recentAccounts}
+        recentAccounts={recentAccounts ?? []}
         onSelect={onSelect}
         visible={visible}
         onRequestClose={toggleVisible}
       />
-      <PickerListItem bottomDivider leftIcon={() => <WalletIcon />} title={title} onPress={toggleVisible} />
+      {RenderAs ? (
+        <RenderAs onPress={toggleVisible} title={title} />
+      ) : (
+        <PickerListItem bottomDivider leftIcon={() => <WalletIcon />} title={title} onPress={toggleVisible} />
+      )}
     </React.Fragment>
   );
 };
