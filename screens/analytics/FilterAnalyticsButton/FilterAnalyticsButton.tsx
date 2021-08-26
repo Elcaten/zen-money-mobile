@@ -2,9 +2,10 @@ import * as React from 'react';
 import {useEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {StyleSheet} from 'react-native';
-import {Button, Overlay} from 'react-native-elements';
+import {Button} from 'react-native-elements';
 import {FAB} from 'react-native-paper';
 import {ListItem} from '../../../components/ListItem';
+import {ZenOverlay} from '../../../components/ZenOverlay';
 import {useNavigatorThemeColors} from '../../../themes';
 import {FilterName} from '../filter-funcs';
 import {GroupName} from '../group-funcs';
@@ -77,12 +78,7 @@ export const FilterAnalyticsButton: React.FC<FilterAnalyticsProps> = (props) => 
 
   return (
     <React.Fragment>
-      <Overlay
-        isVisible={visible}
-        animationType="slide"
-        overlayStyle={{backgroundColor: card}}
-        fullScreen={true}
-        onRequestClose={() => setVisible(false)}>
+      <ZenOverlay isVisible={visible} animationType="slide" fullScreen={true} onRequestClose={() => setVisible(false)}>
         <FilterButtonGroup
           buttons={filterButtons.map((b) => b.title)}
           selectedIndex={filterButtons.findIndex((b) => b.filterName === filterName)}
@@ -117,7 +113,7 @@ export const FilterAnalyticsButton: React.FC<FilterAnalyticsProps> = (props) => 
             containerStyle={styles.applyButton}
           />
         </ListItem>
-      </Overlay>
+      </ZenOverlay>
       <FAB icon={'filter'} style={[styles.fab, {backgroundColor: secondary}]} onPress={() => setVisible((v) => !v)} />
     </React.Fragment>
   );

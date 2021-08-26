@@ -3,11 +3,12 @@ import * as React from 'react';
 import {useCallback, useEffect, useRef, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {FlatList, Keyboard, RefreshControl, StyleSheet} from 'react-native';
-import {Overlay, SearchBar} from 'react-native-elements';
+import {SearchBar} from 'react-native-elements';
 import {useTransactionModels} from '../../../api-hooks';
 import {View} from '../../../components';
 import {Card} from '../../../components/Card';
 import {ListItem} from '../../../components/ListItem';
+import {ZenOverlay} from '../../../components/ZenOverlay';
 import {ZenText} from '../../../components/ZenText';
 import {
   SearchSuggestion,
@@ -74,10 +75,9 @@ export const TransactionsScreen: React.FC<TransactionsScreenProps> = ({navigatio
 
   return (
     <View style={styles.wrapper}>
-      <Overlay
+      <ZenOverlay
         isVisible={visible}
         animationType="slide"
-        overlayStyle={{backgroundColor: card}}
         fullScreen={true}
         onShow={() => ref.current?.focus()}
         onRequestClose={() => toggleOverlay()}>
@@ -115,7 +115,7 @@ export const TransactionsScreen: React.FC<TransactionsScreenProps> = ({navigatio
           </View>
         )}
         {!showSuggestions && <TransactionList data={searchResults} onItemPress={() => {}} />}
-      </Overlay>
+      </ZenOverlay>
       <TransactionList
         data={transactions}
         scrollViewProps={{
