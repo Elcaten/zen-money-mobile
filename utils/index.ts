@@ -8,6 +8,8 @@ export * from './exhaustive-check';
 export * from './filter';
 export * from './first';
 export * from './generate-uuid';
+export * from './get-day-end';
+export * from './get-day-start';
 export * from './get-font-size';
 export * from './getLocaleName';
 export * from './getLocalePrefix';
