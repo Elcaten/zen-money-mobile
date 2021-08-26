@@ -11,6 +11,7 @@ export type NavigatorTheme = Theme & {
     disabledText: string;
     onPrimary: string;
     onSecondary: string;
+    onError: string;
   };
   Icon: {
     size: number;
@@ -31,6 +32,7 @@ export const DefaultNavigatorTheme: NavigatorTheme = {
     disabledText: `${BLACK}61`,
     onPrimary: BLACK,
     onSecondary: WHITE,
+    onError: WHITE,
 
     border: `${BLACK}1F`,
     iconColor: `${BLACK}61`,
@@ -56,6 +58,7 @@ export const DarkNavigatorTheme: NavigatorTheme = {
     disabledText: `${WHITE}80`,
     onPrimary: WHITE,
     onSecondary: WHITE,
+    onError: WHITE,
 
     border: `${WHITE}1F`,
     iconColor: `${WHITE}80`,
