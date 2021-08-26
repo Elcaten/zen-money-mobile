@@ -10,6 +10,11 @@ export const ArrowBackIcon: React.FC<IconProps> = (props) => {
   return <MaterialIcons color={colors.iconColor} name="arrow-back" size={Icon.size} {...props} />;
 };
 
+export const ArrowLeftRightIcon: React.FC<IconProps> = (props) => {
+  const {colors, Icon} = useNavigatorTheme();
+  return <MaterialCommunityIcons color={colors.iconColor} name="arrow-left-right-bold" size={Icon.size} {...props} />;
+};
+
 export const BankIcon: React.FC<IconProps> = (props) => {
   const {colors, Icon} = useNavigatorTheme();
   return <MaterialCommunityIcons color={colors.iconColor} name="bank" size={Icon.size} {...props} />;
@@ -180,6 +185,11 @@ export const TagIcon: React.FC<IconProps> = (props) => {
 export const ThemeIcon: React.FC<IconProps> = (props) => {
   const {colors, Icon} = useNavigatorTheme();
   return <MaterialCommunityIcons color={colors.iconColor} name="theme-light-dark" size={Icon.size} {...props} />;
+};
+
+export const TrashIcon: React.FC<IconProps> = (props) => {
+  const {colors, Icon} = useNavigatorTheme();
+  return <MaterialCommunityIcons color={colors.iconColor} name="trash-can-outline" size={Icon.size} {...props} />;
 };
 
 export const WalletIcon: React.FC<IconProps> = (props) => {
