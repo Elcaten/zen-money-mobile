@@ -125,5 +125,8 @@
     },
     "Tags": {
         "Uncategorized": "Без категории"
+    },
+    "Accounts": {
+        "NoAccount": "Без счета"
     }
 }

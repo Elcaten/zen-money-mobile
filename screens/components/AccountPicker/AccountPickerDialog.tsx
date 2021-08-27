@@ -13,7 +13,7 @@ import {notNull} from '../../../utils';
 export interface AccountPickerDialogProps {
   visible: boolean;
   onRequestClose: () => void;
-  value: string;
+  value: string | null | undefined;
   onSelect: (account: UserAccount) => void;
   recentAccounts: string[];
 }

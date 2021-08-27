@@ -125,5 +125,8 @@
     },
     "Tags": {
         "Uncategorized": "Uncategorized"
+    },
+    "Accounts": {
+        "NoAccount": "No account"
     }
 }
