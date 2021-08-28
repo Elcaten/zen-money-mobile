@@ -155,6 +155,11 @@ export const SearchIcon: React.FC<IconProps> = (props) => {
   return <MaterialIcons color={colors.iconColor} name="search" size={Icon.size} {...props} />;
 };
 
+export const SettingsIcon: React.FC<IconProps> = (props) => {
+  const {colors, Icon} = useNavigatorTheme();
+  return <MaterialIcons color={colors.iconColor} name="settings" size={Icon.size} {...props} />;
+};
+
 export const ShowChartIcon: React.FC<IconProps> = (props) => {
   const {colors, Icon} = useNavigatorTheme();
   return <MaterialIcons color={colors.iconColor} name="show-chart" size={Icon.size} {...props} />;
