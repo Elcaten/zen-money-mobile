@@ -27,6 +27,7 @@ export const useHeaderButtons = (
     disabled?: boolean;
   },
 ) => {
+  renderButtonPosition = renderButtonPosition ?? 'left';
   const {t} = useTranslation();
 
   useLayoutEffect(() => {
