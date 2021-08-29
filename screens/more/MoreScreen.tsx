@@ -12,6 +12,7 @@ import {
   LogoutIcon,
   MoneyIcon,
   PlusCircleOutlineIcon,
+  SyncIcon,
   TagIcon,
   ThemeIcon,
 } from '../../components';
@@ -89,6 +90,11 @@ export const MoreScreen: React.FC<MoreScreenProps> = ({navigation}) => {
           leftIcon={() => <TagIcon />}
           title={t('MoreScreen.Tags')}
           onPress={() => navigation.navigate('TagsScreen', {})}
+        />
+        <PickerListItem
+          leftIcon={() => <SyncIcon />}
+          title={t('MoreScreen.Sync')}
+          onPress={() => navigation.navigate('MoreSyncScreen')}
         />
       </Card>
 

@@ -55,6 +55,7 @@ export type AnalyticsParamList = {
 
 export type MoreParamList = {
   MoreScreen: undefined;
+  MoreSyncScreen: undefined;
   ThemesScreen: undefined;
   LocalesScreen: undefined;
   AccountSettingsScreen: undefined;
@@ -174,4 +175,14 @@ export type IconPickerScreenNavigationProp = CompositeNavigationProp<
 export type IconPickerScreenProps = {
   route: IconPickerScreenRouteProp;
   navigation: IconPickerScreenNavigationProp;
+};
+
+export type MoreSyncScreenRouteProp = RouteProp<MoreParamList, 'MoreSyncScreen'>;
+export type MoreSyncScreenNavigationProp = CompositeNavigationProp<
+  NativeStackNavigationProp<MoreParamList, 'MoreSyncScreen'>,
+  BottomTabNavigationProp<BottomTabParamList>
+>;
+export type MoreSyncScreenProps = {
+  route: MoreSyncScreenRouteProp;
+  navigation: MoreSyncScreenNavigationProp;
 };

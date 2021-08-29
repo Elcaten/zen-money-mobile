@@ -1,16 +1,16 @@
-import {SessionCommand} from './commands/session';
-import {ResultCode, ApiOperation} from './commands/types';
-import {SessionStatusCommand} from './commands/session-status';
-import {IApiCommandsManager, ApiCommandsManager} from './modules/commands-manager';
-import {SignUpCommand} from './commands/signup';
-import {RequestError} from './lib/error';
+import {IApiCommand} from './commands/common';
 import {ConfirmCommand} from './commands/confirm';
 import {LevelUpCommand} from './commands/level-up';
-import {WarmupCacheCommand} from './commands/warmup-cache';
-import {isOk} from './lib/utils';
-import {IApiCommand} from './commands/common';
 import {OperationsCommand} from './commands/operations';
+import {SessionCommand} from './commands/session';
+import {SessionStatusCommand} from './commands/session-status';
+import {SignUpCommand} from './commands/signup';
+import {ApiOperation, ResultCode} from './commands/types';
+import {WarmupCacheCommand} from './commands/warmup-cache';
+import {RequestError} from './lib/error';
 import {RequestOptions} from './lib/request';
+import {isOk} from './lib/utils';
+import {ApiCommandsManager, IApiCommandsManager} from './modules/commands-manager';
 
 export class TinkoffApi {
   private sender: IApiCommandsManager;
@@ -32,7 +32,14 @@ export class TinkoffApi {
 
   public async checkSessionStatus(sessionId: string) {
     const query: SessionStatusCommand.IRequestQuery = {sessionid: sessionId};
-    return await this.sendCommand(SessionStatusCommand, {searchParams: query});
+    const res = await this.sendCommand(SessionStatusCommand, {searchParams: query});
+    if (res.resultCode !== ResultCode.OK) {
+      throw new RequestError({
+        message: `Cannot check session status: result code is '${res.resultCode}'`,
+        response: res,
+      });
+    }
+    return res;
   }
 
   public async signUp(sessionId: string, auth: SignUpCommand.IAuth) {

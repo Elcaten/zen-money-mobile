@@ -91,7 +91,8 @@
         "More": "More",
         "SignOut": "Sign out",
         "Tags": "Categories",
-        "Theme": "App theme"
+        "Theme": "App theme",
+        "Sync": "Sync"
     },
     "TagDetailsScreen": {
         "CategorySaved": "Category saved",
@@ -128,5 +129,10 @@
     },
     "Accounts": {
         "NoAccount": "No account"
+    },
+    "FetchOperations" : {
+        "INVALID_PASSWORD": "Invalid username or password",
+        "CONFIRMATION_FAILED": "Invalid confirmation code",
+        "REQUEST_RATE_LIMIT_EXCEEDED": "Too many attempts. Please try again later"
     }
 }

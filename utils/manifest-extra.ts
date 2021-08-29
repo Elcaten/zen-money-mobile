@@ -12,4 +12,5 @@ export const {
   LOCK_SCREEN_TIMEOUT,
   REACT_QUERY_PERSIST_KEY,
   REDIRECT_URL,
+  SESSION_ID_PERSIST_KEY,
 } = Constants.manifest.extra as ZenMoneyExpoConfig;

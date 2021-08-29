@@ -1,6 +1,8 @@
 import {StatusBar} from 'expo-status-bar';
 import React, {useEffect, useState} from 'react';
+import Dialog from 'react-native-dialog';
 import {useMe} from '../api-hooks';
+import {eventEmitter} from '../event-emitter';
 import useColorScheme from '../hooks/useColorSheme';
 import {useLocalAuthentication} from '../hooks/useLocalAuthentication';
 import {initI18n} from '../init-i18n';
@@ -65,9 +67,51 @@ export const Root: React.FC = () => {
       <React.Fragment>
         <Navigation />
         <StatusBar backgroundColor={card} />
+        <GlobalDialog />
       </React.Fragment>
     );
   }
 
   return <LoginScreen />;
+};
+
+const GlobalDialog: React.FC = () => {
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [visible, setVisible] = useState(false);
+  const [response, setResponse] = useState('');
+
+  useEffect(() => {
+    const handler = (_title: string, _description: string) => {
+      setTitle(_title);
+      setDescription(_description);
+      setVisible(true);
+    };
+    eventEmitter.on('prompt', handler);
+
+    return () => {
+      eventEmitter.off('prompt', handler);
+    };
+  }, []);
+
+  const handleCancel = () => {
+    eventEmitter.emit('promptCancel');
+    setVisible(false);
+  };
+
+  const handleConfirm = () => {
+    eventEmitter.emit('promptConfirm', response);
+    setVisible(false);
+    setResponse('');
+  };
+
+  return (
+    <Dialog.Container visible={visible}>
+      <Dialog.Title>{title}</Dialog.Title>
+      <Dialog.Description>{description}</Dialog.Description>
+      <Dialog.Input value={response} onChangeText={setResponse} />
+      <Dialog.Button label="Cancel" onPress={handleCancel} />
+      <Dialog.Button label="Confrim" onPress={handleConfirm} />
+    </Dialog.Container>
+  );
 };

@@ -2,6 +2,7 @@ import * as React from 'react';
 import {useTranslation} from 'react-i18next';
 import {createNativeStackNavigator} from 'react-native-screens/native-stack';
 import {IconPickerScreen, LocalesScreen, MoreScreen, TagDetailsScreen, TagsScreen, ThemesScreen} from '../screens/more';
+import {MoreSyncScreen} from '../screens/more/MoreSyncScreen';
 import {InstrumentPickerScreen} from '../screens/shared/InstrumentPickerScreen';
 import {MoreParamList} from '../types';
 
@@ -19,6 +20,7 @@ export const MoreNavigator: React.FC = () => {
       <Stack.Screen name="TagDetailsScreen" component={TagDetailsScreen} options={{headerTitle: ''}} />
       <Stack.Screen name="IconPickerScreen" component={IconPickerScreen} options={{headerTitle: ''}} />
       <Stack.Screen name="InstrumentPickerScreen" component={InstrumentPickerScreen} options={{headerTitle: ''}} />
+      <Stack.Screen name="MoreSyncScreen" component={MoreSyncScreen} options={{headerTitle: ''}} />
     </Stack.Navigator>
   );
 };

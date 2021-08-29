@@ -1,4 +1,4 @@
-import React, {forwardRef, ReactNode, useImperativeHandle, useRef} from 'react';
+import React, {forwardRef, useImperativeHandle, useRef} from 'react';
 import {StyleSheet} from 'react-native';
 import {ListItem} from '../ListItem';
 import {ZenTextInput} from '../ZenTextInput';
@@ -9,6 +9,7 @@ export interface TextInputFieldHandle {
 }
 
 export interface TextInputFieldProps {
+  secureTextEntry?: boolean;
   leftIcon?: () => JSX.Element;
   placeholder: string;
   field: {
@@ -19,7 +20,7 @@ export interface TextInputFieldProps {
 }
 
 const TextInputFieldComponent: React.ForwardRefRenderFunction<TextInputFieldHandle, TextInputFieldProps> = (
-  {field: {onChange, onBlur, value}, placeholder, leftIcon},
+  {field: {onChange, onBlur, value}, placeholder, leftIcon, secureTextEntry},
   ref,
 ) => {
   const inputRef = useRef<ZenTextInputHandles>(null);
@@ -31,6 +32,7 @@ const TextInputFieldComponent: React.ForwardRefRenderFunction<TextInputFieldHand
       {leftIcon && leftIcon()}
       <ZenTextInput
         ref={inputRef}
+        secureTextEntry={secureTextEntry}
         placeholder={placeholder}
         value={value ?? ''}
         onChangeText={onChange}

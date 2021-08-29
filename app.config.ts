@@ -15,17 +15,18 @@ const environmentValidator = makeValidator<'dev' | 'prod'>((value) => {
 
 function getEnv() {
   return cleanEnv(process.env, {
-    ENVIRONMENT: environmentValidator(),
-    REACT_QUERY_PERSIST_KEY: str(),
     API_TOKEN_PERISIT_KEY: str(),
+    API_URL: str(),
+    AUTH_URL: str(),
+    BUGSNAG_API_KEY: str(),
+    CLIENT_ID: str(),
+    DEMO_TOKEN: json(),
+    ENVIRONMENT: environmentValidator(),
     LAST_FOREGROUND_TIMESTAMP_PERSIST_KEY: str(),
     LOCK_SCREEN_TIMEOUT: num(),
-    CLIENT_ID: str(),
+    REACT_QUERY_PERSIST_KEY: str(),
     REDIRECT_URL: str(),
-    AUTH_URL: str(),
-    API_URL: str(),
-    DEMO_TOKEN: json(),
-    BUGSNAG_API_KEY: str(),
+    SESSION_ID_PERSIST_KEY: str(),
   });
 }
 
