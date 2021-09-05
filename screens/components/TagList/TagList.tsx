@@ -1,30 +1,55 @@
-import React, {useMemo} from 'react';
-import {FlatList, ListRenderItem} from 'react-native';
-import {useTags} from '../../../api-hooks';
+import React, {forwardRef, ReactElement, useMemo} from 'react';
+import {Dimensions, StyleSheet} from 'react-native';
+import {DataProvider, LayoutProvider, RecyclerListView} from 'recyclerlistview';
 import {Tag} from '../../../api/models';
-import {extractId} from '../../../utils';
+import {View} from '../../../components';
+
+const ITEM_HEIGHT = 56;
+
+const DATA_PROVIDER = new DataProvider((tag1: Tag, tag2: Tag) => {
+  return tag1.id !== tag2.id;
+});
+
+export interface TagListHadle {}
 
 export interface TagListProps {
-  renderItem: ListRenderItem<Tag>;
+  tags: Tag[];
+  renderItem: (tag: Tag) => ReactElement | null;
 }
 
-export const TagList: React.FC<TagListProps> = ({renderItem}) => {
-  const {data, isLoading, invalidate} = useTags();
+const TagListComponent: React.ForwardRefRenderFunction<TagListHadle, TagListProps> = ({renderItem, tags}, ref) => {
+  const [dataProvider, setDataProvider] = React.useState(DATA_PROVIDER);
+  const layoutProvider = useMemo(
+    () =>
+      new LayoutProvider(
+        (_index) => 'item',
+        (_type, dim) => {
+          dim.width = Dimensions.get('window').width;
+          dim.height = ITEM_HEIGHT;
+        },
+      ),
+    [],
+  );
 
-  const tagItems = useMemo<Tag[]>(() => {
-    const tagsArray = data?.values ? Array.from(data.values()) : [];
-    const tagsByParent = tagsArray.groupBy('parent');
-    const rootTags = tagsArray.filter((t) => t.parent == null).sort((t1, t2) => t1.title.localeCompare(t2.title));
-    return rootTags.map((t) => [t, ...(tagsByParent.get(t.id) ?? [])]).flatten();
-  }, [data]);
+  React.useEffect(() => {
+    setDataProvider((prevState) => prevState.cloneWithRows(tags));
+  }, [tags]);
 
   return (
-    <FlatList
-      data={tagItems}
-      onRefresh={invalidate}
-      refreshing={isLoading}
-      keyExtractor={extractId}
-      renderItem={renderItem}
-    />
+    <View style={styles.container}>
+      <RecyclerListView
+        layoutProvider={layoutProvider}
+        dataProvider={dataProvider}
+        rowRenderer={(_: any, item: Tag) => renderItem(item)}
+      />
+    </View>
   );
 };
+
+export const TagList = forwardRef(TagListComponent);
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+});

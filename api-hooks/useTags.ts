@@ -1,4 +1,4 @@
-import {useCallback} from 'react';
+import {useCallback, useMemo} from 'react';
 import {useMutation, useQuery, useQueryClient} from 'react-query';
 import {EntityType, postEntity} from '../api';
 import {deleteEntity} from '../api/deleteEntity';
@@ -23,6 +23,19 @@ export const useTags = () => {
   }, [queryClient]);
 
   return {data: data ?? EMPTY_MAP, isLoading, invalidate};
+};
+
+export const useSortedByParentTags = () => {
+  const {data, isLoading, invalidate} = useTags();
+
+  const tags = useMemo(() => {
+    const tagsArray = data?.values ? Array.from(data.values()) : [];
+    const tagsByParent = tagsArray.groupBy('parent');
+    const rootTags = tagsArray.filter((t) => t.parent == null).sort((t1, t2) => t1.title.localeCompare(t2.title));
+    return rootTags.map((t) => [t, ...(tagsByParent.get(t.id) ?? [])]).flatten();
+  }, [data]);
+
+  return {tags, isLoading, invalidate};
 };
 
 export const useMutateTag = () => {

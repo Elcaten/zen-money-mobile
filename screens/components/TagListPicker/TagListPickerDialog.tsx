@@ -1,5 +1,5 @@
-import React, {useCallback} from 'react';
-import {ListRenderItemInfo} from 'react-native';
+import React from 'react';
+import {useSortedByParentTags} from '../../../api-hooks';
 import {Tag} from '../../../api/models';
 import {CheckIcon} from '../../../components';
 import {ZenOverlay} from '../../../components/ZenOverlay';
@@ -14,28 +14,22 @@ export interface TagListPickerDialogProps {
 }
 
 export const TagListPickerDialog: React.FC<TagListPickerDialogProps> = (props) => {
-  const onPress = useCallback(
-    (tag: Tag) => {
-      props.onSelect(tag);
-      props.onRequestClose();
-    },
-    [props],
-  );
+  const {tags} = useSortedByParentTags();
 
-  const renderItem = useCallback(
-    (info: ListRenderItemInfo<Tag>) => (
-      <TagListItem
-        tag={info.item}
-        rightIcon={() => (props.value === info.item.id ? <CheckIcon /> : null)}
-        onPress={onPress}
-      />
-    ),
-    [onPress, props.value],
+  const renderItem = (tag: Tag) => (
+    <TagListItem
+      tag={tag}
+      rightIcon={() => (props.value === tag.id ? <CheckIcon /> : null)}
+      onPress={(t: Tag) => {
+        props.onSelect(t);
+        props.onRequestClose();
+      }}
+    />
   );
 
   return (
     <ZenOverlay isVisible={props.visible} animationType="slide" fullScreen={true} onRequestClose={props.onRequestClose}>
-      <TagList renderItem={renderItem} />
+      <TagList tags={tags} renderItem={renderItem} />
     </ZenOverlay>
   );
 };
