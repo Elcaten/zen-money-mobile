@@ -11,6 +11,7 @@ export interface TextInputFieldHandle {
 export interface TextInputFieldProps {
   secureTextEntry?: boolean;
   leftIcon?: () => JSX.Element;
+  rightIcon?: () => JSX.Element;
   placeholder: string;
   field: {
     onChange: (...event: any[]) => void;
@@ -20,7 +21,7 @@ export interface TextInputFieldProps {
 }
 
 const TextInputFieldComponent: React.ForwardRefRenderFunction<TextInputFieldHandle, TextInputFieldProps> = (
-  {field: {onChange, onBlur, value}, placeholder, leftIcon, secureTextEntry},
+  {field: {onChange, onBlur, value}, placeholder, leftIcon, rightIcon, secureTextEntry},
   ref,
 ) => {
   const inputRef = useRef<ZenTextInputHandles>(null);
@@ -40,6 +41,7 @@ const TextInputFieldComponent: React.ForwardRefRenderFunction<TextInputFieldHand
         containerStyle={styles.flexFill}
         style={styles.flexFill}
       />
+      {rightIcon && rightIcon()}
     </ListItem>
   );
 };
