@@ -65,6 +65,11 @@ export const CommentIcon: React.FC<IconProps> = (props) => {
   return <MaterialCommunityIcons color={colors.iconColor} name="comment" size={Icon.size} {...props} />;
 };
 
+export const EyeOutlineIcon: React.FC<IconProps> = (props) => {
+  const {colors, Icon} = useNavigatorTheme();
+  return <MaterialCommunityIcons color={colors.iconColor} name="eye-outline" size={Icon.size} {...props} />;
+};
+
 export const FilterIcon: React.FC<IconProps> = (props) => {
   const {colors, Icon} = useNavigatorTheme();
   return <MaterialIcons color={colors.iconColor} name="filter" size={Icon.size} {...props} />;
