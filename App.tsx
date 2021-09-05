@@ -1,5 +1,6 @@
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
+import isToday from 'dayjs/plugin/isToday';
 import weekOfYear from 'dayjs/plugin/weekOfYear';
 import Constants from 'expo-constants';
 import React from 'react';
@@ -21,6 +22,7 @@ import './utils/augmentations';
 
 dayjs.extend(customParseFormat);
 dayjs.extend(weekOfYear);
+dayjs.extend(isToday);
 
 LogBox.ignoreLogs(['Setting a timer', 'Non-serializable values were found in the navigation state']);
 

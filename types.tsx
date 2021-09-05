@@ -117,6 +117,17 @@ export type AccountTypePickerScreenProps = {
   navigation: AccountTypePickerScreenNavigationProp;
 };
 
+//===================================================||  SYNC  ||======================================================
+export type SyncScreenRouteProp = RouteProp<SyncParamList, 'SyncScreen'>;
+export type SyncScreenNavigationProp = CompositeNavigationProp<
+  StackNavigationProp<SyncParamList, 'SyncScreen'>,
+  BottomTabNavigationProp<BottomTabParamList>
+>;
+export type SyncScreenProps = {
+  route: SyncScreenRouteProp;
+  navigation: SyncScreenNavigationProp;
+};
+
 //===============================================||  TRANSACTIONS  ||==================================================
 export type TransactionsScreenRouteProp = RouteProp<TransactionsParamList, 'TransactionsScreen'>;
 export type TransactionsScreenNavigationProp = CompositeNavigationProp<
