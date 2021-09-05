@@ -13,4 +13,5 @@ export const {
   REACT_QUERY_PERSIST_KEY,
   REDIRECT_URL,
   SESSION_ID_PERSIST_KEY,
+  ENCRYPTION_KEY_PERSIST_KEY,
 } = Constants.manifest.extra as ZenMoneyExpoConfig;

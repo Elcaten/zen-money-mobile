@@ -58,6 +58,17 @@ export class ApiCommandsManager implements IApiCommandsManager {
 
   private throwOnApiError(url: Input, err: RequestError, options: RequestOptions) {
     if (isValidationError(err.props.error) && isApiErrorResponse(err.props.response)) {
+      // bugsnag.notify(
+      //   {
+      //     name: 'Tinkoff API error',
+      //     message: `Got error response from '${url}'`,
+      //   },
+      //   (event) =>
+      //     event.addMetadata('Details', {
+      //       request: JSON.stringify(options, null, 2),
+      //       response: JSON.stringify(err.props.response, null, 2),
+      //     }),
+      // );
       throw new RequestError({
         message: `Got error response from '${url}'`,
         request: options,

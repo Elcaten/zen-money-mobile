@@ -21,6 +21,7 @@ declare global {
     mapValues<TVal>(iteratee: (o: V, k: K) => TVal): Map<K, TVal>;
     entriesArray(): [K, V][];
     valuesArray(): V[];
+    tryGet<TDefaultValue>(key: K | null | undefined, defaultValue: TDefaultValue): V | TDefaultValue;
   }
 }
 
@@ -74,5 +75,11 @@ if (!Map.prototype.valuesArray) {
 if (!Map.prototype.entriesArray) {
   Map.prototype.entriesArray = function () {
     return Array.from(this.entries());
+  };
+}
+
+if (!Map.prototype.tryGet) {
+  Map.prototype.tryGet = function <K, V>(key: K, defaultValue: V) {
+    return key ? this.get(key) ?? defaultValue : defaultValue;
   };
 }

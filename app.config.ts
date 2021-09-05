@@ -27,6 +27,7 @@ function getEnv() {
     REACT_QUERY_PERSIST_KEY: str(),
     REDIRECT_URL: str(),
     SESSION_ID_PERSIST_KEY: str(),
+    ENCRYPTION_KEY_PERSIST_KEY: str(),
   });
 }
 
