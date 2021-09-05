@@ -55,7 +55,9 @@ export type AnalyticsParamList = {
 
 export type MoreParamList = {
   MoreScreen: undefined;
-  MoreSyncScreen: undefined;
+  SyncSettingsScreen: undefined;
+  SyncAccountSettingsScreen: undefined;
+  SyncTagSettingsScreen: undefined;
   ThemesScreen: undefined;
   LocalesScreen: undefined;
   AccountSettingsScreen: undefined;
@@ -177,12 +179,32 @@ export type IconPickerScreenProps = {
   navigation: IconPickerScreenNavigationProp;
 };
 
-export type MoreSyncScreenRouteProp = RouteProp<MoreParamList, 'MoreSyncScreen'>;
-export type MoreSyncScreenNavigationProp = CompositeNavigationProp<
-  NativeStackNavigationProp<MoreParamList, 'MoreSyncScreen'>,
+export type SyncSettingsScreenRouteProp = RouteProp<MoreParamList, 'SyncSettingsScreen'>;
+export type SyncSettingsScreenNavigationProp = CompositeNavigationProp<
+  StackNavigationProp<MoreParamList, 'SyncSettingsScreen'>,
   BottomTabNavigationProp<BottomTabParamList>
 >;
-export type MoreSyncScreenProps = {
-  route: MoreSyncScreenRouteProp;
-  navigation: MoreSyncScreenNavigationProp;
+export type SyncSettingsScreenProps = {
+  route: SyncSettingsScreenRouteProp;
+  navigation: SyncSettingsScreenNavigationProp;
+};
+
+export type SyncAccountSettingsScreenRouteProp = RouteProp<MoreParamList, 'SyncAccountSettingsScreen'>;
+export type SyncAccountSettingsScreenNavigationProp = CompositeNavigationProp<
+  StackNavigationProp<MoreParamList, 'SyncAccountSettingsScreen'>,
+  BottomTabNavigationProp<BottomTabParamList>
+>;
+export type SyncAccountSettingsScreenProps = {
+  route: SyncAccountSettingsScreenRouteProp;
+  navigation: SyncAccountSettingsScreenNavigationProp;
+};
+
+export type SyncTagSettingsScreenRouteProp = RouteProp<MoreParamList, 'SyncTagSettingsScreen'>;
+export type SyncTagSettingsScreenNavigationProp = CompositeNavigationProp<
+  StackNavigationProp<MoreParamList, 'SyncTagSettingsScreen'>,
+  BottomTabNavigationProp<BottomTabParamList>
+>;
+export type SyncTagSettingsScreenProps = {
+  route: SyncTagSettingsScreenRouteProp;
+  navigation: SyncTagSettingsScreenNavigationProp;
 };

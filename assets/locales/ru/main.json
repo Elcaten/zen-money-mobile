@@ -94,6 +94,10 @@
         "Theme": "Тема приложения",
         "Sync": "Синхронизация"
     },
+    "SyncSettingsScreen": {
+        "AccountSetting": "Настройка счетов",
+        "TagSetting": "Настройка категорий"
+    },
     "TagDetailsScreen": {
         "CategorySaved": "Категория сохранена",
         "DeleteCategoryMessage": "Категория будет удалена.",

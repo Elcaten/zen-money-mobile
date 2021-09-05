@@ -94,7 +94,7 @@ export const MoreScreen: React.FC<MoreScreenProps> = ({navigation}) => {
         <PickerListItem
           leftIcon={() => <SyncIcon />}
           title={t('MoreScreen.Sync')}
-          onPress={() => navigation.navigate('MoreSyncScreen')}
+          onPress={() => navigation.navigate('SyncSettingsScreen')}
         />
       </Card>
 

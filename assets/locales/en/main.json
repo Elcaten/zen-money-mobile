@@ -94,6 +94,10 @@
         "Theme": "App theme",
         "Sync": "Sync"
     },
+    "SyncSettingsScreen": {
+        "AccountSetting": "Account settings",
+        "TagSetting": "Tag settings"
+    },
     "TagDetailsScreen": {
         "CategorySaved": "Category saved",
         "DeleteCategoryMessage": "This category will be deleted.",
