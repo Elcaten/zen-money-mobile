@@ -2,14 +2,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Localization from 'expo-localization';
 import {Appearance} from 'react-native';
 import createStore from 'zustand';
-import {configurePersist} from 'zustand-persist';
 import {filterMostRecent} from '../utils/filter';
 import {createSelectorHooks} from './create-selectors';
-
-const {persist, purge} = configurePersist({
-  storage: AsyncStorage,
-  rootKey: 'root', // optional, default value is `root`
-});
+import {persist} from 'zustand/middleware';
 
 export enum AppLocale {
   Ru = 'ru',
@@ -33,15 +28,13 @@ export type State = {
   setBiometricUnlock: (value: boolean) => void;
   fastAddTransaction: boolean;
   setFastAddTransaction: (value: boolean) => void;
+  _hasHydrated: boolean;
 };
 
 const colorScheme = (Appearance.getColorScheme() as unknown) as 'light' | 'dark';
 
 const useStoreBase = createStore<State>(
   persist(
-    {
-      key: 'persist', // required, child key of storage
-    },
     (set) => ({
       recentExpenseAccounts: [],
       addRecentExpenseAccount: (value) =>
@@ -60,7 +53,15 @@ const useStoreBase = createStore<State>(
       setFastAddTransaction: (value) => set(() => ({fastAddTransaction: value})),
       biometricUnlock: false,
       setBiometricUnlock: (value) => set(() => ({biometricUnlock: value})),
+      _hasHydrated: false,
     }),
+    {
+      name: 'store',
+      getStorage: () => AsyncStorage,
+      onRehydrateStorage: () => () => {
+        useStore.setState({_hasHydrated: true});
+      },
+    },
   ),
 );
 
