@@ -1,7 +1,7 @@
 import * as React from 'react';
-import {ReactText, useCallback, useLayoutEffect, useMemo, useState} from 'react';
+import {ReactText, useCallback, useMemo, useState} from 'react';
 import {useTranslation} from 'react-i18next';
-import {Dimensions, StyleSheet} from 'react-native';
+import {Dimensions, Platform, StyleSheet} from 'react-native';
 import {SearchBar} from 'react-native-elements';
 import {DataProvider, LayoutProvider, RecyclerListView} from 'recyclerlistview';
 import {useInstruments} from '../../../api-hooks';
@@ -12,7 +12,7 @@ import {ZenText} from '../../../components/ZenText';
 import {useNavigatorThemeColors} from '../../../themes';
 import {InstrumentPickerScreenProps} from '../../../types';
 
-const ITEM_HEIGHT = 54;
+const ITEM_HEIGHT = Platform.select({ios: 44, default: 54});
 
 const DATA_PROVIDER = new DataProvider((r1: Instrument, r2: Instrument) => {
   return r1.id !== r2.id;
@@ -76,35 +76,26 @@ export const InstrumentPickerScreen: React.FC<InstrumentPickerScreenProps> = ({r
     [instrumentId, primary, route.params],
   );
 
-  useLayoutEffect(() => {
-    setTimeout(() => {
-      navigation.setOptions({
-        headerTitle: () => (
-          <SearchBar
-            containerStyle={styles.searchBar}
-            cancelIcon={false}
-            searchIcon={false as any}
-            platform="android"
-            placeholder="Search"
-            value={searchExpr}
-            onChangeText={setSearchExpr as any}
-          />
-        ),
-      });
-    }, 500);
-  }, [navigation, searchExpr]);
-
   const {t} = useTranslation();
 
   return (
     <View style={styles.container}>
+      <SearchBar
+        containerStyle={styles.searchBar}
+        cancelIcon={false}
+        searchIcon={false as any}
+        platform={Platform.select({ios: 'ios', default: 'android'})}
+        placeholder="Search"
+        value={searchExpr}
+        onChangeText={setSearchExpr as any}
+      />
       {foundInstruments.length === 0 && (
         <View style={styles.emptyList}>
           <ZenText>{t('InstrumentPickerScreen.NoCurrenciesFound')}</ZenText>
         </View>
       )}
       {foundInstruments.length > 0 && (
-        <RecyclerListView ind layoutProvider={layoutProvider} dataProvider={dataProvider} rowRenderer={rowRenderer} />
+        <RecyclerListView layoutProvider={layoutProvider} dataProvider={dataProvider} rowRenderer={rowRenderer} />
       )}
     </View>
   );
