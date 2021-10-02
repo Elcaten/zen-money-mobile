@@ -2,7 +2,7 @@ import {HeaderBackButton} from '@react-navigation/stack';
 import * as React from 'react';
 import {useCallback, useEffect, useRef, useState} from 'react';
 import {useTranslation} from 'react-i18next';
-import {FlatList, Keyboard, RefreshControl, StyleSheet} from 'react-native';
+import {FlatList, Keyboard, Platform, RefreshControl, StyleSheet} from 'react-native';
 import {Overlay, SearchBar} from 'react-native-elements';
 import {useTransactionModels} from '../../../api-hooks';
 import {View} from '../../../components';
@@ -84,7 +84,7 @@ export const TransactionsScreen: React.FC<TransactionsScreenProps> = ({navigatio
         <SearchBar
           ref={ref}
           containerStyle={styles.searchBar}
-          platform="android"
+          platform={Platform.select({ios: 'ios', android: 'android', default: 'default'})}
           placeholder="Search"
           onFocus={() => setShowSuggestions(true)}
           value={searchExpr}
