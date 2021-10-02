@@ -16,6 +16,9 @@ interface TransactionItemProps {
 
 // ========================================================================================================================
 const styles = StyleSheet.create({
+  wrapper: {
+    width: '100%',
+  },
   centralSection: {
     flex: 1,
     alignItems: 'flex-start',
@@ -45,7 +48,7 @@ export class OneWayTransaction extends React.Component<TransactionItemProps> {
       comment,
     } = this.props.transaction;
     return (
-      <ListItem onPress={() => this.props.onPress(this.props.transaction.id)}>
+      <ListItem style={styles.wrapper} onPress={() => this.props.onPress(this.props.transaction.id)}>
         <TagIcon icon={tag?.icon} color={tag?.iconColor} />
         <View style={styles.centralSection}>
           <ZenText size="large">{tag?.title}</ZenText>
@@ -96,7 +99,7 @@ export class TwoWayTransaction extends React.Component<TransactionItemProps> {
     const isSameAmount = outcome === income;
 
     return (
-      <ListItem onPress={() => this.props.onPress(this.props.transaction.id)}>
+      <ListItem style={styles.wrapper} onPress={() => this.props.onPress(this.props.transaction.id)}>
         <SubdirArrowRightIcon />
         <View style={styles.centralSection}>
           <ZenText size="large">{outcomeAccount?.title}</ZenText>

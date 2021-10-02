@@ -1,21 +1,14 @@
 import dayjs from 'dayjs';
 import * as React from 'react';
 import {Component} from 'react';
-import {Dimensions} from 'react-native';
 import {DataProvider, LayoutProvider, RecyclerListView, RecyclerListViewProps} from 'recyclerlistview';
 import {TransactionModel} from '../../../api-hooks';
 import {NavigatorTheme, NavigatorThemeContextConsumer} from '../../../themes/navigator-themes';
+import {setLayoutForType} from './set-layout-for-type';
 import {OneWayTransaction, TwoWayTransaction} from './TransactionItem';
 import {TransactionSectionHeader} from './TransactionSectionHeader';
+import {ViewType} from './view-type';
 
-const ViewType = {
-  SectionHeader: 0,
-  ListHeader: 1,
-  OneWayTransaction: 2,
-  TwoWayTransaction: 3,
-  OneWayTransactionWithComment: 4,
-  TwoWayTransactionWithComment: 5,
-};
 interface TransactionListItem {
   type: number | string;
   value: TransactionModel | string;
@@ -24,7 +17,6 @@ export type TransactionsListProps = {
   data: TransactionModel[];
   onItemPress: (transactionId: string) => void;
   renderHeader?: () => JSX.Element;
-  headerHeight?: number;
 } & Pick<RecyclerListViewProps, 'externalScrollView' | 'scrollViewProps' | 'onScroll' | 'style'>;
 interface TransactionListState {
   dataProvider: DataProvider;
@@ -44,43 +36,8 @@ export class TransactionList extends Component<TransactionsListProps, Transactio
       }),
     };
 
-    this.layoutProvider = new LayoutProvider(
-      (i) => {
-        return this.state.dataProvider.getDataForIndex(i).type;
-      },
-      (type, dim) => {
-        let {width} = Dimensions.get('window');
-        switch (type) {
-          case ViewType.OneWayTransaction:
-            dim.width = width;
-            dim.height = 75;
-            break;
-          case ViewType.OneWayTransactionWithComment:
-            dim.width = width;
-            dim.height = 110;
-            break;
-          case ViewType.TwoWayTransaction:
-            dim.width = width;
-            dim.height = 80;
-            break;
-          case ViewType.TwoWayTransactionWithComment:
-            dim.width = width;
-            dim.height = 110;
-            break;
-          case ViewType.SectionHeader:
-            dim.width = width;
-            dim.height = 36;
-            break;
-          case ViewType.ListHeader:
-            dim.width = width;
-            dim.height = this.props.headerHeight ?? 0;
-            break;
-          default:
-            dim.width = width;
-            dim.height = 0;
-        }
-      },
-    );
+    const getLayoutTypeForIndex = (i: number) => this.state.dataProvider.getDataForIndex(i).type;
+    this.layoutProvider = new LayoutProvider(getLayoutTypeForIndex, setLayoutForType);
 
     this.renderRow = this.renderRow.bind(this);
     this.updateDataProvider = this.updateDataProvider.bind(this);
@@ -170,6 +127,7 @@ export class TransactionList extends Component<TransactionsListProps, Transactio
               rowRenderer={this.renderRow}
               dataProvider={this.state.dataProvider}
               layoutProvider={this.layoutProvider}
+              forceNonDeterministicRendering={true}
             />
           )
         }
