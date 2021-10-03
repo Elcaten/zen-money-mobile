@@ -70,6 +70,8 @@
         "UnexpectedError": "Ошибка"
     },
     "InstrumentPickerScreen": {
+        "PickCurrency": "Выбор вылюты",
+        "SearchCurrency": "Поиск валюты",
         "NoCurrenciesFound": "Валюта не найдена"
     },
     "LoadingScreen": {

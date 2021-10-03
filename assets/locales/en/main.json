@@ -70,6 +70,8 @@
         "UnexpectedError": "Error"
     },
     "InstrumentPickerScreen": {
+        "PickCurrency": "Pick a currency",
+        "SearchCurrency": "Search currency",
         "NoCurrenciesFound": "No currencies found"
     },
     "LoadingScreen": {
