@@ -11,14 +11,14 @@ import {useDeleteTag, useTags} from '../../api-hooks/useTags';
 import {Tag} from '../../api/models';
 import {View} from '../../components';
 import {Card} from '../../components/Card';
-import {ListItem} from '../../components/ListItem';
+import {OptionListItem, SwitchListItem} from '../../components/ListItem';
+import {ScrollView} from '../../components/ScrollView';
 import {ZenTextInput} from '../../components/ZenTextInput';
 import {ZenTextInputHandles} from '../../components/ZenTextInput/ZenTextInput';
 import {useHeaderButtons} from '../../hooks/useHeaderButtons';
 import {TagDetailsScreenProps} from '../../types';
 import {confirmDelete, generateUUID, showToast} from '../../utils';
 import {TagIcon} from '../components';
-import {RadioButton} from '../components/RadioButton';
 import {TagPicker} from '../components/TagPicker';
 import {EditableTag} from './editable-tag';
 
@@ -124,7 +124,7 @@ export const TagDetailsScreen: React.FC<TagDetailsScreenProps> = ({navigation, r
   }, [errors.title]);
 
   return (
-    <View disabled={isMutating || isDeleting}>
+    <ScrollView disabled={isMutating || isDeleting}>
       <View style={styles.headerContainer}>
         <View>
           <TagIcon icon={iconName} size={48} color={iconColor} style={styles.headerIcon} />
@@ -175,20 +175,14 @@ export const TagDetailsScreen: React.FC<TagDetailsScreenProps> = ({navigation, r
         <Controller
           control={control}
           render={({field: {onChange, onBlur, value}}) => (
-            <ListItem onPress={() => onChange(!value)}>
-              <ListItem.CheckBox checked={value} onBlur={onBlur} />
-              <ListItem.Title>{t('TagDetailsScreen.Expense')}</ListItem.Title>
-            </ListItem>
+            <SwitchListItem title={t('TagDetailsScreen.Expense')} onValueChange={onChange} value={value} />
           )}
           name="showOutcome"
         />
         <Controller
           control={control}
           render={({field: {onChange, onBlur, value}}) => (
-            <ListItem onPress={() => onChange(!value)}>
-              <ListItem.CheckBox checked={value} onBlur={onBlur} />
-              <ListItem.Title>{t('TagDetailsScreen.Income')}</ListItem.Title>
-            </ListItem>
+            <SwitchListItem title={t('TagDetailsScreen.Income')} onValueChange={onChange} value={value} />
           )}
           name="showIncome"
         />
@@ -200,23 +194,13 @@ export const TagDetailsScreen: React.FC<TagDetailsScreenProps> = ({navigation, r
         render={({field: {onChange, value}}) => (
           <Card>
             <Card.Title>{t('TagDetailsScreen.SpendingTitle')}</Card.Title>
-            <ListItem onPress={() => onChange(true)}>
-              <RadioButton checked={!!value} />
-              <ListItem.Content>
-                <ListItem.Title>{t('TagDetailsScreen.Fixed')}</ListItem.Title>
-              </ListItem.Content>
-            </ListItem>
-            <ListItem onPress={() => onChange(false)}>
-              <RadioButton checked={!value} />
-              <ListItem.Content>
-                <ListItem.Title>{t('TagDetailsScreen.Flexible')}</ListItem.Title>
-              </ListItem.Content>
-            </ListItem>
+            <OptionListItem title={t('TagDetailsScreen.Fixed')} onPress={() => onChange(true)} checked={!!value} />
+            <OptionListItem title={t('TagDetailsScreen.Flexible')} onPress={() => onChange(false)} checked={!value} />
           </Card>
         )}
         name="required"
       />
-    </View>
+    </ScrollView>
   );
 };
 

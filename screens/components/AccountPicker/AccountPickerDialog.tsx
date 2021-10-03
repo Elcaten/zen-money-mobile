@@ -4,10 +4,8 @@ import {ListRenderItem, SectionList, SectionListData} from 'react-native';
 import {Overlay} from 'react-native-elements';
 import {useAccounts} from '../../../api-hooks';
 import {AccountType, UserAccount} from '../../../api/models';
-import {CheckIcon} from '../../../components';
-import {ListItem} from '../../../components/ListItem';
+import {OptionListItem} from '../../../components/ListItem';
 import {SectionHeader} from '../../../components/SectionHeader';
-import {useNavigatorThemeColors} from '../../../themes';
 import {notNull} from '../../../utils';
 
 export interface AccountPickerDialogProps {
@@ -35,20 +33,16 @@ export const AccountPickerDialog: React.FC<AccountPickerDialogProps> = (props) =
     return (accounts ?? []).filter((a) => !recentAccountSet.has(a.id) && a.type !== AccountType.Debt).sort(byTitle);
   }, [accounts, props.recentAccounts]);
 
-  const {primary} = useNavigatorThemeColors();
-
   const renderItem: ListRenderItem<UserAccount> = ({item}) => {
     return (
-      <ListItem
+      <OptionListItem
+        title={item.title}
         onPress={() => {
           props.onSelect(item);
           props.onRequestClose();
-        }}>
-        <ListItem.Content>
-          <ListItem.Title>{item.title}</ListItem.Title>
-        </ListItem.Content>
-        {item.id === props.value ? <CheckIcon size={20} color={primary} /> : <></>}
-      </ListItem>
+        }}
+        checked={item.id === props.value}
+      />
     );
   };
 

@@ -6,10 +6,9 @@ import {SearchBar} from 'react-native-elements';
 import {DataProvider, LayoutProvider, RecyclerListView} from 'recyclerlistview';
 import {useInstruments} from '../../../api-hooks';
 import {Instrument} from '../../../api/models';
-import {CheckIcon, View} from '../../../components';
-import {ListItem} from '../../../components/ListItem';
+import {View} from '../../../components';
+import {OptionListItem} from '../../../components/ListItem';
 import {ZenText} from '../../../components/ZenText';
-import {useNavigatorThemeColors} from '../../../themes';
 import {InstrumentPickerScreenProps} from '../../../types';
 
 const ITEM_HEIGHT = Platform.select({ios: 44, default: 54});
@@ -56,24 +55,20 @@ export const InstrumentPickerScreen: React.FC<InstrumentPickerScreenProps> = ({r
     setDataProvider((prevState) => prevState.cloneWithRows([...selectedInstruments, ...foundInstruments]));
   }, [foundInstruments, selectedInstruments]);
 
-  const {primary} = useNavigatorThemeColors();
-
   const rowRenderer = useCallback(
     (_type: ReactText, item: Instrument) => {
       return (
-        <ListItem
+        <OptionListItem
           bottomDivider
+          title={item.title}
           onPress={() => {
             route.params.onSelect(item.id);
-          }}>
-          <ListItem.Content>
-            <ListItem.Title>{item.title}</ListItem.Title>
-          </ListItem.Content>
-          {item.id === instrumentId ? <CheckIcon size={20} color={primary} /> : <></>}
-        </ListItem>
+          }}
+          checked={item.id === instrumentId}
+        />
       );
     },
-    [instrumentId, primary, route.params],
+    [instrumentId, route.params],
   );
 
   const {t} = useTranslation();

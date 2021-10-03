@@ -1,11 +1,12 @@
 import * as React from 'react';
 import {useCallback} from 'react';
 import {useTranslation} from 'react-i18next';
-import {ListItem} from '../../components/ListItem';
+import {OptionListItem} from '../../components/ListItem';
 import {AppLocale, useStore} from '../../store/use-store';
 import {getLocaleName} from '../../utils/getLocaleName';
 import {getLocalePrefix} from '../../utils/getLocalePrefix';
-import {RadioButton} from '../components';
+
+const locales: AppLocale[] = [AppLocale.En, AppLocale.Ru];
 
 export interface LocalesScreenProps {}
 
@@ -24,18 +25,15 @@ export const LocalesScreen: React.FC<LocalesScreenProps> = (props) => {
 
   return (
     <React.Fragment>
-      <ListItem onPress={() => setLocale(AppLocale.En)}>
-        <RadioButton checked={localePrefix === AppLocale.En} />
-        <ListItem.Content>
-          <ListItem.Title>{getLocaleName(AppLocale.En)}</ListItem.Title>
-        </ListItem.Content>
-      </ListItem>
-      <ListItem onPress={() => setLocale(AppLocale.Ru)}>
-        <RadioButton checked={localePrefix === AppLocale.Ru} />
-        <ListItem.Content>
-          <ListItem.Title>{getLocaleName(AppLocale.Ru)}</ListItem.Title>
-        </ListItem.Content>
-      </ListItem>
+      {locales.map((locale) => (
+        <OptionListItem
+          key={locale}
+          title={getLocaleName(locale)}
+          onPress={() => setLocale(locale)}
+          checked={localePrefix === locale}
+          bottomDivider
+        />
+      ))}
     </React.Fragment>
   );
 };

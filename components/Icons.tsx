@@ -25,6 +25,16 @@ export const CheckIcon: React.FC<IconProps> = (props) => {
   return <MaterialIcons color={colors.iconColor} name="check" size={Icon.size} {...props} />;
 };
 
+export const CheckboxMarkedOutlineIcon: React.FC<IconProps> = (props) => {
+  const {colors, Icon} = useNavigatorTheme();
+  return <MaterialCommunityIcons color={colors.iconColor} name="checkbox-marked-outline" size={Icon.size} {...props} />;
+};
+
+export const CheckboxBlankOutlineIcon: React.FC<IconProps> = (props) => {
+  const {colors, Icon} = useNavigatorTheme();
+  return <MaterialCommunityIcons color={colors.iconColor} name="checkbox-blank-outline" size={Icon.size} {...props} />;
+};
+
 export const ChevronLeftIcon: React.FC<IconProps> = (props) => {
   const {colors, Icon} = useNavigatorTheme();
   return <MaterialIcons color={colors.iconColor} name="chevron-left" size={Icon.size} {...props} />;
