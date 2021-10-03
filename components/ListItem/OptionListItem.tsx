@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {Platform} from 'react-native';
+import {Platform, StyleProp, ViewStyle} from 'react-native';
 import {CheckboxBlankOutlineIcon, CheckboxMarkedOutlineIcon, CheckIcon} from '..';
 import {useNavigatorThemeColors} from '../../themes';
 import {RadioboxBlankIcon, RadioboxMarkedIcon} from '../Icons';
@@ -15,13 +15,21 @@ interface CheckboxListItemProps {
   onPress: () => void;
   multiple?: boolean;
   bottomDivider?: boolean;
+  style?: StyleProp<ViewStyle>;
 }
 
-export const OptionListItem: React.FC<CheckboxListItemProps> = ({title, checked, multiple, onPress, bottomDivider}) => {
+export const OptionListItem: React.FC<CheckboxListItemProps> = ({
+  title,
+  checked,
+  multiple,
+  onPress,
+  bottomDivider,
+  style,
+}) => {
   const {primary} = useNavigatorThemeColors();
 
   return (
-    <ListItem bottomDivider={bottomDivider} onPress={onPress}>
+    <ListItem bottomDivider={bottomDivider} onPress={onPress} style={style}>
       {android && multiple && (
         <ListItem.CheckBox
           checkedIcon={<CheckboxMarkedOutlineIcon size={SIZE} color={primary} />}

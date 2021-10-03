@@ -11,7 +11,7 @@ import {OptionListItem} from '../../../components/ListItem';
 import {ZenText} from '../../../components/ZenText';
 import {InstrumentPickerScreenProps} from '../../../types';
 
-const ITEM_HEIGHT = Platform.select({ios: 44, default: 54});
+const ITEM_HEIGHT = Platform.select({ios: 70, default: 54});
 
 const DATA_PROVIDER = new DataProvider((r1: Instrument, r2: Instrument) => {
   return r1.id !== r2.id;
@@ -59,12 +59,13 @@ export const InstrumentPickerScreen: React.FC<InstrumentPickerScreenProps> = ({r
     (_type: ReactText, item: Instrument) => {
       return (
         <OptionListItem
-          bottomDivider
           title={item.title}
           onPress={() => {
             route.params.onSelect(item.id);
           }}
           checked={item.id === instrumentId}
+          bottomDivider
+          style={styles.listItem}
         />
       );
     },
@@ -90,7 +91,12 @@ export const InstrumentPickerScreen: React.FC<InstrumentPickerScreenProps> = ({r
         </View>
       )}
       {foundInstruments.length > 0 && (
-        <RecyclerListView layoutProvider={layoutProvider} dataProvider={dataProvider} rowRenderer={rowRenderer} />
+        <RecyclerListView
+          layoutProvider={layoutProvider}
+          dataProvider={dataProvider}
+          rowRenderer={rowRenderer}
+          forceNonDeterministicRendering={true}
+        />
       )}
     </View>
   );
@@ -108,5 +114,8 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  listItem: {
+    width: '100%',
   },
 });
