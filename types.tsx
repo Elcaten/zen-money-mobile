@@ -61,6 +61,7 @@ export type MoreParamList = {
   TagsScreen: {}; // TODO: figure out what's wrong with navigation.setOptions typing
   TagDetailsScreen: {tagId?: string};
   InstrumentPickerScreen: PickerScreenProps<number | null>;
+  TagListPickerScreen: {tagIds: string[]; onSelect: (tagId: string | null) => void};
 };
 
 //==================================================||  SHARED  ||=====================================================
@@ -76,6 +77,16 @@ export type InstrumentPickerScreenNavigationProp = CompositeNavigationProp<
 export type InstrumentPickerScreenProps = {
   route: InstrumentPickerScreenRouteProp;
   navigation: InstrumentPickerScreenNavigationProp;
+};
+
+export type TagListPickerScreenRouteProp = RouteProp<MoreParamList, 'TagListPickerScreen'>;
+export type TagListPickerScreenNavigationProp = CompositeNavigationProp<
+  StackNavigationProp<MoreParamList, 'TagListPickerScreen'>,
+  BottomTabNavigationProp<BottomTabParamList>
+>;
+export type TagListPickerScreenProps = {
+  route: TagListPickerScreenRouteProp;
+  navigation: TagListPickerScreenNavigationProp;
 };
 
 //=================================================||  ACCOUNTS  ||====================================================

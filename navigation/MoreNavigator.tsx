@@ -2,9 +2,9 @@ import {createStackNavigator} from '@react-navigation/stack';
 import * as React from 'react';
 import {useTranslation} from 'react-i18next';
 import {Platform} from 'react-native';
-// import {createNativeStackNavigator} from 'react-native-screens/native-stack';
 import {IconPickerScreen, LocalesScreen, MoreScreen, TagDetailsScreen, TagsScreen, ThemesScreen} from '../screens/more';
 import {InstrumentPickerScreen} from '../screens/shared/InstrumentPickerScreen';
+import {TagListPickerScreen} from '../screens/shared/TagListPickerScreen';
 import {MoreParamList} from '../types';
 
 const Stack = createStackNavigator<MoreParamList>();
@@ -24,6 +24,11 @@ export const MoreNavigator: React.FC = () => {
         name="InstrumentPickerScreen"
         component={InstrumentPickerScreen}
         options={{headerTitle: t('InstrumentPickerScreen.PickCurrency'), headerShown: Platform.OS === 'ios'}}
+      />
+      <Stack.Screen
+        name="TagListPickerScreen"
+        component={TagListPickerScreen}
+        options={{headerTitle: t('TagListPickerScreen.PickTag')}}
       />
     </Stack.Navigator>
   );

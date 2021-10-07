@@ -109,6 +109,11 @@
         "SpendingTitle": "Spending in category is",
         "Title": "Title"
     },
+    "TagListPickerScreen": {
+        "PickTag": "Pick a category",
+        "NoTag": "No category",
+        "Icon": "Icon"
+    },
     "ThemesScreen": {
         "Dark": "Dark",
         "Light": "Light",

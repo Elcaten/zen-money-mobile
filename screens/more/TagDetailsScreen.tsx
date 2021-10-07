@@ -1,25 +1,22 @@
 import * as React from 'react';
-import {useCallback, useEffect, useMemo, useRef, useState} from 'react';
+import {useCallback, useEffect, useMemo, useRef} from 'react';
 import {Controller, useForm} from 'react-hook-form';
 import {useTranslation} from 'react-i18next';
-import {StyleSheet} from 'react-native';
-import {Button, Divider} from 'react-native-elements';
+import {Divider} from 'react-native-elements';
 import {useQueryClient} from 'react-query';
 import {useMutateTag} from '../../api-hooks';
 import {QueryKeys} from '../../api-hooks/query-keys';
 import {useDeleteTag, useTags} from '../../api-hooks/useTags';
 import {Tag} from '../../api/models';
-import {View} from '../../components';
 import {Card} from '../../components/Card';
-import {OptionListItem, SwitchListItem} from '../../components/ListItem';
+import {TextInputField} from '../../components/Field';
+import {ListItem, OptionListItem, PickerListItem, SwitchListItem} from '../../components/ListItem';
 import {ScrollView} from '../../components/ScrollView';
-import {ZenTextInput} from '../../components/ZenTextInput';
 import {ZenTextInputHandles} from '../../components/ZenTextInput/ZenTextInput';
 import {useHeaderButtons} from '../../hooks/useHeaderButtons';
 import {TagDetailsScreenProps} from '../../types';
 import {confirmDelete, generateUUID, showToast} from '../../utils';
 import {TagIcon} from '../components';
-import {TagPicker} from '../components/TagPicker';
 import {EditableTag} from './editable-tag';
 
 export const TagDetailsScreen: React.FC<TagDetailsScreenProps> = ({navigation, route}) => {
@@ -97,21 +94,22 @@ export const TagDetailsScreen: React.FC<TagDetailsScreenProps> = ({navigation, r
     isNewTag ? {onSavePress, disabled: isMutating} : {onDeletePress, onSavePress, disabled: isMutating || isDeleting},
   );
 
-  const [possibleParentTags, setPossibleParentTags] = useState<Tag[]>([]);
-  useEffect(() => {
+  const possibleParentTags = useMemo<Tag[]>(() => {
     const tagsArr = Array.from(tags.data?.values());
     const topLevelTags = tagsArr.filter(({parent}) => parent == null);
 
     if (tag?.parent != null) {
-      setPossibleParentTags(topLevelTags);
-      return;
+      return topLevelTags;
     }
 
     const tagHasChildren = tagsArr.some((i) => i.parent === tag?.id);
-    if (!tagHasChildren) {
-      setPossibleParentTags(topLevelTags.filter((i) => i.id !== tag?.id));
+
+    if (tagHasChildren) {
+      return [];
     }
-  }, [tag, tags.data]);
+
+    return topLevelTags.filter((i) => i.id !== tag?.id);
+  }, [tag?.id, tag?.parent, tags.data]);
 
   const iconColor = watch('color');
   const iconName = watch('icon');
@@ -125,49 +123,54 @@ export const TagDetailsScreen: React.FC<TagDetailsScreenProps> = ({navigation, r
 
   return (
     <ScrollView disabled={isMutating || isDeleting}>
-      <View style={styles.headerContainer}>
-        <View>
-          <TagIcon icon={iconName} size={48} color={iconColor} style={styles.headerIcon} />
-          <Button
-            type="clear"
-            title="Edit"
-            onPress={() =>
-              navigation.navigate('IconPickerScreen', {
-                icon: iconName,
-                color: iconColor,
-                onSave: (i, c) => {
-                  setValue('icon', i);
-                  setValue('color', c);
-                },
-              })
-            }
-          />
-        </View>
-        <View style={styles.flexFill}>
-          <Controller
-            control={control}
-            render={({field: {onChange, onBlur, value}}) => (
-              <ZenTextInput
-                ref={titleRef}
-                placeholder={t('TagDetailsScreen.Title')}
-                value={value}
-                onBlur={onBlur}
-                onChangeText={(text) => onChange(text)}
-              />
-            )}
-            name="title"
-            rules={{required: true}}
-          />
+      <Controller
+        control={control}
+        render={({field}) => <TextInputField ref={titleRef} field={field} placeholder={t('TagDetailsScreen.Title')} />}
+        name="title"
+        rules={{required: true}}
+      />
 
-          <Controller
-            control={control}
-            render={({field: {onChange, value}}) => {
-              return <TagPicker tags={possibleParentTags} selectedTag={value} onSelect={onChange} />;
-            }}
-            name="parent"
-          />
-        </View>
-      </View>
+      <ListItem
+        bottomDivider
+        onPress={() => {
+          navigation.navigate('IconPickerScreen', {
+            icon: iconName,
+            color: iconColor,
+            onSave: (i, c) => {
+              setValue('icon', i);
+              setValue('color', c);
+            },
+          });
+        }}>
+        <ListItem.Title style={{flex: 1}}>{t('TagListPickerScreen.Icon')}</ListItem.Title>
+        <TagIcon icon={iconName} size={20} color={iconColor} />
+        <ListItem.Chevron size={20} />
+      </ListItem>
+
+      <Controller
+        control={control}
+        render={({field: {onChange, value}}) => {
+          if (possibleParentTags.length === 0) {
+            return <></>;
+          }
+          return (
+            <PickerListItem
+              title={t('TagDetailsScreen.Parent')}
+              value={tags.data.get(value!)?.title}
+              onPress={() => {
+                navigation.navigate('TagListPickerScreen', {
+                  tagIds: possibleParentTags.map((x) => x.id),
+                  onSelect: (tagId) => {
+                    onChange(tagId);
+                    navigation.goBack();
+                  },
+                });
+              }}
+            />
+          );
+        }}
+        name="parent"
+      />
 
       <Divider />
       <Card>
@@ -203,16 +206,3 @@ export const TagDetailsScreen: React.FC<TagDetailsScreenProps> = ({navigation, r
     </ScrollView>
   );
 };
-
-const styles = StyleSheet.create({
-  headerContainer: {
-    flexDirection: 'row',
-    margin: 8,
-  },
-  headerIcon: {
-    marginRight: 16,
-  },
-  flexFill: {
-    flex: 1,
-  },
-});

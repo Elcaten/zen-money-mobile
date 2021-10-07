@@ -3,29 +3,10 @@ import {useCallback, useMemo} from 'react';
 import {FlatList, ListRenderItemInfo} from 'react-native';
 import {useTags} from '../../api-hooks/useTags';
 import {Tag} from '../../api/models';
-import {ListItem} from '../../components/ListItem';
-import {ZenText} from '../../components/ZenText';
 import {useHeaderButtons} from '../../hooks/useHeaderButtons';
 import {TagsScreenProps} from '../../types';
 import {extractId} from '../../utils';
-import {TagIcon} from '../components';
-
-interface TagItemProps {
-  tag: Tag;
-  onPress: (tag: Tag) => void;
-}
-
-const TagItem: React.FC<TagItemProps> = ({tag, onPress}) => {
-  const onPressCb = useCallback(() => {
-    onPress(tag);
-  }, [onPress, tag]);
-  return (
-    <ListItem onPress={onPressCb} topDivider={!tag.parent}>
-      <TagIcon style={{marginLeft: tag.parent ? 32 : 0}} icon={tag.icon} color={tag.color} />
-      <ZenText>{tag.title}</ZenText>
-    </ListItem>
-  );
-};
+import {TagListItem} from '../components/TagListItem';
 
 export const TagsScreen: React.FC<TagsScreenProps> = ({navigation}) => {
   const {data, isLoading, invalidate} = useTags();
@@ -44,7 +25,9 @@ export const TagsScreen: React.FC<TagsScreenProps> = ({navigation}) => {
   const onAddPress = useCallback(() => navigation.navigate('TagDetailsScreen', {tagId: undefined}), [navigation]);
 
   const renderTag = React.useCallback(
-    (info: ListRenderItemInfo<Tag>) => <TagItem tag={info.item} onPress={opendDetails} />,
+    (info: ListRenderItemInfo<Tag>) => (
+      <TagListItem iconsStyle={{marginLeft: info.item.parent ? 32 : 0}} tag={info.item} onPress={opendDetails} />
+    ),
     [opendDetails],
   );
 

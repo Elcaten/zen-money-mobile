@@ -109,6 +109,11 @@
         "SpendingTitle": "Расходы по этой категории",
         "Title": "Наименование"
     },
+    "TagListPickerScreen": {
+        "PickTag": "Выбор категории",
+        "NoTag": "Нет категории",
+        "Icon": "Иконка"
+    },
     "ThemesScreen": {
         "Dark": "Темная",
         "Light": "Светлая",
