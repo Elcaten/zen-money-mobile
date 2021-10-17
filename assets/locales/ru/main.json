@@ -60,6 +60,9 @@
         "UnsupportedTypeMessage": "Данный тип счета пока не поддерживается."
     },
     "EditTransactionScreen": {
+        "Account": "Счет",
+        "To": "На",
+        "From": "С",
         "Comment": "Комментарий",
         "DeleteSuccessMessage": "Операция удалена",
         "DeleteTransactionMessage": "Операция будет удалена.",

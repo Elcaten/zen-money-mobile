@@ -60,6 +60,9 @@
         "UnsupportedTypeMessage": "This account type is not yet supported."
     },
     "EditTransactionScreen": {
+        "Account": "Account",
+        "To": "To",
+        "From": "From",
         "Comment": "Comment",
         "DeleteSuccessMessage": "Transaction deleted",
         "DeleteTransactionMessage": "This transaction will be deleted.",
