@@ -10,17 +10,17 @@ declare type RecursivePartial<T> = {
 export type ElementsTheme = RecursivePartial<FullTheme>;
 
 export const DefaultElementsTheme: ElementsTheme = {
-  ButtonGroup: {
-    containerStyle: {
-      borderColor: DefaultNavigatorTheme.colors.border,
-    },
-    buttonStyle: {
-      backgroundColor: DefaultNavigatorTheme.colors.background,
-    },
-    textStyle: {
-      color: DefaultNavigatorTheme.colors.text,
-    },
-  },
+  // ButtonGroup: {
+  //   containerStyle: {
+  //     borderColor: DefaultNavigatorTheme.colors.border,
+  //   },
+  //   buttonStyle: {
+  //     backgroundColor: DefaultNavigatorTheme.colors.background,
+  //   },
+  //   textStyle: {
+  //     color: DefaultNavigatorTheme.colors.text,
+  //   },
+  // },
   colors: {
     primary: DefaultNavigatorTheme.colors.primary,
     secondary: DefaultNavigatorTheme.colors.secondary,
@@ -82,17 +82,17 @@ export const DefaultElementsTheme: ElementsTheme = {
 };
 
 export const DarkElementsTheme: ElementsTheme = {
-  ButtonGroup: {
-    containerStyle: {
-      borderColor: DarkNavigatorTheme.colors.border,
-    },
-    buttonStyle: {
-      backgroundColor: DarkNavigatorTheme.colors.background,
-    },
-    textStyle: {
-      color: DarkNavigatorTheme.colors.text,
-    },
-  },
+  // ButtonGroup: {
+  //   containerStyle: {
+  //     borderColor: DarkNavigatorTheme.colors.border,
+  //   },
+  //   buttonStyle: {
+  //     backgroundColor: DarkNavigatorTheme.colors.background,
+  //   },
+  //   textStyle: {
+  //     color: DarkNavigatorTheme.colors.text,
+  //   },
+  // },
   colors: {
     primary: DarkNavigatorTheme.colors.primary,
     secondary: DarkNavigatorTheme.colors.secondary,

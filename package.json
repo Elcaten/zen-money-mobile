@@ -64,7 +64,8 @@
     "react-query": "^3.13.10",
     "recyclerlistview": "^3.0.5-beta.1",
     "rn-placeholder": "^3.0.3",
-    "zustand": "^3.4.1"
+    "zustand": "^3.4.1",
+    "@react-native-segmented-control/segmented-control": "2.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",

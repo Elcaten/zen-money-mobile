@@ -2,21 +2,21 @@ import * as React from 'react';
 import {useCallback, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {StyleSheet} from 'react-native';
-import {ButtonGroup, ButtonGroupProps} from 'react-native-elements';
 import {ListItem} from '../../../components/ListItem';
+import {ZenSegmentedControl} from '../../../components/ZenSegmentedControl';
 import {TransactionType} from '../transaction-type';
 
 export type TransactionTypePickerProps = {
   selectedType: TransactionType | null;
   onSelect: (type: TransactionType) => void;
-} & ButtonGroupProps;
+};
 
-export const TransactionTypePicker: React.FC<TransactionTypePickerProps> = ({selectedType, onSelect, ...rest}) => {
+export const TransactionTypePicker: React.FC<TransactionTypePickerProps> = ({selectedType, onSelect}) => {
   const types = useTransactionTypes();
 
-  const buttons = types.map((t) => t.label);
+  const values = types.map((t) => t.label);
   const [selectedIndex, setSelectedIndex] = useState(types.findIndex((x) => x.type === selectedType));
-  const onPress = useCallback(
+  const onChange = useCallback(
     (index: number) => {
       setSelectedIndex(index);
       onSelect(types[index].type);
@@ -25,14 +25,8 @@ export const TransactionTypePicker: React.FC<TransactionTypePickerProps> = ({sel
   );
 
   return (
-    <ListItem bottomDivider>
-      <ButtonGroup
-        {...rest}
-        onPress={onPress}
-        selectedIndex={selectedIndex}
-        buttons={buttons}
-        containerStyle={styles.buttons}
-      />
+    <ListItem>
+      <ZenSegmentedControl values={values} selectedIndex={selectedIndex} onChange={onChange} style={styles.control} />
     </ListItem>
   );
 };
@@ -57,9 +51,7 @@ const useTransactionTypes = () => {
 };
 
 const styles = StyleSheet.create({
-  buttons: {
-    marginHorizontal: 0,
-    marginVertical: 0,
-    flex: 1,
+  control: {
+    marginVertical: 8,
   },
 });

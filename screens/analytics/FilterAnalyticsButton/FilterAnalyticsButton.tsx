@@ -9,7 +9,7 @@ import {useNavigatorThemeColors} from '../../../themes';
 import {FilterName} from '../filter-funcs';
 import {GroupName} from '../group-funcs';
 import {SortName} from '../sort-funcs';
-import {FilterButtonGroup} from './FilterButtonGroup';
+import {SegmentedFilter} from './SegmentedFilter';
 
 export interface FilterAnalyticsProps {
   filterName: FilterName;
@@ -83,13 +83,13 @@ export const FilterAnalyticsButton: React.FC<FilterAnalyticsProps> = (props) => 
         overlayStyle={{backgroundColor: card}}
         fullScreen={true}
         onRequestClose={() => setVisible(false)}>
-        <FilterButtonGroup
+        <SegmentedFilter
           buttons={filterButtons.map((b) => b.title)}
           selectedIndex={filterButtons.findIndex((b) => b.filterName === filterName)}
           onSelect={(idx) => setFilterName(filterButtons[idx].filterName)}
           description={'Transactions'}
         />
-        <FilterButtonGroup
+        <SegmentedFilter
           buttons={groupByButtons.map((b) => b.title)}
           selectedIndex={groupByButtons.findIndex((b) => b.groupName === groupName)}
           onSelect={(idx) => {
