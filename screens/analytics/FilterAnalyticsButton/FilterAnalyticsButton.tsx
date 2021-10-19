@@ -1,10 +1,11 @@
 import * as React from 'react';
 import {useEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
-import {StyleSheet} from 'react-native';
-import {Button, Overlay} from 'react-native-elements';
+import {Modal, StyleSheet} from 'react-native';
+import {Button} from 'react-native-elements';
 import {FAB} from 'react-native-paper';
-import {ListItem} from '../../../components/ListItem';
+import {View} from '../../../components';
+import {ZenFormSheet} from '../../../components/ZenFormSheet';
 import {useNavigatorThemeColors} from '../../../themes';
 import {FilterName} from '../filter-funcs';
 import {GroupName} from '../group-funcs';
@@ -77,12 +78,25 @@ export const FilterAnalyticsButton: React.FC<FilterAnalyticsProps> = (props) => 
 
   return (
     <React.Fragment>
-      <Overlay
-        isVisible={visible}
-        animationType="slide"
-        overlayStyle={{backgroundColor: card}}
-        fullScreen={true}
-        onRequestClose={() => setVisible(false)}>
+      <FAB icon={'filter'} style={[styles.fab, {backgroundColor: secondary}]} onPress={() => setVisible((v) => !v)} />
+      <ZenFormSheet visible={visible} onRequestClose={() => setVisible(false)}>
+        <View style={styles.header}>
+          <Button
+            title="Cancel"
+            type="clear"
+            onPress={() => {
+              setVisible(false);
+            }}
+          />
+          <Button
+            title="Apply"
+            type="clear"
+            onPress={() => {
+              setVisible(false);
+              props.onApply({filterName, groupName, sortName});
+            }}
+          />
+        </View>
         <SegmentedFilter
           buttons={filterButtons.map((b) => b.title)}
           selectedIndex={filterButtons.findIndex((b) => b.filterName === filterName)}
@@ -107,30 +121,21 @@ export const FilterAnalyticsButton: React.FC<FilterAnalyticsProps> = (props) => 
           //   ) : null
           // }
         />
-        <ListItem>
-          <Button
-            title="Apply"
-            onPress={() => {
-              setVisible(false);
-              props.onApply({filterName, groupName, sortName});
-            }}
-            containerStyle={styles.applyButton}
-          />
-        </ListItem>
-      </Overlay>
-      <FAB icon={'filter'} style={[styles.fab, {backgroundColor: secondary}]} onPress={() => setVisible((v) => !v)} />
+      </ZenFormSheet>
     </React.Fragment>
   );
 };
 
 export const styles = StyleSheet.create({
+  header: {
+    flexDirection: 'row',
+    padding: 8,
+    justifyContent: 'space-between',
+  },
   fab: {
     position: 'absolute',
     margin: 16,
     right: 0,
     bottom: 0,
-  },
-  applyButton: {
-    flex: 1,
   },
 });

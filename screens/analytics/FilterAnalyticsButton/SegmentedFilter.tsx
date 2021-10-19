@@ -3,6 +3,7 @@ import {useEffect, useState} from 'react';
 import {StyleSheet} from 'react-native';
 import {ListItem} from '../../../components/ListItem';
 import {ZenSegmentedControl} from '../../../components/ZenSegmentedControl';
+import {useNavigatorThemeColors} from '../../../themes';
 
 export function SegmentedFilter({
   buttons: values,
@@ -29,10 +30,10 @@ export function SegmentedFilter({
 
   return (
     <React.Fragment>
-      <ListItem topDivider>
+      <ListItem>
         <ListItem.Title>{description}</ListItem.Title>
       </ListItem>
-      <ListItem bottomDivider>
+      <ListItem>
         <ZenSegmentedControl
           onChange={onChange}
           selectedIndex={selectedIndex}
