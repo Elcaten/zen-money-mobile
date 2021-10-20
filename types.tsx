@@ -10,6 +10,8 @@ interface PickerScreenProps<TValue, TSelectedValue = TValue> {
   onSelect: (value: TSelectedValue) => void;
 }
 
+type AccountPickerScreenParamList = PickerScreenProps<string | null, UserAccount> & {recentAccounts?: string[]};
+
 //===============================================||  PARAM LISTS  ||===================================================
 export type RootStackParamList = {
   Root: undefined;
@@ -47,7 +49,7 @@ export type TransactionsParamList = {
     transactionType?: TransactionType;
     transactionId?: string;
   };
-  AccountPickerScreen: PickerScreenProps<string | null, UserAccount> & {recentAccounts: string[]};
+  AccountPickerScreen: AccountPickerScreenParamList;
 };
 
 export type AnalyticsParamList = {
@@ -71,6 +73,7 @@ export type MoreParamList = {
   TagDetailsScreen: {tagId?: string};
   InstrumentPickerScreen: PickerScreenProps<number | null>;
   TagListPickerScreen: {tagIds: string[]; onSelect: (tagId: string | null) => void};
+  AccountPickerScreen: AccountPickerScreenParamList;
 };
 
 //==================================================||  SHARED  ||=====================================================
@@ -78,9 +81,13 @@ export type MoreParamList = {
 type AccountsAndMoreKeys = keyof AccountsParamList & keyof MoreParamList;
 type AccountsAndMoreParamList = Pick<AccountsParamList, AccountsAndMoreKeys> & Pick<MoreParamList, AccountsAndMoreKeys>;
 
-export type AccountPickerScreenRouteProp = RouteProp<TransactionsParamList, 'AccountPickerScreen'>;
+type TransactionsAndMoreKeys = keyof TransactionsParamList & keyof MoreParamList;
+type TransactionsAndMoreParamList = Pick<TransactionsParamList, TransactionsAndMoreKeys> &
+  Pick<MoreParamList, TransactionsAndMoreKeys>;
+
+export type AccountPickerScreenRouteProp = RouteProp<TransactionsAndMoreParamList, 'AccountPickerScreen'>;
 export type AccountPickerScreenNavigationProp = CompositeNavigationProp<
-  StackNavigationProp<TransactionsParamList, 'AccountPickerScreen'>,
+  StackNavigationProp<TransactionsAndMoreParamList, 'AccountPickerScreen'>,
   BottomTabNavigationProp<BottomTabParamList>
 >;
 export type AccountPickerScreenProps = {

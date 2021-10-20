@@ -4,7 +4,7 @@ import {useAccountDictionary} from '../../../api-hooks';
 import {UserAccount} from '../../../api/models';
 import {WalletIcon} from '../../../components';
 import {PickerListItem} from '../../../components/ListItem';
-import {EditTransactionScreenNavigationProp} from '../../../types';
+import {AccountPickerScreenNavigationProp} from '../../../types';
 
 export const AccountPicker: React.FC<{
   title: string;
@@ -13,11 +13,12 @@ export const AccountPicker: React.FC<{
   recentAccounts: string[];
   RenderAs?: React.FC<{onPress: () => void; title: string | null | undefined}>;
 }> = ({title, value, onSelect, recentAccounts, RenderAs}) => {
-  const navigation = useNavigation<EditTransactionScreenNavigationProp>();
+  const navigation = useNavigation<AccountPickerScreenNavigationProp>();
   const accountDict = useAccountDictionary();
-  const onPress = useCallback(() => {
-    () => navigation.navigate('AccountPickerScreen', {value, onSelect, recentAccounts});
-  }, [navigation, onSelect, recentAccounts, value]);
+  const onPress = useCallback(
+    () => navigation.navigate('AccountPickerScreen', {value, onSelect, recentAccounts}),
+    [navigation, onSelect, recentAccounts, value],
+  );
 
   return RenderAs ? (
     <RenderAs onPress={onPress} title={title} />

@@ -6,6 +6,7 @@ import {IconPickerScreen, LocalesScreen, MoreScreen, TagDetailsScreen, TagsScree
 import {SyncAccountSettingsScreen} from '../screens/more/SyncAccountSettingsScreen';
 import {SyncSettingsScreen} from '../screens/more/SyncSettingsScreen';
 import {SyncTagSettingsScreen} from '../screens/more/SyncTagSettingsScreen';
+import {AccountPickerScreen} from '../screens/shared/AccountPickerScreen';
 import {InstrumentPickerScreen} from '../screens/shared/InstrumentPickerScreen';
 import {TagListPickerScreen} from '../screens/shared/TagListPickerScreen';
 import {MoreParamList} from '../types';
@@ -47,6 +48,11 @@ export const MoreNavigator: React.FC = () => {
         name="TagListPickerScreen"
         component={TagListPickerScreen}
         options={{headerTitle: t('TagListPickerScreen.PickTag')}}
+      />
+      <Stack.Screen
+        name="AccountPickerScreen"
+        component={AccountPickerScreen}
+        options={{headerTitle: t('AccountPickerScreen.Accounts')}}
       />
     </Stack.Navigator>
   );

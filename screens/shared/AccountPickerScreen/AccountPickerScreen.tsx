@@ -14,9 +14,9 @@ export const AccountPickerScreen: React.FC<AccountPickerScreenProps> = ({route, 
   const recentAccounts = useMemo(
     () =>
       route.params.recentAccounts
-        .map((id) => accounts?.find((a) => a.id === id))
+        ?.map((id) => accounts?.find((a) => a.id === id))
         .filter(notNull)
-        .sort(byTitle),
+        .sort(byTitle) ?? [],
     [accounts, route.params.recentAccounts],
   );
 
