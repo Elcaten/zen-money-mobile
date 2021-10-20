@@ -1,8 +1,8 @@
 import dayjs from 'dayjs';
 import React, {useEffect, useMemo, useState} from 'react';
 import {Controller, useFieldArray, useForm} from 'react-hook-form';
-import {ListItem} from 'react-native-elements';
 import {View} from '../../components';
+import {ListItem} from '../../components/ListItem';
 import {ScrollView} from '../../components/ScrollView';
 import {ZenOverlay} from '../../components/ZenOverlay';
 import {ZenText} from '../../components/ZenText';
