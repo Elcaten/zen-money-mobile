@@ -4,7 +4,6 @@ import {useTranslation} from 'react-i18next';
 import {Modal, StyleSheet} from 'react-native';
 import {Button} from 'react-native-elements';
 import {FAB} from 'react-native-paper';
-import {View} from '../../../components';
 import {ZenFormSheet} from '../../../components/ZenFormSheet';
 import {useNavigatorThemeColors} from '../../../themes';
 import {FilterName} from '../filter-funcs';
@@ -80,7 +79,7 @@ export const FilterAnalyticsButton: React.FC<FilterAnalyticsProps> = (props) => 
     <React.Fragment>
       <FAB icon={'filter'} style={[styles.fab, {backgroundColor: secondary}]} onPress={() => setVisible((v) => !v)} />
       <ZenFormSheet visible={visible} onRequestClose={() => setVisible(false)}>
-        <View style={styles.header}>
+        <ZenFormSheet.Header>
           <Button
             title="Cancel"
             type="clear"
@@ -96,7 +95,7 @@ export const FilterAnalyticsButton: React.FC<FilterAnalyticsProps> = (props) => 
               props.onApply({filterName, groupName, sortName});
             }}
           />
-        </View>
+        </ZenFormSheet.Header>
         <SegmentedFilter
           buttons={filterButtons.map((b) => b.title)}
           selectedIndex={filterButtons.findIndex((b) => b.filterName === filterName)}
@@ -126,12 +125,7 @@ export const FilterAnalyticsButton: React.FC<FilterAnalyticsProps> = (props) => 
   );
 };
 
-export const styles = StyleSheet.create({
-  header: {
-    flexDirection: 'row',
-    padding: 8,
-    justifyContent: 'space-between',
-  },
+const styles = StyleSheet.create({
   fab: {
     position: 'absolute',
     margin: 16,

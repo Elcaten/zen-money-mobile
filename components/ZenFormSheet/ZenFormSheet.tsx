@@ -1,5 +1,6 @@
 import React from 'react';
 import {Modal, ModalBaseProps, StyleSheet} from 'react-native';
+import {ZenFormSheetHeader} from './ZenFormSheetHeader';
 import {useNavigatorThemeColors} from '../../themes';
 import {View} from '../View';
 
@@ -7,7 +8,7 @@ export type ZenFormSheetProps = {
   visible: boolean;
 } & Pick<ModalBaseProps, 'onShow' | 'onRequestClose'>;
 
-export const ZenFormSheet: React.FC<ZenFormSheetProps> = ({visible, onRequestClose, children}) => {
+const ZenFormSheetComponent: React.FC<ZenFormSheetProps> = ({visible, onRequestClose, children}) => {
   const {card} = useNavigatorThemeColors();
 
   return (
@@ -16,6 +17,8 @@ export const ZenFormSheet: React.FC<ZenFormSheetProps> = ({visible, onRequestClo
     </Modal>
   );
 };
+
+export const ZenFormSheet = Object.assign(ZenFormSheetComponent, {Header: ZenFormSheetHeader});
 
 const styles = StyleSheet.create({
   wrapper: {
