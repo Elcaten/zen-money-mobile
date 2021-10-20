@@ -1,9 +1,11 @@
 import dayjs from 'dayjs';
 import React, {useEffect, useMemo, useState} from 'react';
 import {Controller, useFieldArray, useForm} from 'react-hook-form';
+import {Button} from 'react-native-elements';
 import {View} from '../../components';
 import {ListItem} from '../../components/ListItem';
 import {ScrollView} from '../../components/ScrollView';
+import {ZenFormSheet} from '../../components/ZenFormSheet';
 import {ZenOverlay} from '../../components/ZenOverlay';
 import {ZenText} from '../../components/ZenText';
 import {useHeaderButtons} from '../../hooks';
@@ -60,12 +62,17 @@ export const SyncAccountSettingsScreen: React.FC<SyncAccountSettingsScreenProps>
 
   return (
     <React.Fragment>
-      <ZenOverlay
-        isVisible={isOverlayVisible}
-        onBackdropPress={() => {
-          setIsOverlayVisible(false);
-          setSelectedCardNumber(null);
-        }}>
+      <ZenFormSheet visible={isOverlayVisible}>
+        <ZenFormSheet.Header>
+          <Button
+            type="clear"
+            title="Cancel"
+            onPress={() => {
+              setIsOverlayVisible(false);
+              setSelectedCardNumber(null);
+            }}
+          />
+        </ZenFormSheet.Header>
         <ScrollView>
           {cardNumberOperations.map((o) => {
             const sign = o.type === 'Debit' ? '-' : o.type === 'Credit' ? '+' : '??';
@@ -88,7 +95,7 @@ export const SyncAccountSettingsScreen: React.FC<SyncAccountSettingsScreenProps>
             );
           })}
         </ScrollView>
-      </ZenOverlay>
+      </ZenFormSheet>
       <ScrollView>
         {isLoading && <ZenText>Loading...</ZenText>}
         {fields.map((field, index) => (

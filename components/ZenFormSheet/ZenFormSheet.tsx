@@ -1,6 +1,7 @@
 import React from 'react';
 import {Modal, ModalBaseProps, StyleSheet} from 'react-native';
 import {ZenFormSheetHeader} from './ZenFormSheetHeader';
+import {ZenFormSheetHeaderSpacer} from './ZenFormSheetHeaderSpacer';
 import {useNavigatorThemeColors} from '../../themes';
 import {View} from '../View';
 
@@ -18,7 +19,10 @@ const ZenFormSheetComponent: React.FC<ZenFormSheetProps> = ({visible, onRequestC
   );
 };
 
-export const ZenFormSheet = Object.assign(ZenFormSheetComponent, {Header: ZenFormSheetHeader});
+export const ZenFormSheet = Object.assign(ZenFormSheetComponent, {
+  Header: ZenFormSheetHeader,
+  HeaderSpacer: ZenFormSheetHeaderSpacer,
+});
 
 const styles = StyleSheet.create({
   wrapper: {
