@@ -13,9 +13,15 @@ const promptUserForAuth = async () => {
     },
   );
 
-  const result = await authRequest.promptAsync({
-    authorizationEndpoint: AUTH_URL,
-  });
+  const result = await authRequest.promptAsync(
+    {
+      authorizationEndpoint: AUTH_URL,
+    },
+    {
+      // Redirect URL for ZenMoney SHOULD NOT be encoded
+      url: `${AUTH_URL}/?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URL}&response_type=code`,
+    },
+  );
 
   // TODO: fix AuthSession not redirecting back to app
   //
