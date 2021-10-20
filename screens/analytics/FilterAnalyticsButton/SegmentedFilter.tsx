@@ -1,11 +1,12 @@
 import * as React from 'react';
 import {useEffect, useState} from 'react';
 import {StyleSheet} from 'react-native';
-import {ButtonGroup} from 'react-native-elements';
 import {ListItem} from '../../../components/ListItem';
+import {ZenSegmentedControl} from '../../../components/ZenSegmentedControl';
+import {useNavigatorThemeColors} from '../../../themes';
 
-export function FilterButtonGroup({
-  buttons,
+export function SegmentedFilter({
+  buttons: values,
   selectedIndex: _selectedIndex,
   onSelect,
   description,
@@ -22,33 +23,34 @@ export function FilterButtonGroup({
     setSelectedIndex(_selectedIndex);
   }, [_selectedIndex]);
 
-  const onPress = (index: number) => {
+  const onChange = (index: number) => {
     setSelectedIndex(index);
     onSelect(index);
   };
 
   return (
     <React.Fragment>
-      <ListItem topDivider>
+      <ListItem>
         <ListItem.Title>{description}</ListItem.Title>
       </ListItem>
-      <ListItem bottomDivider>
-        <ListItem.Content>
-          <ButtonGroup
-            onPress={onPress}
-            selectedIndex={selectedIndex}
-            buttons={buttons}
-            containerStyle={styles.buttons}
-          />
+      <ListItem>
+        <ZenSegmentedControl
+          onChange={onChange}
+          selectedIndex={selectedIndex}
+          values={values}
+          style={styles.segmentedControl}
+        />
+        {/* <ListItem.Content>
+
           {renderFooter?.()}
-        </ListItem.Content>
+        </ListItem.Content> */}
       </ListItem>
     </React.Fragment>
   );
 }
 
 export const styles = StyleSheet.create({
-  buttons: {
+  segmentedControl: {
     marginHorizontal: 0,
     marginVertical: 0,
   },

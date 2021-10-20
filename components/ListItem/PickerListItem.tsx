@@ -5,7 +5,7 @@ import {ZenText} from '../ZenText';
 import {ListItem, ListItemProps} from './ListItem';
 
 type PickerhListItemProps = ListItemProps & {
-  title: string;
+  title: string | undefined;
   value?: string;
   leftIcon?: () => React.ReactNode;
 };
@@ -19,7 +19,7 @@ export function PickerListItem({title, value, leftIcon, ...rest}: React.PropsWit
       <ZenText numberOfLines={1} style={[styles.value, {color: secondaryText}]}>
         {value}
       </ZenText>
-      <ListItem.Chevron size={24} />
+      <ListItem.Chevron size={20} />
     </ListItem>
   );
 }

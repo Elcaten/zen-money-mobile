@@ -1,4 +1,4 @@
-export * from './CheckboxListItem';
+export * from './OptionListItem';
 export * from './ListItem';
 export * from './ListItemSubtitle';
 export * from './ListItemtTitle';

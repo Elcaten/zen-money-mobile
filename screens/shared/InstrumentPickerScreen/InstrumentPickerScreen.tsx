@@ -1,22 +1,24 @@
 import * as React from 'react';
-import {ReactText, useCallback, useLayoutEffect, useMemo, useState} from 'react';
+import {ReactText, useCallback, useEffect, useMemo, useState} from 'react';
 import {useTranslation} from 'react-i18next';
-import {Dimensions, StyleSheet} from 'react-native';
-import {SearchBar} from 'react-native-elements';
+import {Dimensions, Platform, StyleSheet} from 'react-native';
+import {SafeAreaView} from 'react-native-safe-area-context';
 import {DataProvider, LayoutProvider, RecyclerListView} from 'recyclerlistview';
 import {useInstruments} from '../../../api-hooks';
 import {Instrument} from '../../../api/models';
-import {CheckIcon, View} from '../../../components';
-import {ListItem} from '../../../components/ListItem';
+import {View} from '../../../components';
+import {OptionListItem} from '../../../components/ListItem';
+import {ZenSearchBar} from '../../../components/ZenSearchBar';
 import {ZenText} from '../../../components/ZenText';
-import {useNavigatorThemeColors} from '../../../themes';
 import {InstrumentPickerScreenProps} from '../../../types';
 
-const ITEM_HEIGHT = 54;
+const ITEM_HEIGHT = Platform.select({ios: 70, default: 54});
 
 const DATA_PROVIDER = new DataProvider((r1: Instrument, r2: Instrument) => {
   return r1.id !== r2.id;
 });
+
+const ViewComponent = Platform.select({ios: View, default: SafeAreaView});
 
 export const InstrumentPickerScreen: React.FC<InstrumentPickerScreenProps> = ({route, navigation}) => {
   const instrumentId = route.params.value;
@@ -52,75 +54,69 @@ export const InstrumentPickerScreen: React.FC<InstrumentPickerScreenProps> = ({r
     [searchExpr, unselectedInstruments],
   );
 
-  React.useEffect(() => {
+  useEffect(() => {
     setDataProvider((prevState) => prevState.cloneWithRows([...selectedInstruments, ...foundInstruments]));
   }, [foundInstruments, selectedInstruments]);
-
-  const {primary} = useNavigatorThemeColors();
 
   const rowRenderer = useCallback(
     (_type: ReactText, item: Instrument) => {
       return (
-        <ListItem
-          bottomDivider
+        <OptionListItem
+          title={item.title}
           onPress={() => {
             route.params.onSelect(item.id);
-          }}>
-          <ListItem.Content>
-            <ListItem.Title>{item.title}</ListItem.Title>
-          </ListItem.Content>
-          {item.id === instrumentId ? <CheckIcon size={20} color={primary} /> : <></>}
-        </ListItem>
+          }}
+          checked={item.id === instrumentId}
+          bottomDivider
+          style={styles.listItem}
+        />
       );
     },
-    [instrumentId, primary, route.params],
+    [instrumentId, route.params],
   );
 
-  useLayoutEffect(() => {
-    setTimeout(() => {
-      navigation.setOptions({
-        headerTitle: () => (
-          <SearchBar
-            containerStyle={styles.searchBar}
-            cancelIcon={false}
-            searchIcon={false as any}
-            platform="android"
-            placeholder="Search"
-            value={searchExpr}
-            onChangeText={setSearchExpr as any}
-          />
-        ),
-      });
-    }, 500);
-  }, [navigation, searchExpr]);
-
   const {t} = useTranslation();
+  const onBackPress = useCallback(() => navigation.goBack(), [navigation]);
 
   return (
-    <View style={styles.container}>
+    <ViewComponent style={styles.container}>
+      <ZenSearchBar
+        placeholder={t('InstrumentPickerScreen.SearchCurrency')}
+        value={searchExpr}
+        onChangeText={setSearchExpr}
+        onBackPress={onBackPress}
+        containerStyle={styles.searchBar}
+      />
       {foundInstruments.length === 0 && (
         <View style={styles.emptyList}>
           <ZenText>{t('InstrumentPickerScreen.NoCurrenciesFound')}</ZenText>
         </View>
       )}
       {foundInstruments.length > 0 && (
-        <RecyclerListView ind layoutProvider={layoutProvider} dataProvider={dataProvider} rowRenderer={rowRenderer} />
+        <RecyclerListView
+          layoutProvider={layoutProvider}
+          dataProvider={dataProvider}
+          rowRenderer={rowRenderer}
+          forceNonDeterministicRendering={true}
+        />
       )}
-    </View>
+    </ViewComponent>
   );
 };
 
 const styles = StyleSheet.create({
-  searchBar: {
-    paddingBottom: 0,
-    paddingTop: 0,
-  },
   container: {
     flex: 1,
+  },
+  searchBar: {
+    elevation: 4,
   },
   emptyList: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  listItem: {
+    width: '100%',
   },
 });

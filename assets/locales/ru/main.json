@@ -61,6 +61,9 @@
         "UnsupportedTypeMessage": "Данный тип счета пока не поддерживается."
     },
     "EditTransactionScreen": {
+        "Account": "Счет",
+        "To": "На",
+        "From": "С",
         "Comment": "Комментарий",
         "DeleteSuccessMessage": "Операция удалена",
         "DeleteTransactionMessage": "Операция будет удалена.",
@@ -71,6 +74,8 @@
         "UnexpectedError": "Ошибка"
     },
     "InstrumentPickerScreen": {
+        "PickCurrency": "Выбор вылюты",
+        "SearchCurrency": "Поиск валюты",
         "NoCurrenciesFound": "Валюта не найдена"
     },
     "LoadingScreen": {
@@ -112,6 +117,11 @@
         "Show": "Показывать",
         "SpendingTitle": "Расходы по этой категории",
         "Title": "Наименование"
+    },
+    "TagListPickerScreen": {
+        "PickTag": "Выбор категории",
+        "NoTag": "Нет категории",
+        "Icon": "Иконка"
     },
     "ThemesScreen": {
         "Dark": "Темная",

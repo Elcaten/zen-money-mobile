@@ -93,7 +93,6 @@ export const AccountDetailsScreen: React.FC<AccountDetailsScreenProps> = ({navig
             <ZenText size="giant">{account?.balanceFormatted}</ZenText>
           </Card>
         )}
-        headerHeight={HEADER_HEIGHT}
         onScroll={onScroll}
         scrollViewProps={{
           refreshControl: <RefreshControl refreshing={isLoading || isFiltering} onRefresh={invalidate} />,
@@ -128,7 +127,8 @@ const styles = StyleSheet.create({
   listHeader: {
     justifyContent: 'center',
     alignItems: 'center',
-    height: HEADER_HEIGHT,
+    padding: 16,
+    width: '100%',
   },
   listHeaderIcon: {
     borderRadius: 64,

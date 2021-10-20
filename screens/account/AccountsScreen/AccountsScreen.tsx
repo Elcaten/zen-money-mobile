@@ -24,9 +24,10 @@ export const AccountsScreen: React.FC<AccountsScreenProps> = ({navigation}) => {
   const [showArchived, setShowArchived] = useState(false);
   const archivedAccounts = useMemo(() => accounts.filter((a) => a.archive && a.type !== AccountType.Debt), [accounts]);
   const displayShowArchivedButton = archivedAccounts.length > 0;
-  const nonArchivedAccounts = useMemo(() => accounts.filter((a) => !a.archive && a.type !== AccountType.Debt), [
-    accounts,
-  ]);
+  const nonArchivedAccounts = useMemo(
+    () => accounts.filter((a) => !a.archive && a.type !== AccountType.Debt),
+    [accounts],
+  );
 
   const renderAccountItem = React.useCallback(
     (info: ListRenderItemInfo<AccountModel>) => (

@@ -1,14 +1,16 @@
+import {createStackNavigator} from '@react-navigation/stack';
 import * as React from 'react';
 import {useTranslation} from 'react-i18next';
-import {createNativeStackNavigator} from 'react-native-screens/native-stack';
+import {Platform} from 'react-native';
 import {IconPickerScreen, LocalesScreen, MoreScreen, TagDetailsScreen, TagsScreen, ThemesScreen} from '../screens/more';
 import {SyncAccountSettingsScreen} from '../screens/more/SyncAccountSettingsScreen';
 import {SyncSettingsScreen} from '../screens/more/SyncSettingsScreen';
 import {SyncTagSettingsScreen} from '../screens/more/SyncTagSettingsScreen';
 import {InstrumentPickerScreen} from '../screens/shared/InstrumentPickerScreen';
+import {TagListPickerScreen} from '../screens/shared/TagListPickerScreen';
 import {MoreParamList} from '../types';
 
-const Stack = createNativeStackNavigator<MoreParamList>();
+const Stack = createStackNavigator<MoreParamList>();
 
 export const MoreNavigator: React.FC = () => {
   const {t} = useTranslation();
@@ -21,7 +23,6 @@ export const MoreNavigator: React.FC = () => {
       <Stack.Screen name="TagsScreen" component={TagsScreen} options={{headerTitle: t('MoreScreen.Tags')}} />
       <Stack.Screen name="TagDetailsScreen" component={TagDetailsScreen} options={{headerTitle: ''}} />
       <Stack.Screen name="IconPickerScreen" component={IconPickerScreen} options={{headerTitle: ''}} />
-      <Stack.Screen name="InstrumentPickerScreen" component={InstrumentPickerScreen} options={{headerTitle: ''}} />
       <Stack.Screen
         name="SyncSettingsScreen"
         component={SyncSettingsScreen}
@@ -36,6 +37,16 @@ export const MoreNavigator: React.FC = () => {
         name="SyncTagSettingsScreen"
         component={SyncTagSettingsScreen}
         options={{headerTitle: t('SyncSettingsScreen.TagSetting')}}
+      />
+      <Stack.Screen
+        name="InstrumentPickerScreen"
+        component={InstrumentPickerScreen}
+        options={{headerTitle: t('InstrumentPickerScreen.PickCurrency'), headerShown: Platform.OS === 'ios'}}
+      />
+      <Stack.Screen
+        name="TagListPickerScreen"
+        component={TagListPickerScreen}
+        options={{headerTitle: t('TagListPickerScreen.PickTag')}}
       />
     </Stack.Navigator>
   );

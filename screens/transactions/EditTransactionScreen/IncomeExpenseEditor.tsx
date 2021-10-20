@@ -20,10 +20,16 @@ import {validateNumericString} from '../../../utils/validate-numeric-string';
 import {AccountPicker} from '../../components/AccountPicker/AccountPicker';
 import {TagGridPicker} from '../../components/TagGridPicker';
 
+export interface IncomeExpenseAccountModel {
+  id: string;
+  title: string;
+  instrument: number | null;
+}
+
 export interface IncomeExpenseTransaction {
   id: string;
   amount: string;
-  account: {id: string; title: string; instrument: number | null};
+  account: IncomeExpenseAccountModel;
   date: Date;
   tag: string | null;
   comment: string | null;
@@ -71,10 +77,10 @@ export const IncomeExpenseEditor: React.FC<IncomeExpenseEditorProps> = ({
 
   const watchAccount = watch('account');
   const instruments = useInstruments();
-  const instrumentSymbol = useMemo(() => instruments.data?.get(watchAccount!.instrument!)?.symbol, [
-    instruments.data,
-    watchAccount,
-  ]);
+  const instrumentSymbol = useMemo(
+    () => instruments.data?.get(watchAccount!.instrument!)?.symbol,
+    [instruments.data, watchAccount],
+  );
 
   const amountInputRef = React.useRef<NumberInputFieldHandle>(null);
 
@@ -117,7 +123,12 @@ export const IncomeExpenseEditor: React.FC<IncomeExpenseEditorProps> = ({
       <Controller
         control={control}
         render={({field: {onChange, value}}) => (
-          <AccountPicker title={value.title} value={value.id} recentAccounts={recentAccounts} onSelect={onChange} />
+          <AccountPicker
+            title={t('EditTransactionScreen.Account')}
+            value={value.id}
+            recentAccounts={recentAccounts}
+            onSelect={onChange}
+          />
         )}
         name="account"
         rules={{required: true}}

@@ -18,12 +18,18 @@ import {useShakeOnError} from '../../../hooks/useShakeOnError';
 import {generateUUID, validateNumericString} from '../../../utils';
 import {AccountPicker} from '../../components/AccountPicker/AccountPicker';
 
+export interface TransferAccountModel {
+  id: string;
+  title: string;
+  instrument: number | null;
+}
+
 export interface TransferTransaction {
   id: string;
   income: string;
-  incomeAccount: {id: string; title: string; instrument: number | null};
+  incomeAccount: TransferAccountModel;
   outcome: string;
-  outcomeAccount: {id: string; title: string; instrument: number | null};
+  outcomeAccount: TransferAccountModel;
   date: Date;
   comment: string | null;
 }
@@ -80,15 +86,15 @@ export const TransferEditor: React.FC<TransferEditorProps> = ({
 
   const instruments = useInstruments();
   const watchOutcomeAccount = watch('outcomeAccount');
-  const outcomeSymbol = useMemo(() => instruments.data?.get(watchOutcomeAccount.instrument!)?.symbol, [
-    instruments.data,
-    watchOutcomeAccount,
-  ]);
+  const outcomeSymbol = useMemo(
+    () => instruments.data?.get(watchOutcomeAccount.instrument!)?.symbol,
+    [instruments.data, watchOutcomeAccount],
+  );
   const watchIncomeAccount = watch('incomeAccount');
-  const incomeSymbol = useMemo(() => instruments.data?.get(watchIncomeAccount.instrument!)?.symbol, [
-    instruments.data,
-    watchIncomeAccount,
-  ]);
+  const incomeSymbol = useMemo(
+    () => instruments.data?.get(watchIncomeAccount.instrument!)?.symbol,
+    [instruments.data, watchIncomeAccount],
+  );
 
   const {t} = useTranslation();
 
@@ -130,7 +136,12 @@ export const TransferEditor: React.FC<TransferEditorProps> = ({
       <Controller
         control={control}
         render={({field: {onChange, value}}) => (
-          <AccountPicker title={value.title} value={value.id} onSelect={onChange} recentAccounts={recentAccounts} />
+          <AccountPicker
+            title={t('EditTransactionScreen.From')}
+            value={value.id}
+            onSelect={onChange}
+            recentAccounts={recentAccounts}
+          />
         )}
         name="outcomeAccount"
         rules={{required: true}}
@@ -139,7 +150,12 @@ export const TransferEditor: React.FC<TransferEditorProps> = ({
       <Controller
         control={control}
         render={({field: {onChange, value}}) => (
-          <AccountPicker title={value.title} value={value.id} onSelect={onChange} recentAccounts={recentAccounts} />
+          <AccountPicker
+            title={t('EditTransactionScreen.To')}
+            value={value.id}
+            onSelect={onChange}
+            recentAccounts={recentAccounts}
+          />
         )}
         name="incomeAccount"
         rules={{required: true}}

@@ -3,32 +3,12 @@ import * as Localization from 'expo-localization';
 import * as SecureStore from 'expo-secure-store';
 import {Appearance} from 'react-native';
 import createStore from 'zustand';
-import {configurePersist} from 'zustand-persist';
 import {filterMostRecent} from '../utils/filter';
 import {ENCRYPTION_KEY_PERSIST_KEY} from '../utils/manifest-extra';
 import {decrypt, encrypt} from './aes';
 import {createSelectorHooks} from './create-selectors';
 
-const {persist, purge} = configurePersist({
-  storage: {
-    getItem: async (key) => {
-      const [encryptionKey, enchryptedHex] = await Promise.all([
-        SecureStore.getItemAsync(ENCRYPTION_KEY_PERSIST_KEY),
-        AsyncStorage.getItem(key),
-      ]);
-      return encryptionKey && enchryptedHex ? decrypt(enchryptedHex, encryptionKey) : null;
-    },
-    setItem: async (key, value) => {
-      const {encryptionKeyHex, encryptedTextHex} = await encrypt(value);
-      await Promise.all([
-        await SecureStore.setItemAsync(ENCRYPTION_KEY_PERSIST_KEY, encryptionKeyHex),
-        await AsyncStorage.setItem(key, encryptedTextHex),
-      ]);
-    },
-    removeItem: AsyncStorage.removeItem,
-  },
-  rootKey: 'root', // optional, default value is `root`
-});
+import {persist} from 'zustand/middleware';
 
 export enum AppLocale {
   Ru = 'ru',
@@ -73,15 +53,13 @@ export type State = {
   tinkoffPassword: string | undefined;
   setTinkoffUsername: (value: string | undefined) => void;
   setTinkoffPassword: (value: string | undefined) => void;
+  _hasHydrated: boolean;
 };
 
 const colorScheme = Appearance.getColorScheme() as unknown as 'light' | 'dark';
 
 const useStoreBase = createStore<State>(
   persist(
-    {
-      key: 'persist', // required, child key of storage
-    },
     (set) => ({
       recentExpenseAccounts: [],
       addRecentExpenseAccount: (value) =>
@@ -108,7 +86,25 @@ const useStoreBase = createStore<State>(
       tinkoffPassword: undefined,
       setTinkoffUsername: (value) => set(() => ({tinkoffUsername: value})),
       setTinkoffPassword: (value) => set(() => ({tinkoffPassword: value})),
+      _hasHydrated: false,
     }),
+    {
+      name: 'store',
+      getStorage: () => AsyncStorage,
+      serialize: async (state) => {
+        const str = JSON.stringify(state);
+        const {encryptionKeyHex, encryptedTextHex} = await encrypt(str);
+        await SecureStore.setItemAsync(ENCRYPTION_KEY_PERSIST_KEY, encryptionKeyHex);
+        return encryptedTextHex;
+      },
+      deserialize: async (enchryptedHex) => {
+        const encryptionKey = await SecureStore.getItemAsync(ENCRYPTION_KEY_PERSIST_KEY);
+        return encryptionKey && enchryptedHex ? JSON.parse(decrypt(enchryptedHex, encryptionKey)) : {state: {}};
+      },
+      onRehydrateStorage: () => () => {
+        useStore.setState({_hasHydrated: true});
+      },
+    },
   ),
 );
 

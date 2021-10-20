@@ -1,33 +1,33 @@
-import React, {useState} from 'react';
+import {useNavigation} from '@react-navigation/core';
+import React, {useCallback} from 'react';
+import {useAccountDictionary} from '../../../api-hooks';
 import {UserAccount} from '../../../api/models';
 import {WalletIcon} from '../../../components';
 import {PickerListItem} from '../../../components/ListItem';
-import {AccountPickerDialog} from './AccountPickerDialog';
+import {EditTransactionScreenNavigationProp} from '../../../types';
 
 export const AccountPicker: React.FC<{
-  title: string | null | undefined;
-  value: string | null | undefined;
+  title: string;
+  value: string;
   onSelect: (account: UserAccount) => void;
+  recentAccounts: string[];
   RenderAs?: React.FC<{onPress: () => void; title: string | null | undefined}>;
-  recentAccounts?: string[];
 }> = ({title, value, onSelect, recentAccounts, RenderAs}) => {
-  const [visible, setVisible] = useState(false);
-  const toggleVisible = () => setVisible((v) => !v);
+  const navigation = useNavigation<EditTransactionScreenNavigationProp>();
+  const accountDict = useAccountDictionary();
+  const onPress = useCallback(() => {
+    () => navigation.navigate('AccountPickerScreen', {value, onSelect, recentAccounts});
+  }, [navigation, onSelect, recentAccounts, value]);
 
-  return (
-    <React.Fragment>
-      <AccountPickerDialog
-        value={value}
-        recentAccounts={recentAccounts ?? []}
-        onSelect={onSelect}
-        visible={visible}
-        onRequestClose={toggleVisible}
-      />
-      {RenderAs ? (
-        <RenderAs onPress={toggleVisible} title={title} />
-      ) : (
-        <PickerListItem bottomDivider leftIcon={() => <WalletIcon />} title={title ?? ''} onPress={toggleVisible} />
-      )}
-    </React.Fragment>
+  return RenderAs ? (
+    <RenderAs onPress={onPress} title={title} />
+  ) : (
+    <PickerListItem
+      bottomDivider
+      leftIcon={() => <WalletIcon />}
+      title={title}
+      value={accountDict?.get(value!)?.title ?? ''}
+      onPress={onPress}
+    />
   );
 };

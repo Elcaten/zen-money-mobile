@@ -61,6 +61,9 @@
         "UnsupportedTypeMessage": "This account type is not yet supported."
     },
     "EditTransactionScreen": {
+        "Account": "Account",
+        "To": "To",
+        "From": "From",
         "Comment": "Comment",
         "DeleteSuccessMessage": "Transaction deleted",
         "DeleteTransactionMessage": "This transaction will be deleted.",
@@ -71,6 +74,8 @@
         "UnexpectedError": "Error"
     },
     "InstrumentPickerScreen": {
+        "PickCurrency": "Pick a currency",
+        "SearchCurrency": "Search currency",
         "NoCurrenciesFound": "No currencies found"
     },
     "LoadingScreen": {
@@ -112,6 +117,11 @@
         "Show": "Show",
         "SpendingTitle": "Spending in category is",
         "Title": "Title"
+    },
+    "TagListPickerScreen": {
+        "PickTag": "Pick a category",
+        "NoTag": "No category",
+        "Icon": "Icon"
     },
     "ThemesScreen": {
         "Dark": "Dark",

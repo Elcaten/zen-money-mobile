@@ -11,7 +11,6 @@ import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {OverflowMenuProvider} from 'react-navigation-header-buttons';
 import {QueryClient, QueryClientProvider as QCProvider} from 'react-query';
 import {persistQueryClient} from 'react-query/persistQueryClient-experimental';
-import {PersistGate} from 'zustand-persist';
 import {createAsyncStoragePersistor} from './api/create-async-storage-persistor';
 import useCachedResources from './hooks/useCachedResources';
 import {Root} from './root/Root';
@@ -46,8 +45,7 @@ const QueryClientProvider: React.FC = ({children}) => {
 export default function App() {
   const isLoadingComplete = useCachedResources();
 
-  // Must call useStore to bootstrap persistence or will stop on loading screen
-  useStore(themeSelector);
+  const hasHydrated = useStore.use._hasHydrated();
 
   const WrappedApp = composeProviders(
     RootSiblingParent,
@@ -59,7 +57,5 @@ export default function App() {
     QueryClientProvider,
   )(Root);
 
-  return <PersistGate>{isLoadingComplete ? <WrappedApp /> : <React.Fragment />}</PersistGate>;
+  return hasHydrated && isLoadingComplete ? <WrappedApp /> : <React.Fragment />;
 }
-
-const themeSelector = (x: State) => x.theme;

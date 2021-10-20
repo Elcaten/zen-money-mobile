@@ -1,6 +1,5 @@
 import * as React from 'react';
 import {StyleSheet} from 'react-native';
-import {View} from '../../../components';
 import {ZenText} from '../../../components/ZenText';
 
 export interface TransactionSectionHeaderProps {
@@ -9,11 +8,7 @@ export interface TransactionSectionHeaderProps {
 }
 
 export const TransactionSectionHeader: React.FC<TransactionSectionHeaderProps> = ({title, color}) => {
-  return (
-    <View>
-      <ZenText style={[styles.title, {color}]}>{title}</ZenText>
-    </View>
-  );
+  return <ZenText style={[styles.title, {color}]}>{title}</ZenText>;
 };
 
 const styles = StyleSheet.create({

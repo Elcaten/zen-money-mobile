@@ -2,13 +2,13 @@ import {HeaderBackButton} from '@react-navigation/stack';
 import * as React from 'react';
 import {useCallback, useEffect, useRef, useState} from 'react';
 import {useTranslation} from 'react-i18next';
-import {FlatList, Keyboard, RefreshControl, StyleSheet} from 'react-native';
+import {FlatList, Keyboard, Platform, RefreshControl, StyleSheet} from 'react-native';
 import {SearchBar} from 'react-native-elements';
 import {useTransactionModels} from '../../../api-hooks';
 import {View} from '../../../components';
 import {Card} from '../../../components/Card';
 import {ListItem} from '../../../components/ListItem';
-import {ZenOverlay} from '../../../components/ZenOverlay';
+import {ZenFormSheet} from '../../../components/ZenFormSheet';
 import {ZenText} from '../../../components/ZenText';
 import {
   SearchSuggestion,
@@ -18,7 +18,6 @@ import {
   useSearchSuggestions,
 } from '../../../hooks';
 import {useHeaderButtons} from '../../../hooks/useHeaderButtons';
-import {useNavigatorThemeColors} from '../../../themes';
 import {TransactionsScreenProps} from '../../../types';
 import {extractIndex} from '../../../utils';
 import {TransactionList} from '../../components/TransactionList';
@@ -71,20 +70,13 @@ export const TransactionsScreen: React.FC<TransactionsScreenProps> = ({navigatio
     [navigation],
   );
 
-  const {card} = useNavigatorThemeColors();
-
   return (
     <View style={styles.wrapper}>
-      <ZenOverlay
-        isVisible={visible}
-        animationType="slide"
-        fullScreen={true}
-        onShow={() => ref.current?.focus()}
-        onRequestClose={() => toggleOverlay()}>
+      <ZenFormSheet visible={visible} onShow={() => ref.current?.focus()} onRequestClose={() => toggleOverlay()}>
         <SearchBar
           ref={ref}
           containerStyle={styles.searchBar}
-          platform="android"
+          platform={Platform.select({ios: 'ios', android: 'android', default: 'default'})}
           placeholder="Search"
           onFocus={() => setShowSuggestions(true)}
           value={searchExpr}
@@ -115,7 +107,7 @@ export const TransactionsScreen: React.FC<TransactionsScreenProps> = ({navigatio
           </View>
         )}
         {!showSuggestions && <TransactionList data={searchResults} onItemPress={() => {}} />}
-      </ZenOverlay>
+      </ZenFormSheet>
       <TransactionList
         data={transactions}
         scrollViewProps={{

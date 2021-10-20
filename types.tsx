@@ -2,12 +2,12 @@ import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
 import {CompositeNavigationProp, NavigatorScreenParams, RouteProp} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {NativeStackNavigationProp} from 'react-native-screens/native-stack';
-import {AccountType, TagIconName} from './api/models';
+import {AccountType, TagIconName, UserAccount} from './api/models';
 import {TransactionType} from './screens/transactions/transaction-type';
 
-interface PickerScreenProps<T> {
-  value: T;
-  onSelect: (value: T) => void;
+interface PickerScreenProps<TValue, TSelectedValue = TValue> {
+  value: TValue;
+  onSelect: (value: TSelectedValue) => void;
 }
 
 //===============================================||  PARAM LISTS  ||===================================================
@@ -47,6 +47,7 @@ export type TransactionsParamList = {
     transactionType?: TransactionType;
     transactionId?: string;
   };
+  AccountPickerScreen: PickerScreenProps<string | null, UserAccount> & {recentAccounts: string[]};
 };
 
 export type AnalyticsParamList = {
@@ -69,12 +70,23 @@ export type MoreParamList = {
   TagsScreen: {}; // TODO: figure out what's wrong with navigation.setOptions typing
   TagDetailsScreen: {tagId?: string};
   InstrumentPickerScreen: PickerScreenProps<number | null>;
+  TagListPickerScreen: {tagIds: string[]; onSelect: (tagId: string | null) => void};
 };
 
 //==================================================||  SHARED  ||=====================================================
 // https://stackoverflow.com/questions/65422185/proper-typescript-type-for-a-reused-screen-in-react-navigation-v5
 type AccountsAndMoreKeys = keyof AccountsParamList & keyof MoreParamList;
 type AccountsAndMoreParamList = Pick<AccountsParamList, AccountsAndMoreKeys> & Pick<MoreParamList, AccountsAndMoreKeys>;
+
+export type AccountPickerScreenRouteProp = RouteProp<TransactionsParamList, 'AccountPickerScreen'>;
+export type AccountPickerScreenNavigationProp = CompositeNavigationProp<
+  StackNavigationProp<TransactionsParamList, 'AccountPickerScreen'>,
+  BottomTabNavigationProp<BottomTabParamList>
+>;
+export type AccountPickerScreenProps = {
+  route: AccountPickerScreenRouteProp;
+  navigation: AccountPickerScreenNavigationProp;
+};
 
 export type InstrumentPickerScreenRouteProp = RouteProp<AccountsAndMoreParamList, 'InstrumentPickerScreen'>;
 export type InstrumentPickerScreenNavigationProp = CompositeNavigationProp<
@@ -84,6 +96,16 @@ export type InstrumentPickerScreenNavigationProp = CompositeNavigationProp<
 export type InstrumentPickerScreenProps = {
   route: InstrumentPickerScreenRouteProp;
   navigation: InstrumentPickerScreenNavigationProp;
+};
+
+export type TagListPickerScreenRouteProp = RouteProp<MoreParamList, 'TagListPickerScreen'>;
+export type TagListPickerScreenNavigationProp = CompositeNavigationProp<
+  StackNavigationProp<MoreParamList, 'TagListPickerScreen'>,
+  BottomTabNavigationProp<BottomTabParamList>
+>;
+export type TagListPickerScreenProps = {
+  route: TagListPickerScreenRouteProp;
+  navigation: TagListPickerScreenNavigationProp;
 };
 
 //=================================================||  ACCOUNTS  ||====================================================
