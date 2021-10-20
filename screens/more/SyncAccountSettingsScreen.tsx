@@ -1,6 +1,7 @@
 import dayjs from 'dayjs';
 import React, {useEffect, useMemo, useState} from 'react';
 import {Controller, useFieldArray, useForm} from 'react-hook-form';
+import {RefreshControl} from 'react-native';
 import {Button} from 'react-native-elements';
 import {View} from '../../components';
 import {ListItem} from '../../components/ListItem';
@@ -20,7 +21,7 @@ import {SyncAccountPicker} from '../components/SyncAccountPicker';
 export const SyncAccountSettingsScreen: React.FC<SyncAccountSettingsScreenProps> = ({navigation}) => {
   const [start] = useState(dayjs(new Date()).subtract(1, 'week').toDate());
   const [end] = useState(new Date());
-  const {data: lastWeekOperations, isLoading} = useOperations(start, end);
+  const {data: lastWeekOperations, isLoading, invalidate} = useOperations(start, end);
 
   const {
     control,
@@ -96,8 +97,7 @@ export const SyncAccountSettingsScreen: React.FC<SyncAccountSettingsScreenProps>
           })}
         </ScrollView>
       </ZenFormSheet>
-      <ScrollView>
-        {isLoading && <ZenText>Loading...</ZenText>}
+      <ScrollView refreshControl={<RefreshControl refreshing={isLoading} onRefresh={invalidate} />}>
         {fields.map((field, index) => (
           <Controller
             key={field.id}
