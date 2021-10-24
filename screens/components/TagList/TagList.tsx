@@ -37,11 +37,14 @@ const TagListComponent: React.ForwardRefRenderFunction<TagListHadle, TagListProp
 
   return (
     <View style={styles.container}>
-      <RecyclerListView
-        layoutProvider={layoutProvider}
-        dataProvider={dataProvider}
-        rowRenderer={(_: any, item: Tag) => renderItem(item)}
-      />
+      {dataProvider.getSize() > 0 && (
+        <RecyclerListView
+          layoutProvider={layoutProvider}
+          dataProvider={dataProvider}
+          rowRenderer={(_: any, item: Tag) => renderItem(item)}
+          forceNonDeterministicRendering={true}
+        />
+      )}
     </View>
   );
 };

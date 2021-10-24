@@ -1,4 +1,5 @@
 import React, {useCallback} from 'react';
+import {StyleSheet} from 'react-native';
 import {Tag} from '../../../api/models';
 import {ListItem} from '../../../components/ListItem';
 import {ZenText} from '../../../components/ZenText';
@@ -16,10 +17,16 @@ export const TagListItem: React.FC<TagListItemProps> = ({tag, onPress, rightIcon
   }, [onPress, tag]);
 
   return (
-    <ListItem onPress={onPressCb} topDivider={!tag.parent}>
+    <ListItem onPress={onPressCb} topDivider={!tag.parent} style={styles.wrapper}>
       <TagIcon style={{marginLeft: tag.parent ? 32 : 0}} icon={tag.icon} color={tag.color} />
       <ZenText>{tag.title}</ZenText>
       {rightIcon && rightIcon()}
     </ListItem>
   );
 };
+
+const styles = StyleSheet.create({
+  wrapper: {
+    width: '100%',
+  },
+});
