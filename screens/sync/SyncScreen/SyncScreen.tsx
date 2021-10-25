@@ -195,7 +195,7 @@ const SyncScreenComponent: React.FC<SyncScreenComponentProps> = ({tags, accounts
                         RenderAs={SyncTagPicker}
                         tag={tags.get(item.tagId!)}
                         onSelect={(tag) => {
-                          update(index, {...item, tagId: tag.id});
+                          update(index, {...item, tagId: tag?.id});
                         }}
                       />
                     )}

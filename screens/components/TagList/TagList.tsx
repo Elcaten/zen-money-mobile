@@ -1,8 +1,9 @@
-import React, {forwardRef, ReactElement, useMemo} from 'react';
-import {Dimensions, StyleSheet} from 'react-native';
+import React, {forwardRef, ReactElement, ReactNode, useMemo} from 'react';
+import {Dimensions, ScrollView, StyleSheet} from 'react-native';
 import {DataProvider, LayoutProvider, RecyclerListView} from 'recyclerlistview';
 import {Tag} from '../../../api/models';
 import {View} from '../../../components';
+import {ScrollViewWithHeader} from '../../../components/ScrollViewWithHeader';
 
 const ITEM_HEIGHT = 56;
 
@@ -15,9 +16,13 @@ export interface TagListHadle {}
 export interface TagListProps {
   tags: Tag[];
   renderItem: (tag: Tag) => ReactElement | null;
+  HeaderComponent?: ReactNode;
 }
 
-const TagListComponent: React.ForwardRefRenderFunction<TagListHadle, TagListProps> = ({renderItem, tags}, ref) => {
+const TagListComponent: React.ForwardRefRenderFunction<TagListHadle, TagListProps> = (
+  {renderItem, HeaderComponent, tags},
+  _,
+) => {
   const [dataProvider, setDataProvider] = React.useState(DATA_PROVIDER);
   const layoutProvider = useMemo(
     () =>
@@ -43,6 +48,8 @@ const TagListComponent: React.ForwardRefRenderFunction<TagListHadle, TagListProp
           dataProvider={dataProvider}
           rowRenderer={(_: any, item: Tag) => renderItem(item)}
           forceNonDeterministicRendering={true}
+          externalScrollView={ScrollViewWithHeader as any}
+          scrollViewProps={{HeaderComponent: HeaderComponent}}
         />
       )}
     </View>

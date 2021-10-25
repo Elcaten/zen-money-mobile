@@ -67,14 +67,13 @@ export const SyncTagSettingsScreen: React.FC<SyncTagSettingsScreenProps> = ({}) 
           <ListItem bottomDivider>
             <ListItem.Title style={{flex: 1}}>{item.categoryName}</ListItem.Title>
             <TagListPicker
-              containerStyle={{flexDirection: 'row', marginTop: 8}}
               RenderAs={SyncTagPicker}
               tag={tags.get(item.tagId!)!}
               onSelect={(tag) => {
                 update(index, {
                   ...item,
-                  tagId: tag.id,
-                  tagTitle: tag.title,
+                  tagId: tag?.id,
+                  tagTitle: tag?.title,
                 });
                 setModifiedByUser(true);
               }}

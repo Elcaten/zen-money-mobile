@@ -1,35 +1,54 @@
-import React from 'react';
+import React, {useCallback} from 'react';
+import {useTranslation} from 'react-i18next';
 import {useSortedByParentTags} from '../../../api-hooks';
 import {Tag} from '../../../api/models';
 import {CheckIcon} from '../../../components';
-import {ZenOverlay} from '../../../components/ZenOverlay';
-import {TagListItem} from '../TagList';
+import {ListItem} from '../../../components/ListItem';
+import {ZenFormSheet} from '../../../components/ZenFormSheet';
+import {TagListItem} from '../TagListItem';
 import {TagList} from '../TagList/TagList';
 
 export interface TagListPickerDialogProps {
   visible: boolean;
   onRequestClose: () => void;
   value: string | undefined;
-  onSelect: (tag: Tag) => void;
+  onSelect: (tag: Tag | null) => void;
 }
 
-export const TagListPickerDialog: React.FC<TagListPickerDialogProps> = (props) => {
+export const TagListPickerDialog: React.FC<TagListPickerDialogProps> = ({onSelect, value, visible, onRequestClose}) => {
   const {tags} = useSortedByParentTags();
+  const {t} = useTranslation();
+
+  const renderHeader = useCallback(() => {
+    return (
+      <ListItem
+        onPress={() => {
+          onSelect(null);
+          onRequestClose();
+        }}>
+        <ListItem.Title>{t('TagListPickerScreen.NoTag')}</ListItem.Title>
+      </ListItem>
+    );
+  }, [onRequestClose, onSelect, t]);
 
   const renderItem = (tag: Tag) => (
     <TagListItem
       tag={tag}
-      rightIcon={() => (props.value === tag.id ? <CheckIcon /> : null)}
-      onPress={(t: Tag) => {
-        props.onSelect(t);
-        props.onRequestClose();
+      rightIcon={() => (value === tag.id ? <CheckIcon /> : null)}
+      iconsStyle={{marginLeft: tag.parent ? 32 : 0}}
+      onPress={(newTag: Tag) => {
+        onSelect(newTag);
+        onRequestClose();
       }}
     />
   );
 
   return (
-    <ZenOverlay isVisible={props.visible} animationType="slide" fullScreen={true} onRequestClose={props.onRequestClose}>
-      <TagList tags={tags} renderItem={renderItem} />
-    </ZenOverlay>
+    <ZenFormSheet visible={visible} onRequestClose={onRequestClose}>
+      <ZenFormSheet.Header>
+        <ZenFormSheet.CancelButton onPress={onRequestClose} />
+      </ZenFormSheet.Header>
+      <TagList tags={tags} renderItem={renderItem} HeaderComponent={renderHeader} />
+    </ZenFormSheet>
   );
 };
