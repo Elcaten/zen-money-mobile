@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {useEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
-import {Modal, StyleSheet} from 'react-native';
+import {StyleSheet} from 'react-native';
 import {Button} from 'react-native-elements';
 import {FAB} from 'react-native-paper';
 import {ZenFormSheet} from '../../../components/ZenFormSheet';
@@ -80,13 +80,7 @@ export const FilterAnalyticsButton: React.FC<FilterAnalyticsProps> = (props) => 
       <FAB icon={'filter'} style={[styles.fab, {backgroundColor: secondary}]} onPress={() => setVisible((v) => !v)} />
       <ZenFormSheet visible={visible} onRequestClose={() => setVisible(false)}>
         <ZenFormSheet.Header>
-          <Button
-            title="Cancel"
-            type="clear"
-            onPress={() => {
-              setVisible(false);
-            }}
-          />
+          <ZenFormSheet.CancelButton onPress={() => setVisible(false)} />
           <Button
             title="Apply"
             type="clear"

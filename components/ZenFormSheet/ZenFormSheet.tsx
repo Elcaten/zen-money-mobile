@@ -1,9 +1,10 @@
-import React from 'react';
+import React, {useCallback, useState} from 'react';
 import {Modal, ModalBaseProps, StyleSheet} from 'react-native';
 import {ZenFormSheetHeader} from './ZenFormSheetHeader';
 import {ZenFormSheetHeaderSpacer} from './ZenFormSheetHeaderSpacer';
 import {useNavigatorThemeColors} from '../../themes';
 import {View} from '../View';
+import {ZenFormSheetCancelButton} from './ZenFormSheetCancelButton';
 
 export type ZenFormSheetProps = {
   visible: boolean;
@@ -22,6 +23,7 @@ const ZenFormSheetComponent: React.FC<ZenFormSheetProps> = ({visible, onRequestC
 export const ZenFormSheet = Object.assign(ZenFormSheetComponent, {
   Header: ZenFormSheetHeader,
   HeaderSpacer: ZenFormSheetHeaderSpacer,
+  CancelButton: ZenFormSheetCancelButton,
 });
 
 const styles = StyleSheet.create({
