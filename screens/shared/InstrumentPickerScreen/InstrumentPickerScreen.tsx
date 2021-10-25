@@ -36,14 +36,14 @@ export const InstrumentPickerScreen: React.FC<InstrumentPickerScreenProps> = ({r
   );
 
   const {data} = useInstruments();
-  const selectedInstruments = useMemo(() => (data.has(instrumentId!) ? [data.get(instrumentId!)!] : []), [
-    data,
-    instrumentId,
-  ]);
-  const unselectedInstruments = useMemo(() => data.valuesArray().filter((i) => i.id !== instrumentId), [
-    data,
-    instrumentId,
-  ]);
+  const selectedInstruments = useMemo(
+    () => (data.has(instrumentId!) ? [data.get(instrumentId!)!] : []),
+    [data, instrumentId],
+  );
+  const unselectedInstruments = useMemo(
+    () => data.valuesArray().filter((i) => i.id !== instrumentId),
+    [data, instrumentId],
+  );
 
   const [searchExpr, setSearchExpr] = useState('');
   const foundInstruments = useMemo(
