@@ -7,7 +7,6 @@ import {View} from '../../components';
 import {ListItem} from '../../components/ListItem';
 import {ScrollView} from '../../components/ScrollView';
 import {ZenFormSheet} from '../../components/ZenFormSheet';
-import {ZenOverlay} from '../../components/ZenOverlay';
 import {ZenText} from '../../components/ZenText';
 import {useHeaderButtons} from '../../hooks';
 import {CardInfo, useStore} from '../../store/use-store';
