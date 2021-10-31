@@ -18,6 +18,7 @@ import {useAccountTypes} from '../../../hooks/useAccountTypes';
 import {useHeaderButtons} from '../../../hooks/useHeaderButtons';
 import {AccountDetailsScreenProps} from '../../../types';
 import {generateUUID, showToast} from '../../../utils';
+import {AccountTypePicker} from '../../components/AccountTypePicker';
 import {EditableAccount} from './editable-account';
 
 export const EditAccountScreen: React.FC<AccountDetailsScreenProps> = ({navigation, route}) => {
@@ -98,11 +99,10 @@ export const EditAccountScreen: React.FC<AccountDetailsScreenProps> = ({navigati
         <Controller
           control={control}
           render={({field: {onChange, value}}) => (
-            <PickerListItem
-              bottomDivider
+            <AccountTypePicker
               title={t('EditAccountScreen.AccountType')}
               value={accounTypes.get(value!) ?? ''}
-              onPress={() => navigation.navigate('AccountTypePickerScreen', {value: value, onSelect: onChange})}
+              onSelect={onChange}
             />
           )}
           name="type"

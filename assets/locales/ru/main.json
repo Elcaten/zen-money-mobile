@@ -21,9 +21,6 @@
     "Deposit": "Депозит",
     "Loan": "Кредит"
   },
-  "AccountTypePickerScreen": {
-    "AccountType": "Тип счета"
-  },
   "AccountsScreen": {
     "Accounts": "Счета",
     "AddAccount": "Добавить счет",

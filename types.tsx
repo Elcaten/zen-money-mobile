@@ -2,7 +2,7 @@ import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
 import {CompositeNavigationProp, NavigatorScreenParams, RouteProp} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {NativeStackNavigationProp} from 'react-native-screens/native-stack';
-import {AccountType, TagIconName} from './api/models';
+import {TagIconName} from './api/models';
 import {TransactionType} from './screens/transactions/transaction-type';
 
 interface PickerScreenProps<TValue, TSelectedValue = TValue> {
@@ -34,7 +34,6 @@ export type AccountsParamList = {
   };
   AccountOverviewScreen: undefined;
   InstrumentPickerScreen: PickerScreenProps<number | null>;
-  AccountTypePickerScreen: PickerScreenProps<AccountType | null>;
 };
 
 export type SyncParamList = {
@@ -120,16 +119,6 @@ export type AccountDetailsScreenNavigationProp = CompositeNavigationProp<
 export type AccountDetailsScreenProps = {
   route: AccountDetailsScreenRouteProp;
   navigation: AccountDetailsScreenNavigationProp;
-};
-
-export type AccountTypePickerScreenRouteProp = RouteProp<AccountsParamList, 'AccountTypePickerScreen'>;
-export type AccountTypePickerScreenNavigationProp = CompositeNavigationProp<
-  StackNavigationProp<AccountsParamList, 'AccountTypePickerScreen'>,
-  BottomTabNavigationProp<BottomTabParamList>
->;
-export type AccountTypePickerScreenProps = {
-  route: AccountTypePickerScreenRouteProp;
-  navigation: AccountTypePickerScreenNavigationProp;
 };
 
 //===================================================||  SYNC  ||======================================================

@@ -21,9 +21,6 @@
     "Deposit": "Deposit",
     "Loan": "Loan"
   },
-  "AccountTypePickerScreen": {
-    "AccountType": "Account type"
-  },
   "AccountsScreen": {
     "Accounts": "Accounts",
     "AddAccount": "Add account",
