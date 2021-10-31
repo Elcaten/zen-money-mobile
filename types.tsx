@@ -2,15 +2,13 @@ import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
 import {CompositeNavigationProp, NavigatorScreenParams, RouteProp} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {NativeStackNavigationProp} from 'react-native-screens/native-stack';
-import {AccountType, TagIconName, UserAccount} from './api/models';
+import {AccountType, TagIconName} from './api/models';
 import {TransactionType} from './screens/transactions/transaction-type';
 
 interface PickerScreenProps<TValue, TSelectedValue = TValue> {
   value: TValue;
   onSelect: (value: TSelectedValue) => void;
 }
-
-type AccountPickerScreenParamList = PickerScreenProps<string | null, UserAccount> & {recentAccounts?: string[]};
 
 //===============================================||  PARAM LISTS  ||===================================================
 export type RootStackParamList = {
@@ -49,7 +47,6 @@ export type TransactionsParamList = {
     transactionType?: TransactionType;
     transactionId?: string;
   };
-  AccountPickerScreen: AccountPickerScreenParamList;
 };
 
 export type AnalyticsParamList = {
@@ -73,7 +70,6 @@ export type MoreParamList = {
   TagDetailsScreen: {tagId?: string};
   InstrumentPickerScreen: PickerScreenProps<number | null>;
   TagListPickerScreen: {tagIds: string[]; onSelect: (tagId: string | null) => void};
-  AccountPickerScreen: AccountPickerScreenParamList;
 };
 
 //==================================================||  SHARED  ||=====================================================
@@ -84,16 +80,6 @@ type AccountsAndMoreParamList = Pick<AccountsParamList, AccountsAndMoreKeys> & P
 type TransactionsAndMoreKeys = keyof TransactionsParamList & keyof MoreParamList;
 type TransactionsAndMoreParamList = Pick<TransactionsParamList, TransactionsAndMoreKeys> &
   Pick<MoreParamList, TransactionsAndMoreKeys>;
-
-export type AccountPickerScreenRouteProp = RouteProp<TransactionsAndMoreParamList, 'AccountPickerScreen'>;
-export type AccountPickerScreenNavigationProp = CompositeNavigationProp<
-  StackNavigationProp<TransactionsAndMoreParamList, 'AccountPickerScreen'>,
-  BottomTabNavigationProp<BottomTabParamList>
->;
-export type AccountPickerScreenProps = {
-  route: AccountPickerScreenRouteProp;
-  navigation: AccountPickerScreenNavigationProp;
-};
 
 export type InstrumentPickerScreenRouteProp = RouteProp<AccountsAndMoreParamList, 'InstrumentPickerScreen'>;
 export type InstrumentPickerScreenNavigationProp = CompositeNavigationProp<

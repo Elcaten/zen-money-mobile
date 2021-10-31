@@ -1,159 +1,159 @@
 {
-    "AccountDetailsScreen": {
-        "DeleteAccountMessage": "This account and its transactions will be deleted.",
-        "DeleteAccountTitle": "Delete account?",
-        "DeleteSuccessMessage": "Account deleted"
-    },
-    "AccountOverviewScreen": {
-        "AccountOverview": "Account overview",
-        "DistributionByCurrency": "Distribution by currency",
-        "OnAllAccounts": "On all accounts",
-        "OnBalanceAccounts": "On balance accounts"
-    },
-    "AccountPickerScreen": {
-        "Accounts": "Accounts",
-        "RecentAccounts": "Recent accounts"
-    },
-    "AccountType": {
-        "Card": "Debit/credit card",
-        "Cash": "Cash",
-        "Checking": "Checking",
-        "Deposit": "Deposit",
-        "Loan": "Loan"
-    },
-    "AccountTypePickerScreen": {
-        "AccountType": "Account type"
-    },
-    "AccountsScreen": {
-        "Accounts": "Accounts",
-        "AddAccount": "Add account",
-        "Collapse": "Collapse",
-        "ShowArchived": "Show archived"
-    },
-    "AnalyticsScreen": {
-        "Analytics": "Analytics"
-    },
-    "BottomTabNavigator": {
-        "Accounts": "Accounts",
-        "Analytics": "Analytics",
-        "More": "More",
-        "Sync": "Sync",
-        "Transactions": "Transactions"
-    },
-    "Button": {
-        "Add": "Add",
-        "Cancel": "Cancel",
-        "Delete": "Delete",
-        "Edit": "Edit",
-        "Save": "Save",
-        "Search": "Search",
-        "Unlock": "Unlock"
-    },
-    "EditAccountScreen": {
-        "AccountSaved": "Account saved",
-        "AccountSettings": "Account settings",
-        "AccountType": "Account type",
-        "Archive": "Archived account",
-        "InBalance": "Include in total balance",
-        "Instrument": "Account сurrency",
-        "Savings": "Savings account",
-        "Title": "Title",
-        "UnsupportedTypeMessage": "This account type is not yet supported."
-    },
-    "EditTransactionScreen": {
-        "Account": "Account",
-        "To": "To",
-        "From": "From",
-        "Comment": "Comment",
-        "DeleteSuccessMessage": "Transaction deleted",
-        "DeleteTransactionMessage": "This transaction will be deleted.",
-        "DeleteTransactionTitle": "Delete transaction?",
-        "TransactionSaved": "Transaction saved"
-    },
-    "Error": {
-        "UnexpectedError": "Error"
-    },
-    "InstrumentPickerScreen": {
-        "PickCurrency": "Pick a currency",
-        "SearchCurrency": "Search currency",
-        "NoCurrenciesFound": "No currencies found"
-    },
-    "LoadingScreen": {
-        "Loading": "Loading..."
-    },
-    "LoginScreen": {
-        "Demo": "Demo",
-        "Confirm": "Confirm",
-        "SignIn": "Sign in",
-        "EnterToken": "Enter the token to finish the authorization",
-        "Token": "Token"
-    },
-    "MoreScreen": {
-        "BiometricUnlock": "Biometric unlock",
-        "FastAddTransaction": "Fast add transaction",
-        "Locales": "App language",
-        "MainCurrency": "Main currency",
-        "More": "More",
-        "SignOut": "Sign out",
-        "Tags": "Categories",
-        "Theme": "App theme",
-        "Sync": "Sync"
-    },
-    "SyncMappingTypePicker": {
-        "Income": "Income",
-        "Expense": "Expense",
-        "TransferFrom": "Transfer from",
-        "TransferTo": "Transfer to",
-        "Cancel": "Cancel"
-    },
-    "SyncSettingsScreen": {
-        "AccountSetting": "Account settings",
-        "TagSetting": "Tag settings"
-    },
-    "TagDetailsScreen": {
-        "CategorySaved": "Category saved",
-        "DeleteCategoryMessage": "This category will be deleted.",
-        "DeleteCategorySuccessMessage": "Category deleted",
-        "DeleteCategoryTitle": "Delete category?",
-        "Expense": "in expense",
-        "Fixed": "Fixed",
-        "Flexible": "Flexible",
-        "Icon": "Icon",
-        "Income": "in income",
-        "Parent": "Parent category",
-        "Show": "Show",
-        "SpendingTitle": "Spending in category is",
-        "Title": "Title"
-    },
-    "TagListPickerScreen": {
-        "PickTag": "Pick a category",
-        "NoTag": "No category",
-        "Icon": "Icon"
-    },
-    "ThemesScreen": {
-        "Dark": "Dark",
-        "Light": "Light",
-        "SystemDefault": "System default",
-        "SystemDefaultDescription": "Turn on dark when your device's dark theme or Battery Saver is on"
-    },
-    "TransactionType": {
-        "Expense": "Expense",
-        "Income": "Income",
-        "Transfer": "Transfer"
-    },
-    "TransactionsScreen": {
-        "NoTransactionsFound": "No transactions found",
-        "Transactions": "Transactions"
-    },
-    "Tags": {
-        "Uncategorized": "Uncategorized"
-    },
-    "Accounts": {
-        "NoAccount": "No account"
-    },
-    "FetchOperations" : {
-        "INVALID_PASSWORD": "Invalid username or password",
-        "CONFIRMATION_FAILED": "Invalid confirmation code",
-        "REQUEST_RATE_LIMIT_EXCEEDED": "Too many attempts. Please try again later"
-    }
+  "AccountDetailsScreen": {
+    "DeleteAccountMessage": "This account and its transactions will be deleted.",
+    "DeleteAccountTitle": "Delete account?",
+    "DeleteSuccessMessage": "Account deleted"
+  },
+  "AccountOverviewScreen": {
+    "AccountOverview": "Account overview",
+    "DistributionByCurrency": "Distribution by currency",
+    "OnAllAccounts": "On all accounts",
+    "OnBalanceAccounts": "On balance accounts"
+  },
+  "AccountPickerDialog": {
+    "Accounts": "Accounts",
+    "RecentAccounts": "Recent accounts"
+  },
+  "AccountType": {
+    "Card": "Debit/credit card",
+    "Cash": "Cash",
+    "Checking": "Checking",
+    "Deposit": "Deposit",
+    "Loan": "Loan"
+  },
+  "AccountTypePickerScreen": {
+    "AccountType": "Account type"
+  },
+  "AccountsScreen": {
+    "Accounts": "Accounts",
+    "AddAccount": "Add account",
+    "Collapse": "Collapse",
+    "ShowArchived": "Show archived"
+  },
+  "AnalyticsScreen": {
+    "Analytics": "Analytics"
+  },
+  "BottomTabNavigator": {
+    "Accounts": "Accounts",
+    "Analytics": "Analytics",
+    "More": "More",
+    "Sync": "Sync",
+    "Transactions": "Transactions"
+  },
+  "Button": {
+    "Add": "Add",
+    "Cancel": "Cancel",
+    "Delete": "Delete",
+    "Edit": "Edit",
+    "Save": "Save",
+    "Search": "Search",
+    "Unlock": "Unlock"
+  },
+  "EditAccountScreen": {
+    "AccountSaved": "Account saved",
+    "AccountSettings": "Account settings",
+    "AccountType": "Account type",
+    "Archive": "Archived account",
+    "InBalance": "Include in total balance",
+    "Instrument": "Account сurrency",
+    "Savings": "Savings account",
+    "Title": "Title",
+    "UnsupportedTypeMessage": "This account type is not yet supported."
+  },
+  "EditTransactionScreen": {
+    "Account": "Account",
+    "To": "To",
+    "From": "From",
+    "Comment": "Comment",
+    "DeleteSuccessMessage": "Transaction deleted",
+    "DeleteTransactionMessage": "This transaction will be deleted.",
+    "DeleteTransactionTitle": "Delete transaction?",
+    "TransactionSaved": "Transaction saved"
+  },
+  "Error": {
+    "UnexpectedError": "Error"
+  },
+  "InstrumentPickerScreen": {
+    "PickCurrency": "Pick a currency",
+    "SearchCurrency": "Search currency",
+    "NoCurrenciesFound": "No currencies found"
+  },
+  "LoadingScreen": {
+    "Loading": "Loading..."
+  },
+  "LoginScreen": {
+    "Demo": "Demo",
+    "Confirm": "Confirm",
+    "SignIn": "Sign in",
+    "EnterToken": "Enter the token to finish the authorization",
+    "Token": "Token"
+  },
+  "MoreScreen": {
+    "BiometricUnlock": "Biometric unlock",
+    "FastAddTransaction": "Fast add transaction",
+    "Locales": "App language",
+    "MainCurrency": "Main currency",
+    "More": "More",
+    "SignOut": "Sign out",
+    "Tags": "Categories",
+    "Theme": "App theme",
+    "Sync": "Sync"
+  },
+  "SyncMappingTypePicker": {
+    "Income": "Income",
+    "Expense": "Expense",
+    "TransferFrom": "Transfer from",
+    "TransferTo": "Transfer to",
+    "Cancel": "Cancel"
+  },
+  "SyncSettingsScreen": {
+    "AccountSetting": "Account settings",
+    "TagSetting": "Tag settings"
+  },
+  "TagDetailsScreen": {
+    "CategorySaved": "Category saved",
+    "DeleteCategoryMessage": "This category will be deleted.",
+    "DeleteCategorySuccessMessage": "Category deleted",
+    "DeleteCategoryTitle": "Delete category?",
+    "Expense": "in expense",
+    "Fixed": "Fixed",
+    "Flexible": "Flexible",
+    "Icon": "Icon",
+    "Income": "in income",
+    "Parent": "Parent category",
+    "Show": "Show",
+    "SpendingTitle": "Spending in category is",
+    "Title": "Title"
+  },
+  "TagListPickerScreen": {
+    "PickTag": "Pick a category",
+    "NoTag": "No category",
+    "Icon": "Icon"
+  },
+  "ThemesScreen": {
+    "Dark": "Dark",
+    "Light": "Light",
+    "SystemDefault": "System default",
+    "SystemDefaultDescription": "Turn on dark when your device's dark theme or Battery Saver is on"
+  },
+  "TransactionType": {
+    "Expense": "Expense",
+    "Income": "Income",
+    "Transfer": "Transfer"
+  },
+  "TransactionsScreen": {
+    "NoTransactionsFound": "No transactions found",
+    "Transactions": "Transactions"
+  },
+  "Tags": {
+    "Uncategorized": "Uncategorized"
+  },
+  "Accounts": {
+    "NoAccount": "No account"
+  },
+  "FetchOperations": {
+    "INVALID_PASSWORD": "Invalid username or password",
+    "CONFIRMATION_FAILED": "Invalid confirmation code",
+    "REQUEST_RATE_LIMIT_EXCEEDED": "Too many attempts. Please try again later"
+  }
 }

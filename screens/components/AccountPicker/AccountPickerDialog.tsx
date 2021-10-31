@@ -5,35 +5,49 @@ import {useAccounts} from '../../../api-hooks';
 import {AccountType, UserAccount} from '../../../api/models';
 import {OptionListItem} from '../../../components/ListItem';
 import {SectionHeader} from '../../../components/SectionHeader';
-import {AccountPickerScreenProps} from '../../../types';
+import {ZenFormSheet} from '../../../components/ZenFormSheet';
 import {notNull} from '../../../utils';
 
-export const AccountPickerScreen: React.FC<AccountPickerScreenProps> = ({route, navigation}) => {
+export interface AccountPickerDialogProps {
+  visible: boolean;
+  onRequestClose: () => void;
+  recentAccounts?: string[];
+  value: string | undefined;
+  onSelect: (account: UserAccount) => void;
+}
+
+export const AccountPickerDialog: React.FC<AccountPickerDialogProps> = ({
+  onSelect,
+  recentAccounts: recentAccountsProp,
+  value,
+  visible,
+  onRequestClose,
+}) => {
   const {data: accounts} = useAccounts();
 
   const recentAccounts = useMemo(
     () =>
-      route.params.recentAccounts
+      recentAccountsProp
         ?.map((id) => accounts?.find((a) => a.id === id))
         .filter(notNull)
         .sort(byTitle) ?? [],
-    [accounts, route.params.recentAccounts],
+    [accounts, recentAccountsProp],
   );
 
   const restAccounts = useMemo(() => {
-    const recentAccountSet = new Set(route.params.recentAccounts);
+    const recentAccountSet = new Set(recentAccountsProp);
     return (accounts ?? []).filter((a) => !recentAccountSet.has(a.id) && a.type !== AccountType.Debt).sort(byTitle);
-  }, [accounts, route.params.recentAccounts]);
+  }, [accounts, recentAccountsProp]);
 
   const renderItem: ListRenderItem<UserAccount> = ({item}) => {
     return (
       <OptionListItem
         title={item.title}
         onPress={() => {
-          route.params.onSelect(item);
-          navigation.goBack();
+          onSelect(item);
+          onRequestClose();
         }}
-        checked={item.id === route.params.value}
+        checked={item.id === value}
       />
     );
   };
@@ -47,14 +61,22 @@ export const AccountPickerScreen: React.FC<AccountPickerScreenProps> = ({route, 
   const sections: SectionListData<UserAccount, {title: string}>[] = [
     {
       data: recentAccounts,
-      title: t('AccountPickerScreen.RecentAccounts'),
+      title: t('AccountPickerDialog.RecentAccounts'),
     },
     {
       data: restAccounts,
-      title: t('AccountPickerScreen.Accounts'),
+      title: t('AccountPickerDialog.Accounts'),
     },
   ];
-  return <SectionList sections={sections} renderItem={renderItem} renderSectionHeader={renderSectionHeader} />;
+
+  return (
+    <ZenFormSheet visible={visible} onRequestClose={onRequestClose}>
+      <ZenFormSheet.Header>
+        <ZenFormSheet.CancelButton onPress={onRequestClose} />
+      </ZenFormSheet.Header>
+      <SectionList sections={sections} renderItem={renderItem} renderSectionHeader={renderSectionHeader} />
+    </ZenFormSheet>
+  );
 };
 
 const byTitle = (a1: UserAccount, a2: UserAccount) => a1.title.localeCompare(a2.title);

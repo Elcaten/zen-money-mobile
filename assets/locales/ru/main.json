@@ -1,159 +1,159 @@
 {
-    "AccountDetailsScreen": {
-        "DeleteAccountMessage": "Счет будет удален вместе со всеми операциями.",
-        "DeleteAccountTitle": "Удалить счет?",
-        "DeleteSuccessMessage": "Счет удален"
-    },
-    "AccountOverviewScreen": {
-        "AccountOverview": "Аналитика по счетам",
-        "DistributionByCurrency": "Распределение по валютам",
-        "OnAllAccounts": "На всех счетах",
-        "OnBalanceAccounts": "На выбранных счетах"
-    },
-    "AccountPickerScreen": {
-        "Accounts": "Все счета",
-        "RecentAccounts": "Недавние счета"
-    },
-    "AccountType": {
-        "Card": "Карта",
-        "Cash": "Наличные",
-        "Checking": "Банковский счет",
-        "Deposit": "Депозит",
-        "Loan": "Кредит"
-    },
-    "AccountTypePickerScreen": {
-        "AccountType": "Тип счета"
-    },
-    "AccountsScreen": {
-        "Accounts": "Счета",
-        "AddAccount": "Добавить счет",
-        "Collapse": "Свернуть",
-        "ShowArchived": "Показать архивные"
-    },
-    "AnalyticsScreen": {
-        "Analytics": "Аналитика"
-    },
-    "BottomTabNavigator": {
-        "Accounts": "Счета",
-        "Analytics": "Аналитика",
-        "More": "Еще",
-        "Sync": "Синхронизация",
-        "Transactions": "Операции"
-    },
-    "Button": {
-        "Add": "Добавить",
-        "Cancel": "Отмена",
-        "Delete": "Удалить",
-        "Edit": "Редактировать",
-        "Save": "Сохранить",
-        "Search": "Поиск",
-        "Unlock": "Разблокировать"
-    },
-    "EditAccountScreen": {
-        "AccountSaved": "Счет сохранен",
-        "AccountSettings": "Настройки счета",
-        "AccountType": "Тип счета",
-        "Archive": "Архивный счет",
-        "InBalance": "Включить в общий баланс",
-        "Instrument": "Валюта счета",
-        "Savings": "Накопительный счет",
-        "Title": "Наименование",
-        "UnsupportedTypeMessage": "Данный тип счета пока не поддерживается."
-    },
-    "EditTransactionScreen": {
-        "Account": "Счет",
-        "To": "На",
-        "From": "С",
-        "Comment": "Комментарий",
-        "DeleteSuccessMessage": "Операция удалена",
-        "DeleteTransactionMessage": "Операция будет удалена.",
-        "DeleteTransactionTitle": "Удалить операцию?",
-        "TransactionSaved": "Операция сохранена"
-    },
-    "Error": {
-        "UnexpectedError": "Ошибка"
-    },
-    "InstrumentPickerScreen": {
-        "PickCurrency": "Выбор вылюты",
-        "SearchCurrency": "Поиск валюты",
-        "NoCurrenciesFound": "Валюта не найдена"
-    },
-    "LoadingScreen": {
-        "Loading": "Загрузка..."
-    },
-    "LoginScreen": {
-        "Demo": "Демо",
-        "Confirm": "Подтвердить",
-        "SignIn": "Войти",
-        "EnterToken": "Введите токен для завершения авторизации",
-        "Token": "Токен"
-    },
-    "MoreScreen": {
-        "BiometricUnlock": "Вход по отпечатку пальца",
-        "FastAddTransaction": "Быстрое добавление операций",
-        "Locales": "Язык приложения",
-        "MainCurrency": "Основная валюта",
-        "More": "Еще",
-        "SignOut": "Выход из аккаунта",
-        "Tags": "Категории",
-        "Theme": "Тема приложения",
-        "Sync": "Синхронизация"
-    },
-    "SyncMappingTypePicker": {
-        "Income": "Доход",
-        "Expense": "Расход",
-        "TransferFrom": "Перевод с",
-        "TransferTo": "Перевод на",
-        "Cancel": "Отмена"
-    },
-    "SyncSettingsScreen": {
-        "AccountSetting": "Настройка счетов",
-        "TagSetting": "Настройка категорий"
-    },
-    "TagDetailsScreen": {
-        "CategorySaved": "Категория сохранена",
-        "DeleteCategoryMessage": "Категория будет удалена.",
-        "DeleteCategorySuccessMessage": "Категория удалена",
-        "DeleteCategoryTitle": "Удалить категорию?",
-        "Expense": "в расходе",
-        "Fixed": "Обязательные",
-        "Flexible": "Необязательные",
-        "Icon": "Иконка",
-        "Income": "в доходе",
-        "Parent": "Родительская категория",
-        "Show": "Показывать",
-        "SpendingTitle": "Расходы по этой категории",
-        "Title": "Наименование"
-    },
-    "TagListPickerScreen": {
-        "PickTag": "Выбор категории",
-        "NoTag": "Нет категории",
-        "Icon": "Иконка"
-    },
-    "ThemesScreen": {
-        "Dark": "Темная",
-        "Light": "Светлая",
-        "SystemDefault": "По-умолчанию",
-        "SystemDefaultDescription": "Turn on dark when your device's dark theme or Battery Saver is on"
-    },
-    "TransactionType": {
-        "Expense": "Расход",
-        "Income": "Доход",
-        "Transfer": "Перевод"
-    },
-    "TransactionsScreen": {
-        "NoTransactionsFound": "Операции не найдены",
-        "Transactions": "Операции"
-    },
-    "Tags": {
-        "Uncategorized": "Без категории"
-    },
-    "Accounts": {
-        "NoAccount": "Без счета"
-    },
-    "FetchOperations" : {
-        "INVALID_PASSWORD": "Неверное имя пользователя или пароль",
-        "CONFIRMATION_FAILED": "Неправильный код",
-        "REQUEST_RATE_LIMIT_EXCEEDED": "Пожалуйста, попробуйте позже"
-    }
+  "AccountDetailsScreen": {
+    "DeleteAccountMessage": "Счет будет удален вместе со всеми операциями.",
+    "DeleteAccountTitle": "Удалить счет?",
+    "DeleteSuccessMessage": "Счет удален"
+  },
+  "AccountOverviewScreen": {
+    "AccountOverview": "Аналитика по счетам",
+    "DistributionByCurrency": "Распределение по валютам",
+    "OnAllAccounts": "На всех счетах",
+    "OnBalanceAccounts": "На выбранных счетах"
+  },
+  "AccountPickerDialog": {
+    "Accounts": "Все счета",
+    "RecentAccounts": "Недавние счета"
+  },
+  "AccountType": {
+    "Card": "Карта",
+    "Cash": "Наличные",
+    "Checking": "Банковский счет",
+    "Deposit": "Депозит",
+    "Loan": "Кредит"
+  },
+  "AccountTypePickerScreen": {
+    "AccountType": "Тип счета"
+  },
+  "AccountsScreen": {
+    "Accounts": "Счета",
+    "AddAccount": "Добавить счет",
+    "Collapse": "Свернуть",
+    "ShowArchived": "Показать архивные"
+  },
+  "AnalyticsScreen": {
+    "Analytics": "Аналитика"
+  },
+  "BottomTabNavigator": {
+    "Accounts": "Счета",
+    "Analytics": "Аналитика",
+    "More": "Еще",
+    "Sync": "Синхронизация",
+    "Transactions": "Операции"
+  },
+  "Button": {
+    "Add": "Добавить",
+    "Cancel": "Отмена",
+    "Delete": "Удалить",
+    "Edit": "Редактировать",
+    "Save": "Сохранить",
+    "Search": "Поиск",
+    "Unlock": "Разблокировать"
+  },
+  "EditAccountScreen": {
+    "AccountSaved": "Счет сохранен",
+    "AccountSettings": "Настройки счета",
+    "AccountType": "Тип счета",
+    "Archive": "Архивный счет",
+    "InBalance": "Включить в общий баланс",
+    "Instrument": "Валюта счета",
+    "Savings": "Накопительный счет",
+    "Title": "Наименование",
+    "UnsupportedTypeMessage": "Данный тип счета пока не поддерживается."
+  },
+  "EditTransactionScreen": {
+    "Account": "Счет",
+    "To": "На",
+    "From": "С",
+    "Comment": "Комментарий",
+    "DeleteSuccessMessage": "Операция удалена",
+    "DeleteTransactionMessage": "Операция будет удалена.",
+    "DeleteTransactionTitle": "Удалить операцию?",
+    "TransactionSaved": "Операция сохранена"
+  },
+  "Error": {
+    "UnexpectedError": "Ошибка"
+  },
+  "InstrumentPickerScreen": {
+    "PickCurrency": "Выбор вылюты",
+    "SearchCurrency": "Поиск валюты",
+    "NoCurrenciesFound": "Валюта не найдена"
+  },
+  "LoadingScreen": {
+    "Loading": "Загрузка..."
+  },
+  "LoginScreen": {
+    "Demo": "Демо",
+    "Confirm": "Подтвердить",
+    "SignIn": "Войти",
+    "EnterToken": "Введите токен для завершения авторизации",
+    "Token": "Токен"
+  },
+  "MoreScreen": {
+    "BiometricUnlock": "Вход по отпечатку пальца",
+    "FastAddTransaction": "Быстрое добавление операций",
+    "Locales": "Язык приложения",
+    "MainCurrency": "Основная валюта",
+    "More": "Еще",
+    "SignOut": "Выход из аккаунта",
+    "Tags": "Категории",
+    "Theme": "Тема приложения",
+    "Sync": "Синхронизация"
+  },
+  "SyncMappingTypePicker": {
+    "Income": "Доход",
+    "Expense": "Расход",
+    "TransferFrom": "Перевод с",
+    "TransferTo": "Перевод на",
+    "Cancel": "Отмена"
+  },
+  "SyncSettingsScreen": {
+    "AccountSetting": "Настройка счетов",
+    "TagSetting": "Настройка категорий"
+  },
+  "TagDetailsScreen": {
+    "CategorySaved": "Категория сохранена",
+    "DeleteCategoryMessage": "Категория будет удалена.",
+    "DeleteCategorySuccessMessage": "Категория удалена",
+    "DeleteCategoryTitle": "Удалить категорию?",
+    "Expense": "в расходе",
+    "Fixed": "Обязательные",
+    "Flexible": "Необязательные",
+    "Icon": "Иконка",
+    "Income": "в доходе",
+    "Parent": "Родительская категория",
+    "Show": "Показывать",
+    "SpendingTitle": "Расходы по этой категории",
+    "Title": "Наименование"
+  },
+  "TagListPickerScreen": {
+    "PickTag": "Выбор категории",
+    "NoTag": "Нет категории",
+    "Icon": "Иконка"
+  },
+  "ThemesScreen": {
+    "Dark": "Темная",
+    "Light": "Светлая",
+    "SystemDefault": "По-умолчанию",
+    "SystemDefaultDescription": "Turn on dark when your device's dark theme or Battery Saver is on"
+  },
+  "TransactionType": {
+    "Expense": "Расход",
+    "Income": "Доход",
+    "Transfer": "Перевод"
+  },
+  "TransactionsScreen": {
+    "NoTransactionsFound": "Операции не найдены",
+    "Transactions": "Операции"
+  },
+  "Tags": {
+    "Uncategorized": "Без категории"
+  },
+  "Accounts": {
+    "NoAccount": "Без счета"
+  },
+  "FetchOperations": {
+    "INVALID_PASSWORD": "Неверное имя пользователя или пароль",
+    "CONFIRMATION_FAILED": "Неправильный код",
+    "REQUEST_RATE_LIMIT_EXCEEDED": "Пожалуйста, попробуйте позже"
+  }
 }
