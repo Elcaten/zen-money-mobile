@@ -1,3 +1,4 @@
+import {ActionSheetProvider} from '@expo/react-native-action-sheet';
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import isToday from 'dayjs/plugin/isToday';
@@ -14,7 +15,7 @@ import {persistQueryClient} from 'react-query/persistQueryClient-experimental';
 import {createAsyncStoragePersistor} from './api/create-async-storage-persistor';
 import useCachedResources from './hooks/useCachedResources';
 import {Root} from './root/Root';
-import {State, useStore} from './store/use-store';
+import {useStore} from './store/use-store';
 import {ElementsThemeProvider, NavigatorThemeProvider} from './themes';
 import {composeProviders} from './utils';
 import './utils/augmentations';
@@ -55,6 +56,7 @@ export default function App() {
     OverflowMenuProvider,
     SafeAreaProvider,
     QueryClientProvider,
+    ActionSheetProvider,
   )(Root);
 
   return hasHydrated && isLoadingComplete ? <WrappedApp /> : <React.Fragment />;

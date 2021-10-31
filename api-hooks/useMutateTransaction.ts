@@ -10,21 +10,16 @@ import {useMe} from './useMe';
 export const useMutateIncomeTransaction = () => {
   const user = useMe();
 
-  return useMutation((transaction: IncomeExpenseTransaction) => {
+  return useMutation((transactionModels: IncomeExpenseTransaction[]) => {
     const now = new Date();
-    const amount = Number.parseInt(transaction.amount, 10);
 
-    if (isNaN(amount)) {
-      return Promise.reject('Invalid income');
-    }
-
-    const tr: Transaction = {
+    const transactions: Transaction[] = transactionModels.map((transaction) => ({
       changed: now.getTime(),
       comment: transaction.comment,
       created: now.getTime(),
       date: toApiDate(transaction.date),
       id: transaction.id,
-      income: amount,
+      income: Number.parseInt(transaction.amount, 10),
       incomeAccount: transaction.account.id,
       incomeInstrument: transaction.account.instrument,
       outcome: 0,
@@ -48,24 +43,19 @@ export const useMutateIncomeTransaction = () => {
       outcomeBankID: null,
       payee: null,
       reminderMarker: null,
-    };
+    }));
 
-    return postEntity<Transaction>(EntityType.Transaction, tr);
+    return postEntity<Transaction>(EntityType.Transaction, ...transactions);
   });
 };
 
 export const useMutateExpenseTransaction = () => {
   const user = useMe();
 
-  return useMutation((transaction: IncomeExpenseTransaction) => {
+  return useMutation((transactionModels: IncomeExpenseTransaction[]) => {
     const now = new Date();
-    const amount = Number.parseInt(transaction.amount, 10);
 
-    if (isNaN(amount)) {
-      return Promise.reject('Invalid outcome');
-    }
-
-    return postEntity<Transaction>(EntityType.Transaction, {
+    const transactions: Transaction[] = transactionModels.map((transaction) => ({
       changed: now.getTime(),
       comment: transaction.comment,
       created: now.getTime(),
@@ -74,7 +64,7 @@ export const useMutateExpenseTransaction = () => {
       income: 0,
       incomeAccount: transaction.account.id,
       incomeInstrument: transaction.account.instrument,
-      outcome: amount,
+      outcome: Number.parseInt(transaction.amount, 10),
       outcomeAccount: transaction.account.id,
       outcomeInstrument: transaction.account.instrument,
       tag: transaction.tag ? [transaction.tag] : null,
@@ -95,37 +85,30 @@ export const useMutateExpenseTransaction = () => {
       outcomeBankID: null,
       payee: null,
       reminderMarker: null,
-    });
+    }));
+
+    return postEntity<Transaction>(EntityType.Transaction, ...transactions);
   });
 };
 
 export const useMutateTransferTransaction = () => {
   const user = useMe();
 
-  return useMutation((transfer: TransferTransaction) => {
+  return useMutation((transactionModels: TransferTransaction[]) => {
     const now = new Date();
-    const incomeAmount = Number.parseInt(transfer.income, 10);
-    const outcomeAmount = Number.parseInt(transfer.outcome, 10);
 
-    if (isNaN(incomeAmount)) {
-      return Promise.reject('Invalid income');
-    }
-    if (isNaN(outcomeAmount)) {
-      return Promise.reject('Invalid outcome');
-    }
-
-    return postEntity<Transaction>(EntityType.Transaction, {
+    const transactions: Transaction[] = transactionModels.map((transaction) => ({
       changed: now.getTime(),
-      comment: transfer.comment,
+      comment: transaction.comment,
       created: now.getTime(),
-      date: toApiDate(transfer.date),
-      id: transfer.id,
-      income: incomeAmount,
-      incomeAccount: transfer.incomeAccount.id,
-      incomeInstrument: transfer.incomeAccount.instrument,
-      outcome: outcomeAmount,
-      outcomeAccount: transfer.outcomeAccount.id,
-      outcomeInstrument: transfer.outcomeAccount.instrument,
+      date: toApiDate(transaction.date),
+      id: transaction.id,
+      income: Number.parseInt(transaction.income, 10),
+      incomeAccount: transaction.incomeAccount.id,
+      incomeInstrument: transaction.incomeAccount.instrument,
+      outcome: Number.parseInt(transaction.outcome, 10),
+      outcomeAccount: transaction.outcomeAccount.id,
+      outcomeInstrument: transaction.outcomeAccount.instrument,
       user: user.data!.id,
 
       deleted: false,
@@ -144,7 +127,9 @@ export const useMutateTransferTransaction = () => {
       payee: null,
       reminderMarker: null,
       tag: null,
-    });
+    }));
+
+    return postEntity<Transaction>(EntityType.Transaction, ...transactions);
   });
 };
 

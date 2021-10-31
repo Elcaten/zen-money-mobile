@@ -9,4 +9,7 @@ export type OperationMapping = {
   tagId: string | undefined;
   accountId: string | undefined;
   accountTitle: string | undefined;
+  type: OperationMappingType;
 };
+
+export type OperationMappingType = 'income' | 'expense' | 'transferFrom' | 'transferTo' | undefined;

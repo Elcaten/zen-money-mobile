@@ -16,14 +16,14 @@
   // 	"description": "Log output to console"
   // }
   "Separator": {
-    "scope": "typescriptreact",
+    "scope": "typescript,typescriptreact",
     "prefix": "sep",
     "body": [
       "//====================================================================================================================="
     ]
   },
   "React Functional Component Without Props": {
-    "scope": "typescriptreact",
+    "scope": "typescript,typescriptreact",
     "prefix": "rfc",
     "body": [
       "import * as React from 'react'",
@@ -34,7 +34,7 @@
     ]
   },
   "React Functional Component With Props": {
-    "scope": "typescriptreact",
+    "scope": "typescript,typescriptreact",
     "prefix": "rfcp",
     "body": [
       "import * as React from 'react'",
@@ -47,7 +47,7 @@
     ]
   },
   "Style Sheet": {
-    "scope": "typescriptreact",
+    "scope": "typescript,typescriptreact",
     "prefix": "ss",
     "body": [
       "import {StyleSheet} from 'react-native'",
@@ -60,7 +60,7 @@
     ]
   },
   "useTranslations hook": {
-    "scope": "typescriptreact",
+    "scope": "typescript,typescriptreact",
     "prefix": "utr",
     "body": ["import {useTranslation} from 'react-i18next';", "const {t} = useTranslation();$0"]
   }

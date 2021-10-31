@@ -66,7 +66,7 @@ export const EditTransactionScreen: React.FC<EditTransactionScreenProps> = ({rou
 
   const saveIncomeTransaction = useCallback(
     async (tr: IncomeExpenseTransaction) => {
-      const {success} = await mutateIncomeAsync(tr);
+      const {success} = await mutateIncomeAsync([tr]);
       onTransactionSave(success);
       if (success) {
         addRecentIncomeAccount(tr.account.id);
@@ -77,7 +77,7 @@ export const EditTransactionScreen: React.FC<EditTransactionScreenProps> = ({rou
 
   const saveExpenseTransaction = useCallback(
     async (tr: IncomeExpenseTransaction) => {
-      const {success} = await mutateExpenseAsync(tr);
+      const {success} = await mutateExpenseAsync([tr]);
       onTransactionSave(success);
       if (success) {
         addRecentExpenseAccount(tr.account.id);
@@ -88,7 +88,7 @@ export const EditTransactionScreen: React.FC<EditTransactionScreenProps> = ({rou
 
   const saveTransferTransaction = useCallback(
     async (tr: TransferTransaction) => {
-      const {success} = await mutateTransferAsync(tr);
+      const {success} = await mutateTransferAsync([tr]);
       onTransactionSave(success);
       if (success) {
         addRecentTransferAccount(tr.incomeAccount.id);

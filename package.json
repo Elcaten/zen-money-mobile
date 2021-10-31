@@ -16,11 +16,13 @@
   "dependencies": {
     "@bugsnag/expo": "^7.11.0",
     "@expo/ngrok": "^2.4.3",
+    "@expo/react-native-action-sheet": "^3.12.0",
     "@expo/vector-icons": "^12.0.0",
     "@react-native-async-storage/async-storage": "^1.13.0",
     "@react-native-community/datetimepicker": "3.2.0",
     "@react-native-community/masked-view": "0.1.10",
     "@react-native-picker/picker": "1.9.11",
+    "@react-native-segmented-control/segmented-control": "2.3.0",
     "@react-navigation/bottom-tabs": "5.11.2",
     "@react-navigation/native": "~5.8.10",
     "@react-navigation/stack": "~5.12.8",
@@ -69,8 +71,7 @@
     "react-query": "^3.13.10",
     "recyclerlistview": "^3.0.5-beta.1",
     "rn-placeholder": "^3.0.3",
-    "zustand": "^3.4.1",
-    "@react-native-segmented-control/segmented-control": "2.3.0"
+    "zustand": "^3.4.1"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",

@@ -99,6 +99,13 @@
         "Theme": "App theme",
         "Sync": "Sync"
     },
+    "SyncMappingTypePicker": {
+        "Income": "Income",
+        "Expense": "Expense",
+        "TransferFrom": "Transfer from",
+        "TransferTo": "Transfer to",
+        "Cancel": "Cancel"
+    },
     "SyncSettingsScreen": {
         "AccountSetting": "Account settings",
         "TagSetting": "Tag settings"

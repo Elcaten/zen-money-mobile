@@ -11,6 +11,10 @@ export type PostEntityResult =
     };
 
 export const postEntity = async <T>(entityType: EntityType, ...entities: T[]): Promise<PostEntityResult> => {
+  if (entities.length === 0) {
+    return {success: true};
+  }
+
   return privateClient
     .post('v8/diff', {
       headers: {

@@ -10,9 +10,19 @@ export const ArrowBackIcon: React.FC<IconProps> = (props) => {
   return <MaterialIcons color={colors.iconColor} name="arrow-back" size={Icon.size} {...props} />;
 };
 
+export const ArrowDownwardIcon: React.FC<IconProps> = (props) => {
+  const {colors, Icon} = useNavigatorTheme();
+  return <MaterialIcons color={colors.iconColor} name="arrow-downward" size={Icon.size} {...props} />;
+};
+
 export const ArrowLeftRightIcon: React.FC<IconProps> = (props) => {
   const {colors, Icon} = useNavigatorTheme();
   return <MaterialCommunityIcons color={colors.iconColor} name="arrow-left-right-bold" size={Icon.size} {...props} />;
+};
+
+export const ArrowUpwardIcon: React.FC<IconProps> = (props) => {
+  const {colors, Icon} = useNavigatorTheme();
+  return <MaterialIcons color={colors.iconColor} name="arrow-upward" size={Icon.size} {...props} />;
 };
 
 export const BankIcon: React.FC<IconProps> = (props) => {

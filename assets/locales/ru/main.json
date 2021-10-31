@@ -99,6 +99,13 @@
         "Theme": "Тема приложения",
         "Sync": "Синхронизация"
     },
+    "SyncMappingTypePicker": {
+        "Income": "Доход",
+        "Expense": "Расход",
+        "TransferFrom": "Перевод с",
+        "TransferTo": "Перевод на",
+        "Cancel": "Отмена"
+    },
     "SyncSettingsScreen": {
         "AccountSetting": "Настройка счетов",
         "TagSetting": "Настройка категорий"
