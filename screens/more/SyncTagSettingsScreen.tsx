@@ -12,8 +12,6 @@ import {SyncTagPicker} from '../components/SyncTagPicker';
 import {TagListPicker} from '../components/TagListPicker';
 
 export const SyncTagSettingsScreen: React.FC<SyncTagSettingsScreenProps> = ({}) => {
-  const {data: tags} = useTags();
-
   // fetch last month operations
   const [monthAgo] = useState(dayjs(new Date()).subtract(4, 'week').toDate());
   const [now] = useState(new Date());
@@ -68,7 +66,7 @@ export const SyncTagSettingsScreen: React.FC<SyncTagSettingsScreenProps> = ({}) 
             <ListItem.Title style={{flex: 1}}>{item.categoryName}</ListItem.Title>
             <TagListPicker
               RenderAs={SyncTagPicker}
-              tag={tags.get(item.tagId!)!}
+              tagId={item.tagId}
               onSelect={(tag) => {
                 update(index, {
                   ...item,
@@ -83,10 +81,6 @@ export const SyncTagSettingsScreen: React.FC<SyncTagSettingsScreenProps> = ({}) 
       />
     );
   };
-
-  if (tags == null || tags.size === 0) {
-    return null;
-  }
 
   return (
     <FlatList

@@ -1,22 +1,25 @@
-import React, {useState} from 'react';
+import React, {useMemo, useState} from 'react';
 import {useTranslation} from 'react-i18next';
-import {StyleProp, ViewStyle} from 'react-native';
+import {useTags} from '../../../api-hooks';
 import {Tag} from '../../../api/models';
 import {TagIcon} from '../../../components';
 import {PickerListItem} from '../../../components/ListItem';
 import {TagListPickerDialog} from './TagListPickerDialog';
 
 export interface TagListPickerProps {
-  tag: Tag | null | undefined;
+  tagId: string | null | undefined;
   onSelect: (tag: Tag | null) => void;
   RenderAs?: React.FC<{onPress: () => void; tag: Tag | null | undefined}>;
 }
 
-export const TagListPicker: React.FC<TagListPickerProps> = ({tag, onSelect, RenderAs}) => {
+export const TagListPicker: React.FC<TagListPickerProps> = ({tagId, onSelect, RenderAs}) => {
   const [visible, setVisible] = useState(false);
   const toggleVisible = () => setVisible((v) => !v);
 
+  const {data: tags} = useTags();
   const {t} = useTranslation();
+
+  const tag = useMemo(() => tags.tryGet(tagId, undefined), [tagId, tags]);
 
   return (
     <React.Fragment>
