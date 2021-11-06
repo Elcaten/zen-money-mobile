@@ -1,14 +1,18 @@
 import {useCallback} from 'react';
 import {DeepPartial} from 'react-hook-form';
 import {
+  QueryKeys,
   useMutateExpenseTransaction,
   useMutateIncomeTransaction,
   useMutateTransferTransaction,
 } from '../../../api-hooks';
 import {Instrument} from '../../../api/models';
-import {generateUUID} from '../../../utils';
+import {generateUUID, showToast} from '../../../utils';
 import {IncomeExpenseTransaction, TransferTransaction} from '../../transactions/EditTransactionScreen';
 import {OperationMapping} from './types';
+import {useTranslation} from 'react-i18next';
+import {useStore} from '../../../store/use-store';
+import {useQueryClient} from 'react-query';
 
 export const useSaveMappings = (
   instruments: Map<number, Instrument>,
@@ -19,6 +23,10 @@ export const useSaveMappings = (
   const {mutateAsync: mutateIncome, isLoading: isAddingIncomes} = useMutateIncomeTransaction();
   const {mutateAsync: mutateExpense, isLoading: isAddingExpenses} = useMutateExpenseTransaction();
   const {mutateAsync: mutateTransfer, isLoading: isAddingTransfers} = useMutateTransferTransaction();
+
+  const queryClient = useQueryClient();
+  const {t} = useTranslation();
+  const setLastSyncDate = useStore.use.setLastSyncDate();
 
   const onSavePress = useCallback(async () => {
     if (mappings == null) {
@@ -79,9 +87,23 @@ export const useSaveMappings = (
           break;
       }
 
-      await Promise.all([mutateIncome(incomeDrafts), mutateExpense(expenseDrafts), mutateTransfer(transferDrafts)]);
+      const isSaved = await Promise.all([
+        mutateIncome(incomeDrafts),
+        mutateExpense(expenseDrafts),
+        mutateTransfer(transferDrafts),
+      ])
+        .then((result) => result.every((x) => x.success))
+        .catch(() => false);
+
+      if (isSaved) {
+        showToast(t('SyncScreen.TransactionsAdded'));
+        queryClient.invalidateQueries(QueryKeys.Transactions);
+        setLastSyncDate(new Date());
+      } else {
+        showToast(t('Error.UnexpectedError'));
+      }
     }
-  }, [mappings, mutateIncome, mutateExpense, mutateTransfer, instrumentByShortTitle]);
+  }, [mappings, mutateIncome, mutateExpense, mutateTransfer, instrumentByShortTitle, t, queryClient, setLastSyncDate]);
 
   return {onSavePress, isLoading: isAddingIncomes || isAddingExpenses || isAddingTransfers};
 };

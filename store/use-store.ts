@@ -31,28 +31,30 @@ export interface CategoryInfo {
 }
 
 export type State = {
-  recentExpenseAccounts: string[];
   addRecentExpenseAccount: (account: string) => void;
-  recentIncomeAccounts: string[];
   addRecentIncomeAccount: (account: string) => void;
-  recentTransferAccounts: string[];
   addRecentTransferAccount: (account: string) => void;
-  theme: AppTheme;
-  setTheme: (value: AppTheme) => void;
-  locale: string;
-  setLocale: (value: AppLocale) => void;
   biometricUnlock: boolean;
-  setBiometricUnlock: (value: boolean) => void;
-  fastAddTransaction: boolean;
-  setFastAddTransaction: (value: boolean) => void;
   cardInfo: CardInfo[];
-  setCardInfo: (value: CardInfo[]) => void;
   categoryInfo: CategoryInfo[];
+  fastAddTransaction: boolean;
+  locale: string;
+  lastSyncDate: number | null;
+  recentExpenseAccounts: string[];
+  recentIncomeAccounts: string[];
+  recentTransferAccounts: string[];
+  setBiometricUnlock: (value: boolean) => void;
+  setCardInfo: (value: CardInfo[]) => void;
   setCategoryInfo: (value: CategoryInfo[]) => void;
-  tinkoffUsername: string | undefined;
-  tinkoffPassword: string | undefined;
-  setTinkoffUsername: (value: string | undefined) => void;
+  setFastAddTransaction: (value: boolean) => void;
+  setLastSyncDate: (value: Date) => void;
+  setLocale: (value: AppLocale) => void;
+  setTheme: (value: AppTheme) => void;
   setTinkoffPassword: (value: string | undefined) => void;
+  setTinkoffUsername: (value: string | undefined) => void;
+  theme: AppTheme;
+  tinkoffPassword: string | undefined;
+  tinkoffUsername: string | undefined;
   _hasHydrated: boolean;
 };
 
@@ -61,32 +63,34 @@ const colorScheme = Appearance.getColorScheme() as unknown as 'light' | 'dark';
 const useStoreBase = createStore<State>(
   persist(
     (set) => ({
-      recentExpenseAccounts: [],
+      _hasHydrated: false,
       addRecentExpenseAccount: (value) =>
         set(({recentExpenseAccounts}) => ({recentExpenseAccounts: filterMostRecent(recentExpenseAccounts, value)})),
-      recentIncomeAccounts: [],
       addRecentIncomeAccount: (value) =>
         set(({recentIncomeAccounts}) => ({recentIncomeAccounts: filterMostRecent(recentIncomeAccounts, value)})),
-      recentTransferAccounts: [],
       addRecentTransferAccount: (value) =>
         set(({recentIncomeAccounts}) => ({recentTransferAccounts: filterMostRecent(recentIncomeAccounts, value)})),
-      theme: colorScheme,
-      setTheme: (value) => set(() => ({theme: value})),
-      locale: Localization.locale,
-      setLocale: (value) => set(() => ({locale: value})),
-      fastAddTransaction: false,
-      setFastAddTransaction: (value) => set(() => ({fastAddTransaction: value})),
       biometricUnlock: false,
-      setBiometricUnlock: (value) => set(() => ({biometricUnlock: value})),
       cardInfo: [],
-      setCardInfo: (value) => set(() => ({cardInfo: value})),
       categoryInfo: [],
+      fastAddTransaction: false,
+      lastSyncDate: 0,
+      locale: Localization.locale,
+      recentExpenseAccounts: [],
+      recentIncomeAccounts: [],
+      recentTransferAccounts: [],
+      setBiometricUnlock: (value) => set(() => ({biometricUnlock: value})),
+      setCardInfo: (value) => set(() => ({cardInfo: value})),
       setCategoryInfo: (value) => set(() => ({categoryInfo: value})),
-      tinkoffUsername: undefined,
-      tinkoffPassword: undefined,
-      setTinkoffUsername: (value) => set(() => ({tinkoffUsername: value})),
+      setFastAddTransaction: (value) => set(() => ({fastAddTransaction: value})),
+      setLastSyncDate: (value) => set(() => ({lastSyncDate: value.getTime()})),
+      setLocale: (value) => set(() => ({locale: value})),
+      setTheme: (value) => set(() => ({theme: value})),
       setTinkoffPassword: (value) => set(() => ({tinkoffPassword: value})),
-      _hasHydrated: false,
+      setTinkoffUsername: (value) => set(() => ({tinkoffUsername: value})),
+      theme: colorScheme,
+      tinkoffPassword: undefined,
+      tinkoffUsername: undefined,
     }),
     {
       name: 'store',

@@ -103,6 +103,9 @@
     "TransferTo": "Transfer to",
     "Cancel": "Cancel"
   },
+  "SyncScreen": {
+    "TransactionsAdded": "Transactions added"
+  },
   "SyncSettingsScreen": {
     "AccountSetting": "Account settings",
     "TagSetting": "Tag settings"

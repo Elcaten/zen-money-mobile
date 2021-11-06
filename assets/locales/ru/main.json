@@ -103,6 +103,9 @@
     "TransferTo": "Перевод на",
     "Cancel": "Отмена"
   },
+  "SyncScreen": {
+    "TransactionsAdded": "Операции добавлены"
+  },
   "SyncSettingsScreen": {
     "AccountSetting": "Настройка счетов",
     "TagSetting": "Настройка категорий"

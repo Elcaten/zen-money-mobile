@@ -9,6 +9,7 @@ import {Instrument, Tag} from '../../../api/models';
 import {ListItem} from '../../../components/ListItem';
 import {ZenText} from '../../../components/ZenText';
 import {useHeaderButtons} from '../../../hooks';
+import {useStore} from '../../../store/use-store';
 import {useOperations} from '../../../tinkoff/useOperations';
 import {SyncScreenProps} from '../../../types';
 import {DateField} from '../../analytics/FilterAnalyticsButton/DateField';
@@ -48,9 +49,17 @@ interface SyncScreenComponentProps extends SyncScreenProps {
 }
 
 const SyncScreenComponent: React.FC<SyncScreenComponentProps> = ({tags, accounts, instruments, navigation}) => {
-  const [start, setStart] = useState(new Date());
+  const lastSyncDate = useStore.use.lastSyncDate();
+
+  const [start, setStart] = useState(lastSyncDate ? new Date(lastSyncDate) : new Date());
   const [end, setEnd] = useState(new Date());
   const {data: operations, isLoading, invalidate} = useOperations(start, end);
+
+  useEffect(() => {
+    if (lastSyncDate) {
+      setStart(new Date(lastSyncDate));
+    }
+  }, [lastSyncDate]);
 
   const {
     control,
