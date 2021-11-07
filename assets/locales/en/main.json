@@ -142,6 +142,7 @@
     "Transfer": "Transfer"
   },
   "TransactionsScreen": {
+    "LastSync": "Last sync",
     "NoTransactionsFound": "No transactions found",
     "Transactions": "Transactions"
   },

@@ -1,5 +1,6 @@
 import {MaterialIcons} from '@expo/vector-icons';
-import React, {useCallback, useEffect, useState} from 'react';
+import dayjs from 'dayjs';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import {useFieldArray, useForm, useWatch} from 'react-hook-form';
 import {ListRenderItemInfo, StyleSheet, View} from 'react-native';
 import {SwipeListView} from 'react-native-swipe-list-view';
@@ -8,7 +9,7 @@ import {AccountModel, useAccountModels, useInstruments, useTags} from '../../../
 import {Instrument, Tag} from '../../../api/models';
 import {ListItem} from '../../../components/ListItem';
 import {ZenText} from '../../../components/ZenText';
-import {useHeaderButtons} from '../../../hooks';
+import {useHeaderButtons, useHeaderTitle} from '../../../hooks';
 import {useStore} from '../../../store/use-store';
 import {useOperations} from '../../../tinkoff/useOperations';
 import {SyncScreenProps} from '../../../types';
@@ -19,6 +20,7 @@ import {RemoveOperaionButton} from './RemoveOperaionButton';
 import {Operation, OperationMapping} from './types';
 import {useOperationMappings} from './useOperationMappings';
 import {useSaveMappings} from './useSaveMappings';
+import {useTranslation} from 'react-i18next';
 
 const HIDDEN_ITEM_WIDTH = 100;
 
@@ -101,6 +103,13 @@ const SyncScreenComponent: React.FC<SyncScreenComponentProps> = ({tags, accounts
   const {onSavePress, isLoading: isAddingTransactions} = useSaveMappings(instruments, formData.mappings);
 
   useHeaderButtons(navigation, {renderButtons, onSavePress, disabled: isAddingTransactions});
+
+  const {t} = useTranslation();
+  const headerTitle = useMemo(
+    () => `${t('TransactionsScreen.LastSync')} ${dayjs(lastSyncDate).format('DD MMM')}`,
+    [lastSyncDate, t],
+  );
+  useHeaderTitle(navigation, headerTitle);
 
   const removeItem = useCallback((index: number) => remove(index), [remove]);
   const renderRemoveOperationButton = useCallback(

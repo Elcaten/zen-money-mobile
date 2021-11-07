@@ -3,7 +3,7 @@ import {useLayoutEffect} from 'react';
 import type {NativeStackNavigationProp} from 'react-native-screens/lib/typescript/native-stack';
 
 export function useHeaderTitle<T extends Record<string, object | undefined>>(
-  navigation: StackNavigationProp<T>,
+  navigation: Pick<StackNavigationProp<T>, 'setOptions'>,
   title?: Parameters<StackNavigationProp<T>['setOptions']>[0]['headerTitle'],
 ) {
   useLayoutEffect(() => {
