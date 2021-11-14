@@ -56,7 +56,7 @@ export const OperationListItem: React.FC<OperationListItemProps> = ({control, in
         onSelect={(account) => {
           onUpdate(index, {
             ...item,
-            accountId: account.title,
+            accountId: account.id,
             accountTitle: account.title,
           });
         }}
